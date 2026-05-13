@@ -1,14 +1,24 @@
+/* ============================================================
+   VARIÁVEIS GLOBAIS
+   Tokens de design reutilizados em todo o projeto.
+   Alterar aqui reflete em toda a interface.
+============================================================ */
 :root {
-  --primaria: #f4a261;
-  --primaria-hover: #e87052;
-  --escura: #222222;
-  --cinza-texto: #c56666;
-  --cinza-claro: #f7f7f7;
-  --borda: #dddddd;
-  --sombra: 0 6px 16px rgba(0, 0, 0, 0.12);
-  --transicao: all 0.3s cubic-bezier(0.2, 0, 0, 1);
+  --primaria: #f4a261;           /* Cor principal — botões, destaques, logo */
+  --primaria-hover: #e87052;     /* Cor principal escurecida para hover */
+  --escura: #222222;             /* Cor base de texto */
+  --cinza-texto: #c56666;        /* Texto secundário — subtítulos, labels de categoria */
+  --cinza-claro: #f7f7f7;        /* Fundo de áreas neutras */
+  --borda: #dddddd;              /* Bordas de cards, inputs, menus */
+  --sombra: 0 6px 16px rgba(0, 0, 0, 0.12); /* Sombra padrão de elevação */
+  --transicao: all 0.3s cubic-bezier(0.2, 0, 0, 1); /* Transição suave global */
 }
 
+
+/* ============================================================
+   RESET E BASE GLOBAL
+   Zera margens/paddings do navegador e define box-model padrão.
+============================================================ */
 * {
   margin: 0;
   padding: 0;
@@ -22,13 +32,23 @@ body {
   line-height: 1.5;
 }
 
+
+/* ============================================================
+   CONTAINER GENÉRICO
+   Centraliza e limita a largura do conteúdo em todas as seções.
+============================================================ */
 .container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 24px;
 }
 
-/* CABEÇALHO */
+
+/* ============================================================
+   CABEÇALHO PRINCIPAL (.topo / #cabecalho-principal)
+   Barra de navegação fixa no topo da página.
+   Fica acima de todo o conteúdo via z-index.
+============================================================ */
 .topo {
   position: sticky;
   top: 0;
@@ -39,6 +59,8 @@ body {
   align-items: center;
   z-index: 1000;
 }
+
+/* Wrapper interno da nav: distribui logo, busca e usuário em linha */
 .nav-wrapper {
   width: 100%;
   display: flex;
@@ -46,23 +68,37 @@ body {
   align-items: center;
 }
 
+
+/* ============================================================
+   LOGO (#logo-home / .logo-area)
+   Área clicável com ícone + nome do app.
+   Redireciona para a home ao clicar.
+============================================================ */
 .logo-area {
   display: flex;
   align-items: center;
   gap: 10px;
   cursor: pointer;
 }
+
 .logo {
   width: 35px;
   height: 35px;
 }
-.logo-area h1 {
+
+.logo-nome {
   font-size: 1.3rem;
   font-weight: 800;
   color: var(--primaria);
   letter-spacing: -1px;
 }
 
+
+/* ============================================================
+   BARRA DE BUSCA (#btn-abrir-busca / .busca-pilula)
+   Botão em formato de pílula que abre o modal/página de busca.
+   Oculto em mobile via .hidden-mobile.
+============================================================ */
 .busca-pilula {
   border: 1px solid var(--borda);
   padding: 8px 8px 8px 20px;
@@ -79,6 +115,7 @@ body {
   box-shadow: var(--sombra);
 }
 
+/* Ícone circular laranja dentro da pílula de busca */
 .icone-busca {
   background: var(--primaria);
   color: white;
@@ -89,21 +126,29 @@ body {
   align-items: center;
   justify-content: center;
 }
-.categorias-nav {
-  display: flex;            
-  justify-content: center;  
-  align-items: center;     
-  gap: 20px;                
-  
-  background: rgb(226, 106, 106);
-  border: solid black 3px;
+
+
+/* ============================================================
+   ÁREA DO USUÁRIO (#area-usuario / .usuario-area)
+   Lado direito do header: link de parceiro + menu do perfil.
+============================================================ */
+
+/* Link "Anuncie seu local" — CTA para parceiros (#btn-anunciar) */
+.link-parceiro {
+  border: 1px solid var(--borda);
+  padding: 5px 12px;
   border-radius: 30px;
-  margin-top:90px;
-  margin-bottom: 20px;
-  padding: 10px;
-  height: 70px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: var(--transicao);
+  margin-right: 20px;
+  text-decoration: none;
+  color: var(--escura);
 }
 
+/* Menu hamburguer + avatar (#menu-usuario / .menu-perfil) */
 .menu-perfil {
   border: 1px solid var(--borda);
   padding: 5px 5px 5px 12px;
@@ -114,26 +159,8 @@ body {
   cursor: pointer;
   transition: var(--transicao);
 }
-#parceiro {
-  border: 1px solid var(--borda);
-  padding: 5px 12px;
-  border-radius: 30px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  cursor: pointer;
-  transition: var(--transicao);
-  margin-right: 20px;
-  
-}
-.icone-categoria {
-  width: 24px;
-  height: 24px;
-  border-radius: 4px;
-  object-fit: cover;
-  align-self: center;
-}
 
+/* Foto circular do usuário logado ou placeholder */
 .avatar {
   width: 32px;
   height: 32px;
@@ -141,40 +168,88 @@ body {
   object-fit: cover;
 }
 
-/* HERO */
+
+/* ============================================================
+   HERO / BANNER PRINCIPAL (#hero-banner / .hero)
+   Carrossel automático com 2 slides lado a lado.
+   O scroll é controlado pela animação CSS nos .slide-hero.
+   - overflow-x: auto + scroll-snap = comportamento de carrossel
+   - scrollbar-width: none = barra de scroll invisível
+============================================================ */
 .hero {
   padding: 60px 0;
-  background:
-  linear-gradient(rgb(222, 106, 106), rgba(204, 102, 13, 0.636));
+  background: linear-gradient(rgb(222, 106, 106), rgba(204, 102, 13, 0.636));
   background-size: cover;
   background-position: center;
   color: rgb(244, 244, 244);
   text-align: center;
   border-radius: 0 0 30px 30px;
+
+  /* Layout de carrossel horizontal */
   display: flex;
-  overflow-x:auto;
+  overflow-x: auto;
   scroll-snap-type: x mandatory;
-  gap: 100px;
+  scroll-behavior: smooth;
   width: 100%;
-  
+
+  /* Esconde a barra de scroll nativa */
+  scrollbar-width: none;           /* Firefox */
 }
+
+.hero::-webkit-scrollbar {
+  display: none;                   /* Chrome e Safari */
+}
+
+
+/* ============================================================
+   SLIDES DO HERO (.slide-hero / .hero-conteudo)
+   Cada slide ocupa 100% da largura do banner.
+   A animação CSS move os slides automaticamente.
+   Pausa ao passar o mouse por cima do hero.
+============================================================ */
 .hero-conteudo {
-  flex: 0 0 100%; /* Força cada container a ter 100% da largura do pai */
-  min-width: 100%; /* Garante que ele não encolha */
-  scroll-snap-align: center; /* Alinha o slide no centro ao rolar */
-  box-sizing: border-box; 
-  padding: 0 20px; /* Evita que o texto encoste nas bordas */
+  flex: 0 0 100%;
+  min-width: 100%;
+  scroll-snap-align: center;
+  box-sizing: border-box;
+  padding: 0 50px;
+  animation: carrossel-dois-slides 8s infinite ease-in-out;
 }
-.btn-secundario {
-  background: transparent;
-  color: white;
-  border: 2px solid white;
-  padding: 12px 26px;
-  border-radius: 12px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: var(--transicao);
+
+/* Pausa a animação durante o hover no banner inteiro */
+.hero:hover .hero-conteudo {
+  animation-play-state: paused;
 }
+
+/* Animação: Slide 1 visível → Slide 2 visível → volta ao Slide 1 */
+@keyframes carrossel-dois-slides {
+  /* Slide 1 ativo */
+  0%, 45% {
+    transform: translateX(0%);
+  }
+  /* Transição e permanência no Slide 2 */
+  50%, 95% {
+    transform: translateX(-100%);
+  }
+  /* Retorno suave ao Slide 1 */
+  100% {
+    transform: translateX(0%);
+  }
+}
+
+
+/* ============================================================
+   TEXTOS DO HERO (.hero-titulo, .hero-subtitulo, .texto-gradiente)
+============================================================ */
+
+/* Título principal — tamanho fluido com clamp */
+.hero-titulo {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  margin-bottom: 20px;
+  line-height: 1.1;
+}
+
+/* Trecho do título com degradê branco → laranja */
 .texto-gradiente {
   background: linear-gradient(90deg, #ffffff, #fb9a08);
   background-clip: text;
@@ -183,16 +258,11 @@ body {
   font-weight: 900;
 }
 
-.hero h2 {
-  font-size: clamp(2rem, 5vw, 3.5rem);
-  margin-bottom: 20px;
-  line-height: 1.1;
-}
-#picos-destaque {
-  font-size: clamp(1.5rem, 4vw, 2.5rem);
-  margin-bottom: 20px;
-  margin-top: 50px;
-}
+
+/* ============================================================
+   BOTÕES DO HERO (.botoes-hero, .btn-principal, .btn-secundario)
+   Dois CTAs centralizados abaixo do texto do slide.
+============================================================ */
 .botoes-hero {
   display: flex;
   justify-content: center;
@@ -200,6 +270,7 @@ body {
   margin-top: 30px;
 }
 
+/* Botão primário — fundo sólido laranja */
 .btn-principal {
   background: var(--primaria);
   color: white;
@@ -216,16 +287,38 @@ body {
   transform: scale(1.05);
 }
 
-/* CATEGORIAS */
+/* Botão secundário — contorno branco transparente */
+.btn-secundario {
+  background: transparent;
+  color: white;
+  border: 2px solid white;
+  padding: 12px 26px;
+  border-radius: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transicao);
+}
+
+
+/* ============================================================
+   BARRA DE CATEGORIAS (#nav-categorias / .categorias-nav)
+   Navegação horizontal logo abaixo do hero.
+   Lista os tipos de local disponíveis (bares, restaurantes...).
+============================================================ */
 .categorias-nav {
   background: white;
   padding: 20px 0;
+  display: flex;
   justify-content: center;
+  align-items: center;
   width: 100%;
   height: 70px;
   border: none;
-  
+  margin-top: 90px;
+  margin-bottom: 20px;
 }
+
+/* Wrapper interno: scroll horizontal quando há muitas categorias */
 .categorias-wrapper {
   display: flex;
   gap: 40px;
@@ -233,6 +326,12 @@ body {
   padding-bottom: 10px;
 }
 
+
+/* ============================================================
+   ITEM DE CATEGORIA (.item-cat)
+   Cada link da barra de categorias: ícone + label empilhados.
+   Estado .ativo destaca a categoria selecionada.
+============================================================ */
 .item-cat {
   text-decoration: none;
   color: var(--cinza-texto);
@@ -245,27 +344,71 @@ body {
   font-weight: 600;
   text-align: center;
   transition: var(--transicao);
-  align-items: center;
+}
+
+/* Ícone de cada categoria */
+.icone-categoria {
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  object-fit: cover;
 }
 
 .item-cat img {
   width: 34px;
   opacity: 1;
 }
+
+/* Hover e estado ativo: cor laranja */
 .item-cat:hover,
 .item-cat.ativo {
   color: var(--primaria);
 }
+
+/* Linha laranja embaixo da categoria ativa */
 .item-cat.ativo {
   border-bottom: 2px solid var(--primaria);
   padding-bottom: 100px;
   margin-bottom: 50px;
 }
+
 .item-cat.ativo img {
   opacity: 1;
 }
 
-/* GRADE DE CARDS */
+
+/* ============================================================
+   SEÇÃO DE DESTAQUES (#secao-destaques / .destaques)
+   Área com título, link "ver todos" e a grade de cards.
+============================================================ */
+
+/* Cabeçalho da seção: título à esquerda, link à direita */
+.cabecalho-secao {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Título "Picos em destaque" (#titulo-destaques) */
+.titulo-secao {
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
+  margin-bottom: 20px;
+  margin-top: 50px;
+}
+
+/* Link "Ver todos →" */
+.link-ver-tudo {
+  text-decoration: none;
+  color: var(--primaria);
+  font-weight: 600;
+}
+
+
+/* ============================================================
+   GRADE DE CARDS (#grade-destaques / .grade-moderna)
+   Grid responsivo que se adapta conforme o espaço disponível.
+   Colunas se quebram automaticamente em telas menores.
+============================================================ */
 .grade-moderna {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -273,26 +416,52 @@ body {
   margin: 30px 0;
 }
 
+
+/* ============================================================
+   CARD DE LOCAL (.card-local / .card-moderno)
+   Unidade de exibição de cada pico/local.
+   Contém: capa com imagem, etiqueta, favorito + bloco de infos.
+============================================================ */
 .card-moderno {
   cursor: pointer;
   transition: var(--transicao);
 }
+
+/* Contêiner da imagem de capa — mantém proporção quadrada */
 .capa-card {
   position: relative;
   border-radius: 15px;
   overflow: hidden;
   aspect-ratio: 1/1;
 }
-.capa-card img {
+
+/* Imagem de capa do local */
+.foto-local {
   width: 100%;
   height: 100%;
   object-fit: cover;
   transition: 0.5s;
 }
-.card-moderno:hover img {
+
+/* Zoom suave na imagem ao passar o mouse no card */
+.card-moderno:hover .foto-local {
   transform: scale(1.05);
 }
 
+/* Etiqueta de classificação de preço (ex: "Econômico") */
+.etiqueta-preco {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  background: white;
+  color: var(--escura);
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-weight: 700;
+  font-size: 0.7rem;
+}
+
+/* Alias para compatibilidade — mesmos estilos da etiqueta-preco */
 .etiqueta {
   position: absolute;
   top: 15px;
@@ -305,27 +474,76 @@ body {
   font-size: 0.7rem;
 }
 
+
+/* ============================================================
+   INFORMAÇÕES TEXTUAIS DO CARD (.info-card)
+   Bloco abaixo da imagem com nome, nota, subtítulo e preço.
+============================================================ */
 .info-card {
   padding: 12px 0;
 }
+
+/* Linha com nome do local e nota de avaliação lado a lado */
 .titulo-rating {
   display: flex;
   justify-content: space-between;
   font-weight: 700;
 }
-.nota {
+
+/* Nome do local (.nome-local) */
+.nome-local {
+  font-weight: 700;
+}
+
+/* Nota/avaliação em estrelas (.nota-avaliacao) */
+.nota-avaliacao {
   font-weight: 400;
 }
-.subtitulo {
+
+/* Subtítulo com tipo e distância (.subtitulo-local) */
+.subtitulo-local {
   color: var(--cinza-texto);
   font-size: 0.9rem;
 }
 
-/* RESPONSIVIDADE */
+/* Faixa de preço por pessoa (.faixa-preco) */
+.faixa-preco {
+  font-size: 0.9rem;
+  margin-top: 4px;
+}
+
+
+/* ============================================================
+   RODAPÉ (#rodape-principal / .rodape)
+   Barra inferior simples com copyright.
+============================================================ */
+.rodape {
+  padding: 24px 0;
+  border-top: 1px solid var(--borda);
+  margin-top: 60px;
+}
+
+.rodape-conteudo {
+  text-align: center;
+}
+
+.texto-rodape {
+  color: var(--cinza-texto);
+  font-size: 0.85rem;
+}
+
+
+/* ============================================================
+   UTILITÁRIO: HIDDEN MOBILE (.hidden-mobile)
+   Oculta elementos que não devem aparecer em telas pequenas
+   (ex: barra de busca, nome do usuário).
+============================================================ */
 @media (max-width: 768px) {
   .hidden-mobile {
     display: none;
   }
+
+  /* Em mobile, cards ocupam a largura inteira */
   .grade-moderna {
     grid-template-columns: 1fr;
   }
