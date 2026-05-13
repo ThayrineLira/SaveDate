@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/login.css">
+    <title>Save Date</title>
+</head>
+
+<body> 
+    <div class="texto">
+        <header class="topo">
+            <div class="logo-area">                           
+                    <img src="img/logo.png" alt="logo da loja" class="logo">                      
+                        <h1 class="titulo">SAVE DATE</h1>
+                        <p class="subtitulo"><small>SALVA ENCONTROS</small></p>                
+            </div>
+
+            <h2>Login</h2>
+        </header>
+
+        <form action="login" method="POST" class="login-form">
+            <input type="email" id="email" name="email" placeholder="Usuário ou email" required>
+            <input type="password" id="senha" name="senha" placeholder="Senha" required>
+                <div class="opcao-login">
+                    <label>
+                    <input type="checkbox" id="remember" name="remember">
+                    Lembrar de mim
+                    </label>
+                    <a href="esqueci.html">Esqueceu a senha?</a>
+                </div>
+            <button type="submit" class="botao">Entrar</button>
+        </form>
+         <!-- LINK CADASTRO -->
+                <div class="cadastro">
+                    <p>Não tem conta?</p>
+                    <a href="tipo-de-conta.html"><small>Cadastre-se aqui</small></a>
+                </div>
+    </div>
+<script>
+// SALVAR
+document.querySelector(".login-form").addEventListener("submit", function() {
+    let email = document.getElementById("email").value;
+    let senha = document.getElementById("senha").value;
+    let lembrar = document.getElementById("remember").checked;
+
+    if (lembrar) {
+        localStorage.setItem("email", email);
+        localStorage.setItem("senha", senha);
+    } else {
+        localStorage.removeItem("email");
+        localStorage.removeItem("senha");
+    }
+});
+
+// RECUPERAR
+window.onload = function() {
+    let email = localStorage.getItem("email");
+    let senha = localStorage.getItem("senha");
+
+    if (email && senha) {
+        document.getElementById("email").value = email;
+        document.getElementById("senha").value = senha;
+        document.getElementById("remember").checked = true;
+    }
+};
+</script>
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Cadastro Estabelecimento - Save Date</title>
+    <link rel="stylesheet" href="css/cadastrao-estabelecimento.css" />
+  </head>
+
+  <body>
+    <div class="texto">
+      <header class="topo">
+        <div class="logo-area">
+          <img src="img/logo.png" alt="logo da loja" class="logo" />
+          <h1 class="titulo">SAVE DATE</h1>
+          <p class="subtitulo"><small>SALVA ENCONTROS</small></p>
+        </div>
+        <h3>Cadastrar Estabelecimento:</h3>
+      </header>
+      <form class="login-form" onsubmit="return validarSenha();">
+        <input type="text" placeholder="Nome do estabelecimento" required />
+        <input type="text" placeholder="CNPJ" required />
+        <input
+          type="text"
+          id="cep"
+          placeholder="CEP"
+          required
+          onblur="buscarCEP()"
+        />
+        <input
+          type="text"
+          id="endereco"
+          placeholder="Endereço"
+          readonly
+          required
+        />
+        <input type="text" placeholder="Número / Complemento" required />
+        <input type="email" placeholder="Email para contato" required />
+        <input type="tel" placeholder="Telefone para contato" required />
+        <input type="password" id="senha" placeholder="Senha" required />
+        <button type="submit" class="botao">Cadastrar</button>
+        <button
+          onclick="window.location.href = 'tipo-de-conta.html'"
+          class="botao"
+        >
+          Voltar
+        </button>
+        <!-- LOGIN -->
+      </form>
+    </div>
+
+    <script>
+      // 🔎 BUSCAR CEP
+      function buscarCEP() {
+        let cep = document.getElementById("cep").value.replace("-", "");
+
+        if (cep.length !== 8) {
+          alert("CEP inválido!");
+          return;
+        }
+
+        fetch(`https://viacep.com.br/ws/${cep}/json/`)
+          .then((res) => res.json())
+          .then((dados) => {
+            if (dados.erro) {
+              alert("CEP não encontrado!");
+              return;
+            }
+
+            document.getElementById("endereco").value =
+              dados.logradouro + ", " + dados.bairro + " - " + dados.localidade;
+          })
+          .catch(() => alert("Erro ao buscar CEP"));
+      }
+
+      // 🔐 VALIDAÇÃO SENHA
+      function validarSenha() {
+        const senha = document.getElementById("senha").value;
+        const erro = document.getElementById("erroSenha");
+
+        const regex = /^(?=.*[A-Za-z])(?=.*[@$!%*#?&]).{6,}$/;
+
+        if (!regex.test(senha)) {
+          erro.innerText = "Mínimo 6 caracteres, 1 letra e 1 símbolo.";
+          return false;
+        }
+
+        erro.innerText = "";
+        alert("Cadastro realizado com sucesso!");
+        return true;
+      }
+
+      // 🔙 VOLTAR
+      function voltarPagina() {
+        window.history.back(); // volta para página anterior
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,332 @@
+:root {
+  --primaria: #f4a261;
+  --primaria-hover: #e87052;
+  --escura: #222222;
+  --cinza-texto: #c56666;
+  --cinza-claro: #f7f7f7;
+  --borda: #dddddd;
+  --sombra: 0 6px 16px rgba(0, 0, 0, 0.12);
+  --transicao: all 0.3s cubic-bezier(0.2, 0, 0, 1);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Inter", sans-serif;
+  color: var(--escura);
+  background-color: #fff;
+  line-height: 1.5;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* CABEÇALHO */
+.topo {
+  position: sticky;
+  top: 0;
+  height: 80px;
+  background: white;
+  border-bottom: 1px solid var(--borda);
+  display: flex;
+  align-items: center;
+  z-index: 1000;
+}
+.nav-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo-area {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+.logo {
+  width: 35px;
+  height: 35px;
+}
+.logo-area h1 {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--primaria);
+  letter-spacing: -1px;
+}
+
+.busca-pilula {
+  border: 1px solid var(--borda);
+  padding: 8px 8px 8px 20px;
+  border-radius: 40px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+  transition: var(--transicao);
+}
+
+.busca-pilula:hover {
+  box-shadow: var(--sombra);
+}
+
+.icone-busca {
+  background: var(--primaria);
+  color: white;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.categorias-nav {
+  display: flex;            
+  justify-content: center;  
+  align-items: center;     
+  gap: 20px;                
+  
+  background: rgb(226, 106, 106);
+  border: solid black 3px;
+  border-radius: 30px;
+  margin-top:90px;
+  margin-bottom: 20px;
+  padding: 10px;
+  height: 70px;
+}
+
+.menu-perfil {
+  border: 1px solid var(--borda);
+  padding: 5px 5px 5px 12px;
+  border-radius: 30px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: var(--transicao);
+}
+#parceiro {
+  border: 1px solid var(--borda);
+  padding: 5px 12px;
+  border-radius: 30px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: var(--transicao);
+  margin-right: 20px;
+  
+}
+.icone-categoria {
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  object-fit: cover;
+  align-self: center;
+}
+
+.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* HERO */
+.hero {
+  padding: 60px 0;
+  background:
+  linear-gradient(rgb(222, 106, 106), rgba(204, 102, 13, 0.636));
+  background-size: cover;
+  background-position: center;
+  color: rgb(244, 244, 244);
+  text-align: center;
+  border-radius: 0 0 30px 30px;
+  display: flex;
+  overflow-x:auto;
+  scroll-snap-type: x mandatory;
+  gap: 100px;
+  width: 100%;
+  
+}
+.hero-conteudo {
+  flex: 0 0 100%; /* Força cada container a ter 100% da largura do pai */
+  min-width: 100%; /* Garante que ele não encolha */
+  scroll-snap-align: center; /* Alinha o slide no centro ao rolar */
+  box-sizing: border-box; 
+  padding: 0 20px; /* Evita que o texto encoste nas bordas */
+}
+.btn-secundario {
+  background: transparent;
+  color: white;
+  border: 2px solid white;
+  padding: 12px 26px;
+  border-radius: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transicao);
+}
+.texto-gradiente {
+  background: linear-gradient(90deg, #ffffff, #fb9a08);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 900;
+}
+
+.hero h2 {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  margin-bottom: 20px;
+  line-height: 1.1;
+}
+#picos-destaque {
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
+  margin-bottom: 20px;
+  margin-top: 50px;
+}
+.botoes-hero {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 30px;
+}
+
+.btn-principal {
+  background: var(--primaria);
+  color: white;
+  border: none;
+  padding: 14px 28px;
+  border-radius: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transicao);
+}
+
+.btn-principal:hover {
+  background: var(--primaria-hover);
+  transform: scale(1.05);
+}
+
+/* CATEGORIAS */
+.categorias-nav {
+  background: white;
+  padding: 20px 0;
+  justify-content: center;
+  width: 100%;
+  height: 70px;
+  border: none;
+  
+}
+.categorias-wrapper {
+  display: flex;
+  gap: 40px;
+  overflow-x: auto;
+  padding-bottom: 10px;
+}
+
+.item-cat {
+  text-decoration: none;
+  color: var(--cinza-texto);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  min-width: 60px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-align: center;
+  transition: var(--transicao);
+  align-items: center;
+}
+
+.item-cat img {
+  width: 34px;
+  opacity: 1;
+}
+.item-cat:hover,
+.item-cat.ativo {
+  color: var(--primaria);
+}
+.item-cat.ativo {
+  border-bottom: 2px solid var(--primaria);
+  padding-bottom: 100px;
+  margin-bottom: 50px;
+}
+.item-cat.ativo img {
+  opacity: 1;
+}
+
+/* GRADE DE CARDS */
+.grade-moderna {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 30px;
+  margin: 30px 0;
+}
+
+.card-moderno {
+  cursor: pointer;
+  transition: var(--transicao);
+}
+.capa-card {
+  position: relative;
+  border-radius: 15px;
+  overflow: hidden;
+  aspect-ratio: 1/1;
+}
+.capa-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: 0.5s;
+}
+.card-moderno:hover img {
+  transform: scale(1.05);
+}
+
+.etiqueta {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  background: white;
+  color: var(--escura);
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-weight: 700;
+  font-size: 0.7rem;
+}
+
+.info-card {
+  padding: 12px 0;
+}
+.titulo-rating {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 700;
+}
+.nota {
+  font-weight: 400;
+}
+.subtitulo {
+  color: var(--cinza-texto);
+  font-size: 0.9rem;
+}
+
+/* RESPONSIVIDADE */
+@media (max-width: 768px) {
+  .hidden-mobile {
+    display: none;
+  }
+  .grade-moderna {
+    grid-template-columns: 1fr;
+  }
+}
