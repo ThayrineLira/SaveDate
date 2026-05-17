@@ -2,29 +2,223 @@
 <html lang="pt-br">
 
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="css/esqueci.css">
 
-    <title>Recuperar senha</title>
+    <!-- ==========================================
+         CONFIGURAÇÕES
+    =========================================== -->
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <!-- CSS -->
+    <link
+        rel="stylesheet"
+        href="css/esqueci.css"
+    >
+
+    <title>
+        Recuperar senha
+    </title>
+
 </head>
 
+
+
 <body>
-    
+
+    <!-- ==========================================
+         CONTAINER PRINCIPAL
+    =========================================== -->
     <div class="texto">
-                <header class="topo">
-                    <img src="img/logo.png" alt="logo da loja" class="logo">                       
-                    <h1 class="titulo">SAVE DATE</h1>
-                    <p class="subtitulo"><small>SALVA ENCONTROS</small></p>                         
-            <h3>Recuperar senha:</h3>
-                </header>
-            <form action="recuperar.php" method="POST">
-                <input type="email" id="email" name="email" placeholder="Digite seu email" required>
-                <button type="submit" class="botao">Enviar link</button>
-               
-            </form>
-           
+
+
+        <!-- ==========================================
+             TOPO
+        =========================================== -->
+        <header class="topo">
+
+            <!-- LOGO -->
+            <img
+                src="img/logo.png"
+                alt="Logo Save Date"
+                class="logo"
+            >
+
+
+            <!-- TÍTULO -->
+            <h1 class="titulo">
+                SAVE DATE
+            </h1>
+
+
+            <!-- SUBTÍTULO -->
+            <p class="subtitulo">
+
+                <small>
+                    SALVA ENCONTROS
+                </small>
+
+            </p>
+
+
+            <!-- TÍTULO -->
+            <h3>
+                Recuperar senha:
+            </h3>
+
+        </header>
+
+
+
+        <!-- ==========================================
+             FORMULÁRIO
+        =========================================== -->
+        <form id="form-recuperar">
+
+
+            <!-- EMAIL -->
+            <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="Digite seu email"
+                required
+            >
+
+
+            <!-- BOTÃO -->
+            <button
+                type="submit"
+                class="botao"
+            >
+
+                Enviar link
+
+            </button>
+
+
+            <!-- VOLTAR -->
+            <button
+                type="button"
+                class="botao"
+                onclick="window.location.href='login.html'"
+            >
+
+                Voltar ao login
+
+            </button>
+
+        </form>
+
     </div>
+
+
+
+
+
+    <!-- ==========================================
+         JAVASCRIPT
+    =========================================== -->
+    <script>
+
+        /* ==========================================
+           FORMULÁRIO
+        =========================================== */
+
+        const formulario =
+            document.getElementById("form-recuperar");
+
+
+
+        /* ==========================================
+           RECUPERAR SENHA
+        =========================================== */
+
+        formulario.addEventListener("submit", function(event) {
+
+            // Impede recarregar
+            event.preventDefault();
+
+
+
+            /* ==========================================
+               PEGA EMAIL DIGITADO
+            =========================================== */
+
+            const emailDigitado =
+                document.getElementById("email").value;
+
+
+
+            /* ==========================================
+               PEGA EMAIL CADASTRADO
+            =========================================== */
+
+            const emailCadastrado =
+                localStorage.getItem("usuarioCadastro");
+
+            const senhaCadastrada =
+                localStorage.getItem("senhaCadastro");
+
+
+
+            /* ==========================================
+               VERIFICA EMAIL
+            =========================================== */
+
+            if (emailDigitado === emailCadastrado) {
+
+
+
+                /* ==========================================
+                   SIMULA ENVIO DE LINK
+                =========================================== */
+
+                alert(
+
+                    "Link de recuperação enviado!\n\n" +
+
+                    "SIMULAÇÃO FRONT-END:\n\n" +
+
+                    "Sua senha atual é:\n" +
+
+                    senhaCadastrada
+
+                );
+
+
+
+                /* ==========================================
+                   REDIRECIONA LOGIN
+                =========================================== */
+
+                window.location.href =
+                    "login.html";
+
+            }
+
+
+
+            /* ==========================================
+               EMAIL NÃO ENCONTRADO
+            =========================================== */
+
+            else {
+
+                alert(
+                    "Email não encontrado."
+                );
+
+            }
+
+        });
+
+    </script>
+
 </body>
 
 </html>
