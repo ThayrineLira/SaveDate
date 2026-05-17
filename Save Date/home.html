@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="pt-br">
+<<<<<<< Updated upstream
 <head>
   <meta charset="UTF-8" />
 
@@ -163,6 +164,154 @@
             Explorar Mapa
           </button>
 
+=======
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Save Date | Explore sem sustos</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/home.css" />
+    <link rel="icon" type="image/x-icon" href="img/logo.png" />
+  </head>
+  <body>
+    <!-- CABEÇALHO -->
+    <header id="cabecalho-principal" class="topo">
+      <nav class="container nav-wrapper">
+        <div id="logo-home" class="logo-area">
+          <img src="img/logo.png" class="logo" alt="Logotipo Save Date" />
+          <h1 class="logo-nome">Save Date</h1>
+        </div>
+
+        <div class="busca-container hidden-mobile">
+          <div id="btn-abrir-busca" class="busca-pilula">
+            <span class="busca-placeholder">Para onde vamos?</span>
+            <div class="icone-busca">🔍</div>
+          </div>
+        </div>
+
+        <!-- ✅ essa div estava sem fechar antes -->
+        <div class="usuario-area">
+          <div
+            id="menu-usuario"
+            class="menu-perfil"
+            onclick="irParaConta(event)"
+          >
+            <span class="burger">☰</span>
+            <img src="img/login.jpg" alt="Foto de perfil" class="avatar" />
+            <span id="nome-usuario" class="nome-usuario hidden-mobile"
+              >Entrar</span
+            >
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main id="conteudo-principal">
+      <!-- HERO -->
+      <section id="hero-banner" class="hero">
+        <div id="slide-principal" class="container hero-conteudo slide-hero">
+          <h2 class="hero-titulo">
+            Saia e divirta-se<br />
+            <span class="texto-gradiente">sem sustos no bolso.</span>
+          </h2>
+          <p class="hero-subtitulo">Divirta-se mais, gaste menos</p>
+          <div class="botoes-hero">
+            <button
+              class="btn-principal"
+              onclick="window.location.href = 'login.html'"
+            >
+              Ver Sugestões
+            </button>
+            <button class="btn-secundario">Explorar Mapa</button>
+          </div>
+        </div>
+
+        <div id="slide-secundario" class="container hero-conteudo slide-hero">
+          <h2 class="hero-titulo">Anuncie seu restaurante aqui.</h2>
+          <p class="hero-subtitulo">
+            Ofereça seus serviços e conquiste clientes.
+          </p>
+          <div class="botoes-hero">
+            <button
+              class="btn-principal"
+              onclick="window.location.href = 'cadastro-estabelecimento.html'"
+            >
+              Anuncie seu local
+            </button>
+          </div>
+        </div>
+      </section>
+      <!-- ✅ fechamento do hero corrigido -->
+
+      <!-- CATEGORIAS -->
+      <nav id="nav-categorias" class="categorias-nav">
+        <div class="container categorias-wrapper">
+          <a href="#" class="item-cat ativo" data-categoria="bares">
+            <img class="icone-categoria" src="img/bar.png" alt="Ícone de bar" />
+            <span class="label-categoria">Bares</span>
+          </a>
+          <a href="#" class="item-cat" data-categoria="restaurantes">
+            <img
+              class="icone-categoria"
+              src="img/restaurante.png"
+              alt="Ícone de restaurante"
+            />
+            <span class="label-categoria">Restaurantes</span>
+          </a>
+          <a href="#" class="item-cat" data-categoria="parques">
+            <img
+              class="icone-categoria"
+              src="img/parque.png"
+              alt="Ícone de parque"
+            />
+            <span class="label-categoria">Parques</span>
+          </a>
+          <a href="#" class="item-cat" data-categoria="cinema">
+            <img
+              class="icone-categoria"
+              src="img/cinema.png"
+              alt="Ícone de cinema"
+            />
+            <span class="label-categoria">Cinema</span>
+          </a>
+          <a href="#" class="item-cat" data-categoria="shopping">
+            <img
+              class="icone-categoria"
+              src="img/shopping.png"
+              alt="Ícone de shopping"
+            />
+            <span class="label-categoria">Shopping</span>
+          </a>.
+          <a href="#" class="item-cat" data-categoria="festas">
+            <img
+              class="icone-categoria"
+              src="img/festas.png"
+              alt="Ícone de festas"
+            />
+            <span class="label-categoria">Festas</span>
+          </a>
+        </div>
+      </nav>
+
+      <!-- DESTAQUES -->
+      <section id="secao-destaques" class="destaques container">
+        <div class="cabecalho-secao">
+          <h2 id="titulo-destaques" class="titulo-secao">
+            Lugares em destaque
+          </h2>
+          <a href="#" class="link-ver-tudo">Ver todos →</a>
+        </div>
+        <div id="grade-destaques" class="grade-moderna">
+          <div class="card-skeleton"></div>
+          <div class="card-skeleton"></div>
+          <div class="card-skeleton"></div>
+          <div class="card-skeleton"></div>
+          <div class="card-skeleton"></div>
+          <div class="card-skeleton"></div>
+>>>>>>> Stashed changes
         </div>
 
       </div>
@@ -200,6 +349,7 @@
 
 
 
+<<<<<<< Updated upstream
     <!-- ==========================================
          CATEGORIAS
     =========================================== -->
@@ -784,3 +934,16 @@ function abrirConta() {
 
 </body>
 </html>
+=======
+    <!-- RODAPÉ -->
+    <footer id="rodape-principal" class="rodape">
+      <div class="container rodape-conteudo">
+        <p class="texto-rodape">
+          &copy; 2026 Save Date • Feito com ❤️ para o seu bolso
+        </p>
+      </div>
+    </footer>9
+<script src="js/script.js"></script>
+  </body>
+</html>
+>>>>>>> Stashed changes
