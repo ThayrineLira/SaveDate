@@ -100,21 +100,47 @@ body {
    Oculto em mobile via .hidden-mobile.
 ============================================================ */
 .busca-pilula {
-  border: 1px solid var(--borda);
-  padding: 8px 8px 8px 20px;
+  border: 1px solid #ccc;
   border-radius: 40px;
+
+  width: 400px;
+  height: 55px;
+
   display: flex;
   align-items: center;
-  gap: 15px;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+
+  padding: 0 10px;
+
+  background: white;
+}
+
+.busca-pilula input {
+  flex: 1;
+  border: none;
+  outline: none;
+
+  font-size: 16px;
+
+  padding-left: 15px;
+
+  background: transparent;
+}
+
+.busca-pilula button {
+  border: none;
+  background: #ff385c;
+
+  color: white;
+
+  width: 40px;
+  height: 40px;
+
+  border-radius: 50%;
+
   cursor: pointer;
-  transition: var(--transicao);
-}
 
-.busca-pilula:hover {
-  box-shadow: var(--sombra);
+  font-size: 16px;
 }
-
 /* Ícone circular laranja dentro da pílula de busca */
 .icone-busca {
   background: var(--primaria);

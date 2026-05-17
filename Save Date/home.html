@@ -1,208 +1,786 @@
 <!doctype html>
 <html lang="pt-br">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Save Date | Explore sem sustos</title>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="css/home.css" />
-    <link rel="icon" type="image/x-icon" href="img/logo.png" />
-  </head>
-  <body>
-    <!-- ==========================================
-       CABEÇALHO FIXO (TOPO DA PÁGINA)
-       Fica sticky no topo durante o scroll.
-       Contém: logo, barra de busca e área do usuário.
+<head>
+  <meta charset="UTF-8" />
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
+
+  <title>Save Date | Explore sem sustos</title>
+
+  <!-- Fonte -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/home.css" />
+
+  <!-- Ícone -->
+  <link
+    rel="icon"
+    type="image/x-icon"
+    href="img/logo.png"
+  />
+
+</head>
+
+<body>
+
+  <!-- ==========================================
+       CABEÇALHO
   =========================================== -->
-    <header id="cabecalho-principal" class="topo">
-      <nav class="container nav-wrapper">
-        <!-- Logo + nome do app — clica e vai para a home -->
-        <div id="logo-home" class="logo-area">
-          <img src="img/logo.png" class="logo" alt="Logotipo Save Date" />
-          <h1 class="logo-nome">Save Date</h1>
-        </div>
+  <header id="cabecalho-principal" class="topo">
 
-        <!-- Barra de busca no centro — oculta em mobile -->
-        <div class="busca-container hidden-mobile">
-          <div id="btn-abrir-busca" class="busca-pilula">
-            <span class="busca-placeholder">Para onde vamos?</span>
-            <div class="icone-busca">🔍</div>
-          </div>
-        </div>
+    <nav class="container nav-wrapper">
 
-
-          <!-- Menu hamburguer + avatar do usuário logado/deslogado -->
-          <div
-            id="menu-usuario"
-            class="menu-perfil"
-            onclick="irParaConta(event)"
-          >
-            <span class="burger">☰</span>
-            <img src="img/login.jpg" alt="Foto de perfil" class="avatar" />
-            <span id="nome-usuario" class="nome-usuario hidden-mobile"
-              >Entrar</span
-            >
-          </div>
-        </div>
-      </nav>
-    </header>
-
-    <main id="conteudo-principal">
       <!-- ==========================================
-         HERO / BANNER PRINCIPAL
-         Carrossel automático com 2 slides.
-         Cada .slide-hero é um painel de 100% da largura.
-    =========================================== -->
-      <section id="hero-banner" class="hero">
-        <!-- Slide 1: chamada principal do app -->
-        <div id="slide-principal" class="container hero-conteudo slide-hero">
-          <h2 class="hero-titulo">
-            Saia e divirta-se<br />
-            <span class="texto-gradiente">sem sustos no bolso.</span>
-          </h2>
-          <p class="hero-subtitulo">Divirta-se mais, gaste menos</p>
-          <div class="botoes-hero">
-            <button class="btn-principal" onclick="window.location.href='login.html'" >Ver Sugestões</button>
-            <button class="btn-secundario">Explorar Mapa</button>
-          </div>
+           LOGO
+      =========================================== -->
+      <div id="logo-home" class="logo-area">
+
+        <img
+          src="img/logo.png"
+          class="logo"
+          alt="Logotipo Save Date"
+        />
+
+        <h1 class="logo-nome">
+          Save Date
+        </h1>
+
+      </div>
+
+
+      <!-- ==========================================
+           BARRA DE BUSCA
+           Funciona apenas após login.
+           Filtra os cards em tempo real.
+           Visível em todos os dispositivos.
+      =========================================== -->
+      <div class="busca-container">
+
+        <div class="busca-pilula">
+
+          <!-- Campo de busca -->
+          <input
+            type="text"
+            id="campo-busca"
+            placeholder="Para onde vamos?"
+          />
+
+          <!-- Botão da lupa -->
+          <button id="btn-buscar">
+            🔍
+          </button>
+
         </div>
 
-        <!-- Slide 2: segunda mensagem de impacto -->
-        <div id="slide-secundario" class="container hero-conteudo slide-hero">
-          <h2 class="hero-titulo">Anuncie seu restaurante aqui.</h2>
-          <p class="hero-subtitulo">Ofereça seus serviços e conquiste clientes.</p>
+      </div>
+
+
+      <!-- ==========================================
+           MENU USUÁRIO
+      =========================================== -->
+      <div
+        id="menu-usuario"
+        class="menu-perfil"
+      >
+
+        <span class="burger">
+          ☰
+        </span>
+
+        <img
+          src="img/login.jpg"
+          alt="Foto de perfil"
+          class="avatar"
+        />
+
+        <span
+          id="nome-usuario"
+          class="nome-usuario"
+          onclick="abrirConta()"
+        >
+          Entrar
+        </span>
+
+      </div>
+
+    </nav>
+
+  </header>
+
+
+
+  <!-- ==========================================
+       CONTEÚDO PRINCIPAL
+  =========================================== -->
+  <main id="conteudo-principal">
+
+
+    <!-- ==========================================
+         HERO
+    =========================================== -->
+    <section id="hero-banner" class="hero">
+
+      <!-- SLIDE 1 -->
+      <div
+        id="slide-principal"
+        class="container hero-conteudo slide-hero"
+      >
+
+        <h2 class="hero-titulo">
+
+          Saia e divirta-se<br />
+
+          <span class="texto-gradiente">
+            sem sustos no bolso.
+          </span>
+
+        </h2>
+
+        <p class="hero-subtitulo">
+          Divirta-se mais, gaste menos
+        </p>
 
         <div class="botoes-hero">
-            <button class="btn-principal" onclick="window.location.href='cadastro-estabelecimento.html'" >Anuncie seu local</button>
-        </div>
-      </section>
 
-      <!-- ==========================================
-         BARRA DE CATEGORIAS
-         Navegação horizontal por tipo de local.
-         O item ativo recebe a classe .ativo para destaque visual.
-    =========================================== -->
-      <nav id="nav-categorias" class="categorias-nav">
-        <div class="container categorias-wrapper">
-          <a href="#" class="item-cat ativo" data-categoria="bares">
-            <img class="icone-categoria" src="img/bar.png" alt="Ícone de bar" />
-            <span class="label-categoria">Bares</span>
-          </a>
-
-          <a href="#" class="item-cat" data-categoria="restaurantes">
-            <img
-              class="icone-categoria"
-              src="img/restaurante.png"
-              alt="Ícone de restaurante"
-            />
-            <span class="label-categoria">Restaurantes</span>
-          </a>
-
-          <a href="#" class="item-cat" data-categoria="parques">
-            <img
-              class="icone-categoria"
-              src="img/parque.png"
-              alt="Ícone de parque"
-            />
-            <span class="label-categoria">Parques</span>
-          </a>
-
-          <a href="#" class="item-cat" data-categoria="cinema">
-            <img
-              class="icone-categoria"
-              src="img/cinema.png"
-              alt="Ícone de cinema"
-            />
-            <span class="label-categoria">Cinema</span>
-          </a>
-
-          <a href="#" class="item-cat" data-categoria="shopping">
-            <img
-              class="icone-categoria"
-              src="img/shopping.png"
-              alt="Ícone de shopping"
-            />
-            <span class="label-categoria">Shopping</span>
-          </a>
-
-          <a href="#" class="item-cat" data-categoria="festas">
-            <img
-              class="icone-categoria"
-              src="img/festas.png"
-              alt="Ícone de festas"
-            />
-            <span class="label-categoria">Festas</span>
-          </a>
-        </div>
-      </nav>
-
-      <!-- ==========================================
-         SEÇÃO DE PICOS EM DESTAQUE
-         Grade de cards com os locais mais relevantes.
-         Cada card leva para a página de detalhes do local.
-    =========================================== -->
-      <section id="secao-destaques" class="destaques container">
-        <!-- Cabeçalho da seção: título + link "ver todos" -->
-        <div class="cabecalho-secao">
-          <h2 id="titulo-destaques" class="titulo-secao">Picos em destaque</h2>
-          <a href="#" class="link-ver-tudo">Ver todos →</a>
-        </div>
-
-        <!-- Grade responsiva de cards de locais -->
-        <div id="grade-destaques" class="grade-moderna">
-          <!-- ----------------------------------------
-             CARD DE LOCAL — Restaurante La Bella
-             Clica e abre a página do local (com proteção de acesso).
-             Contém: imagem de capa, etiqueta de preço, favorito, infos.
-        ----------------------------------------- -->
-          <article
-            id="card-restaurante-la-bella"
-            class="card-moderno card-local"
-            onclick="protegerAcesso(event, 'local1.html')"
+          <button
+            class="btn-principal"
+            onclick="acessarFuncionalidade('login.html')"
           >
-            <!-- Capa do card com imagem, botão de favorito e etiqueta de categoria de preço -->
-            <div class="capa-card">
-              <img
-                src="img1.jpg"
-                alt="Foto do Restaurante La Bella"
-                class="foto-local"
-                loading="lazy"
-              />
-              <button class="btn-favoritar" aria-label="Favoritar este local">
-                ♥️
-              </button>
-              <span class="etiqueta etiqueta-preco">Econômico</span>
-            </div>
+            Ver Sugestões
+          </button>
 
-            <!-- Informações textuais do local -->
-            <div class="info-card">
-              <div class="titulo-rating">
-                <h3 class="nome-local">Restaurante La Bella</h3>
-                <span class="nota-avaliacao">★ 4.9</span>
-              </div>
-              <p class="subtitulo-local">Italiano • 2km de distância</p>
-              <p class="faixa-preco"><strong>R$ 40 - R$ 80</strong> /pessoa</p>
-            </div>
-          </article>
+          <button
+            class="btn-secundario"
+            onclick="verificarLoginMapa()"
+          >
+            Explorar Mapa
+          </button>
 
-          <!-- Mais cards de locais podem ser inseridos aqui seguindo o mesmo padrão -->
         </div>
-      </section>
-    </main>
+
+      </div>
+
+
+
+      <!-- SLIDE 2 -->
+      <div
+        id="slide-secundario"
+        class="container hero-conteudo slide-hero"
+      >
+
+        <h2 class="hero-titulo">
+          Anuncie seu restaurante aqui.
+        </h2>
+
+        <p class="hero-subtitulo">
+          Ofereça seus serviços e conquiste clientes.
+        </p>
+
+        <div class="botoes-hero">
+
+          <button
+            class="btn-principal"
+            onclick="window.location.href='cadastro-estabelecimento.html'"
+          >
+            Anuncie seu local
+          </button>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
 
     <!-- ==========================================
-       RODAPÉ
-       Informações de copyright e créditos do app.
-  =========================================== -->
-    <footer id="rodape-principal" class="rodape">
-      <div class="container rodape-conteudo">
-        <p class="texto-rodape">
-          &copy; 2026 Save Date • Feito com ❤️ para o seu bolso
-        </p>
+         CATEGORIAS
+    =========================================== -->
+    <nav
+      id="nav-categorias"
+      class="categorias-nav"
+    >
+
+      <div class="container categorias-wrapper">
+
+        <!-- BARES -->
+        <a
+          href="#"
+          class="item-cat ativo"
+          data-categoria="bares"
+        >
+
+          <img
+            class="icone-categoria"
+            src="img/bar.png"
+            alt="Ícone de bar"
+          />
+
+          <span class="label-categoria">
+            Bares
+          </span>
+
+        </a>
+
+
+
+        <!-- RESTAURANTES -->
+        <a
+          href="#"
+          class="item-cat"
+          data-categoria="restaurantes"
+        >
+
+          <img
+            class="icone-categoria"
+            src="img/restaurante.png"
+            alt="Ícone restaurante"
+          />
+
+          <span class="label-categoria">
+            Restaurantes
+          </span>
+
+        </a>
+
+
+
+        <!-- PARQUES -->
+        <a
+          href="#"
+          class="item-cat"
+          data-categoria="parques"
+        >
+
+          <img
+            class="icone-categoria"
+            src="img/parque.png"
+            alt="Ícone parque"
+          />
+
+          <span class="label-categoria">
+            Parques
+          </span>
+
+        </a>
+
+
+
+        <!-- CINEMA -->
+        <a
+          href="#"
+          class="item-cat"
+          data-categoria="cinema"
+        >
+
+          <img
+            class="icone-categoria"
+            src="img/cinema.png"
+            alt="Ícone cinema"
+          />
+
+          <span class="label-categoria">
+            Cinema
+          </span>
+
+        </a>
+
+
+
+        <!-- SHOPPING -->
+        <a
+          href="#"
+          class="item-cat"
+          data-categoria="shopping"
+        >
+
+          <img
+            class="icone-categoria"
+            src="img/shopping.png"
+            alt="Ícone shopping"
+          />
+
+          <span class="label-categoria">
+            Shopping
+          </span>
+
+        </a>
+
+
+
+        <!-- FESTAS -->
+        <a
+          href="#"
+          class="item-cat"
+          data-categoria="festas"
+        >
+
+          <img
+            class="icone-categoria"
+            src="img/festas.png"
+            alt="Ícone festas"
+          />
+
+          <span class="label-categoria">
+            Festas
+          </span>
+
+        </a>
+
       </div>
-    </footer>
-  </body>
+
+    </nav>
+
+
+
+    <!-- ==========================================
+         CARDS
+    =========================================== -->
+    <section
+      id="secao-destaques"
+      class="destaques container"
+    >
+
+      <!-- TÍTULO -->
+      <div class="cabecalho-secao">
+
+        <h2
+          id="titulo-destaques"
+          class="titulo-secao"
+        >
+          Picos em destaque
+        </h2>
+
+        <a
+          href="#"
+          class="link-ver-tudo"
+        >
+          Ver todos →
+        </a>
+
+      </div>
+
+
+
+      <!-- GRADE -->
+      <div
+        id="grade-destaques"
+        class="grade-moderna"
+      >
+
+
+        <!-- ==========================================
+             CARD 1
+        =========================================== -->
+        <article
+          class="card-moderno card-local"
+          data-nome="restaurante italiano jantar comida"
+        >
+
+          <div class="capa-card">
+
+            <img
+              src="img1.jpg"
+              alt="Restaurante"
+              class="foto-local"
+            />
+
+            <button class="btn-favoritar">
+              ♥️
+            </button>
+
+            <span class="etiqueta etiqueta-preco">
+              Econômico
+            </span>
+
+          </div>
+
+          <div class="info-card">
+
+            <div class="titulo-rating">
+
+              <h3 class="nome-local">
+                Restaurante La Bella
+              </h3>
+
+              <span class="nota-avaliacao">
+                ★ 4.9
+              </span>
+
+            </div>
+
+            <p class="subtitulo-local">
+              Italiano • 2km de distância
+            </p>
+
+            <p class="faixa-preco">
+              <strong>R$ 40 - R$ 80</strong>
+              / pessoa
+            </p>
+
+          </div>
+
+        </article>
+
+
+
+        <!-- ==========================================
+             CARD 2
+        =========================================== -->
+        <article
+          class="card-moderno card-local"
+          data-nome="praia copacabana rio"
+        >
+
+          <div class="capa-card">
+
+            <img
+              src="img/praia.jpg"
+              alt="Praia"
+              class="foto-local"
+            />
+
+            <button class="btn-favoritar">
+              ♥️
+            </button>
+
+            <span class="etiqueta etiqueta-preco">
+              Gratuito
+            </span>
+
+          </div>
+
+          <div class="info-card">
+
+            <div class="titulo-rating">
+
+              <h3 class="nome-local">
+                Praia de Copacabana
+              </h3>
+
+              <span class="nota-avaliacao">
+                ★ 5.0
+              </span>
+
+            </div>
+
+            <p class="subtitulo-local">
+              Praia • Rio de Janeiro
+            </p>
+
+            <p class="faixa-preco">
+              Entrada gratuita
+            </p>
+
+          </div>
+
+        </article>
+
+
+
+        <!-- ==========================================
+             CARD 3
+        =========================================== -->
+        <article
+          class="card-moderno card-local"
+          data-nome="cinema filme shopping"
+        >
+
+          <div class="capa-card">
+
+            <img
+              src="img/cinema-card.jpg"
+              alt="Cinema"
+              class="foto-local"
+            />
+
+            <button class="btn-favoritar">
+              ♥️
+            </button>
+
+            <span class="etiqueta etiqueta-preco">
+              Médio
+            </span>
+
+          </div>
+
+          <div class="info-card">
+
+            <div class="titulo-rating">
+
+              <h3 class="nome-local">
+                Cinema Center
+              </h3>
+
+              <span class="nota-avaliacao">
+                ★ 4.7
+              </span>
+
+            </div>
+
+            <p class="subtitulo-local">
+              Cinema • Shopping
+            </p>
+
+            <p class="faixa-preco">
+              <strong>R$ 25</strong>
+              / ingresso
+            </p>
+
+          </div>
+
+        </article>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+
+  <!-- ==========================================
+       RODAPÉ
+  =========================================== -->
+  <footer
+    id="rodape-principal"
+    class="rodape"
+  >
+
+    <div class="container rodape-conteudo">
+
+      <p class="texto-rodape">
+
+        &copy; 2026 Save Date •
+        Feito com ❤️ para o seu bolso
+
+      </p>
+
+    </div>
+
+  </footer>
+
+
+
+  <!-- ==========================================
+       JAVASCRIPT
+  =========================================== -->
+  <!-- ==========================================
+   NOME DO USUÁRIO
+========================================== */
+Simulação:
+
+localStorage.setItem("usuarioNome", "Thayrine")
+localStorage.setItem("usuarioLogado", "true")
+-->
+<script>
+const nomeUsuario =
+  localStorage.getItem("usuarioNome");
+
+const elementoNome =
+  document.getElementById("nome-usuario");
+
+
+/* ==========================================
+   SE ESTIVER LOGADO
+========================================== */
+
+if (usuarioLogado && nomeUsuario) {
+
+  elementoNome.innerText =
+    nomeUsuario;
+
+}
+
+
+/* ==========================================
+   ABRIR CONTA / LOGIN
+========================================== */
+
+function abrirConta() {
+
+  /* SE NÃO ESTIVER LOGADO */
+  if (!usuarioLogado) {
+
+    window.location.href =
+      "login.html";
+
+    return;
+  }
+
+  /* SE ESTIVER LOGADO */
+  window.location.href =
+    "conta.html";
+
+}
+</script>
+
+  <script>
+
+    /* ==========================================
+       LOGIN SIMULADO
+    =========================================== */
+
+    /*
+    PARA TESTAR LOGIN:
+
+    localStorage.setItem("usuarioLogado", "true")
+
+    PARA DESLOGAR:
+
+    localStorage.removeItem("usuarioLogado")
+    */
+
+    const usuarioLogado =
+      localStorage.getItem("usuarioLogado");
+
+
+
+    /* ==========================================
+       ELEMENTOS
+    =========================================== */
+
+    const campoBusca =
+      document.getElementById("campo-busca");
+
+    const cards =
+      document.querySelectorAll(".card-local");
+
+    const categorias =
+      document.querySelectorAll(".item-cat");
+
+
+
+    /* ==========================================
+       BUSCA
+    =========================================== */
+
+    campoBusca.addEventListener("input", function () {
+
+      /* VERIFICA LOGIN */
+
+      if (!usuarioLogado) {
+
+        alert("Faça login para usar a busca.");
+
+        campoBusca.value = "";
+
+        return;
+      }
+
+
+      /* TEXTO DIGITADO */
+
+      const texto =
+        campoBusca.value.toLowerCase();
+
+
+
+      /* PERCORRE OS CARDS */
+
+      cards.forEach(function(card) {
+
+        const nome =
+          card.dataset.nome.toLowerCase();
+
+
+
+        if (nome.includes(texto)) {
+
+          card.style.display = "block";
+
+        } else {
+
+          card.style.display = "none";
+
+        }
+
+      });
+
+    });
+
+
+
+    /* ==========================================
+       CATEGORIAS
+    =========================================== */
+
+    categorias.forEach(function(categoria) {
+
+      categoria.addEventListener("click", function(event) {
+
+        event.preventDefault();
+
+
+        /* VERIFICA LOGIN */
+
+        if (!usuarioLogado) {
+
+          alert("Faça login para acessar categorias.");
+
+          return;
+        }
+
+
+        /* PEGA O NOME */
+
+        const nomeCategoria =
+          categoria.dataset.categoria;
+
+
+        /* REDIRECIONA */
+
+        window.location.href =
+          nomeCategoria + ".html";
+
+      });
+
+    });
+
+
+
+    /* ==========================================
+       FUNÇÕES
+    =========================================== */
+
+    function acessarFuncionalidade(pagina) {
+
+      if (!usuarioLogado) {
+
+        alert("Faça login primeiro.");
+
+        window.location.href = "login.html";
+
+        return;
+      }
+
+      window.location.href = pagina;
+
+    }
+
+
+
+    function verificarLoginMapa() {
+
+      if (!usuarioLogado) {
+
+        alert("Faça login para explorar o mapa.");
+
+        return;
+      }
+
+      alert("Mapa será aberto!");
+
+    }
+
+  </script>
+
+</body>
 </html>
