@@ -1,0 +1,161 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    /* Fundo escuro para clima de vida noturna/bar */
+    background-color: #121212; 
+    color: #e0e0e0;
+    /* Espaço para o header fixo não cobrir o conteúdo */
+    padding-top: 80px; 
+}
+
+/* --- HEADER FIXO --- */
+.main-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 70px;
+    background-color: #1e1e1e; /* Cabeçalho escuro */
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 30px;
+    z-index: 1000;
+}
+
+.user-name {
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: #b3b3b3;
+    margin-left: auto; /* Empurra o nome para a direita */
+    margin-right: 20px; /* Cria um espaço entre o nome e a logo */
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #ffffff;
+    gap: 10px;
+}
+
+.logo-container:hover .logo-text {
+    color: #e67e22; /* Tom de âmbar/cerveja no hover */
+}
+
+.logo-text {
+    font-weight: 700;
+    font-size: 1.2rem;
+    transition: color 0.3s ease;
+}
+
+.logo-img {
+    width: 40px;
+    height: 40px;
+    border-radius: 5px;
+    /* Fundo escuro enquanto não tem imagem */
+    background-color: #333;
+    object-fit: cover;
+}
+
+/* --- CONTEÚDO PRINCIPAL --- */
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.page-title {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 2.5rem;
+    color: #ffffff;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+/* --- CARDS DOS ESTABELECIMENTOS --- */
+.cards-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Espaço entre um card e outro */
+}
+
+.card {
+    background-color: #1e1e1e; /* Fundo do card escuro */
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    display: flex;
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border: 1px solid #333; /* Borda sutil para separar do fundo */
+}
+
+.card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(230, 126, 34, 0.2); /* Sombra alaranjada no hover */
+}
+
+.card-img {
+    width: 250px;
+    min-height: 200px;
+    background-color: #2c2c2c;
+    object-fit: cover;
+}
+
+.card-content {
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex: 1;
+}
+
+.card-title {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: #ffffff;
+}
+
+.card-desc {
+    font-size: 1rem;
+    color: #a0a0a0; /* Cinza claro para leitura confortável */
+    line-height: 1.5;
+    margin-bottom: 20px;
+}
+
+.card-link {
+    align-self: flex-start;
+    padding: 10px 20px;
+    background-color: #e67e22; /* Laranja vibrante */
+    color: #ffffff;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: 600;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.card-link:hover {
+    background-color: #d35400; /* Laranja mais escuro no hover corrigido */
+    transform: scale(1.05); /* Pequeno efeito de crescimento */
+}
+
+/* --- RESPONSIVIDADE (Celulares) --- */
+@media (max-width: 600px) {
+    .card {
+        flex-direction: column;
+    }
+    .card-img {
+        width: 100%;
+        height: 200px;
+    }
+    .main-header {
+        padding: 0 15px;
+    }
+}

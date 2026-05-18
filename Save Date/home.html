@@ -1,106 +1,33 @@
 <!doctype html>
 <html lang="pt-br">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Save Date | Explore sem sustos</title>
-
-<<<<<<< HEAD
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <title>
-    Save Date | Explore sem sustos
-  </title>
-
-  <!-- GOOGLE FONT -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
-
-
-  <!-- CSS -->
-  <link rel="stylesheet" href="css/home.css" />
-
-
-  <!-- ÍCONE -->
-  <link rel="icon" type="image/x-icon" href="img/logo.png" />
-
-=======
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/home.css" />
   <link rel="icon" type="image/x-icon" href="img/logo.png" />
->>>>>>> 66b5e00d11fe76839586d447e8d6aa0269241608
 </head>
 
 <body>
-
-<<<<<<< HEAD
-  <!-- ==========================================
-       CABEÇALHO
-  =========================================== -->
-
-  <header id="cabecalho-principal" class="topo">
-
-    <nav class="container nav-wrapper">
-
-      <!-- LOGO -->
-      <div id="logo-home" class="logo-area">
-
-        <img src="img/logo.png" class="logo" alt="Logotipo Save Date" />
-
-        <h1 class="logo-nome">
-          Save Date
-        </h1>
-
-=======
-  <!-- CABEÇALHO -->
   <header id="cabecalho-principal" class="topo">
     <nav class="container nav-wrapper">
-
       <div id="logo-home" class="logo-area">
         <img src="img/logo.png" class="logo" alt="Logotipo Save Date" />
         <h1 class="logo-nome">Save Date</h1>
->>>>>>> 66b5e00d11fe76839586d447e8d6aa0269241608
       </div>
-
       <div class="busca-container">
         <div class="busca-pilula">
-<<<<<<< HEAD
-
           <input type="text" id="campo-busca" placeholder="Pesquisar categorias" />
-
-          <button id="btn-buscar">
-            🔍
-          </button>
-
-=======
-          <input type="text" id="campo-busca" placeholder="Pesquisar categorias" />
-          <button id="btn-buscar">🔍</button>
->>>>>>> 66b5e00d11fe76839586d447e8d6aa0269241608
+          <button id="btn-buscar" type="button">🔍</button>
         </div>
         <div id="sugestoes" class="sugestoes"></div>
       </div>
-
-<<<<<<< HEAD
-      <!-- MENU USUÁRIO -->
       <div id="menu-usuario" class="menu-perfil">
         <span class="burger" onclick="toggleMenu()">☰</span>
-
-        <!-- MENU DROPDOWN -->
-        <div id="menu-dropdown" class="menu-dropdown">
-
-          <a href="conta.html">
-            Minha conta
-          </a>
-
-          <a href="#" onclick="logout()">
-            Sair
-          </a>
-=======
-      <div id="menu-usuario" class="menu-perfil">
-        <span class="burger">☰</span>
-        <img src="img/login.jpg" alt="Foto de perfil" class="avatar" />
->>>>>>> 66b5e00d11fe76839586d447e8d6aa0269241608
-
         <div class="usuario-dropdown">
+          <img src="img/login.jpg" alt="Foto de perfil" class="avatar" />
           <span id="nome-usuario" class="nome-usuario" onclick="toggleDropdown()">Entrar</span>
           <div id="dropdown-menu" class="dropdown-menu" style="display:none;">
             <span id="label-nome-dropdown" class="dropdown-nome"></span>
@@ -109,166 +36,75 @@
             <a href="#" class="dropdown-item sair" onclick="sairLogin()">Sair</a>
           </div>
         </div>
-<<<<<<< HEAD
-
-
-        <!-- AVATAR -->
-        <img src="img/login.jpg" alt="Foto de perfil" class="avatar" />
-
-
-        <!-- NOME -->
-        <span id="nome-usuario" class="nome-usuario" onclick="abrirConta()">
-          Entrar
-        </span>
-
-=======
->>>>>>> 66b5e00d11fe76839586d447e8d6aa0269241608
       </div>
-
     </nav>
   </header>
 
-
-  <!-- CONTEÚDO PRINCIPAL -->
   <main id="conteudo-principal">
-
-    <!-- HERO -->
     <section id="hero-banner" class="hero">
-<<<<<<< HEAD
-=======
-
->>>>>>> 66b5e00d11fe76839586d447e8d6aa0269241608
       <div id="slide-principal" class="container hero-conteudo slide-hero">
-        <h2 class="hero-titulo">
-          Saia e divirta-se<br />
-          <span class="texto-gradiente">sem sustos no bolso.</span>
-        </h2>
+        <h2 class="hero-titulo">Saia e divirta-se<br /><span class="texto-gradiente">sem sustos no bolso.</span></h2>
         <p class="hero-subtitulo">Divirta-se mais, gaste menos</p>
         <div class="botoes-hero">
-<<<<<<< HEAD
           <button class="btn-principal" onclick="acessarFuncionalidade('login.html')">Ver Sugestões</button>
-
           <button class="btn-secundario" onclick="verificarLoginMapa()">Explorar Mapa</button>
         </div>
       </div>
-      <!-- SLIDE SECUNDÁRIO -->
-      <div id="slide-secundario" class="container hero-conteudo slide-hero">
-        <h2 class="hero-titulo">
-          Anuncie seu<span class="texto-gradiente"> restaurante aqui.</span>
-        </h2>
-        <p class="hero-subtitulo">
-          Ofereça seus serviços e conquiste clientes.
-        </p>
+      <div class="container hero-conteudo slide-hero">
+        <h2 class="hero-titulo">Anuncie seu<span class="texto-gradiente"> restaurante aqui.</span></h2>
+        <p class="hero-subtitulo">Ofereça seus serviços e conquiste clientes.</p>
         <div class="botoes-hero">
-          <button class="btn-principal" onclick="window.location.href='cadastro-estabelecimento.html'">Anuncie seu
-            local</button>
-=======
+          <button class="btn-principal" onclick="window.location.href='cadastro-estabelecimento.html'">Anuncie seu local</button>
           <button class="btn-principal" onclick="acessarFuncionalidade('sugestoes.html')">Ver Sugestões</button>
           <button class="btn-secundario" onclick="verificarLoginMapa()">Explorar Mapa</button>
         </div>
       </div>
-
-      <div id="slide-secundario" class="container hero-conteudo slide-hero">
-        <h2 class="hero-titulo">Anuncie seu <span class="texto-gradiente">restaurante aqui.</span></h2>
-        <p class="hero-subtitulo">Ofereça seus serviços e conquiste clientes.</p>
-        <div class="botoes-hero">
-          <button class="btn-principal" onclick="window.location.href='cadastro-estabelecimento.html'">Anuncie seu local</button>
->>>>>>> 66b5e00d11fe76839586d447e8d6aa0269241608
-        </div>
-      </div>
-
     </section>
-<<<<<<< HEAD
-    <!-- CATEGORIAS -->
-    <section id="nav-categorias" class="categorias-nav">
-=======
->>>>>>> 66b5e00d11fe76839586d447e8d6aa0269241608
 
-    <!-- CATEGORIAS -->
     <section id="nav-categorias" class="categorias-nav">
       <div class="container categorias-wrapper">
-<<<<<<< HEAD
-=======
-
->>>>>>> 66b5e00d11fe76839586d447e8d6aa0269241608
-        <a href="#" class="item-cat ativo" data-categoria="bares">
+        <a href="bares,html" class="item-cat" data-categoria="bares">
           <img class="icone-categoria" src="img/bar.png" alt="Ícone de bar" />
           <span class="label-categoria">Bares</span>
         </a>
-<<<<<<< HEAD
-=======
-
->>>>>>> 66b5e00d11fe76839586d447e8d6aa0269241608
         <a href="#" class="item-cat" data-categoria="restaurantes">
           <img class="icone-categoria" src="img/restaurante.png" alt="Ícone restaurante" />
           <span class="label-categoria">Restaurantes</span>
         </a>
-<<<<<<< HEAD
-=======
-
->>>>>>> 66b5e00d11fe76839586d447e8d6aa0269241608
         <a href="#" class="item-cat" data-categoria="parques">
           <img class="icone-categoria" src="img/parque.png" alt="Ícone parque" />
           <span class="label-categoria">Parques</span>
         </a>
-<<<<<<< HEAD
-        <a href="shoppings.html" onclick="window.location.href='shoppings.html';" class="item-cat"
-          data-categoria="shopping">
+        <a href="shoppings.html" class="item-cat" data-categoria="shopping">
           <img class="icone-categoria" src="img/shopping.png" alt="Ícone shopping" />
           <span class="label-categoria">Shopping</span>
         </a>
-=======
-
-        <a href="#" class="item-cat" data-categoria="shopping">
-          <img class="icone-categoria" src="img/shopping.png" alt="Ícone shopping" />
-          <span class="label-categoria">Shopping</span>
-        </a>
-
->>>>>>> 66b5e00d11fe76839586d447e8d6aa0269241608
         <a href="#" class="item-cat" data-categoria="salão de festas">
           <img class="icone-categoria" src="img/festas.png" alt="Ícone festas" />
           <span class="label-categoria">Salão de festas</span>
         </a>
-
       </div>
     </section>
 
-    <!-- DESTAQUES -->
     <section id="secao-destaques" class="destaques container">
       <div class="cabecalho-secao">
         <h2 id="titulo-destaques" class="titulo-secao">Picos em destaque</h2>
         <a href="#" class="link-ver-tudo">Ver todos →</a>
       </div>
-<<<<<<< HEAD
-
-      <!-- GRADE -->
-      <div id="grade-destaques" class="grade-moderna">
-
-      </div>
-
-      <!-- MENSAGEM -->
-=======
       <div id="grade-destaques" class="grade-moderna"></div>
->>>>>>> 66b5e00d11fe76839586d447e8d6aa0269241608
       <p id="mensagem-destaque"></p>
     </section>
-
   </main>
 
-
-  <!-- RODAPÉ -->
   <footer id="rodape-principal" class="rodape">
     <div class="container rodape-conteudo">
       <p class="texto-rodape">&copy; 2026 Save Date • Feito com ❤️ para o seu bolso</p>
     </div>
   </footer>
 
-  <!-- Container dos Toasts -->
   <div id="toast-container"></div>
 
-
   <style>
-    /* ── Dropdown do usuário ── */
     .usuario-dropdown {
       position: relative;
       display: inline-block;
@@ -281,7 +117,7 @@
       background: #fff;
       border: 1px solid #e0e0e0;
       border-radius: 12px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
       min-width: 180px;
       z-index: 999;
       padding: 10px 0;
@@ -310,10 +146,14 @@
       transition: background 0.2s;
     }
 
-    .dropdown-item:hover { background: #f5f5f5; }
-    .dropdown-item.sair  { color: #e53935; }
+    .dropdown-item:hover {
+      background: #f5f5f5;
+    }
 
-    /* ── Toasts ── */
+    .dropdown-item.sair {
+      color: #e53935;
+    }
+
     #toast-container {
       position: fixed;
       bottom: 28px;
@@ -344,7 +184,7 @@
       pointer-events: auto;
       max-width: 340px;
       width: max-content;
-      box-shadow: 0 6px 24px rgba(0,0,0,0.22);
+      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.22);
     }
 
     .toast.show {
@@ -352,117 +192,94 @@
       transform: translateY(0) scale(1);
     }
 
-    .toast-icone { font-size: 1.1rem; flex-shrink: 0; }
+    .toast-icone {
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
 
-    .toast.toast-erro    { border-left: 4px solid #e53935; }
-    .toast.toast-info    { border-left: 4px solid #4f8ef7; }
-    .toast.toast-sucesso { border-left: 4px solid #43a047; }
+    .toast.toast-erro {
+      border-left: 4px solid #e53935;
+    }
+
+    .toast.toast-info {
+      border-left: 4px solid #4f8ef7;
+    }
+
+    .toast.toast-sucesso {
+      border-left: 4px solid #43a047;
+    }
   </style>
 
-
   <script>
-    /* ── TOAST ── */
     function mostrarToast(mensagem, tipo = "info", duracao = 3500) {
       const container = document.getElementById("toast-container");
       const toast = document.createElement("div");
       toast.className = `toast toast-${tipo}`;
-
       const icones = { erro: "⚠️", info: "💡", sucesso: "✅" };
       toast.innerHTML = `
         <span class="toast-icone">${icones[tipo] ?? "ℹ️"}</span>
         <span>${mensagem}</span>
       `;
-
       container.appendChild(toast);
       requestAnimationFrame(() => requestAnimationFrame(() => toast.classList.add("show")));
-
       setTimeout(() => {
         toast.classList.remove("show");
         setTimeout(() => toast.remove(), 380);
       }, duracao);
     }
 
-
-    /* ── LOGIN ── */
     const usuarioLogado = localStorage.getItem("usuarioLogado");
-    const nomeUsuario   = localStorage.getItem("usuarioNome");
-    const elementoNome  = document.getElementById("nome-usuario");
+    const nomeUsuario = localStorage.getItem("usuarioNome");
+    const elementoNome = document.getElementById("nome-usuario");
     const labelDropdown = document.getElementById("label-nome-dropdown");
 
     if (usuarioLogado && nomeUsuario) {
-<<<<<<< HEAD
-
-      elementoNome.innerText =
-        nomeUsuario;
-
+      if (elementoNome) elementoNome.innerText = nomeUsuario;
+      if (labelDropdown) labelDropdown.innerText = nomeUsuario;
     }
-    /*  MENU USUARIO */
 
     document.addEventListener("click", function (event) {
-
-      const menu =
-        document.getElementById("menu-dropdown");
-
-      const botao =
-        document.querySelector(".burger");
-
-      if (
-        !menu.contains(event.target) &&
-        !botao.contains(event.target)
-      ) {
+      const menu = document.getElementById("menu-dropdown");
+      const botao = document.querySelector(".burger");
+      if (!menu || !botao) return;
+      if (!menu.contains(event.target) && !botao.contains(event.target)) {
         menu.style.display = "none";
       }
     });
 
     function toggleMenu() {
-
-      const menu =
-        document.getElementById("menu-dropdown");
-
-      if (menu.style.display === "block") {
-
-        menu.style.display = "none";
-
-      }
-
-      else {
-
-        menu.style.display = "block";
-
-      }
-
-=======
-      elementoNome.innerText  = nomeUsuario;
-      labelDropdown.innerText = nomeUsuario;
->>>>>>> 66b5e00d11fe76839586d447e8d6aa0269241608
+      const menu = document.getElementById("menu-dropdown");
+      if (!menu) return;
+      menu.style.display = menu.style.display === "block" ? "none" : "block";
+      if (usuarioLogado && nomeUsuario && elementoNome) elementoNome.innerText = nomeUsuario;
+      if (labelDropdown) labelDropdown.innerText = nomeUsuario || "";
     }
 
-    /* ── TOGGLE DROPDOWN ── */
     function toggleDropdown() {
       if (!usuarioLogado) {
         window.location.href = "login.html";
         return;
       }
       const menu = document.getElementById("dropdown-menu");
+      if (!menu) return;
       menu.style.display = menu.style.display === "none" ? "block" : "none";
     }
 
-    /* Fecha dropdown ao clicar fora */
     document.addEventListener("click", function (e) {
       const dropdown = document.querySelector(".usuario-dropdown");
+      const menu = document.getElementById("dropdown-menu");
+      if (!dropdown || !menu) return;
       if (!dropdown.contains(e.target)) {
-        document.getElementById("dropdown-menu").style.display = "none";
+        menu.style.display = "none";
       }
     });
 
-    /* ── SAIR DO LOGIN ── */
     function sairLogin() {
       localStorage.removeItem("usuarioLogado");
       localStorage.removeItem("usuarioNome");
       window.location.href = "home.html";
     }
 
-    /* ── FUNÇÕES GLOBAIS ── */
     function acessarFuncionalidade(pagina) {
       if (!usuarioLogado) {
         mostrarToast("Faça login primeiro para continuar.", "erro");
@@ -480,108 +297,37 @@
       mostrarToast("Abrindo o mapa...", "sucesso");
     }
 
-    /* ── BUSCA COM SUGESTÕES ── */
     const categorias = ["bares", "restaurantes", "parques", "shopping", "salão de festas"];
     const campoBusca = document.getElementById("campo-busca");
-    const sugestoes  = document.getElementById("sugestoes");
+    const sugestoes = document.getElementById("sugestoes");
 
-    campoBusca.addEventListener("input", function () {
-      sugestoes.innerHTML = "";
-      const valor = this.value.toLowerCase();
-      if (valor === "") return;
-
-      categorias.forEach(categoria => {
-        if (categoria.includes(valor)) {
-          const item = document.createElement("div");
-          item.innerText = categoria.charAt(0).toUpperCase() + categoria.slice(1);
-          item.onclick = () => {
-            document.querySelector(`[data-categoria="${categoria}"]`).click();
-            campoBusca.value = item.innerText;
-            sugestoes.innerHTML = "";
-          };
-          sugestoes.appendChild(item);
-        }
+    if (campoBusca && sugestoes) {
+      campoBusca.addEventListener("input", function () {
+        sugestoes.innerHTML = "";
+        const valor = this.value.toLowerCase();
+        if (valor === "") return;
+        categorias.forEach(categoria => {
+          if (categoria.includes(valor)) {
+            const item = document.createElement("div");
+            item.innerText = categoria.charAt(0).toUpperCase() + categoria.slice(1);
+            item.onclick = () => {
+              const link = document.querySelector(`[data-categoria="${categoria}"]`);
+              if (link) link.click();
+              campoBusca.value = item.innerText;
+              sugestoes.innerHTML = "";
+            };
+            sugestoes.appendChild(item);
+          }
+        });
       });
-    });
+    }
 
-<<<<<<< HEAD
-    /* BUSCA COM SUGESTÕES */
-
-    const categorias = [
-      "bares",
-      "restaurantes",
-      "parques",
-      "shopping",
-      "salão de festas"
-    ];
-
-    const campoBusca =
-      document.getElementById("campo-busca");
-
-    const sugestoes =
-      document.getElementById("sugestoes");
-
-    campoBusca.addEventListener("input", function () {
-
-      sugestoes.innerHTML = "";
-
-      const valor =
-        this.value.toLowerCase();
-
-      if (valor === "") return;
-
-      categorias.forEach(categoria => {
-
-        if (categoria.includes(valor)) {
-
-          const item =
-            document.createElement("div");
-
-          item.innerText =
-            categoria.charAt(0).toUpperCase() + categoria.slice(1);
-
-          item.onclick = () => {
-
-            document
-              .querySelector(`[data-categoria="${categoria}"]`)
-              .click();
-
-            campoBusca.value =
-              item.innerText;
-
-            sugestoes.innerHTML = "";
-
-          };
-
-          sugestoes.appendChild(item);
-
-        }
-
-      });
-
-    });
-
-    /* DESTAQUES */
-
-    const grade =
-      document.getElementById("grade-destaques");
-
-    const mensagem =
-      document.getElementById("mensagem-destaque");
-
-    mensagem.innerText =
-=======
-    /* ── DESTAQUES ── */
-    document.getElementById("mensagem-destaque").innerText =
->>>>>>> 66b5e00d11fe76839586d447e8d6aa0269241608
-      "Digite um CEP ou endereço para carregar os destaques.";
+    const mensagem = document.getElementById("mensagem-destaque");
+    if (mensagem) {
+      mensagem.innerText = "Digite um CEP ou endereço para carregar os destaques.";
+    }
   </script>
 
   <script src="js/script.js"></script>
-
 </body>
-<<<<<<< HEAD
-
-=======
->>>>>>> 66b5e00d11fe76839586d447e8d6aa0269241608
 </html>
