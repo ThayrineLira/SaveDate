@@ -674,7 +674,8 @@ body {
   font-size: 12px;
   color: #333;
   margin: 0;
-}/* ================================================
+}
+/* ================================================
    SAVE DATE — Estilos do módulo CEP + Cards dinâmicos
    Adicione ao final do seu css/home.css
    ================================================ */
@@ -726,7 +727,7 @@ body {
   font-size: 0.88rem;
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.2s, transform 0.1s;
+  transition:background 0.2s, transform 0.1s;
   white-space: nowrap;
 }
 
@@ -846,4 +847,52 @@ body {
 @keyframes piscar {
   0%, 100% { opacity: 1; }
   50%       { opacity: 0.4; }
+}
+
+/* MENU USUARIO*/
+
+.menu-perfil{
+    position: relative;
+}
+
+.menu-dropdown{
+    display: none;
+    position: absolute;
+    top: 45px;
+    right: 0;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    overflow: hidden;
+    min-width: 150px;
+    z-index: 1000;
+}
+
+.menu-dropdown a{
+
+    display: block;
+    padding: 12px;
+    text-decoration: none;
+    color: black;
+}
+.menu-dropdown a:hover{
+    background: #f2f2f2;
+}
+/*Pesquisar por categoria*/
+
+.sugestoes{
+    position: absolute;
+    background: white;
+    width: 100%;
+    border-radius: 10px;
+    margin-top: 5px;
+    overflow: hidden;
+    z-index: 1000;
+}
+.sugestoes div{
+    padding: 10px;
+    cursor: pointer;
+}
+.sugestoes div:hover{
+    background: #f2f2f2;
 }
