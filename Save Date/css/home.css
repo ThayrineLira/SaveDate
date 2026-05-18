@@ -370,19 +370,20 @@ body {
   font-weight: 600;
   text-align: center;
   transition: var(--transicao);
-}
+  margin-top: 130px;
 
+}
 /* Ícone de cada categoria */
 .icone-categoria {
   width: 23px;
-  height: 23px;
-  border-radius: 10px;
+  height: 50px;
+  border-radius: 20px;
   object-fit: cover;
 }
 
 .item-cat img {
-  width: 100px;
-  height: 100px;
+  width: 150px;
+  height: 150px;
   object-fit: cover;
   opacity: 1;
 }
