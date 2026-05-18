@@ -5,61 +5,39 @@
 
   <meta charset="UTF-8" />
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <title>
     Save Date | Explore sem sustos
   </title>
 
   <!-- GOOGLE FONT -->
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap"
-    rel="stylesheet"
-  />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
 
 
   <!-- CSS -->
-  <link
-    rel="stylesheet"
-    href="css/home.css"
-  />
+  <link rel="stylesheet" href="css/home.css" />
 
 
   <!-- ÍCONE -->
-  <link
-    rel="icon"
-    type="image/x-icon"
-    href="img/logo.png"
-  />
+  <link rel="icon" type="image/x-icon" href="img/logo.png" />
 
 </head>
+
 <body>
 
   <!-- ==========================================
        CABEÇALHO
   =========================================== -->
 
-  <header
-    id="cabecalho-principal"
-    class="topo"
-  >
+  <header id="cabecalho-principal" class="topo">
 
     <nav class="container nav-wrapper">
 
       <!-- LOGO -->
-      <div
-        id="logo-home"
-        class="logo-area"
-      >
+      <div id="logo-home" class="logo-area">
 
-        <img
-          src="img/logo.png"
-          class="logo"
-          alt="Logotipo Save Date"
-        />
+        <img src="img/logo.png" class="logo" alt="Logotipo Save Date" />
 
         <h1 class="logo-nome">
           Save Date
@@ -72,11 +50,7 @@
 
         <div class="busca-pilula">
 
-          <input
-            type="text"
-            id="campo-busca"
-            placeholder="Pesquisar categorias"
-          />
+          <input type="text" id="campo-busca" placeholder="Pesquisar categorias" />
 
           <button id="btn-buscar">
             🔍
@@ -90,28 +64,17 @@
       </div>
 
       <!-- MENU USUÁRIO -->
-      <div
-        id="menu-usuario"
-        class="menu-perfil"
-      >
-        <span
-          class="burger"
-          onclick="toggleMenu()">☰</span>
+      <div id="menu-usuario" class="menu-perfil">
+        <span class="burger" onclick="toggleMenu()">☰</span>
 
         <!-- MENU DROPDOWN -->
-        <div
-          id="menu-dropdown"
-          class="menu-dropdown"
-        >
+        <div id="menu-dropdown" class="menu-dropdown">
 
           <a href="conta.html">
             Minha conta
           </a>
 
-          <a
-            href="#"
-            onclick="logout()"
-          >
+          <a href="#" onclick="logout()">
             Sair
           </a>
 
@@ -119,19 +82,11 @@
 
 
         <!-- AVATAR -->
-        <img
-          src="img/login.jpg"
-          alt="Foto de perfil"
-          class="avatar"
-        />
+        <img src="img/login.jpg" alt="Foto de perfil" class="avatar" />
 
 
         <!-- NOME -->
-        <span
-          id="nome-usuario"
-          class="nome-usuario"
-          onclick="abrirConta()"
-        >
+        <span id="nome-usuario" class="nome-usuario" onclick="abrirConta()">
           Entrar
         </span>
 
@@ -150,11 +105,8 @@
 
   <main id="conteudo-principal">
     <!-- HERO -->
-    <section
-      id="hero-banner"class="hero">
-      <div
-        id="slide-principal"
-        class="container hero-conteudo slide-hero">
+    <section id="hero-banner" class="hero">
+      <div id="slide-principal" class="container hero-conteudo slide-hero">
         <h2 class="hero-titulo">
           Saia e divirta-se<br />
           <span class="texto-gradiente">
@@ -165,20 +117,13 @@
           Divirta-se mais, gaste menos
         </p>
         <div class="botoes-hero">
-          <button
-            class="btn-principal"
-            onclick="acessarFuncionalidade('login.html')"
-            >Ver Sugestões</button>
+          <button class="btn-principal" onclick="acessarFuncionalidade('login.html')">Ver Sugestões</button>
 
-          <button
-            class="btn-secundario"
-            onclick="verificarLoginMapa()">Explorar Mapa</button>
+          <button class="btn-secundario" onclick="verificarLoginMapa()">Explorar Mapa</button>
         </div>
       </div>
       <!-- SLIDE SECUNDÁRIO -->
-      <div
-        id="slide-secundario"
-        class="container hero-conteudo slide-hero">
+      <div id="slide-secundario" class="container hero-conteudo slide-hero">
         <h2 class="hero-titulo">
           Anuncie seu<span class="texto-gradiente"> restaurante aqui.</span>
         </h2>
@@ -186,67 +131,34 @@
           Ofereça seus serviços e conquiste clientes.
         </p>
         <div class="botoes-hero">
-          <button
-          class="btn-principal"
-          onclick="window.location.href='cadastro-estabelecimento.html'">Anuncie seu local</button>
+          <button class="btn-principal" onclick="window.location.href='cadastro-estabelecimento.html'">Anuncie seu
+            local</button>
         </div>
       </div>
     </section>
     <!-- CATEGORIAS -->
-    <section
-      id="nav-categorias"
-      class="categorias-nav">
+    <section id="nav-categorias" class="categorias-nav">
 
       <div class="container categorias-wrapper">
-          <a
-            href="#"
-            class="item-cat ativo"
-            data-categoria="bares">
-            <img
-              class="icone-categoria"
-              src="img/bar.png"
-              alt="Ícone de bar"/>
-            <span class="label-categoria">Bares</span>
-          </a>
-            <a
-              href="#"
-              class="item-cat"
-              data-categoria="restaurantes">
-              <img
-                class="icone-categoria"
-                src="img/restaurante.png"
-                alt="Ícone restaurante"/>
-              <span class="label-categoria">Restaurantes</span>
-            </a>
-        <a
-          href="#"
-          class="item-cat"
-          data-categoria="parques">
-          <img
-            class="icone-categoria"
-            src="img/parque.png"
-            alt="Ícone parque"
-          />
+        <a href="#" class="item-cat ativo" data-categoria="bares">
+          <img class="icone-categoria" src="img/bar.png" alt="Ícone de bar" />
+          <span class="label-categoria">Bares</span>
+        </a>
+        <a href="#" class="item-cat" data-categoria="restaurantes">
+          <img class="icone-categoria" src="img/restaurante.png" alt="Ícone restaurante" />
+          <span class="label-categoria">Restaurantes</span>
+        </a>
+        <a href="#" class="item-cat" data-categoria="parques">
+          <img class="icone-categoria" src="img/parque.png" alt="Ícone parque" />
           <span class="label-categoria">Parques</span>
         </a>
-        <a
-          href="#"
-          class="item-cat"
+        <a href="shoppings.html" onclick="window.location.href='shoppings.html';" class="item-cat"
           data-categoria="shopping">
-          <img
-            class="icone-categoria"
-            src="img/shopping.png"
-            alt="Ícone shopping" />
+          <img class="icone-categoria" src="img/shopping.png" alt="Ícone shopping" />
           <span class="label-categoria">Shopping</span>
         </a>
-        <a
-          href="#"
-          class="item-cat"
-          data-categoria="salão de festas">
-          <img
-            class="icone-categoria"
-            src="img/festas.png"
-            alt="Ícone festas" />
+        <a href="#" class="item-cat" data-categoria="salão de festas">
+          <img class="icone-categoria" src="img/festas.png" alt="Ícone festas" />
           <span class="label-categoria">Salão de festas</span>
         </a>
 
@@ -255,22 +167,14 @@
     </section>
 
     <!-- DESTAQUES -->
-    <section
-      id="secao-destaques"
-      class="destaques container">
+    <section id="secao-destaques" class="destaques container">
       <div class="cabecalho-secao">
-        <h2
-          id="titulo-destaques"
-          class="titulo-secao">Picos em destaque</h2>
-        <a
-          href="#"
-          class="link-ver-tudo">Ver todos →</a>
+        <h2 id="titulo-destaques" class="titulo-secao">Picos em destaque</h2>
+        <a href="#" class="link-ver-tudo">Ver todos →</a>
       </div>
 
       <!-- GRADE -->
-      <div
-        id="grade-destaques"
-        class="grade-moderna">
+      <div id="grade-destaques" class="grade-moderna">
 
       </div>
 
@@ -314,20 +218,21 @@
     }
     /*  MENU USUARIO */
 
-  document.addEventListener("click", function(event) {
+    document.addEventListener("click", function (event) {
 
-  const menu =
-    document.getElementById("menu-dropdown");
+      const menu =
+        document.getElementById("menu-dropdown");
 
-  const botao =
-    document.querySelector(".burger");
+      const botao =
+        document.querySelector(".burger");
 
-  if (
-    !menu.contains(event.target) &&
-    !botao.contains(event.target)
-  ) {
-    menu.style.display = "none";
-  }});
+      if (
+        !menu.contains(event.target) &&
+        !botao.contains(event.target)
+      ) {
+        menu.style.display = "none";
+      }
+    });
 
     function toggleMenu() {
 
@@ -416,59 +321,59 @@
 
     /* BUSCA COM SUGESTÕES */
 
-const categorias = [
-  "bares",
-  "restaurantes",
-  "parques",
-  "shopping",
-  "salão de festas"
-];
+    const categorias = [
+      "bares",
+      "restaurantes",
+      "parques",
+      "shopping",
+      "salão de festas"
+    ];
 
-const campoBusca =
-  document.getElementById("campo-busca");
+    const campoBusca =
+      document.getElementById("campo-busca");
 
-const sugestoes =
-  document.getElementById("sugestoes");
+    const sugestoes =
+      document.getElementById("sugestoes");
 
-campoBusca.addEventListener("input", function () {
+    campoBusca.addEventListener("input", function () {
 
-  sugestoes.innerHTML = "";
+      sugestoes.innerHTML = "";
 
-  const valor =
-    this.value.toLowerCase();
+      const valor =
+        this.value.toLowerCase();
 
-  if (valor === "") return;
+      if (valor === "") return;
 
-  categorias.forEach(categoria => {
+      categorias.forEach(categoria => {
 
-    if (categoria.includes(valor)) {
+        if (categoria.includes(valor)) {
 
-      const item =
-        document.createElement("div");
+          const item =
+            document.createElement("div");
 
-      item.innerText =
-        categoria.charAt(0).toUpperCase() + categoria.slice(1);
+          item.innerText =
+            categoria.charAt(0).toUpperCase() + categoria.slice(1);
 
-      item.onclick = () => {
+          item.onclick = () => {
 
-        document
-          .querySelector(`[data-categoria="${categoria}"]`)
-          .click();
+            document
+              .querySelector(`[data-categoria="${categoria}"]`)
+              .click();
 
-        campoBusca.value =
-          item.innerText;
+            campoBusca.value =
+              item.innerText;
 
-        sugestoes.innerHTML = "";
+            sugestoes.innerHTML = "";
 
-      };
+          };
 
-      sugestoes.appendChild(item);
+          sugestoes.appendChild(item);
 
-    }
+        }
 
-  });
+      });
 
-});
+    });
 
     /* DESTAQUES */
 
@@ -488,4 +393,5 @@ campoBusca.addEventListener("input", function () {
   <script src="js/script.js"></script>
 
 </body>
+
 </html>
