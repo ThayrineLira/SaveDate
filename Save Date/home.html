@@ -5,14 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Save Date | Explore sem sustos</title>
 
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap"
-    rel="stylesheet"
-  />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/home.css" />
   <link rel="icon" type="image/x-icon" href="img/logo.png" />
 </head>
-
 <body>
 
   <!-- CABEÇALHO -->
@@ -26,9 +22,10 @@
 
       <div class="busca-container">
         <div class="busca-pilula">
-          <input type="text" id="campo-busca" placeholder="Para onde vamos?" />
+          <input type="text" id="campo-busca" placeholder="Pesquisar categorias" />
           <button id="btn-buscar">🔍</button>
         </div>
+        <div id="sugestoes" class="sugestoes"></div>
       </div>
 
       <div id="menu-usuario" class="menu-perfil">
@@ -44,13 +41,13 @@
             <a href="#" class="dropdown-item sair" onclick="sairLogin()">Sair</a>
           </div>
         </div>
-
       </div>
 
     </nav>
   </header>
 
 
+  <!-- CONTEÚDO PRINCIPAL -->
   <main id="conteudo-principal">
 
     <!-- HERO -->
@@ -63,30 +60,20 @@
         </h2>
         <p class="hero-subtitulo">Divirta-se mais, gaste menos</p>
         <div class="botoes-hero">
-          <button class="btn-principal" onclick="acessarFuncionalidade('sugestoes.html')">
-            Ver Sugestões
-          </button>
-          <button class="btn-secundario" onclick="verificarLoginMapa()">
-            Explorar Mapa
-          </button>
+          <button class="btn-principal" onclick="acessarFuncionalidade('sugestoes.html')">Ver Sugestões</button>
+          <button class="btn-secundario" onclick="verificarLoginMapa()">Explorar Mapa</button>
         </div>
       </div>
 
       <div id="slide-secundario" class="container hero-conteudo slide-hero">
-        <h2 class="hero-titulo">Anuncie seu restaurante aqui.</h2>
+        <h2 class="hero-titulo">Anuncie seu <span class="texto-gradiente">restaurante aqui.</span></h2>
         <p class="hero-subtitulo">Ofereça seus serviços e conquiste clientes.</p>
         <div class="botoes-hero">
-          <button
-            class="btn-principal"
-            onclick="window.location.href='cadastro-estabelecimento.html'"
-          >
-            Anuncie seu local
-          </button>
+          <button class="btn-principal" onclick="window.location.href='cadastro-estabelecimento.html'">Anuncie seu local</button>
         </div>
       </div>
 
     </section>
-
 
     <!-- CATEGORIAS -->
     <section id="nav-categorias" class="categorias-nav">
@@ -107,42 +94,27 @@
           <span class="label-categoria">Parques</span>
         </a>
 
-        <a href="#" class="item-cat" data-categoria="cinema">
-          <img class="icone-categoria" src="img/cinema.png" alt="Ícone cinema" />
-          <span class="label-categoria">Cinema</span>
-        </a>
-
         <a href="#" class="item-cat" data-categoria="shopping">
           <img class="icone-categoria" src="img/shopping.png" alt="Ícone shopping" />
           <span class="label-categoria">Shopping</span>
         </a>
 
-        <a href="#" class="item-cat" data-categoria="festas">
+        <a href="#" class="item-cat" data-categoria="salão de festas">
           <img class="icone-categoria" src="img/festas.png" alt="Ícone festas" />
-          <span class="label-categoria">Festas</span>
+          <span class="label-categoria">Salão de festas</span>
         </a>
 
       </div>
     </section>
 
-
-    <!-- DESTAQUES / CARDS -->
+    <!-- DESTAQUES -->
     <section id="secao-destaques" class="destaques container">
-
       <div class="cabecalho-secao">
         <h2 id="titulo-destaques" class="titulo-secao">Picos em destaque</h2>
         <a href="#" class="link-ver-tudo">Ver todos →</a>
       </div>
-
-      <div id="grade-destaques" class="grade-moderna">
-        <div class="card-skeleton"></div>
-        <div class="card-skeleton"></div>
-        <div class="card-skeleton"></div>
-        <div class="card-skeleton"></div>
-        <div class="card-skeleton"></div>
-        <div class="card-skeleton"></div>
-      </div>
-
+      <div id="grade-destaques" class="grade-moderna"></div>
+      <p id="mensagem-destaque"></p>
     </section>
 
   </main>
@@ -154,7 +126,6 @@
       <p class="texto-rodape">&copy; 2026 Save Date • Feito com ❤️ para o seu bolso</p>
     </div>
   </footer>
-
 
   <!-- Container dos Toasts -->
   <div id="toast-container"></div>
@@ -203,13 +174,8 @@
       transition: background 0.2s;
     }
 
-    .dropdown-item:hover {
-      background: #f5f5f5;
-    }
-
-    .dropdown-item.sair {
-      color: #e53935;
-    }
+    .dropdown-item:hover { background: #f5f5f5; }
+    .dropdown-item.sair  { color: #e53935; }
 
     /* ── Toasts ── */
     #toast-container {
@@ -250,14 +216,11 @@
       transform: translateY(0) scale(1);
     }
 
-    .toast-icone {
-      font-size: 1.1rem;
-      flex-shrink: 0;
-    }
+    .toast-icone { font-size: 1.1rem; flex-shrink: 0; }
 
-    .toast.toast-erro   { border-left: 4px solid #e53935; }
-    .toast.toast-info   { border-left: 4px solid #4f8ef7; }
-    .toast.toast-sucesso{ border-left: 4px solid #43a047; }
+    .toast.toast-erro    { border-left: 4px solid #e53935; }
+    .toast.toast-info    { border-left: 4px solid #4f8ef7; }
+    .toast.toast-sucesso { border-left: 4px solid #43a047; }
   </style>
 
 
@@ -275,11 +238,8 @@
       `;
 
       container.appendChild(toast);
-
-      /* Anima entrada */
       requestAnimationFrame(() => requestAnimationFrame(() => toast.classList.add("show")));
 
-      /* Anima saída e remove */
       setTimeout(() => {
         toast.classList.remove("show");
         setTimeout(() => toast.remove(), 380);
@@ -323,21 +283,6 @@
       window.location.href = "home.html";
     }
 
-    /* ── BUSCA NO HEADER ── */
-    document.getElementById("campo-busca").addEventListener("input", function () {
-      if (!usuarioLogado) {
-        mostrarToast("Faça login para usar a busca.", "erro");
-        this.value = "";
-        return;
-      }
-      const texto = this.value.toLowerCase();
-      document.querySelectorAll(".card-local").forEach(function (card) {
-        card.style.display = card.dataset.nome.toLowerCase().includes(texto)
-          ? "block"
-          : "none";
-      });
-    });
-
     /* ── FUNÇÕES GLOBAIS ── */
     function acessarFuncionalidade(pagina) {
       if (!usuarioLogado) {
@@ -355,6 +300,34 @@
       }
       mostrarToast("Abrindo o mapa...", "sucesso");
     }
+
+    /* ── BUSCA COM SUGESTÕES ── */
+    const categorias = ["bares", "restaurantes", "parques", "shopping", "salão de festas"];
+    const campoBusca = document.getElementById("campo-busca");
+    const sugestoes  = document.getElementById("sugestoes");
+
+    campoBusca.addEventListener("input", function () {
+      sugestoes.innerHTML = "";
+      const valor = this.value.toLowerCase();
+      if (valor === "") return;
+
+      categorias.forEach(categoria => {
+        if (categoria.includes(valor)) {
+          const item = document.createElement("div");
+          item.innerText = categoria.charAt(0).toUpperCase() + categoria.slice(1);
+          item.onclick = () => {
+            document.querySelector(`[data-categoria="${categoria}"]`).click();
+            campoBusca.value = item.innerText;
+            sugestoes.innerHTML = "";
+          };
+          sugestoes.appendChild(item);
+        }
+      });
+    });
+
+    /* ── DESTAQUES ── */
+    document.getElementById("mensagem-destaque").innerText =
+      "Digite um CEP ou endereço para carregar os destaques.";
   </script>
 
   <script src="js/script.js"></script>

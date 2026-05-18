@@ -14,31 +14,34 @@
         content="width=device-width, initial-scale=1.0"
     >
 
+    <title>
+        Recuperar senha
+    </title>
+
     <!-- CSS -->
     <link
         rel="stylesheet"
         href="css/esqueci.css"
     >
 
-    <title>
-        Recuperar senha
-    </title>
+    <!-- EMAILJS -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 
 </head>
-
-
 
 <body>
 
     <!-- ==========================================
          CONTAINER PRINCIPAL
     =========================================== -->
+
     <div class="texto">
 
 
         <!-- ==========================================
              TOPO
         =========================================== -->
+
         <header class="topo">
 
             <!-- LOGO -->
@@ -48,12 +51,10 @@
                 class="logo"
             >
 
-
             <!-- TÍTULO -->
             <h1 class="titulo">
                 SAVE DATE
             </h1>
-
 
             <!-- SUBTÍTULO -->
             <p class="subtitulo">
@@ -64,7 +65,6 @@
 
             </p>
 
-
             <!-- TÍTULO -->
             <h3>
                 Recuperar senha:
@@ -74,17 +74,19 @@
 
 
 
+
+
+
         <!-- ==========================================
              FORMULÁRIO
         =========================================== -->
-        <form id="form-recuperar">
 
+        <form id="form-recuperar">
 
             <!-- EMAIL -->
             <input
                 type="email"
                 id="email"
-                name="email"
                 placeholder="Digite seu email"
                 required
             >
@@ -93,28 +95,26 @@
             <!-- BOTÃO -->
             <button
                 type="submit"
-                class="botao"
-            >
-
-                Enviar link
-
-            </button>
-
-
-            <!-- VOLTAR -->
-            <button
-                type="button"
-                class="botao"
-                onclick="window.location.href='login.html'"
-            >
-
-                Voltar ao login
-
-            </button>
+                class="botao" >
+                Enviar link </button>
 
         </form>
 
+
+
+
+
+        <!-- ==========================================
+             MENSAGEM
+        =========================================== -->
+
+        <p id="mensagem"></p>
+
     </div>
+
+
+
+
 
 
 
@@ -123,22 +123,41 @@
     <!-- ==========================================
          JAVASCRIPT
     =========================================== -->
+
     <script>
 
         /* ==========================================
+           INICIA EMAILJS
+        ========================================== */
+
+        emailjs.init("2HZZBhBu3DyZErlD2");
+
+
+
+
+
+        /* ==========================================
            FORMULÁRIO
-        =========================================== */
+        ========================================== */
 
         const formulario =
             document.getElementById("form-recuperar");
 
 
 
+        const mensagem =
+            document.getElementById("mensagem");
+
+
+
+
+
+
         /* ==========================================
            RECUPERAR SENHA
-        =========================================== */
+        ========================================== */
 
-        formulario.addEventListener("submit", function(event) {
+        formulario.addEventListener("submit", function(event){
 
             // Impede recarregar
             event.preventDefault();
@@ -146,8 +165,8 @@
 
 
             /* ==========================================
-               PEGA EMAIL DIGITADO
-            =========================================== */
+               EMAIL DIGITADO
+            ========================================== */
 
             const emailDigitado =
                 document.getElementById("email").value;
@@ -155,63 +174,93 @@
 
 
             /* ==========================================
-               PEGA EMAIL CADASTRADO
-            =========================================== */
+               EMAIL CADASTRADO
+            ========================================== */
 
             const emailCadastrado =
                 localStorage.getItem("usuarioCadastro");
-
-            const senhaCadastrada =
-                localStorage.getItem("senhaCadastro");
 
 
 
             /* ==========================================
                VERIFICA EMAIL
-            =========================================== */
+            ========================================== */
 
-            if (emailDigitado === emailCadastrado) {
+            if(emailDigitado === emailCadastrado){
 
-
-
-                /* ==========================================
-                   SIMULA ENVIO DE LINK
-                =========================================== */
-
-                alert(
-
-                    "Link de recuperação enviado!\n\n" +
-
-                    "SIMULAÇÃO FRONT-END:\n\n" +
-
-                    "Sua senha atual é:\n" +
-
-                    senhaCadastrada
-
-                );
 
 
 
                 /* ==========================================
-                   REDIRECIONA LOGIN
-                =========================================== */
+                   ENVIA EMAIL REAL
+                ========================================== */
 
-                window.location.href =
-                    "login.html";
+                emailjs.send(
+
+                    "service_qymafzy",
+                    "template_zi7asg8",
+
+                    {
+                        email: emailDigitado
+                    }
+
+                )
+
+                .then(() => {
+
+
+
+
+                    /* ==========================================
+                       SUCESSO
+                    ========================================== */
+
+                    mensagem.innerText =
+                        "Email de recuperação enviado com sucesso. Verifique seu email!";
+
+                    mensagem.style.color =
+                        "green";
+
+                })
+
+
+
+
+
+
+                /* ==========================================
+                   ERRO EMAIL
+                ========================================== */
+
+                .catch(() => {
+
+                    mensagem.innerText =
+                        "Erro ao enviar email.";
+
+                    mensagem.style.color =
+                        "red";
+
+                });
 
             }
 
 
 
+
+
+
+
             /* ==========================================
                EMAIL NÃO ENCONTRADO
-            =========================================== */
+            ========================================== */
 
-            else {
+            else{
 
-                alert(
-                    "Email não encontrado."
-                );
+                mensagem.innerText =
+                    "Email não encontrado.";
+
+                mensagem.style.color =
+                    "red";
 
             }
 

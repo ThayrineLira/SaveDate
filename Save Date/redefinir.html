@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Redefinir senha
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="css/esqueci.css"
+    >
+
+</head>
+
+<body>
+
+    <div class="texto">
+
+        <!-- TOPO -->
+        <header class="topo">
+
+            <img
+                src="img/logo.png"
+                alt="Logo Save Date"
+                class="logo"
+            >
+
+            <h1 class="titulo">
+                SAVE DATE
+            </h1>
+
+            <p class="subtitulo">
+
+                <small>
+                    SALVA ENCONTROS
+                </small>
+
+            </p>
+
+            <h3>
+                Criar nova senha:
+            </h3>
+
+        </header>
+
+
+
+
+
+
+        <!-- FORMULÁRIO -->
+        <form id="form-redefinir">
+
+            <!-- NOVA SENHA -->
+            <input
+                type="password"
+                id="novaSenha"
+                placeholder="Digite sua nova senha"
+                required
+            >
+
+
+            <!-- CONFIRMAR -->
+            <input
+                type="password"
+                id="confirmarSenha"
+                placeholder="Confirme sua nova senha"
+                required
+            >
+
+
+            <!-- BOTÃO -->
+            <button
+                type="submit"
+                class="botao"
+            >
+                Salvar senha
+            </button>
+
+
+            <!-- MENSAGEM -->
+            <p id="mensagem"></p>
+
+        </form>
+
+    </div>
+
+
+
+
+
+
+
+
+    <script>
+
+        /* ==========================================
+           FORMULÁRIO
+        ========================================== */
+
+        const formulario =
+            document.getElementById("form-redefinir");
+
+
+
+
+
+        /* ==========================================
+           REDEFINIR SENHA
+        ========================================== */
+
+        formulario.addEventListener("submit", function(event){
+
+            event.preventDefault();
+
+
+
+            const novaSenha =
+                document.getElementById("novaSenha").value;
+
+            const confirmarSenha =
+                document.getElementById("confirmarSenha").value;
+
+            const mensagem =
+                document.getElementById("mensagem");
+
+
+
+            /* ==========================================
+               SENHAS DIFERENTES
+            ========================================== */
+
+            if(novaSenha !== confirmarSenha){
+
+                mensagem.innerText =
+                    "As senhas não coincidem.";
+
+                mensagem.style.color =
+                    "red";
+
+                return;
+
+            }
+
+
+
+
+
+
+            /* ==========================================
+               VALIDA SENHA
+            ========================================== */
+
+            /*
+              REGRAS:
+              - mínimo 6 caracteres
+              - 1 letra
+              - 1 símbolo
+            */
+
+            const regex =
+                /^(?=.*[A-Za-z])(?=.*[@$!%*#?&]).{6,}$/;
+
+
+
+            if(!regex.test(novaSenha)){
+
+                mensagem.innerText =
+                    "A senha precisa ter 6 caracteres, 1 letra e 1 símbolo.";
+
+                mensagem.style.color =
+                    "red";
+
+                return;
+
+            }
+
+
+
+
+
+
+            /* ==========================================
+               SALVA NOVA SENHA
+            ========================================== */
+
+            localStorage.setItem(
+                "senhaCadastro",
+                novaSenha
+            );
+
+
+
+
+
+
+            /* ==========================================
+               SUCESSO
+            ========================================== */
+
+            mensagem.innerText =
+                "Senha alterada com sucesso!";
+
+            mensagem.style.color =
+                "green";
+
+
+
+
+
+
+            /* ==========================================
+               REDIRECIONA
+            ========================================== */
+
+            setTimeout(() => {
+
+                window.location.href =
+                    "login.html";
+
+            }, 2000);
+
+        });
+
+    </script>
+
+</body>
+
+</html>
