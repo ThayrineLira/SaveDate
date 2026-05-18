@@ -28,7 +28,7 @@ body{
 /* BANNER */
 .banner{
     height: 400px;
-    background-image: url("img/banner2.png");
+    background-image: url("../img/pagRestaurante.jpeg");
     background-size: cover;
     background-position: center;
     position: relative;
