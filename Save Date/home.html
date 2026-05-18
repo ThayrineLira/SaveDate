@@ -34,7 +34,17 @@
       <div id="menu-usuario" class="menu-perfil">
         <span class="burger">☰</span>
         <img src="img/login.jpg" alt="Foto de perfil" class="avatar" />
-        <span id="nome-usuario" class="nome-usuario" onclick="abrirConta()">Entrar</span>
+
+        <div class="usuario-dropdown">
+          <span id="nome-usuario" class="nome-usuario" onclick="toggleDropdown()">Entrar</span>
+          <div id="dropdown-menu" class="dropdown-menu" style="display:none;">
+            <span id="label-nome-dropdown" class="dropdown-nome"></span>
+            <hr />
+            <a href="conta.html" class="dropdown-item">Minha Conta</a>
+            <a href="#" class="dropdown-item sair" onclick="sairLogin()">Sair</a>
+          </div>
+        </div>
+
       </div>
 
     </nav>
@@ -53,7 +63,7 @@
         </h2>
         <p class="hero-subtitulo">Divirta-se mais, gaste menos</p>
         <div class="botoes-hero">
-          <button class="btn-principal" onclick="acessarFuncionalidade('login.html')">
+          <button class="btn-principal" onclick="acessarFuncionalidade('sugestoes.html')">
             Ver Sugestões
           </button>
           <button class="btn-secundario" onclick="verificarLoginMapa()">
@@ -79,7 +89,6 @@
 
 
     <!-- CATEGORIAS -->
-    <!-- ⚠️ Cliques gerenciados exclusivamente pelo lugares-por-cep.js -->
     <section id="nav-categorias" class="categorias-nav">
       <div class="container categorias-wrapper">
 
@@ -147,20 +156,177 @@
   </footer>
 
 
+  <!-- Container dos Toasts -->
+  <div id="toast-container"></div>
+
+
+  <style>
+    /* ── Dropdown do usuário ── */
+    .usuario-dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .dropdown-menu {
+      position: absolute;
+      right: 0;
+      top: calc(100% + 8px);
+      background: #fff;
+      border: 1px solid #e0e0e0;
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+      min-width: 180px;
+      z-index: 999;
+      padding: 10px 0;
+    }
+
+    .dropdown-nome {
+      display: block;
+      padding: 8px 16px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: #333;
+    }
+
+    .dropdown-menu hr {
+      border: none;
+      border-top: 1px solid #eee;
+      margin: 4px 0;
+    }
+
+    .dropdown-item {
+      display: block;
+      padding: 8px 16px;
+      font-size: 0.9rem;
+      color: #444;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+
+    .dropdown-item:hover {
+      background: #f5f5f5;
+    }
+
+    .dropdown-item.sair {
+      color: #e53935;
+    }
+
+    /* ── Toasts ── */
+    #toast-container {
+      position: fixed;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      pointer-events: none;
+    }
+
+    .toast {
+      background: #1e1e2e;
+      color: #fff;
+      padding: 14px 20px;
+      border-radius: 14px;
+      font-size: 0.88rem;
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      opacity: 0;
+      transform: translateY(14px) scale(0.97);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      pointer-events: auto;
+      max-width: 340px;
+      width: max-content;
+      box-shadow: 0 6px 24px rgba(0,0,0,0.22);
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    .toast-icone {
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+
+    .toast.toast-erro   { border-left: 4px solid #e53935; }
+    .toast.toast-info   { border-left: 4px solid #4f8ef7; }
+    .toast.toast-sucesso{ border-left: 4px solid #43a047; }
+  </style>
+
+
   <script>
-    /* LOGIN */
+    /* ── TOAST ── */
+    function mostrarToast(mensagem, tipo = "info", duracao = 3500) {
+      const container = document.getElementById("toast-container");
+      const toast = document.createElement("div");
+      toast.className = `toast toast-${tipo}`;
+
+      const icones = { erro: "⚠️", info: "💡", sucesso: "✅" };
+      toast.innerHTML = `
+        <span class="toast-icone">${icones[tipo] ?? "ℹ️"}</span>
+        <span>${mensagem}</span>
+      `;
+
+      container.appendChild(toast);
+
+      /* Anima entrada */
+      requestAnimationFrame(() => requestAnimationFrame(() => toast.classList.add("show")));
+
+      /* Anima saída e remove */
+      setTimeout(() => {
+        toast.classList.remove("show");
+        setTimeout(() => toast.remove(), 380);
+      }, duracao);
+    }
+
+
+    /* ── LOGIN ── */
     const usuarioLogado = localStorage.getItem("usuarioLogado");
     const nomeUsuario   = localStorage.getItem("usuarioNome");
     const elementoNome  = document.getElementById("nome-usuario");
+    const labelDropdown = document.getElementById("label-nome-dropdown");
 
     if (usuarioLogado && nomeUsuario) {
-      elementoNome.innerText = nomeUsuario;
+      elementoNome.innerText  = nomeUsuario;
+      labelDropdown.innerText = nomeUsuario;
     }
 
-    /* BUSCA NO HEADER — filtra cards já renderizados */
+    /* ── TOGGLE DROPDOWN ── */
+    function toggleDropdown() {
+      if (!usuarioLogado) {
+        window.location.href = "login.html";
+        return;
+      }
+      const menu = document.getElementById("dropdown-menu");
+      menu.style.display = menu.style.display === "none" ? "block" : "none";
+    }
+
+    /* Fecha dropdown ao clicar fora */
+    document.addEventListener("click", function (e) {
+      const dropdown = document.querySelector(".usuario-dropdown");
+      if (!dropdown.contains(e.target)) {
+        document.getElementById("dropdown-menu").style.display = "none";
+      }
+    });
+
+    /* ── SAIR DO LOGIN ── */
+    function sairLogin() {
+      localStorage.removeItem("usuarioLogado");
+      localStorage.removeItem("usuarioNome");
+      window.location.href = "home.html";
+    }
+
+    /* ── BUSCA NO HEADER ── */
     document.getElementById("campo-busca").addEventListener("input", function () {
       if (!usuarioLogado) {
-        alert("Faça login para usar a busca.");
+        mostrarToast("Faça login para usar a busca.", "erro");
         this.value = "";
         return;
       }
@@ -172,15 +338,11 @@
       });
     });
 
-    /* FUNÇÕES GLOBAIS */
-    function abrirConta() {
-      window.location.href = usuarioLogado ? "conta.html" : "login.html";
-    }
-
+    /* ── FUNÇÕES GLOBAIS ── */
     function acessarFuncionalidade(pagina) {
       if (!usuarioLogado) {
-        alert("Faça login primeiro.");
-        window.location.href = "login.html";
+        mostrarToast("Faça login primeiro para continuar.", "erro");
+        setTimeout(() => window.location.href = "login.html", 1800);
         return;
       }
       window.location.href = pagina;
@@ -188,14 +350,13 @@
 
     function verificarLoginMapa() {
       if (!usuarioLogado) {
-        alert("Faça login para explorar o mapa.");
+        mostrarToast("Faça login para explorar o mapa.", "erro");
         return;
       }
-      alert("Mapa será aberto!");
+      mostrarToast("Abrindo o mapa...", "sucesso");
     }
   </script>
 
-  <!-- ✅ Correto: aponta para lugares-por-cep.js (injeta CEP, categorias e cards) -->
   <script src="js/script.js"></script>
 
 </body>

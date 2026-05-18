@@ -1,383 +1,220 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-br">
-
-<head>
-
+  <head>
     <!-- ==========================================
          CONFIGURAÇÕES DA PÁGINA
     =========================================== -->
 
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <!-- CSS -->
-    <link
-        rel="stylesheet"
-        href="css/login.css"
-    >
+    <link rel="stylesheet" href="css/login.css" />
 
     <title>Save Date</title>
+  </head>
 
-</head>
-
-
-
-<body>
-
+  <body>
     <!-- ==========================================
          CONTAINER PRINCIPAL
     =========================================== -->
     <div class="texto">
-
-
-        <!-- ==========================================
+      <!-- ==========================================
              TOPO / LOGO
         =========================================== -->
-        <header class="topo">
+      <header class="topo">
+        <div class="logo-area">
+          <!-- LOGO -->
+          <img src="img/logo.png" alt="Logo Save Date" class="logo" />
 
-            <div class="logo-area">
+          <!-- TÍTULO -->
+          <h1 class="titulo">SAVE DATE</h1>
 
-                <!-- LOGO -->
-                <img
-                    src="img/logo.png"
-                    alt="Logo Save Date"
-                    class="logo"
-                >
-
-                <!-- TÍTULO -->
-                <h1 class="titulo">
-                    SAVE DATE
-                </h1>
-
-                <!-- SUBTÍTULO -->
-                <p class="subtitulo">
-
-                    <small>
-                        SALVA ENCONTROS
-                    </small>
-
-                </p>
-
-            </div>
-
-
-            <!-- TÍTULO LOGIN -->
-            <h2>
-                Login
-            </h2>
-
-        </header>
-
-
-
-        <!-- ==========================================
-             FORMULÁRIO LOGIN
-        =========================================== -->
-        <form
-            id="form-login"
-            class="login-form"
-        >
-
-            <!-- EMAIL -->
-            <input
-                type="email"
-                id="email"
-                name="email"
-                placeholder="Email cadastrado"
-                required
-            >
-
-
-            <!-- SENHA -->
-            <input
-                type="password"
-                id="senha"
-                name="senha"
-                placeholder="Senha"
-                required
-            >
-
-
-
-            <!-- ==========================================
-                 OPÇÕES LOGIN
-            =========================================== -->
-            <div class="opcao-login">
-
-                <!-- LEMBRAR -->
-                <label>
-
-                    <input
-                        type="checkbox"
-                        id="remember"
-                        name="remember"
-                    >
-
-                    Lembrar de mim
-
-                </label>
-
-
-
-                <!-- ESQUECI SENHA -->
-                <a href="esqueci.html">
-
-                    Esqueceu a senha?
-
-                </a>
-
-            </div>
-
-
-
-            <!-- BOTÃO LOGIN -->
-            <button
-                type="submit"
-                class="botao"
-            >
-
-                Entrar
-
-            </button>
-
-        </form>
-
-
-
-        <!-- ==========================================
-             CADASTRO
-        =========================================== -->
-        <div class="cadastro">
-
-            <p>
-                Não tem conta?
-            </p>
-
-            <a href="tipo-de-conta.html">
-
-                <small>
-                    Cadastre-se aqui
-                </small>
-
-            </a>
-
+          <!-- SUBTÍTULO -->
+          <p class="subtitulo">
+            <small> SALVA ENCONTROS </small>
+          </p>
         </div>
 
+        <!-- TÍTULO LOGIN -->
+        <h2>Login</h2>
+      </header>
+
+      <!-- ==========================================
+             FORMULÁRIO LOGIN
+        =========================================== -->
+      <form id="form-login" class="login-form">
+        <!-- EMAIL -->
+        <input
+          type="email"
+          id="email"
+          name="email"
+          placeholder="Email cadastrado"
+          required
+        />
+
+        <!-- SENHA -->
+        <input
+          type="password"
+          id="senha"
+          name="senha"
+          placeholder="Senha"
+          required
+        />
+
+        <!-- ==========================================
+                 OPÇÕES LOGIN
+            =========================================== -->
+        <div class="opcao-login">
+          <!-- LEMBRAR -->
+          <label>
+            <input type="checkbox" id="remember" name="remember" />
+
+            Lembrar de mim
+          </label>
+
+          <!-- ESQUECI SENHA -->
+          <a href="esqueci.html"> Esqueceu a senha? </a>
+        </div>
+
+        <!-- BOTÃO LOGIN -->
+        <button type="submit" class="botao">Entrar</button>
+      </form>
+
+      <!-- ==========================================
+             CADASTRO
+        =========================================== -->
+      <div class="cadastro">
+        <p>Não tem conta?</p>
+
+        <a href="tipo-de-conta.html">
+          <small> Cadastre-se aqui </small>
+        </a>
+      </div>
     </div>
-
-
-
-
 
     <!-- ==========================================
          JAVASCRIPT
     =========================================== -->
     <script>
-
-        /* ==========================================
+      /* ==========================================
            ELEMENTOS
         =========================================== */
 
-        const formulario =
-            document.getElementById("form-login");
+      const formulario = document.getElementById("form-login");
 
-        const emailInput =
-            document.getElementById("email");
+      const emailInput = document.getElementById("email");
 
-        const senhaInput =
-            document.getElementById("senha");
+      const senhaInput = document.getElementById("senha");
 
-        const rememberInput =
-            document.getElementById("remember");
+      const rememberInput = document.getElementById("remember");
 
-
-
-        /* ==========================================
+      /* ==========================================
            RECUPERA LOGIN SALVO
         =========================================== */
 
-        window.onload = function () {
+      window.onload = function () {
+        const emailSalvo = localStorage.getItem("email");
 
-            const emailSalvo =
-                localStorage.getItem("email");
+        const senhaSalva = localStorage.getItem("senha");
 
-            const senhaSalva =
-                localStorage.getItem("senha");
-
-
-
-            /* ==========================================
+        /* ==========================================
                PREENCHE INPUTS
             =========================================== */
 
-            if (emailSalvo && senhaSalva) {
+        if (emailSalvo && senhaSalva) {
+          emailInput.value = emailSalvo;
 
-                emailInput.value =
-                    emailSalvo;
+          senhaInput.value = senhaSalva;
 
-                senhaInput.value =
-                    senhaSalva;
+          rememberInput.checked = true;
+        }
+      };
 
-                rememberInput.checked =
-                    true;
-
-            }
-
-        };
-
-
-
-        /* ==========================================
+      /* ==========================================
            LOGIN
         =========================================== */
 
-        formulario.addEventListener("submit", function (event) {
+      formulario.addEventListener("submit", function (event) {
+        // Impede recarregar
+        event.preventDefault();
 
-            // Impede recarregar
-            event.preventDefault();
-
-
-
-            /* ==========================================
+        /* ==========================================
                DADOS DIGITADOS
             =========================================== */
 
-            const email =
-                emailInput.value;
+        const email = emailInput.value;
 
-            const senha =
-                senhaInput.value;
+        const senha = senhaInput.value;
 
-
-
-            /* ==========================================
+        /* ==========================================
                DADOS CADASTRADOS
             =========================================== */
 
-            const usuarioCadastrado =
-                localStorage.getItem("usuarioCadastro");
+        const usuarioCadastrado = localStorage.getItem("usuarioCadastro");
 
-            const senhaCadastrada =
-                localStorage.getItem("senhaCadastro");
+        const senhaCadastrada = localStorage.getItem("senhaCadastro");
 
-
-
-            /* ==========================================
+        /* ==========================================
                VERIFICA CADASTRO
             =========================================== */
 
-            if (!usuarioCadastrado || !senhaCadastrada) {
+        if (!usuarioCadastrado || !senhaCadastrada) {
+          alert("Você precisa criar uma conta primeiro.");
 
-                alert(
-                    "Você precisa criar uma conta primeiro."
-                );
+          // Redireciona cadastro
+          window.location.href = "tipo-de-conta.html";
 
-                // Redireciona cadastro
-                window.location.href =
-                    "tipo-de-conta.html";
+          return;
+        }
 
-                return;
-
-            }
-
-
-
-            /* ==========================================
+        /* ==========================================
                LOGIN CORRETO
             =========================================== */
 
-            if (
-                email === usuarioCadastrado &&
-                senha === senhaCadastrada
-            ) {
+        if (email === usuarioCadastrado && senha === senhaCadastrada) {
+          alert("Login realizado com sucesso!");
 
-                alert(
-                    "Login realizado com sucesso!"
-                );
-
-
-
-                /* ==========================================
+          /* ==========================================
                    USUÁRIO LOGADO
                 =========================================== */
 
-                localStorage.setItem(
-                    "usuarioLogado",
-                    "true"
-                );
+          localStorage.setItem("usuarioLogado", "true");
 
-
-
-                /* ==========================================
+          /* ==========================================
                    SALVA NOME
                 =========================================== */
 
-                localStorage.setItem(
-                    "usuarioNome",
-                    email
-                );
+          localStorage.setItem("usuarioNome", email);
 
-
-
-                /* ==========================================
+          /* ==========================================
                    LEMBRAR LOGIN
                 =========================================== */
 
-                if (rememberInput.checked) {
+          if (rememberInput.checked) {
+            localStorage.setItem("email", email);
 
-                    localStorage.setItem(
-                        "email",
-                        email
-                    );
+            localStorage.setItem("senha", senha);
+          } else {
+            localStorage.removeItem("email");
 
-                    localStorage.setItem(
-                        "senha",
-                        senha
-                    );
+            localStorage.removeItem("senha");
+          }
 
-                }
-
-                else {
-
-                    localStorage.removeItem("email");
-
-                    localStorage.removeItem("senha");
-
-                }
-
-
-
-                /* ==========================================
+          /* ==========================================
                    REDIRECIONA HOME
                 =========================================== */
 
-                window.location.href =
-                    "home.html";
+          window.location.href = "home.html";
+        } else {
 
-            }
-
-
-
-            /* ==========================================
+        /* ==========================================
                LOGIN INCORRETO
             =========================================== */
-
-            else {
-
-                alert(
-                    "Email ou senha incorretos."
-                );
-
-            }
-
-        });
-
+          alert("Email ou senha incorretos.");
+        }
+      });
     </script>
-
-</body>
-
+  </body>
 </html>
