@@ -45,7 +45,8 @@ body {
 }
 
 .logo-container:hover .logo-text {
-    color: #e67e22; /* Tom de âmbar no hover */
+    color: #f4a261;
+    /* Tom de verde vivo no hover */
 }
 
 .logo-text {
@@ -94,7 +95,7 @@ body {
 
 .card:hover {
     transform: translateY(-3px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 6px 12px rgba(46, 204, 113, 0.15); /* Sombra sutil esverdeada no hover do card */
 }
 
 .card-img {
@@ -128,7 +129,7 @@ body {
 .card-link {
     align-self: flex-start;
     padding: 10px 20px;
-    background-color: #e67e22; /* Mantém o botão em destaque */
+    background-color: #f4a261; /* Verde esmeralda para destacar a natureza */
     color: #ffffff;
     text-decoration: none;
     border-radius: 5px;
@@ -137,7 +138,8 @@ body {
 }
 
 .card-link:hover {
-    background-color: #d35400; /* Tom mais escuro no hover */
+    
+    background-color: #f4a261; /* Verde mais escuro e fechado no hover */
 }
 
 /* --- RESPONSIVIDADE (Celulares) --- */
