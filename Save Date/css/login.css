@@ -90,6 +90,88 @@ input[type="password"] {
   background: #d45565;
 }
 
+/* =========================================================
+   TOAST
+========================================================= */
+
+#toast-container{
+
+  position:fixed;
+
+  top:20px;
+  right:20px;
+
+  display:flex;
+  flex-direction:column;
+
+  gap:12px;
+
+  z-index:99999;
+}
+
+.toast{
+
+  min-width:260px;
+
+  padding:15px 20px;
+
+  border-radius:16px;
+
+  color:#fff;
+
+  font-weight:600;
+
+  font-size:15px;
+
+  opacity:0;
+
+  transform:
+    translateX(100px);
+
+  transition:.3s;
+
+  box-shadow:
+    0 10px 25px rgba(0,0,0,.15);
+}
+
+.toast.mostrar{
+
+  opacity:1;
+
+  transform:
+    translateX(0);
+}
+
+.toast-sucesso{
+
+  background:
+    linear-gradient(
+      135deg,
+      #2e7d32,
+      #43a047
+    );
+}
+
+.toast-erro{
+
+  background:
+    linear-gradient(
+      135deg,
+      #c62828,
+      #e53935
+    );
+}
+
+.toast-aviso{
+
+  background:
+    linear-gradient(
+      135deg,
+      #ef6c00,
+      #ff9800
+    );
+}
+
 /* Celular */
 @media (max-width: 600px) {
     .cards {

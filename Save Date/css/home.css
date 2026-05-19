@@ -1,319 +1,606 @@
-/* ============================================================
-   VARIÁVEIS GLOBAIS
-   Tokens de design reutilizados em todo o projeto.
-   Alterar aqui reflete em toda a interface.
-============================================================ */
-:root {
-  --primaria: #f4a261;           /* Cor principal — botões, destaques, logo */
-  --primaria-hover: #e87052;     /* Cor principal escurecida para hover */
-  --escura: #222222;             /* Cor base de texto */
-  --cinza-texto: #c56666;        /* Texto secundário — subtítulos, labels de categoria */
-  --cinza-claro: #f7f7f7;        /* Fundo de áreas neutras */
-  --borda: #dddddd;              /* Bordas de cards, inputs, menus */
-  --sombra: 0 6px 16px rgba(0, 0, 0, 0.12); /* Sombra padrão de elevação */
-  --transicao: all 0.3s cubic-bezier(0.2, 0, 0, 1); /* Transição suave global */
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  font-family:'Inter', sans-serif;
+  background:#fff;
+  color:#222;
+  line-height:1.5;
+}
+/* =========================================================
+   VARIÁVEIS
+========================================================= */
+
+:root{
+
+  --primaria:#f4a261;
+  --primaria-hover:#e76f51;
+
+  --texto:#222;
+  --texto-claro:#666;
+
+  --borda:#e5e5e5;
+
+  --sombra:
+    0 8px 25px rgba(0,0,0,.08);
+
+  --transicao:.3s;
 }
 
 
-/* ============================================================
-   RESET E BASE GLOBAL
-   Zera margens/paddings do navegador e define box-model padrão.
-============================================================ */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+/* =========================================================
+   CONTAINER
+========================================================= */
 
-body {
-  font-family: "Inter", sans-serif;
-  color: var(--escura);
-  background-color: #fff;
-  line-height: 1.5;
+.container{
+  width:100%;
+  max-width:1200px;
+  margin:0 auto;
+  padding:0 20px;
 }
 
 
-/* ============================================================
-   CONTAINER GENÉRICO
-   Centraliza e limita a largura do conteúdo em todas as seções.
-============================================================ */
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 24px;
+/* =========================================================
+   HEADER
+========================================================= */
+
+.topo{
+
+  position:sticky;
+  top:0;
+
+  width:100%;
+
+  height:80px;
+
+  background:#fff;
+
+  border-bottom:1px solid var(--borda);
+
+  display:flex;
+  align-items:center;
+
+  z-index:999;
+}
+
+.nav-wrapper{
+
+  width:100%;
+
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+
+  gap:20px;
 }
 
 
-/* ============================================================
-   CABEÇALHO PRINCIPAL (.topo / #cabecalho-principal)
-   Barra de navegação fixa no topo da página.
-   Fica acima de todo o conteúdo via z-index.
-============================================================ */
-.topo {
-  position: sticky;
-  top: 0;
-  height: 80px;
-  background: white;
-  border-bottom: 1px solid var(--borda);
-  display: flex;
-  align-items: center;
-  z-index: 1000;
+/* =========================================================
+   LOGO
+========================================================= */
+
+.logo-area{
+
+  display:flex;
+  align-items:center;
+  gap:10px;
+
+  cursor:pointer;
 }
 
-/* Wrapper interno da nav: distribui logo, busca e usuário em linha */
-.nav-wrapper {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.logo{
+
+  width:40px;
+  height:40px;
+
+  object-fit:cover;
 }
 
+.logo-nome{
 
-/* ============================================================
-   LOGO (#logo-home / .logo-area)
-   Área clicável com ícone + nome do app.
-   Redireciona para a home ao clicar.
-============================================================ */
-.logo-area {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  cursor: pointer;
-}
+  font-size:1.4rem;
+  font-weight:800;
 
-.logo {
-  width: 35px;
-  height: 35px;
-}
-
-.logo-nome {
-  font-size: 1.3rem;
-  font-weight: 800;
-  color: var(--primaria);
-  letter-spacing: -1px;
+  color:var(--primaria);
 }
 
 
-/* ============================================================
-   BARRA DE BUSCA (#btn-abrir-busca / .busca-pilula)
-   Botão em formato de pílula que abre o modal/página de busca.
-   Oculto em mobile via .hidden-mobile.
-============================================================ */
-.busca-pilula {
-  border: 1px solid #ccc;
-  border-radius: 40px;
+/* =========================================================
+   BUSCA
+========================================================= */
 
-  width: 400px;
-  height: 55px;
-
-  display: flex;
-  align-items: center;
-
-  padding: 0 10px;
-
-  background: white;
+.busca-container{
+  position:relative;
 }
 
-.busca-pilula input {
-  flex: 1;
-  border: none;
-  outline: none;
+.busca-pilula{
 
-  font-size: 16px;
+  width:420px;
+  height:55px;
 
-  padding-left: 15px;
+  background:#fff;
 
-  background: transparent;
+  border:1px solid #ddd;
+  border-radius:50px;
+
+  display:flex;
+  align-items:center;
+
+  padding:0 10px;
+
+  box-shadow:0 3px 10px rgba(0,0,0,.05);
 }
 
-.busca-pilula button {
-  border: none;
-  background: #ff385c;
+.busca-pilula input{
 
-  color: white;
+  flex:1;
 
-  width: 40px;
-  height: 40px;
+  border:none;
+  outline:none;
 
-  border-radius: 50%;
+  background:transparent;
 
-  cursor: pointer;
+  font-size:15px;
 
-  font-size: 16px;
-}
-/* Ícone circular laranja dentro da pílula de busca */
-.icone-busca {
-  background: var(--primaria);
-  color: white;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  padding-left:15px;
 }
 
+.busca-pilula button{
 
-/* ============================================================
-   ÁREA DO USUÁRIO (#area-usuario / .usuario-area)
-   Lado direito do header: link de parceiro + menu do perfil.
-============================================================ */
+  width:42px;
+  height:42px;
 
-/* Link "Anuncie seu local" — CTA para parceiros (#btn-anunciar) */
-.link-parceiro {
-  border: 1px solid var(--borda);
-  padding: 5px 12px;
-  border-radius: 30px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  cursor: pointer;
-  transition: var(--transicao);
-  margin-right: 20px;
-  text-decoration: none;
-  color: var(--escura);
+  border:none;
+  border-radius:50%;
+
+  background:#ff385c;
+
+  color:#fff;
+
+  cursor:pointer;
+
+  font-size:16px;
+
+  transition:var(--transicao);
 }
 
-/* Menu hamburguer + avatar (#menu-usuario / .menu-perfil) */
-.menu-perfil {
-  border: 1px solid var(--borda);
-  padding: 5px 5px 5px 12px;
-  border-radius: 30px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  cursor: pointer;
-  transition: var(--transicao);
-}
-
-/* Foto circular do usuário logado ou placeholder */
-.avatar {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  object-fit: cover;
+.busca-pilula button:hover{
+  transform:scale(1.05);
 }
 
 
-/* ============================================================
-   HERO / BANNER PRINCIPAL (#hero-banner / .hero)
-   Carrossel automático com 2 slides lado a lado.
-   O scroll é controlado pela animação CSS nos .slide-hero.
-   - overflow-x: auto + scroll-snap = comportamento de carrossel
-   - scrollbar-width: none = barra de scroll invisível
-============================================================ */
+/* =========================================================
+   SUGESTÕES
+========================================================= */
+
+.sugestoes{
+
+  position:absolute;
+
+  top:65px;
+  left:0;
+
+  width:100%;
+
+  background:#fff;
+
+  border-radius:15px;
+
+  overflow:hidden;
+
+  box-shadow:var(--sombra);
+
+  z-index:999;
+}
+
+.sugestoes div{
+
+  padding:12px 15px;
+
+  cursor:pointer;
+
+  transition:var(--transicao);
+}
+
+.sugestoes div:hover{
+  background:#f5f5f5;
+}
+
+
+/* =========================================================
+   PERFIL
+========================================================= */
+
+.menu-perfil{
+
+  border:1px solid var(--borda);
+
+  border-radius:50px;
+
+  padding:6px 10px;
+
+  display:flex;
+  align-items:center;
+  gap:10px;
+
+  cursor:pointer;
+
+  transition:var(--transicao);
+
+  position:relative;
+}
+
+.menu-perfil:hover{
+  box-shadow:var(--sombra);
+}
+
+.avatar{
+
+  width:35px;
+  height:35px;
+
+  border-radius:50%;
+
+  object-fit:cover;
+}
+
+.burger{
+  font-size:20px;
+}
+
+.nome-usuario{
+  font-weight:600;
+}
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+#toast-container{
+
+  position:fixed;
+
+  top:20px;
+  right:20px;
+
+  display:flex;
+  flex-direction:column;
+
+  gap:12px;
+
+  z-index:99999;
+}
+
+.toast{
+
+  min-width:260px;
+
+  padding:15px 20px;
+
+  border-radius:16px;
+
+  color:#fff;
+
+  font-weight:600;
+
+  font-size:15px;
+
+  box-shadow:
+    0 10px 25px rgba(0,0,0,.15);
+
+  opacity:0;
+
+  transform:
+    translateX(100px);
+
+  transition:
+    opacity .3s,
+    transform .3s;
+
+  backdrop-filter:blur(10px);
+}
+
+.toast.mostrar{
+
+  opacity:1;
+
+  transform:
+    translateX(0);
+}
+
+/* SUCESSO */
+
+.toast-sucesso{
+
+  background:
+    linear-gradient(
+      135deg,
+      #2e7d32,
+      #43a047
+    );
+}
+
+/* ERRO */
+
+.toast-erro{
+
+  background:
+    linear-gradient(
+      135deg,
+      #c62828,
+      #e53935
+    );
+}
+
+/* AVISO */
+
+.toast-aviso{
+
+  background:
+    linear-gradient(
+      135deg,
+      #ef6c00,
+      #ff9800
+    );
+}
+
+
+/* =========================================================
+   CARD LOCAL
+========================================================= */
+
+.card-local{
+
+  background:#fff;
+
+  border-radius:20px;
+
+  overflow:hidden;
+
+  box-shadow:
+    0 8px 25px rgba(0,0,0,.08);
+
+  transition:.3s;
+}
+
+.card-local:hover{
+
+  transform:
+    translateY(-5px);
+}
+
+.nome-local{
+
+  font-size:1.2rem;
+
+  margin-bottom:8px;
+
+  color:#222;
+}
+
+.subtitulo-local{
+
+  color:#666;
+
+  margin-bottom:15px;
+}
+
+
+/* =========================================================
+   LOADING
+========================================================= */
+
+.card-skeleton{
+
+  height:180px;
+
+  border-radius:20px;
+
+  background:
+    linear-gradient(
+      90deg,
+      #f1f1f1 25%,
+      #e7e7e7 50%,
+      #f1f1f1 75%
+    );
+
+  background-size:200% 100%;
+
+  animation:skeleton 1.2s infinite;
+}
+
+@keyframes skeleton{
+
+  0%{
+    background-position:200% 0;
+  }
+
+  100%{
+    background-position:-200% 0;
+  }
+}
+
+
+/* =========================================================
+   AVISOS
+========================================================= */
+
+.aviso-vazio,
+.aviso-erro{
+
+  width:100%;
+
+  text-align:center;
+
+  padding:30px;
+
+  border-radius:18px;
+
+  font-weight:600;
+
+  margin-top:20px;
+}
+
+.aviso-vazio{
+
+  background:#f5f5f5;
+
+  color:#666;
+}
+
+.aviso-erro{
+
+  background:#ffebee;
+
+  color:#c62828;
+}
+
+
+/* =========================================================
+   DROPDOWN PERFIL
+========================================================= */
+
+.dropdown-menu{
+
+  position:absolute;
+
+  top:70px;
+  right:0;
+
+  width:220px;
+
+  background:#fff;
+
+  border-radius:18px;
+
+  overflow:hidden;
+
+  box-shadow:
+    0 10px 25px rgba(0,0,0,.12);
+
+  z-index:9999;
+}
+
+.dropdown-nome{
+
+  display:block;
+
+  padding:15px;
+
+  font-weight:700;
+
+  border-bottom:
+    1px solid #eee;
+}
+
+.dropdown-item{
+
+  display:block;
+
+  padding:14px 15px;
+
+  text-decoration:none;
+
+  color:#333;
+
+  transition:.3s;
+}
+
+.dropdown-item:hover{
+
+  background:#f5f5f5;
+}
+
+.dropdown-item.sair{
+
+  color:#d32f2f;
+}
+
+
+/* =========================================
+   HERO / BANNER COM 2 SLIDES
+========================================= */
+
 .hero {
-  padding: 60px 0;
-  background: linear-gradient(rgb(222, 106, 106), rgba(204, 102, 13, 0.636));
-  background-size: cover;
-  background-position: center;
-  color: rgb(244, 244, 244);
-  text-align: center;
-  border-radius: 0 0 30px 30px;
-
-  /* Layout de carrossel horizontal */
-  display: flex;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  scroll-behavior: smooth;
   width: 100%;
-
-  /* Esconde a barra de scroll nativa */
-  scrollbar-width: none;           /* Firefox */
+  overflow: hidden;
+  position: relative;
+  background: linear-gradient(rgb(222, 106, 106), rgba(204, 102, 13, 0.636));
+  border-radius: 0 0 30px 30px;
 }
 
-.hero::-webkit-scrollbar {
-  display: none;                   /* Chrome e Safari */
+/* Área que segura os slides */
+.slide-container {
+  display: flex;
+  width: 200%;
+  animation: slideHero 10s infinite;
 }
 
-
-/* ============================================================
-   SLIDES DO HERO (.slide-hero / .hero-conteudo)
-   Cada slide ocupa 100% da largura do banner.
-   A animação CSS move os slides automaticamente.
-   Pausa ao passar o mouse por cima do hero.
-============================================================ */
+/* Cada slide */
 .hero-conteudo {
-  flex: 0 0 100%;
-  min-width: 100%;
-  scroll-snap-align: center;
-  box-sizing: border-box;
-  padding: 0 50px;
-  animation: carrossel-dois-slides 8s infinite ease-in-out;
+  width: 100%;
+  min-height: 420px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  text-align: center;
+  color: white;
+
+  padding: 60px 20px;
 }
 
-/* Pausa a animação durante o hover no banner inteiro */
-.hero:hover .hero-conteudo {
-  animation-play-state: paused;
-}
-
-/* Animação: Slide 1 visível → Slide 2 visível → volta ao Slide 1 */
-@keyframes carrossel-dois-slides {
-  /* Slide 1 ativo */
-  0%, 45% {
-    transform: translateX(0%);
-  }
-  /* Transição e permanência no Slide 2 */
-  50%, 95% {
-    transform: translateX(-100%);
-  }
-  /* Retorno suave ao Slide 1 */
-  100% {
-    transform: translateX(0%);
-  }
-}
-
-
-/* ============================================================
-   TEXTOS DO HERO (.hero-titulo, .hero-subtitulo, .texto-gradiente)
-============================================================ */
-
-/* Título principal — tamanho fluido com clamp */
+/* Título */
 .hero-titulo {
   font-size: clamp(2rem, 5vw, 3.5rem);
-  margin-bottom: 20px;
   line-height: 1.1;
+  margin-bottom: 15px;
 }
 
-/* Trecho do título com degradê branco → laranja */
+/* Texto gradiente */
 .texto-gradiente {
   background: linear-gradient(90deg, #ffffff, #fb9a08);
-  background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   font-weight: 900;
 }
 
-
-/* ============================================================
-   BOTÕES DO HERO (.botoes-hero, .btn-principal, .btn-secundario)
-   Dois CTAs centralizados abaixo do texto do slide.
-============================================================ */
-.botoes-hero {
-  display: flex;
-  justify-content: center;
-  gap: 15px;
-  margin-top: 30px;
+/* Subtitulo */
+.hero-subtitulo {
+  font-size: 1.1rem;
+  margin-top: 10px;
 }
 
-/* Botão primário — fundo sólido laranja */
+/* Botões */
+.botoes-hero {
+  display: flex;
+  gap: 15px;
+  margin-top: 30px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
 .btn-principal {
-  background: var(--primaria);
+  background: #f4a261;
   color: white;
   border: none;
   padding: 14px 28px;
   border-radius: 12px;
   font-weight: 700;
   cursor: pointer;
-  transition: var(--transicao);
+  transition: 0.3s;
 }
 
 .btn-principal:hover {
-  background: var(--primaria-hover);
+  background: #e87052;
   transform: scale(1.05);
 }
 
-/* Botão secundário — contorno branco transparente */
 .btn-secundario {
   background: transparent;
   color: white;
@@ -322,580 +609,326 @@ body {
   border-radius: 12px;
   font-weight: 700;
   cursor: pointer;
-  transition: var(--transicao);
+  transition: 0.3s;
 }
 
-
-/* ============================================================
-   BARRA DE CATEGORIAS (#nav-categorias / .categorias-nav)
-   Navegação horizontal logo abaixo do hero.
-   Lista os tipos de local disponíveis (bares, restaurantes...).
-============================================================ */
-.categorias-nav {
-  background: white;
-  padding: 20px 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 70px;
-  border: none;
-  margin-top: 90px;
-  margin-bottom: 20px;
+.btn-secundario:hover {
+  background: rgba(255,255,255,0.1);
 }
 
-/* Wrapper interno: scroll horizontal quando há muitas categorias */
-.categorias-wrapper {
-  display: flex;
-  gap: 40px;
-  overflow-x: auto;
-  padding-bottom: 10px;
-}
+/* ANIMAÇÃO DOS BANNERS */
+@keyframes slideHero {
 
-
-/* ============================================================
-   ITEM DE CATEGORIA (.item-cat)
-   Cada link da barra de categorias: ícone + label empilhados.
-   Estado .ativo destaca a categoria selecionada.
-============================================================ */
-.item-cat {
-  text-decoration: none;
-  color: var(--cinza-texto);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  min-width: 60px;
-  font-size: 0.75rem;
-  font-weight: 600;
-  text-align: center;
-  transition: var(--transicao);
-  margin-top: 130px;
-
-}
-/* Ícone de cada categoria */
-.icone-categoria {
-  width: 23px;
-  height: 50px;
-  border-radius: 20px;
-  object-fit: cover;
-}
-
-.item-cat img {
-  width: 150px;
-  height: 150px;
-  object-fit: cover;
-  opacity: 1;
-}
-
-/* Hover e estado ativo: cor laranja */
-.item-cat:hover,
-.item-cat.ativo {
-  color: var(--primaria);
-}
-
-/* Linha laranja embaixo da categoria ativa */
-.item-cat.ativo {
-  border-bottom: 2px solid var(--primaria);
-  padding-bottom: 100px;
-  margin-bottom: 50px;
-}
-
-.item-cat.ativo img {
-  opacity: 1;
-}
-
-
-/* ============================================================
-   SEÇÃO DE DESTAQUES (#secao-destaques / .destaques)
-   Área com título, link "ver todos" e a grade de cards.
-============================================================ */
-
-/* Cabeçalho da seção: título à esquerda, link à direita */
-.cabecalho-secao {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-/* Título "Picos em destaque" (#titulo-destaques) */
-.titulo-secao {
-  font-size: clamp(1.5rem, 4vw, 2.5rem);
-  margin-bottom: 20px;
-  margin-top: 50px;
-}
-
-/* Link "Ver todos →" */
-.link-ver-tudo {
-  text-decoration: none;
-  color: var(--primaria);
-  font-weight: 600;
-}
-
-
-/* ============================================================
-   GRADE DE CARDS (#grade-destaques / .grade-moderna)
-   Grid responsivo que se adapta conforme o espaço disponível.
-   Colunas se quebram automaticamente em telas menores.
-============================================================ */
-.grade-moderna {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 30px;
-  margin: 30px 0;
-}
-
-
-/* ============================================================
-   CARD DE LOCAL (.card-local / .card-moderno)
-   Unidade de exibição de cada pico/local.
-   Contém: capa com imagem, etiqueta, favorito + bloco de infos.
-============================================================ */
-.card-moderno {
-  cursor: pointer;
-  transition: var(--transicao);
-}
-
-/* Contêiner da imagem de capa — mantém proporção quadrada */
-.capa-card {
-  position: relative;
-  border-radius: 15px;
-  overflow: hidden;
-  aspect-ratio: 1/1;
-}
-
-/* Imagem de capa do local */
-.foto-local {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: 0.5s;
-}
-
-/* Zoom suave na imagem ao passar o mouse no card */
-.card-moderno:hover .foto-local {
-  transform: scale(1.05);
-}
-
-/* Etiqueta de classificação de preço (ex: "Econômico") */
-.etiqueta-preco {
-  position: absolute;
-  top: 15px;
-  left: 15px;
-  background: white;
-  color: var(--escura);
-  padding: 4px 12px;
-  border-radius: 20px;
-  font-weight: 700;
-  font-size: 0.7rem;
-}
-
-/* Alias para compatibilidade — mesmos estilos da etiqueta-preco */
-.etiqueta {
-  position: absolute;
-  top: 15px;
-  left: 15px;
-  background: white;
-  color: var(--escura);
-  padding: 4px 12px;
-  border-radius: 20px;
-  font-weight: 700;
-  font-size: 0.7rem;
-}
-
-
-/* ============================================================
-   INFORMAÇÕES TEXTUAIS DO CARD (.info-card)
-   Bloco abaixo da imagem com nome, nota, subtítulo e preço.
-============================================================ */
-.info-card {
-  padding: 12px 0;
-}
-
-/* Linha com nome do local e nota de avaliação lado a lado */
-.titulo-rating {
-  display: flex;
-  justify-content: space-between;
-  font-weight: 700;
-}
-
-/* Nome do local (.nome-local) */
-.nome-local {
-  font-weight: 700;
-}
-
-/* Nota/avaliação em estrelas (.nota-avaliacao) */
-.nota-avaliacao {
-  font-weight: 400;
-}
-
-/* Subtítulo com tipo e distância (.subtitulo-local) */
-.subtitulo-local {
-  color: var(--cinza-texto);
-  font-size: 0.9rem;
-}
-
-/* Faixa de preço por pessoa (.faixa-preco) */
-.faixa-preco {
-  font-size: 0.9rem;
-  margin-top: 4px;
-}
-
-
-/* ============================================================
-   RODAPÉ (#rodape-principal / .rodape)
-   Barra inferior simples com copyright.
-============================================================ */
-.rodape {
-  padding: 24px 0;
-  border-top: 1px solid var(--borda);
-  margin-top: 60px;
-}
-
-.rodape-conteudo {
-  text-align: center;
-}
-
-.texto-rodape {
-  color: var(--cinza-texto);
-  font-size: 0.85rem;
-}
-
-
-/* ============================================================
-   UTILITÁRIO: HIDDEN MOBILE (.hidden-mobile)
-   Oculta elementos que não devem aparecer em telas pequenas
-   (ex: barra de busca, nome do usuário).
-============================================================ */
-@media (max-width: 768px) {
-  .hidden-mobile {
-    display: none;
+  0% {
+    transform: translateX(0%);
   }
 
-  /* Em mobile, cards ocupam a largura inteira */
-  .grade-moderna {
-    grid-template-columns: 1fr;
+  45% {
+    transform: translateX(0%);
+  }
+
+  50% {
+    transform: translateX(-50%);
+  }
+
+  95% {
+    transform: translateX(-50%);
+  }
+
+  100% {
+    transform: translateX(0%);
   }
 }
-/* ── Skeletons ── */
-.card-skeleton {
-  height: 260px;
-  border-radius: var(--border-radius-lg, 12px);
-  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-  background-size: 200% 100%;
-  animation: shimmer 1.4s infinite;
-}
-@keyframes shimmer {
-  0%   { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
-}
- 
-/* ── Cards gerados dinamicamente ── */
-.card-local {
-  cursor: pointer;
-  transition: transform 0.18s, box-shadow 0.18s;
-  text-decoration: none;
-  display: block;
-  background: #fff;
-  border-radius: var(--border-radius-lg, 12px);
-  border: 0.5px solid rgba(0,0,0,0.1);
-  overflow: hidden;
-}
-.card-local:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.10);
-}
- 
-/* Foto do local */
-.card-local .foto-local {
-  width: 100%;
-  height: 160px;
-  object-fit: cover;
-  display: block;
-  background: #eee;
-}
-.card-local .foto-placeholder {
-  width: 100%;
-  height: 160px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 40px;
-  background: #f5f5f5;
-}
- 
-/* Capa com overlay de etiquetas */
-.card-local .capa-card {
-  position: relative;
-}
-.card-local .etiqueta {
-  position: absolute;
-  bottom: 8px;
-  left: 8px;
-  font-size: 11px;
-  font-weight: 600;
-  padding: 3px 9px;
-  border-radius: 20px;
-  backdrop-filter: blur(4px);
-}
-.tag-shopping { background: rgba(230,241,251,0.92); color: #0C447C; }
-.tag-bar      { background: rgba(250,238,218,0.92); color: #633806; }
-.tag-rest     { background: rgba(234,243,222,0.92); color: #27500A; }
-.tag-parque   { background: rgba(225,245,238,0.92); color: #085041; }
-.tag-default  { background: rgba(241,239,232,0.92); color: #444441; }
- 
-/* Info textual */
-.card-local .info-card {
-  padding: 12px 14px 14px;
-}
-.card-local .titulo-rating {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 8px;
-  margin-bottom: 4px;
-}
-.card-local .nome-local {
-  font-size: 14px;
-  font-weight: 600;
-  margin: 0;
-  color: #111;
-  line-height: 1.3;
-}
-.card-local .nota-avaliacao {
-  font-size: 12px;
-  color: #BA7517;
-  white-space: nowrap;
-  font-weight: 600;
-}
-.card-local .subtitulo-local {
-  font-size: 12px;
-  color: #666;
-  margin: 0 0 5px;
-}
-.card-local .faixa-preco {
-  font-size: 12px;
-  color: #333;
-  margin: 0;
-}
-/* ================================================
-   SAVE DATE — Estilos do módulo CEP + Cards dinâmicos
-   Adicione ao final do seu css/home.css
-   ================================================ */
 
-/* Campo de CEP */
-.cep-wrapper {
-  margin-bottom: 1.5rem;
+/* =========================================================
+   CATEGORIAS
+========================================================= */
+
+.categorias-nav{
+
+  padding:40px 0;
+
+  background:#fff;
 }
 
-.cep-box {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  background: #f5f5f5;
-  border: 2px solid #e0e0e0;
-  border-radius: 50px;
-  padding: 0.5rem 1rem;
-  max-width: 480px;
-  transition: border-color 0.2s;
+.categorias-wrapper{
+
+  display:flex;
+
+  justify-content:center;
+
+  gap:30px;
+
+  flex-wrap:wrap;
 }
 
-.cep-box:focus-within {
-  border-color: #ff5a5f;
+.item-cat{
+
+  text-decoration:none;
+
+  color:#666;
+
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+
+  gap:10px;
+
+  transition:var(--transicao);
 }
 
-.cep-icone {
-  font-size: 1.1rem;
+.item-cat:hover{
+
+  transform:translateY(-5px);
+
+  color:var(--primaria);
 }
 
-.cep-input {
-  flex: 1;
-  border: none;
-  background: transparent;
-  font-size: 0.95rem;
-  outline: none;
-  color: #333;
+.item-cat img{
+
+  width:150px;
+  height:150px;
+
+  border-radius:20px;
+
+  object-fit:cover;
+
+  transition:var(--transicao);
 }
 
-.cep-input::placeholder {
-  color: #aaa;
+.item-cat:hover img{
+  transform:scale(1.03);
 }
 
-.btn-buscar-cep {
-  background: #ff5a5f;
-  color: #fff;
-  border: none;
-  border-radius: 50px;
-  padding: 0.45rem 1.1rem;
-  font-size: 0.88rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition:background 0.2s, transform 0.1s;
-  white-space: nowrap;
+.label-categoria{
+
+  font-weight:600;
+
+  font-size:15px;
 }
 
-.btn-buscar-cep:hover {
-  background: #e04e53;
+.item-cat.ativo{
+  color:var(--primaria);
 }
 
-.btn-buscar-cep:active {
-  transform: scale(0.97);
+.item-cat.ativo img{
+  border:3px solid var(--primaria);
 }
 
-.btn-buscar-cep:disabled {
-  background: #ccc;
-  cursor: not-allowed;
+
+/* =========================================================
+   CEP
+========================================================= */
+
+.cep-wrapper{
+
+  width:100%;
+
+  display:flex;
+  justify-content:center;
+
+  margin-bottom:30px;
 }
 
-/* Placeholder de foto nos cards dinâmicos */
-.capa-sem-foto {
-  background: linear-gradient(135deg, #ffe8e8, #ffd0d0);
-  min-height: 140px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 12px 12px 0 0;
-  position: relative;
+.cep-box{
+
+  width:100%;
+  max-width:700px;
+
+  background:#fff;
+
+  border-radius:18px;
+
+  padding:12px;
+
+  display:flex;
+  align-items:center;
+  gap:10px;
+
+  box-shadow:0 4px 18px rgba(0,0,0,.08);
 }
 
-.placeholder-foto {
-  font-size: 2.5rem;
-  opacity: 0.6;
+.cep-input{
+
+  flex:1;
+
+  border:none;
+  outline:none;
+
+  font-size:1rem;
+
+  background:transparent;
 }
 
-/* Informações extras no card */
-.horario-local,
-.tel-local {
-  font-size: 0.8rem;
-  color: #666;
-  margin: 0.2rem 0;
+.btn-buscar-cep{
+
+  border:none;
+
+  background:#ff5a5f;
+
+  color:#fff;
+
+  padding:12px 20px;
+
+  border-radius:12px;
+
+  cursor:pointer;
+
+  font-weight:600;
+
+  transition:var(--transicao);
 }
 
-.tel-local a {
-  color: #ff5a5f;
-  text-decoration: none;
+.btn-buscar-cep:hover{
+
+  transform:scale(1.03);
+
+  opacity:.95;
 }
 
-/* Botões de ação no card */
-.acoes-card {
-  display: flex;
-  gap: 0.5rem;
-  margin-top: 0.6rem;
+
+/* =========================================================
+   DESTAQUES
+========================================================= */
+
+.titulo-secao{
+
+  font-size:2rem;
+
+  margin-bottom:20px;
 }
 
-.btn-maps,
-.btn-site {
-  display: inline-block;
-  padding: 0.35rem 0.8rem;
-  border-radius: 50px;
-  font-size: 0.78rem;
-  font-weight: 600;
-  text-decoration: none;
-  transition: background 0.2s;
+.grade-moderna{
+
+  display:grid;
+
+  grid-template-columns:
+    repeat(auto-fit,minmax(280px,1fr));
+
+  gap:25px;
+
+  margin-top:30px;
 }
 
-.btn-maps {
-  background: #ff5a5f;
-  color: #fff;
+
+/* =========================================================
+   CARD
+========================================================= */
+
+.card-moderno{
+
+  background:#fff;
+
+  border-radius:20px;
+
+  overflow:hidden;
+
+  box-shadow:var(--sombra);
+
+  transition:var(--transicao);
 }
 
-.btn-maps:hover {
-  background: #e04e53;
+.card-moderno:hover{
+
+  transform:translateY(-5px);
 }
 
-.btn-site {
-  background: #f0f0f0;
-  color: #333;
+.foto-local{
+
+  width:100%;
+  height:200px;
+
+  object-fit:cover;
 }
 
-.btn-site:hover {
-  background: #e0e0e0;
+.info-card{
+  padding:20px;
 }
 
-/* Avisos */
-.aviso-vazio,
-.aviso-erro {
-  grid-column: 1 / -1;
-  text-align: center;
-  padding: 2rem;
-  color: #888;
-  font-size: 0.95rem;
+.info-card h3{
+
+  margin-bottom:8px;
+
+  font-size:1.2rem;
 }
 
-.aviso-erro {
-  color: #cc0000;
+.info-card p{
+
+  color:#666;
+
+  margin-bottom:15px;
 }
 
-/* Aviso de expansão de raio em andamento */
-.aviso-expandindo {
-  grid-column: 1 / -1;
-  text-align: center;
-  padding: 1.5rem;
-  color: #888;
-  font-size: 0.9rem;
-  animation: piscar 1s infinite;
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.rodape{
+
+  margin-top:60px;
+
+  border-top:1px solid var(--borda);
+
+  padding:25px 0;
 }
 
-/* Aviso de raio expandido (fixo acima dos cards) */
-.aviso-raio {
-  font-size: 0.82rem;
-  color: #e07b00;
-  background: #fff8ee;
-  border: 1px solid #ffd899;
-  border-radius: 8px;
-  padding: 0.5rem 1rem;
-  margin-bottom: 0.8rem;
+.rodape-conteudo{
+  text-align:center;
 }
 
-@keyframes piscar {
-  0%, 100% { opacity: 1; }
-  50%       { opacity: 0.4; }
+.texto-rodape{
+  color:#777;
 }
 
-/* MENU USUARIO*/
 
-.menu-perfil{
-    position: relative;
+/* =========================================================
+   RESPONSIVO
+========================================================= */
+
+@media(max-width:900px){
+
+  .nav-wrapper{
+    flex-direction:column;
+    height:auto;
+    padding:15px 0;
+  }
+
+  .busca-pilula{
+    width:100%;
+  }
+
+  .hero{
+    padding:60px 20px;
+  }
+
+  .hero-titulo{
+    font-size:2.3rem;
+  }
 }
 
-.menu-dropdown{
-    display: none;
-    position: absolute;
-    top: 45px;
-    right: 0;
-    background: white;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.2);
-    overflow: hidden;
-    min-width: 150px;
-    z-index: 1000;
-}
+@media(max-width:600px){
 
-.menu-dropdown a{
+  .item-cat img{
 
-    display: block;
-    padding: 12px;
-    text-decoration: none;
-    color: black;
-}
-.menu-dropdown a:hover{
-    background: #f2f2f2;
-}
-/*Pesquisar por categoria*/
+    width:110px;
+    height:110px;
+  }
 
-.sugestoes{
-    position: absolute;
-    background: white;
-    width: 100%;
-    border-radius: 10px;
-    margin-top: 5px;
-    overflow: hidden;
-    z-index: 1000;
-}
-.sugestoes div{
-    padding: 10px;
-    cursor: pointer;
-}
-.sugestoes div:hover{
-    background: #f2f2f2;
+  .botoes-hero{
+    flex-direction:column;
+  }
+
+  .btn-principal,
+  .btn-secundario{
+    width:100%;
+  }
+
+  .cep-box{
+    flex-direction:column;
+  }
+
+  .btn-buscar-cep{
+    width:100%;
+  }
 }

@@ -18,33 +18,15 @@
       </header>
       <form class="login-form" onsubmit="return validarSenha();">
         <input type="text" placeholder="Nome do estabelecimento" required />
-        <input type="text" placeholder="CNPJ" required />
-        <input
-          type="text"
-          id="cep"
-          placeholder="CEP"
-          required
-          onblur="buscarCEP()"
-        />
-        <input
-          type="text"
-          id="endereco"
-          placeholder="Endereço"
-          readonly
-          required
-        />
+        <input type="text" id="cep" placeholder="CEP" required onblur="buscarCEP()" />
+        <input type="text" id="endereco" placeholder="Endereço" readonly required />
         <input type="text" placeholder="Número / Complemento" required />
         <input type="email" placeholder="Email para contato" required />
         <input type="tel" placeholder="Telefone para contato" required />
         <input type="password" id="senha" placeholder="Senha" required />
         <button type="submit" class="botao">Cadastrar</button>
-        <button
-          onclick="window.location.href = 'tipo-de-conta.html'"
-          class="botao"
-        >
-          Voltar
-        </button>
-        <!-- LOGIN -->
+        <button onclick="window.location.href = 'tipo-de-conta.html'"
+          class="botao" type="button">Voltar</button>
       </form>
     </div>
 
