@@ -133,7 +133,9 @@
   ========================================================== -->
   <main id="conteudo-principal">
 
-    <!-- HERO -->
+    <div id="home-normal">
+
+      <!-- HERO -->
     <section id="hero-banner" class="hero">
 
       <div class="slide-container">
@@ -175,7 +177,7 @@
         </div>
 
         <!-- SLIDE 2 -->
-        <div class="container hero-conteudo slide-hero">
+        <div id="hero-slide-2" class="container hero-conteudo slide-hero">
 
           <h2 class="hero-titulo">
 
@@ -317,6 +319,103 @@
       <p id="mensagem-destaque"></p>
 
     </section>
+
+  </div>
+
+  <section id="estabelecimento-dashboard" class="painel-estabelecimento" style="display:none;">
+
+    <div class="container">
+
+      <div class="dashboard-header">
+
+        <div>
+          <span class="badge">Painel do Estabelecimento</span>
+          <h2>Olá, <span class="dashboard-welcome-nome">Seu estabelecimento</span></h2>
+          <p>Gerencie fotos, categoria, cardápio, eventos e veja o desempenho do seu perfil.</p>
+        </div>
+
+        <div class="dashboard-status-card">
+          <strong>Status do perfil</strong>
+          <span class="dashboard-status-text">Ativo</span>
+        </div>
+
+      </div>
+
+      <div class="dashboard-summary-grid">
+
+        <article class="dashboard-card dashboard-summary-card">
+          <h3>Resumo rápido</h3>
+          <div class="summary-item"><strong id="dash-avaliacoes">24</strong> avaliações</div>
+          <div class="summary-item"><strong id="dash-visualizacoes">1.3k</strong> visualizações</div>
+          <div class="summary-item"><strong id="dash-favoritos">48</strong> favoritos</div>
+        </article>
+
+        <article class="dashboard-card dashboard-quick-actions">
+          <h3>Ações rápidas</h3>
+          <div class="dashboard-action-list">
+            <a href="#" class="dashboard-action-link">Cadastrar fotos</a>
+            <a href="#" class="dashboard-action-link">Categorias</a>
+            <a href="#" class="dashboard-action-link">Pratos</a>
+            <a href="#" class="dashboard-action-link">Bebidas</a>
+            <a href="#" class="dashboard-action-link">Valores</a>
+            <a href="#" class="dashboard-action-link">Configurações</a>
+          </div>
+        </article>
+
+      </div>
+
+      <div class="dashboard-events-grid">
+
+        <article class="dashboard-card events-card">
+          <h3>Próximos eventos</h3>
+          <ul class="events-list">
+            <li>
+              <div>
+                <strong>Noite do Vinho</strong>
+                <span>Jantar temático para clientes</span>
+              </div>
+              <span class="event-date">25/05 · 20h</span>
+            </li>
+            <li>
+              <div>
+                <strong>Brunch de Domingo</strong>
+                <span>Cardápio especial e atendimento premium</span>
+              </div>
+              <span class="event-date">01/06 · 11h</span>
+            </li>
+            <li>
+              <div>
+                <strong>Sarau Gastronômico</strong>
+                <span>Experiência musical e pratos exclusivos</span>
+              </div>
+              <span class="event-date">10/06 · 19h</span>
+            </li>
+          </ul>
+          <button class="dashboard-event-button">Adicionar evento</button>
+        </article>
+
+        <article class="dashboard-card profile-status-card">
+          <h3>Status do perfil</h3>
+          <p>Veja o resumo de avaliações e a reputação do seu estabelecimento.</p>
+          <div class="profile-metric">
+            <span>Perfil completo</span>
+            <strong>87%</strong>
+          </div>
+          <div class="profile-metric">
+            <span>Avaliação média</span>
+            <strong>4,8/5</strong>
+          </div>
+          <div class="profile-metric">
+            <span>Favoritos recentes</span>
+            <strong>12</strong>
+          </div>
+        </article>
+
+      </div>
+
+    </div>
+
+  </section>
 
   </main>
 

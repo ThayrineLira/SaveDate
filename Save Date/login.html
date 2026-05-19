@@ -179,16 +179,30 @@
           "toast-container"
         );
 
+      if (!container) {
+        return;
+      }
+
       const toast =
         document.createElement(
           "div"
         );
 
+      const emoji =
+        tipo === "sucesso"
+          ? "🎉"
+          : tipo === "aviso"
+          ? "💡"
+          : "⚠️";
+
       toast.className =
         `toast toast-${tipo}`;
 
-      toast.textContent =
-        mensagem;
+      toast.innerHTML =
+        `<div class="toast-content">
+           <span class="toast-emoji">${emoji}</span>
+           <div class="toast-text">${mensagem}</div>
+         </div>`;
 
       container.appendChild(
         toast
@@ -268,13 +282,17 @@
         const senha =
           senhaInput.value.trim();
 
-        const usuarioCadastrado =
+        const usuarioCadastroEmail =
           localStorage.getItem(
+            "usuarioCadastroEmail"
+          ) || localStorage.getItem(
             "usuarioCadastro"
           );
 
-        const senhaCadastrada =
+        const usuarioCadastroSenha =
           localStorage.getItem(
+            "usuarioCadastroSenha"
+          ) || localStorage.getItem(
             "senhaCadastro"
           );
 
@@ -283,36 +301,116 @@
         =========================================== */
 
         if (
-          !usuarioCadastrado ||
-          !senhaCadastrada
+          !usuarioCadastroEmail ||
+          !usuarioCadastroSenha
         ) {
 
-          mostrarToast(
-            "Você precisa criar uma conta primeiro.",
-            "erro"
-          );
+          const estabelecimentoCadastroEmail =
+            localStorage.getItem(
+              "estabelecimentoCadastroEmail"
+            );
 
-          setTimeout(() => {
+          const estabelecimentoCadastroSenha =
+            localStorage.getItem(
+              "estabelecimentoCadastroSenha"
+            );
 
-            window.location.href =
-              "tipo-de-conta.html";
+          if (
+            !estabelecimentoCadastroEmail ||
+            !estabelecimentoCadastroSenha
+          ) {
 
-          }, 1500);
+            mostrarToast(
+              "Parece que você ainda não tem conta. Vamos criar seu perfil?",
+              "aviso"
+            );
 
-          return;
+            setTimeout(() => {
+
+              window.location.href =
+                "tipo-de-conta.html";
+
+            }, 1500);
+
+            return;
+          }
         }
 
         /* ==========================================
              LOGIN CORRETO
         =========================================== */
 
+        const estabelecimentoCadastroEmail =
+          localStorage.getItem(
+            "estabelecimentoCadastroEmail"
+          );
+
+        const estabelecimentoCadastroSenha =
+          localStorage.getItem(
+            "estabelecimentoCadastroSenha"
+          );
+
+        const estabelecimentoCadastroNome =
+          localStorage.getItem(
+            "estabelecimentoCadastroNome"
+          );
+
+        let tipoCadastro = null;
+        let nomeCadastrado = "";
+        let loginCorreto = false;
+
         if (
-          email === usuarioCadastrado &&
-          senha === senhaCadastrada
+          usuarioCadastroEmail &&
+          email === usuarioCadastroEmail
         ) {
 
+          if (senha === usuarioCadastroSenha) {
+            tipoCadastro = "usuario";
+            nomeCadastrado =
+              localStorage.getItem(
+                "usuarioCadastroNome"
+              ) ||
+              localStorage.getItem(
+                "nomeCadastro"
+              );
+            loginCorreto = true;
+          }
+        }
+
+        if (
+          !loginCorreto &&
+          estabelecimentoCadastroEmail &&
+          email === estabelecimentoCadastroEmail
+        ) {
+
+          if (senha === estabelecimentoCadastroSenha) {
+            tipoCadastro = "estabelecimento";
+            nomeCadastrado =
+              estabelecimentoCadastroNome ||
+              localStorage.getItem(
+                "nomeCadastro"
+              );
+            loginCorreto = true;
+          }
+        }
+
+        if (!loginCorreto) {
           mostrarToast(
-            "Login realizado com sucesso!",
+            "E-mail ou senha incorretos. Verifique e tente novamente.",
+            "erro"
+          );
+          return;
+        }
+
+        const mensagemLogin =
+          tipoCadastro === "estabelecimento"
+            ? `🎉 Bem-vindo, ${nomeCadastrado || "Estabelecimento"}! Seu perfil foi conectado.`
+            : rememberInput.checked
+            ? `🎉 Bem-vindo de volta${nomeCadastrado ? ", " + nomeCadastrado : ""}! Que bom ter você de volta.`
+            : "Seja bem-vindo! Seu login foi realizado com sucesso.";
+
+          mostrarToast(
+            mensagemLogin,
             "sucesso"
           );
 
@@ -322,8 +420,14 @@
           );
 
           localStorage.setItem(
+            "usuarioTipo",
+            tipoCadastro
+          );
+
+          localStorage.setItem(
             "nomeUsuario",
-            email
+            nomeCadastrado ||
+              email
           );
 
           if (
@@ -361,18 +465,8 @@
           }, 1500);
         }
 
-        /* ==========================================
-             LOGIN INCORRETO
-        =========================================== */
 
-        else {
-
-          mostrarToast(
-            "Email ou senha incorretos.",
-            "erro"
-          );
-        }
-      }
+      
     );
 
   </script>

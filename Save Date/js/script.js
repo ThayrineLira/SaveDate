@@ -36,6 +36,11 @@ function carregarUsuario() {
       "dropdown-nome"
     );
 
+  const tipoUsuario =
+    localStorage.getItem(
+      "usuarioTipo"
+    );
+
   /* =========================================
      USUÁRIO LOGADO
   ========================================= */
@@ -45,16 +50,21 @@ function carregarUsuario() {
     nome
   ) {
 
+    const nomeExibicao =
+      tipoUsuario === "estabelecimento"
+        ? `${nome} (Estabelecimento)`
+        : nome;
+
     if (nomeUsuario) {
 
       nomeUsuario.textContent =
-        nome;
+        nomeExibicao;
     }
 
     if (dropdownNome) {
 
       dropdownNome.textContent =
-        nome;
+        nomeExibicao;
     }
   }
 
@@ -79,9 +89,14 @@ function carregarUsuario() {
 
 function iniciarMenuPerfil() {
 
-  const menu =
+  const burger =
+    document.querySelector(
+      ".burger"
+    );
+
+  const nomeUsuario =
     document.getElementById(
-      "menu-usuario"
+      "nome-usuario"
     );
 
   const dropdown =
@@ -89,11 +104,11 @@ function iniciarMenuPerfil() {
       "dropdown-menu"
     );
 
-  if (!menu || !dropdown) {
+  if (!burger || !dropdown) {
     return;
   }
 
-  menu.addEventListener(
+  burger.addEventListener(
     "click",
 
     function (e) {
@@ -115,6 +130,21 @@ function iniciarMenuPerfil() {
       }
     }
   );
+
+  if (nomeUsuario) {
+    nomeUsuario.addEventListener(
+      "click",
+      function () {
+        if (
+          nomeUsuario.textContent ===
+            "Entrar"
+        ) {
+          window.location.href =
+            "login.html";
+        }
+      }
+    );
+  }
 
   document.addEventListener(
     "click",
@@ -158,6 +188,10 @@ function iniciarLogout() {
         "nomeUsuario"
       );
 
+      localStorage.removeItem(
+        "usuarioTipo"
+      );
+
       mostrarToast(
         "Você saiu da conta.",
         "aviso"
@@ -170,6 +204,108 @@ function iniciarLogout() {
       }, 1000);
     }
   );
+}
+
+
+/* =========================================================
+   HIDE BANNER FOR LOGGED USER
+========================================================= */
+
+function ocultarSegundoBannerSeLogado() {
+
+  if (!usuarioEstaLogado()) {
+    return;
+  }
+
+  const slide2 =
+    document.getElementById(
+      "hero-slide-2"
+    );
+
+  if (slide2) {
+    slide2.style.display =
+      "none";
+  }
+
+  const slideContainer =
+    document.querySelector(
+      ".slide-container"
+    );
+
+  if (slideContainer) {
+    slideContainer.classList.add(
+      "slide-static"
+    );
+  }
+}
+
+
+/* =========================================================
+   ESTABELECIMENTO DASHBOARD
+========================================================= */
+
+function mostrarPainelEstabelecimento() {
+
+  const tipoUsuario =
+    localStorage.getItem(
+      "usuarioTipo"
+    );
+
+  const homeNormal =
+    document.getElementById(
+      "home-normal"
+    );
+
+  const dashboard =
+    document.getElementById(
+      "estabelecimento-dashboard"
+    );
+
+  if (
+    tipoUsuario === "estabelecimento"
+  ) {
+
+    if (homeNormal) {
+      homeNormal.style.display =
+        "none";
+    }
+
+    if (dashboard) {
+      dashboard.style.display =
+        "block";
+
+      const nome =
+        localStorage.getItem(
+          "nomeUsuario"
+        ) ||
+        localStorage.getItem(
+          "nomeCadastro"
+        ) ||
+        "Seu estabelecimento";
+
+      const welcomeName =
+        dashboard.querySelector(
+          ".dashboard-welcome-nome"
+        );
+
+      if (welcomeName) {
+        welcomeName.textContent =
+          nome;
+      }
+    }
+
+    return;
+  }
+
+  if (dashboard) {
+    dashboard.style.display =
+      "none";
+  }
+
+  if (homeNormal) {
+    homeNormal.style.display =
+      "block";
+  }
 }
 
 
@@ -622,6 +758,10 @@ document.addEventListener(
     iniciarMenuPerfil();
 
     iniciarLogout();
+
+    mostrarPainelEstabelecimento();
+
+    ocultarSegundoBannerSeLogado();
 
     /* =========================================
        BOTÃO BUSCAR

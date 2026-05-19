@@ -177,8 +177,24 @@
                EMAIL CADASTRADO
             ========================================== */
 
-            const emailCadastrado =
-                localStorage.getItem("usuarioCadastro");
+            const emailUsuario =
+                localStorage.getItem(
+                    "usuarioCadastroEmail"
+                ) || localStorage.getItem(
+                    "usuarioCadastro"
+                );
+
+            const emailEstabelecimento =
+                localStorage.getItem(
+                    "estabelecimentoCadastroEmail"
+                );
+
+            const tipoRecuperacao =
+                emailDigitado === emailEstabelecimento
+                    ? "estabelecimento"
+                    : emailDigitado === emailUsuario
+                    ? "usuario"
+                    : null;
 
 
 
@@ -186,7 +202,17 @@
                VERIFICA EMAIL
             ========================================== */
 
-            if(emailDigitado === emailCadastrado){
+            if (tipoRecuperacao) {
+
+                localStorage.setItem(
+                    "redefinirEmail",
+                    emailDigitado
+                );
+
+                localStorage.setItem(
+                    "redefinirTipo",
+                    tipoRecuperacao
+                );
 
 
 

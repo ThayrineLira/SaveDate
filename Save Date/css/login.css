@@ -111,11 +111,11 @@ input[type="password"] {
 
 .toast{
 
-  min-width:260px;
+  min-width:280px;
 
-  padding:15px 20px;
+  padding:16px 20px;
 
-  border-radius:16px;
+  border-radius:22px;
 
   color:#fff;
 
@@ -131,7 +131,26 @@ input[type="password"] {
   transition:.3s;
 
   box-shadow:
-    0 10px 25px rgba(0,0,0,.15);
+    0 15px 35px rgba(0,0,0,.22);
+
+  border:1px solid rgba(255,255,255,.15);
+}
+
+.toast-content{
+  display:flex;
+  align-items:flex-start;
+  gap:12px;
+}
+
+.toast-emoji{
+  font-size:20px;
+  line-height:1;
+  margin-top:3px;
+}
+
+.toast-text{
+  line-height:1.4;
+  word-break:break-word;
 }
 
 .toast.mostrar{

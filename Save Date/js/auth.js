@@ -96,6 +96,10 @@ function sairLogin() {
     "usuarioNome"
   );
 
+  localStorage.removeItem(
+    "usuarioTipo"
+  );
+
   window.location.href = "home.html";
 
 }

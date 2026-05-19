@@ -4,7 +4,57 @@
     <meta charset="UTF-8" />
     <title>Cadastro Estabelecimento - Save Date</title>
     <link rel="stylesheet" href="css/cadastrao-estabelecimento.css" />
-  </head>
+      <style>
+        #toast-container {
+          position: fixed;
+          top: 20px;
+          right: 20px;
+          display: flex;
+          flex-direction: column;
+          gap: 12px;
+          z-index: 99999;
+        }
+        .toast {
+          min-width: 260px;
+          padding: 15px 20px;
+          border-radius: 16px;
+          color: #fff;
+          font-weight: 600;
+          font-size: 15px;
+          opacity: 0;
+          transform: translateX(100px);
+          transition: .3s;
+          box-shadow: 0 10px 25px rgba(0,0,0,.15);
+        }
+        .toast.mostrar {
+          opacity: 1;
+          transform: translateX(0);
+        }
+        .toast-sucesso {
+          background: linear-gradient(135deg, #2e7d32, #43a047);
+        }
+        .toast-erro {
+          background: linear-gradient(135deg, #c62828, #e53935);
+        }
+        .toast-aviso {
+          background: linear-gradient(135deg, #ef6c00, #ff9800);
+        }
+        .toast-content {
+          display: flex;
+          align-items: flex-start;
+          gap: 12px;
+        }
+        .toast-emoji {
+          font-size: 20px;
+          line-height: 1;
+          margin-top: 3px;
+        }
+        .toast-text {
+          line-height: 1.4;
+          word-break: break-word;
+        }
+      </style>
+    </head>
 
   <body>
     <div class="texto">
@@ -16,14 +66,15 @@
         </div>
         <h3>Cadastrar Estabelecimento:</h3>
       </header>
-      <form class="login-form" onsubmit="return validarSenha();">
-        <input type="text" placeholder="Nome do estabelecimento" required />
+      <form class="login-form" onsubmit="return cadastrarEstabelecimento();">
+        <input id="nome" type="text" placeholder="Nome do estabelecimento" required />
         <input type="text" id="cep" placeholder="CEP" required onblur="buscarCEP()" />
         <input type="text" id="endereco" placeholder="Endereço" readonly required />
-        <input type="text" placeholder="Número / Complemento" required />
-        <input type="email" placeholder="Email para contato" required />
-        <input type="tel" placeholder="Telefone para contato" required />
-        <input type="password" id="senha" placeholder="Senha" required />
+        <input id="complemento" type="text" placeholder="Número / Complemento" required />
+        <input id="email" type="email" placeholder="Email para contato" required />
+        <input id="telefone" type="tel" placeholder="Telefone para contato" required />
+        <input id="senha" type="password" placeholder="Senha" required />
+        <div id="erroSenha" class="erro-senha"></div>
         <button type="submit" class="botao">Cadastrar</button>
         <button onclick="window.location.href = 'tipo-de-conta.html'"
           class="botao" type="button">Voltar</button>
@@ -36,7 +87,7 @@
         let cep = document.getElementById("cep").value.replace("-", "");
 
         if (cep.length !== 8) {
-          alert("CEP inválido!");
+          mostrarToast("CEP inválido!", "erro");
           return;
         }
 
@@ -44,18 +95,52 @@
           .then((res) => res.json())
           .then((dados) => {
             if (dados.erro) {
-              alert("CEP não encontrado!");
+              mostrarToast("CEP não encontrado!", "aviso");
               return;
             }
 
             document.getElementById("endereco").value =
               dados.logradouro + ", " + dados.bairro + " - " + dados.localidade;
           })
-          .catch(() => alert("Erro ao buscar CEP"));
+          .catch(() => mostrarToast("Erro ao buscar CEP", "erro"));
       }
 
-      // 🔐 VALIDAÇÃO SENHA
-      function validarSenha() {
+      function mostrarToast(mensagem, tipo = "sucesso") {
+        const container = document.getElementById("toast-container");
+        if (!container) {
+          return;
+        }
+
+        const emoji =
+          tipo === "sucesso"
+            ? "🎉"
+            : tipo === "aviso"
+            ? "💡"
+            : "⚠️";
+
+        const toast = document.createElement("div");
+        toast.className = `toast toast-${tipo}`;
+        toast.innerHTML =
+          `<div class="toast-content"><span class="toast-emoji">${emoji}</span><div class="toast-text">${mensagem}</div></div>`;
+
+        container.appendChild(toast);
+
+        setTimeout(() => {
+          toast.classList.add("mostrar");
+        }, 100);
+
+        setTimeout(() => {
+          toast.classList.remove("mostrar");
+          setTimeout(() => {
+            toast.remove();
+          }, 300);
+        }, 3000);
+      }
+
+      // 🔐 CADASTRAR ESTABELECIMENTO
+      function cadastrarEstabelecimento() {
+        const nome = document.getElementById("nome").value;
+        const email = document.getElementById("email").value;
         const senha = document.getElementById("senha").value;
         const erro = document.getElementById("erroSenha");
 
@@ -67,8 +152,37 @@
         }
 
         erro.innerText = "";
-        alert("Cadastro realizado com sucesso!");
-        return true;
+
+        localStorage.setItem(
+          "estabelecimentoCadastroEmail",
+          email
+        );
+
+        localStorage.setItem(
+          "estabelecimentoCadastroSenha",
+          senha
+        );
+
+        localStorage.setItem(
+          "estabelecimentoCadastroNome",
+          nome
+        );
+
+        localStorage.setItem(
+          "tipoCadastro",
+          "estabelecimento"
+        );
+
+        mostrarToast(
+          "Cadastro de estabelecimento realizado com sucesso!",
+          "sucesso"
+        );
+
+        setTimeout(() => {
+          window.location.href = "login.html";
+        }, 1400);
+
+        return false;
       }
 
       // 🔙 VOLTAR
@@ -76,5 +190,7 @@
         window.history.back(); // volta para página anterior
       }
     </script>
+
+    <div id="toast-container"></div>
   </body>
 </html>
