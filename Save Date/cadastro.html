@@ -117,7 +117,11 @@
         class="erro"
       ></div>
 
-
+      <!-- MENSAGEM -->
+      <div
+        id="mensagemCadastro"
+        class="mensagem"
+      ></div>
 
       <!-- BOTÃO -->
       <button
@@ -155,6 +159,25 @@
   =========================================== -->
   <script>
 
+    function mostrarMensagemCadastro(texto, tipo = 'erro') {
+      const mensagem = document.getElementById('mensagemCadastro');
+      if (!mensagem) {
+        return;
+      }
+
+      mensagem.textContent = texto;
+      mensagem.className = 'mensagem ' + tipo;
+
+      if (tipo === 'sucesso') {
+        mensagem.style.display = 'block';
+      }
+
+      setTimeout(() => {
+        mensagem.textContent = '';
+        mensagem.className = 'mensagem';
+      }, 3200);
+    }
+
     /* ==========================================
        BUSCAR CEP
     =========================================== */
@@ -175,7 +198,7 @@
 
       if (cep.length !== 8) {
 
-        alert("CEP inválido!");
+        mostrarMensagemCadastro("CEP inválido!", "erro");
 
         return;
 
@@ -198,7 +221,7 @@
 
           if (dados.erro) {
 
-            alert("CEP não encontrado!");
+            mostrarMensagemCadastro("CEP não encontrado!", "erro");
 
             return;
 
@@ -221,7 +244,7 @@
 
         .catch(() => {
 
-          alert("Erro ao buscar CEP");
+          mostrarMensagemCadastro("Erro ao buscar CEP", "erro");
 
         });
 
@@ -333,8 +356,9 @@
            SUCESSO
         =========================================== */
 
-        alert(
-          "Cadastro realizado com sucesso!"
+        mostrarMensagemCadastro(
+          "Cadastro realizado com sucesso!",
+          "sucesso"
         );
 
 

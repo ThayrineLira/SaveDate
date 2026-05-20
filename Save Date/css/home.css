@@ -708,6 +708,122 @@ body{
   font-weight: 700;
 }
 
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 25;
+  padding: 20px;
+}
+
+.modal {
+  width: min(540px, 100%);
+  background: #fff;
+  border-radius: 24px;
+  padding: 28px;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.18);
+  position: relative;
+}
+
+.modal-close {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  border: none;
+  background: transparent;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #333;
+}
+
+.evento-modal h2 {
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+.quick-action-modal h2 {
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+.modal-label {
+  display: block;
+  margin-bottom: 16px;
+  color: #333;
+  font-weight: 700;
+}
+
+.modal-label input,
+.modal-label textarea {
+  width: 100%;
+  margin-top: 8px;
+  padding: 14px 16px;
+  border-radius: 16px;
+  border: 1px solid #ddd;
+  font-size: 0.95rem;
+  color: #333;
+  background: #faf9f6;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 18px;
+}
+
+.modal .btn-secundario {
+  background: #f4f2ea;
+  color: #333;
+  border-color: #d8d0c2;
+}
+
+.confirm-actions {
+  justify-content: flex-end;
+}
+
+.confirm-modal p {
+  margin: 0;
+  color: #555;
+  line-height: 1.5;
+}
+
+.event-empty {
+  padding: 16px;
+  border-radius: 18px;
+  background: #fff4e6;
+  color: #66522d;
+  text-align: center;
+}
+
+.evento-acoes {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.evento-acoes button {
+  border: none;
+  border-radius: 14px;
+  padding: 10px 14px;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.evento-acoes .btn-editar {
+  background: #fff;
+  color: #333;
+  border: 1px solid #e2dfd7;
+}
+
+.evento-acoes .btn-remover {
+  background: #d32f2f;
+  color: #fff;
+}
+
 .profile-metric {
   display: flex;
   justify-content: space-between;

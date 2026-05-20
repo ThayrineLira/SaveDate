@@ -14,21 +14,62 @@ function estaLogado() {
 
 }
 
+function mostrarMensagem(texto, tipo = 'erro') {
+  if (typeof mostrarToast === 'function') {
+    mostrarToast(texto, tipo);
+    return;
+  }
+
+  let container = document.getElementById('auth-toast-container');
+  if (!container) {
+    container = document.createElement('div');
+    container.id = 'auth-toast-container';
+    container.style.position = 'fixed';
+    container.style.left = '50%';
+    container.style.bottom = '20px';
+    container.style.transform = 'translateX(-50%)';
+    container.style.zIndex = '9999';
+    container.style.display = 'flex';
+    container.style.flexDirection = 'column';
+    container.style.alignItems = 'center';
+    container.style.gap = '10px';
+    document.body.appendChild(container);
+  }
+
+  const toast = document.createElement('div');
+  toast.textContent = texto;
+  toast.style.background = tipo === 'sucesso' ? '#2e7d32' : '#d32f2f';
+  toast.style.color = '#fff';
+  toast.style.padding = '12px 18px';
+  toast.style.borderRadius = '16px';
+  toast.style.boxShadow = '0 10px 25px rgba(0,0,0,0.18)';
+  toast.style.maxWidth = '320px';
+  toast.style.textAlign = 'center';
+  container.appendChild(toast);
+
+  setTimeout(() => {
+    toast.remove();
+  }, 3200);
+}
+
 
 /* =========================================
    PROTEGER PÁGINA
 ========================================= */
 
-function protegerPagina() {
-
-  // Se NÃO estiver logado
+function protegerPagina(destino = null) {
+  // Se NÃO estiver logado, redireciona para login
   if (!estaLogado()) {
-
-    // Redireciona para login
     window.location.href = "login.html";
-
+    return false;
   }
 
+  // Se estiver logado e foi passado destino, navega
+  if (destino) {
+    window.location.href = destino;
+  }
+
+  return true;
 }
 
 
@@ -41,7 +82,7 @@ function verificarLogin(destino = null) {
   // Usuário NÃO logado
   if (!estaLogado()) {
 
-    alert("Faça login para continuar.");
+    mostrarMensagem("Faça login para continuar.", "erro");
 
     setTimeout(() => {
 
@@ -75,7 +116,7 @@ function fazerLogin(nomeUsuario = "Usuário") {
   );
 
   localStorage.setItem(
-    "usuarioNome",
+    "nomeUsuario",
     nomeUsuario
   );
 
@@ -93,7 +134,7 @@ function sairLogin() {
   );
 
   localStorage.removeItem(
-    "usuarioNome"
+    "nomeUsuario"
   );
 
   localStorage.removeItem(

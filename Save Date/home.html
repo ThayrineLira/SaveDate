@@ -353,11 +353,11 @@
         <article class="dashboard-card dashboard-quick-actions">
           <h3>Ações rápidas</h3>
           <div class="dashboard-action-list">
-            <a href="#" class="dashboard-action-link">Cadastrar fotos</a>
+            <a href="#" class="dashboard-action-link">Adicionar fotos</a>
             <a href="#" class="dashboard-action-link">Categorias</a>
             <a href="#" class="dashboard-action-link">Pratos</a>
             <a href="#" class="dashboard-action-link">Bebidas</a>
-            <a href="#" class="dashboard-action-link">Valores</a>
+            <a href="#" class="dashboard-action-link">Horário</a>
             <a href="#" class="dashboard-action-link">Configurações</a>
           </div>
         </article>
@@ -416,6 +416,140 @@
     </div>
 
   </section>
+
+  <div id="evento-modal-overlay" class="modal-overlay" style="display:none;">
+    <div class="modal evento-modal">
+      <button type="button" id="btn-fechar-evento" class="modal-close">×</button>
+      <h2 id="modal-evento-titulo">Adicionar evento</h2>
+      <form id="form-evento">
+        <label class="modal-label">
+          Título do evento
+          <input id="evento-titulo" type="text" placeholder="Noite do Vinho" required maxlength="80" />
+        </label>
+        <label class="modal-label">
+          Descrição
+          <textarea id="evento-descricao" rows="3" placeholder="Jantar temático para clientes"></textarea>
+        </label>
+        <label class="modal-label">
+          Data e horário
+          <input id="evento-data" type="text" placeholder="25/05 · 20h" required maxlength="40" />
+        </label>
+        <div class="modal-actions">
+          <button type="submit" class="btn-principal">Salvar evento</button>
+          <button type="button" id="btn-cancelar-evento" class="btn-secundario">Cancelar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="confirm-modal-overlay" class="modal-overlay" style="display:none;">
+    <div class="modal confirm-modal">
+      <h2>Remover evento</h2>
+      <p id="confirm-message">Tem certeza de que deseja remover este evento?</p>
+      <div class="modal-actions confirm-actions">
+        <button type="button" id="confirm-no" class="btn-secundario">Cancelar</button>
+        <button type="button" id="confirm-yes" class="btn-principal">Sim, remover</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: Adicionar Fotos -->
+  <div id="fotos-modal-overlay" class="modal-overlay" style="display:none;">
+    <div class="modal quick-action-modal">
+      <button type="button" class="modal-close action-close" data-action="fotos">×</button>
+      <h2>Adicionar fotos</h2>
+      <form id="form-fotos" class="quick-action-form">
+        <label class="modal-label">
+          Foto do estabelecimento
+          <input id="foto-arquivo" type="file" accept="image/*" required />
+        </label>
+        <div class="modal-actions">
+          <button type="submit" class="btn-principal">Adicionar</button>
+          <button type="button" class="btn-secundario action-close" data-action="fotos">Cancelar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: Categorias -->
+  <div id="categorias-modal-overlay" class="modal-overlay" style="display:none;">
+    <div class="modal quick-action-modal">
+      <button type="button" class="modal-close action-close" data-action="categorias">×</button>
+      <h2>Adicionar categoria</h2>
+      <form id="form-categorias" class="quick-action-form">
+        <label class="modal-label">
+          Categoria
+          <input id="categoria-nome" type="text" placeholder="ex: Restaurante, Bar, Shopping, Parque" required />
+        </label>
+        <div class="modal-actions">
+          <button type="submit" class="btn-principal">Adicionar</button>
+          <button type="button" class="btn-secundario action-close" data-action="categorias">Cancelar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: Pratos/Bebidas -->
+  <div id="cardapio-modal-overlay" class="modal-overlay" style="display:none;">
+    <div class="modal quick-action-modal">
+      <button type="button" class="modal-close action-close" data-action="cardapio">×</button>
+      <h2 id="cardapio-modal-titulo">Adicionar prato</h2>
+      <form id="form-cardapio" class="quick-action-form">
+        <label class="modal-label">
+          Nome
+          <input id="cardapio-nome" type="text" placeholder="Ex: Água, Cerveja, Refrigerante" required />
+        </label>
+        <label class="modal-label">
+          Descrição (opcional)
+          <textarea id="cardapio-descricao" rows="2" placeholder="Ex: Gelada, 500ml, sem gás"></textarea>
+        </label>
+        <label class="modal-label">
+          Preço (opcional)
+          <input id="cardapio-preco" type="text" placeholder="Ex: R$ 25,00" />
+        </label>
+        <div class="modal-actions">
+          <button type="submit" class="btn-principal">Adicionar</button>
+          <button type="button" class="btn-secundario action-close" data-action="cardapio">Cancelar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: Horário de Funcionamento -->
+  <div id="horario-modal-overlay" class="modal-overlay" style="display:none;">
+    <div class="modal quick-action-modal">
+      <button type="button" class="modal-close action-close" data-action="horario">×</button>
+      <h2>Adicionar horário de funcionamento</h2>
+      <form id="form-horario" class="quick-action-form">
+        <label class="modal-label">
+          Horário
+          <input id="horario-texto" type="text" placeholder="Ex: Segunda a Sexta: 10h - 22h" required />
+        </label>
+        <div class="modal-actions">
+          <button type="submit" class="btn-principal">Adicionar</button>
+          <button type="button" class="btn-secundario action-close" data-action="horario">Cancelar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: Editar Nome -->
+  <div id="nome-modal-overlay" class="modal-overlay" style="display:none;">
+    <div class="modal quick-action-modal">
+      <button type="button" class="modal-close action-close" data-action="nome">×</button>
+      <h2>Editar nome do estabelecimento</h2>
+      <form id="form-nome" class="quick-action-form">
+        <label class="modal-label">
+          Nome
+          <input id="nome-input" type="text" placeholder="Nome do estabelecimento" required />
+        </label>
+        <div class="modal-actions">
+          <button type="submit" class="btn-principal">Salvar</button>
+          <button type="button" class="btn-secundario action-close" data-action="nome">Cancelar</button>
+        </div>
+      </form>
+    </div>
+  </div>
 
   </main>
 
