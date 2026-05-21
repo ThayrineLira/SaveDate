@@ -1,348 +1,203 @@
 <!doctype html>
 <html lang="pt-br">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Save Date | Explore sem sustos</title>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Save Date | Explore sem sustos</title>
 
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="css/home.css" />
-    <link rel="icon" type="image/x-icon" href="img/logo.png" />
-  </head>
-  <body>
-    <!-- CABEÇALHO -->
-    <header id="cabecalho-principal" class="topo">
-      <nav class="container nav-wrapper">
-        <div id="logo-home" class="logo-area">
-          <img src="img/logo.png" class="logo" alt="Logotipo Save Date" />
-          <h1 class="logo-nome">Save Date</h1>
-        </div>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/home.css" />
+  <link rel="icon" type="image/x-icon" href="img/logo.png" />
+</head>
+<body>
 
-        <div class="busca-container">
-          <div class="busca-pilula">
-            <input
-              type="text"
-              id="campo-busca"
-              placeholder="Pesquisar categorias"
-            />
-            <button id="btn-buscar">🔍</button>
-          </div>
-          <div id="sugestoes" class="sugestoes"></div>
-        </div>
+  <!-- CABEÇALHO -->
+  <header id="cabecalho-principal" class="topo">
+    <nav class="container nav-wrapper">
 
-        <div id="menu-usuario" class="menu-perfil">
-          <span class="burger">☰</span>
-          <img src="img/login.jpg" alt="Foto de perfil" class="avatar" />
-
-          <div class="usuario-dropdown">
-            <span
-              id="nome-usuario"
-              class="nome-usuario"
-              onclick="toggleDropdown()"
-              >Entrar</span
-            >
-            <div id="dropdown-menu" class="dropdown-menu" style="display: none">
-              <span id="label-nome-dropdown" class="dropdown-nome"></span>
-              <hr />
-              <a href="conta.html" class="dropdown-item">Minha Conta</a>
-              <a href="#" class="dropdown-item sair" onclick="sairLogin()"
-                >Sair</a
-              >
-            </div>
-          </div>
-        </div>
-      </nav>
-    </header>
-
-    <!-- CONTEÚDO PRINCIPAL -->
-    <main id="conteudo-principal">
-      <!-- HERO -->
-      <section id="hero-banner" class="hero">
-        <div id="slide-principal" class="container hero-conteudo slide-hero">
-          <h2 class="hero-titulo">
-            Saia e divirta-se<br />
-            <span class="texto-gradiente">sem sustos no bolso.</span>
-          </h2>
-          <p class="hero-subtitulo">Divirta-se mais, gaste menos</p>
-          <div class="botoes-hero">
-            <button
-              class="btn-principal"
-              onclick="acessarFuncionalidade('sugestoes.html')"
-            >
-              Ver Sugestões
-            </button>
-            <button class="btn-secundario" onclick="verificarLoginMapa()">
-              Explorar Mapa
-            </button>
-          </div>
-        </div>
-
-        <div id="slide-secundario" class="container hero-conteudo slide-hero">
-          <h2 class="hero-titulo">
-            Anuncie seu <span class="texto-gradiente">restaurante aqui.</span>
-          </h2>
-          <p class="hero-subtitulo">
-            Ofereça seus serviços e conquiste clientes.
-          </p>
-          <div class="botoes-hero">
-            <button
-              class="btn-principal"
-              onclick="window.location.href = 'cadastro-estabelecimento.html'"
-            >
-              Anuncie seu local
-            </button>
-          </div>
-        </div>
-      </section>
-
-      <!-- CATEGORIAS -->
-      <section id="nav-categorias" class="categorias-nav">
-        <div class="container categorias-wrapper">
-          <a href="#" class="item-cat ativo" data-categoria="bares">
-            <img class="icone-categoria" src="img/bar.png" alt="Ícone de bar" />
-            <span class="label-categoria">Bares</span>
-          </a>
-
-          <a href="#" class="item-cat" data-categoria="restaurantes">
-            <img
-              class="icone-categoria"
-              src="img/restaurante.png"
-              alt="Ícone restaurante"
-            />
-            <span class="label-categoria">Restaurantes</span>
-          </a>
-
-          <a href="#" class="item-cat" data-categoria="parques">
-            <img
-              class="icone-categoria"
-              src="img/parque.png"
-              alt="Ícone parque"
-            />
-            <span class="label-categoria">Parques</span>
-          </a>
-
-          <a href="#" class="item-cat" data-categoria="shopping">
-            <img
-              class="icone-categoria"
-              src="img/shopping.png"
-              alt="Ícone shopping"
-            />
-            <span class="label-categoria">Shopping</span>
-          </a>
-
-          <a href="#" class="item-cat" data-categoria="salão de festas">
-            <img
-              class="icone-categoria"
-              src="img/festas.png"
-              alt="Ícone festas"
-            />
-            <span class="label-categoria">Salão de festas</span>
-          </a>
-        </div>
-      </section>
-
-      <!-- DESTAQUES -->
-      <section id="secao-destaques" class="destaques container">
-        <div class="cabecalho-secao">
-          <h2 id="titulo-destaques" class="titulo-secao">Picos em destaque</h2>
-          <a href="#" class="link-ver-tudo">Ver todos →</a>
-        </div>
-        <div id="grade-destaques" class="grade-moderna"></div>
-        <p id="mensagem-destaque"></p>
-      </section>
-    </main>
-
-    <!-- RODAPÉ -->
-    <footer id="rodape-principal" class="rodape">
-      <div class="container rodape-conteudo">
-        <p class="texto-rodape">
-          &copy; 2026 Save Date • Feito com ❤️ para o seu bolso
-        </p>
+      <div id="logo-home" class="logo-area">
+        <img src="img/logo.png" class="logo" alt="Logotipo Save Date" />
+        <h1 class="logo-nome">Save Date</h1>
       </div>
-    </footer>
 
-    <!-- Container dos Toasts -->
-    <div id="toast-container"></div>
+      <div class="busca-container">
+        <div class="busca-pilula">
+          <input type="text" id="campo-busca" placeholder="Pesquisar categorias" />
+          <button id="btn-buscar">🔍</button>
+        </div>
+        <div id="sugestoes" class="sugestoes"></div>
+      </div>
 
-    <style>
-      /* ── Dropdown do usuário ── */
-      .usuario-dropdown {
-        position: relative;
-        display: inline-block;
-      }
+      <div id="menu-usuario" class="menu-perfil">
+        <span class="burger">☰</span>
+        <img src="img/login.jpg" alt="Foto de perfil" class="avatar" />
 
-      .dropdown-menu {
-        position: absolute;
-        right: 0;
-        top: calc(100% + 8px);
-        background: #fff;
-        border: 1px solid #e0e0e0;
-        border-radius: 12px;
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-        min-width: 180px;
-        z-index: 999;
-        padding: 10px 0;
-      }
+        <div class="usuario-dropdown">
+          <span id="nome-usuario" class="nome-usuario" onclick="toggleDropdown()">Entrar</span>
+          <div id="dropdown-menu" class="dropdown-menu" style="display:none;">
+            <span id="label-nome-dropdown" class="dropdown-nome"></span>
+            <hr />
+            <a href="conta.html" class="dropdown-item">Minha Conta</a>
+            <a href="#" class="dropdown-item sair" onclick="sairLogin()">Sair</a>
+          </div>
+        </div>
+      </div>
 
-      .dropdown-nome {
-        display: block;
-        padding: 8px 16px;
-        font-weight: 600;
-        font-size: 0.9rem;
-        color: #333;
-      }
+    </nav>
+  </header>
 
-      .dropdown-menu hr {
-        border: none;
-        border-top: 1px solid #eee;
-        margin: 4px 0;
-      }
 
-      .dropdown-item {
-        display: block;
-        padding: 8px 16px;
-        font-size: 0.9rem;
-        color: #444;
-        text-decoration: none;
-        transition: background 0.2s;
-      }
+  <!-- CONTEÚDO PRINCIPAL -->
+  <main id="conteudo-principal">
 
-      .dropdown-item:hover {
-        background: #f5f5f5;
-      }
-      .dropdown-item.sair {
-        color: #e53935;
-      }
+    <!-- HERO -->
+    <section id="hero-banner" class="hero">
 
-      /* ── Toasts ── */
-      #toast-container {
-        position: fixed;
-        bottom: 28px;
-        left: 50%;
-        transform: translateX(-50%);
-        z-index: 9999;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 10px;
-        pointer-events: none;
-      }
+      <div id="slide-principal" class="container hero-conteudo slide-hero">
+        <h2 class="hero-titulo">
+          Saia e divirta-se<br />
+          <span class="texto-gradiente">sem sustos no bolso.</span>
+        </h2>
+        <p class="hero-subtitulo">Divirta-se mais, gaste menos</p>
+        <div class="botoes-hero">
+          <button class="btn-principal" onclick="acessarFuncionalidade('sugestoes.html')">Ver Sugestões</button>
+          <button class="btn-secundario" onclick="verificarLoginMapa()">Explorar Mapa</button>
+        </div>
+      </div>
 
-      .toast {
-        background: #1e1e2e;
-        color: #fff;
-        padding: 14px 20px;
-        border-radius: 14px;
-        font-size: 0.88rem;
-        font-family: "Inter", sans-serif;
-        font-weight: 500;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        opacity: 0;
-        transform: translateY(14px) scale(0.97);
-        transition:
-          opacity 0.3s ease,
-          transform 0.3s ease;
-        pointer-events: auto;
-        max-width: 340px;
-        width: max-content;
-        box-shadow: 0 6px 24px rgba(0, 0, 0, 0.22);
-      }
+      <div id="slide-secundario" class="container hero-conteudo slide-hero">
+        <h2 class="hero-titulo">Anuncie seu <span class="texto-gradiente">restaurante aqui.</span></h2>
+        <p class="hero-subtitulo">Ofereça seus serviços e conquiste clientes.</p>
+        <div class="botoes-hero">
+          <button class="btn-principal" onclick="window.location.href='cadastro-estabelecimento.html'">Anuncie seu local</button>
+        </div>
+      </div>
 
-      .toast.show {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-      }
+    </section>
 
-      .toast-icone {
-        font-size: 1.1rem;
-        flex-shrink: 0;
-      }
+    <!-- CATEGORIAS -->
+    <section id="nav-categorias" class="categorias-nav">
+      <div class="container categorias-wrapper">
 
-      .toast.toast-erro {
-        border-left: 4px solid #e53935;
-      }
-      .toast.toast-info {
-        border-left: 4px solid #4f8ef7;
-      }
-      .toast.toast-sucesso {
-        border-left: 4px solid #43a047;
-      }
-    </style>
+        <a href="#" class="item-cat ativo" data-categoria="bares">
+          <img class="icone-categoria" src="img/bar.png" alt="Ícone de bar" />
+          <span class="label-categoria">Bares</span>
+        </a>
 
-    <script>
-      /* ── TOAST ── */
-      function mostrarToast(mensagem, tipo = "info", duracao = 3500) {
-        const container = document.getElementById("toast-container");
-        const toast = document.createElement("div");
-        toast.className = `toast toast-${tipo}`;
+        <a href="#" class="item-cat" data-categoria="restaurantes">
+          <img class="icone-categoria" src="img/restaurante.png" alt="Ícone restaurante" />
+          <span class="label-categoria">Restaurantes</span>
+        </a>
 
-        const icones = { erro: "⚠️", info: "💡", sucesso: "✅" };
-        toast.innerHTML = `
+        <a href="#" class="item-cat" data-categoria="parques">
+          <img class="icone-categoria" src="img/parque.png" alt="Ícone parque" />
+          <span class="label-categoria">Parques</span>
+        </a>
+
+        <a href="#" class="item-cat" data-categoria="shopping">
+          <img class="icone-categoria" src="img/shopping.png" alt="Ícone shopping" />
+          <span class="label-categoria">Shopping</span>
+        </a>
+
+        <a href="#" class="item-cat" data-categoria="salão de festas">
+          <img class="icone-categoria" src="img/festas.png" alt="Ícone festas" />
+          <span class="label-categoria">Salão de festas</span>
+        </a>
+
+      </div>
+    </section>
+
+    <!-- DESTAQUES -->
+    <section id="secao-destaques" class="destaques container">
+      <div class="cabecalho-secao">
+        <h2 id="titulo-destaques" class="titulo-secao">Picos em destaque</h2>
+        <a href="#" class="link-ver-tudo">Ver todos →</a>
+      </div>
+      <div id="grade-destaques" class="grade-moderna"></div>
+      <p id="mensagem-destaque"></p>
+    </section>
+
+  </main>
+
+
+  <!-- RODAPÉ -->
+  <footer id="rodape-principal" class="rodape">
+    <div class="container rodape-conteudo">
+      <p class="texto-rodape">&copy; 2026 Save Date • Feito com ❤️ para o seu bolso</p>
+    </div>
+  </footer>
+
+
+
+
+  <script>
+    /* ── TOAST ── */
+    function mostrarToast(mensagem, tipo = "info", duracao = 3500) {
+      const container = document.getElementById("toast-container");
+      const toast = document.createElement("div");
+      toast.className = `toast toast-${tipo}`;
+
+      const icones = { erro: "⚠️", info: "💡", sucesso: "✅" };
+      toast.innerHTML = `
         <span class="toast-icone">${icones[tipo] ?? "ℹ️"}</span>
         <span>${mensagem}</span>
       `;
 
-        container.appendChild(toast);
-        requestAnimationFrame(() =>
-          requestAnimationFrame(() => toast.classList.add("show")),
-        );
+      container.appendChild(toast);
+      requestAnimationFrame(() => requestAnimationFrame(() => toast.classList.add("show")));
 
-        setTimeout(() => {
-          toast.classList.remove("show");
-          setTimeout(() => toast.remove(), 380);
-        }, duracao);
+      setTimeout(() => {
+        toast.classList.remove("show");
+        setTimeout(() => toast.remove(), 380);
+      }, duracao);
+    }
+
+
+    /* ── LOGIN ── */
+    const usuarioLogado = localStorage.getItem("usuarioLogado");
+    const nomeUsuario   = localStorage.getItem("usuarioNome");
+    const elementoNome  = document.getElementById("nome-usuario");
+    const labelDropdown = document.getElementById("label-nome-dropdown");
+
+    if (usuarioLogado && nomeUsuario) {
+      elementoNome.innerText  = nomeUsuario;
+      labelDropdown.innerText = nomeUsuario;
+    }
+
+    /* ── TOGGLE DROPDOWN ── */
+    function toggleDropdown() {
+      if (!usuarioLogado) {
+        window.location.href = "login.html";
+        return;
       }
+      const menu = document.getElementById("dropdown-menu");
+      menu.style.display = menu.style.display === "none" ? "block" : "none";
+    }
 
-      /* ── LOGIN ── */
-      const usuarioLogado = localStorage.getItem("usuarioLogado");
-      const nomeUsuario = localStorage.getItem("usuarioNome");
-      const elementoNome = document.getElementById("nome-usuario");
-      const labelDropdown = document.getElementById("label-nome-dropdown");
-
-      if (usuarioLogado && nomeUsuario) {
-        elementoNome.innerText = nomeUsuario;
-        labelDropdown.innerText = nomeUsuario;
+    /* Fecha dropdown ao clicar fora */
+    document.addEventListener("click", function (e) {
+      const dropdown = document.querySelector(".usuario-dropdown");
+      if (!dropdown.contains(e.target)) {
+        document.getElementById("dropdown-menu").style.display = "none";
       }
+    });
 
-      /* ── TOGGLE DROPDOWN ── */
-      function toggleDropdown() {
-        if (!usuarioLogado) {
-          window.location.href = "login.html";
-          return;
-        }
-        const menu = document.getElementById("dropdown-menu");
-        menu.style.display = menu.style.display === "none" ? "block" : "none";
+    /* ── SAIR DO LOGIN ── */
+    function sairLogin() {
+      localStorage.removeItem("usuarioLogado");
+      localStorage.removeItem("usuarioNome");
+      window.location.href = "home.html";
+    }
+
+    /* ── FUNÇÕES GLOBAIS ── */
+    function acessarFuncionalidade(pagina) {
+      if (!usuarioLogado) {
+        mostrarToast("Faça login primeiro para continuar.", "erro");
+        setTimeout(() => window.location.href = "login.html", 1800);
+        return;
       }
-
-      /* Fecha dropdown ao clicar fora */
-      document.addEventListener("click", function (e) {
-        const dropdown = document.querySelector(".usuario-dropdown");
-        if (!dropdown.contains(e.target)) {
-          document.getElementById("dropdown-menu").style.display = "none";
-        }
-      });
-
-      /* ── SAIR DO LOGIN ── */
-      function sairLogin() {
-        localStorage.removeItem("usuarioLogado");
-        localStorage.removeItem("usuarioNome");
-        window.location.href = "home.html";
-      }
-
-      /* ── FUNÇÕES GLOBAIS ── */
-      function acessarFuncionalidade(pagina) {
-        if (!usuarioLogado) {
-          mostrarToast("Faça login primeiro para continuar.", "erro");
-          setTimeout(() => (window.location.href = "login.html"), 1800);
-          return;
-        }
-        window.location.href = pagina;
-      }
+      window.location.href = pagina;
+    }
 
       function verificarLoginMapa() {
         if (!usuarioLogado) {
@@ -352,42 +207,36 @@
         mostrarToast("Abrindo o mapa...", "sucesso");
       }
 
-      /* ── BUSCA COM SUGESTÕES ── */
-      const categorias = [
-        "bares",
-        "restaurantes",
-        "parques",
-        "shopping",
-        "salão de festas",
-      ];
-      const campoBusca = document.getElementById("campo-busca");
-      const sugestoes = document.getElementById("sugestoes");
+    /* ── BUSCA COM SUGESTÕES ── */
+    const categorias = ["bares", "restaurantes", "parques", "shopping", "salão de festas"];
+    const campoBusca = document.getElementById("campo-busca");
+    const sugestoes  = document.getElementById("sugestoes");
 
-      campoBusca.addEventListener("input", function () {
-        sugestoes.innerHTML = "";
-        const valor = this.value.toLowerCase();
-        if (valor === "") return;
+    campoBusca.addEventListener("input", function () {
+      sugestoes.innerHTML = "";
+      const valor = this.value.toLowerCase();
+      if (valor === "") return;
 
-        categorias.forEach((categoria) => {
-          if (categoria.includes(valor)) {
-            const item = document.createElement("div");
-            item.innerText =
-              categoria.charAt(0).toUpperCase() + categoria.slice(1);
-            item.onclick = () => {
-              document.querySelector(`[data-categoria="${categoria}"]`).click();
-              campoBusca.value = item.innerText;
-              sugestoes.innerHTML = "";
-            };
-            sugestoes.appendChild(item);
-          }
-        });
+      categorias.forEach(categoria => {
+        if (categoria.includes(valor)) {
+          const item = document.createElement("div");
+          item.innerText = categoria.charAt(0).toUpperCase() + categoria.slice(1);
+          item.onclick = () => {
+            document.querySelector(`[data-categoria="${categoria}"]`).click();
+            campoBusca.value = item.innerText;
+            sugestoes.innerHTML = "";
+          };
+          sugestoes.appendChild(item);
+        }
       });
+    });
 
-      /* ── DESTAQUES ── */
-      document.getElementById("mensagem-destaque").innerText =
-        "Digite um CEP ou endereço para carregar os destaques.";
-    </script>
+    /* ── DESTAQUES ── */
+    document.getElementById("mensagem-destaque").innerText =
+      "Digite um CEP ou endereço para carregar os destaques.";
+  </script>
 
-    <script src="js/script.js"></script>
-  </body>
+  <script src="js/script.js"></script>
+
+</body>
 </html>

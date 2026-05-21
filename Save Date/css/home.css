@@ -374,14 +374,16 @@ body {
 
 /* Ícone de cada categoria */
 .icone-categoria {
-  width: 24px;
-  height: 24px;
-  border-radius: 4px;
+  width: 23px;
+  height: 23px;
+  border-radius: 10px;
   object-fit: cover;
 }
 
 .item-cat img {
-  width: 34px;
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
   opacity: 1;
 }
 
