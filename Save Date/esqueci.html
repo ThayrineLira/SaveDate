@@ -9,20 +9,14 @@
 
     <meta charset="UTF-8">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>
         Recuperar senha
     </title>
 
     <!-- CSS -->
-    <link
-        rel="stylesheet"
-        href="css/esqueci.css"
-    >
+    <link rel="stylesheet" href="css/esqueci.css">
 
 </head>
 
@@ -42,11 +36,7 @@
         <header class="topo">
 
             <!-- LOGO -->
-            <img
-                src="img/logo.png"
-                alt="Logo Save Date"
-                class="logo"
-            >
+            <img src="img/logo.png" alt="Logo Save Date" class="logo">
 
             <!-- TÍTULO -->
             <h1 class="titulo">
@@ -81,18 +71,11 @@
         <form id="form-recuperar">
 
             <!-- EMAIL -->
-            <input
-                type="email"
-                id="email"
-                placeholder="Digite seu email"
-                required
-            >
+            <input type="email" id="email" placeholder="Digite seu email" required>
 
 
             <!-- BOTÃO -->
-            <button
-                type="submit"
-                class="botao" >
+            <button type="submit" class="botao">
                 Enviar link </button>
 
         </form>
@@ -120,58 +103,56 @@
     <!-- ==========================================
          JAVASCRIPT
     =========================================== -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 
     <script>
 
+        // ==========================================
+        // INICIA EMAILJS
+        // ==========================================
+
+        emailjs.init("2HZZBhBu3DyZErlD2");
 
 
 
-
-
-
-        /* ==========================================
-           FORMULÁRIO
-        ========================================== */
+        // ==========================================
+        // FORMULÁRIO
+        // ==========================================
 
         const formulario =
             document.getElementById("form-recuperar");
-
-
 
         const mensagem =
             document.getElementById("mensagem");
 
 
 
+        // ==========================================
+        // RECUPERAR SENHA
+        // ==========================================
 
+        formulario.addEventListener("submit", function (event) {
 
-
-        /* ==========================================
-           RECUPERAR SENHA
-        ========================================== */
-
-        formulario.addEventListener("submit", function(event){
-
-            // Impede recarregar
+            // Impede recarregar página
             event.preventDefault();
 
 
 
-            /* ==========================================
-               EMAIL DIGITADO
-            ========================================== */
+            // ==========================================
+            // EMAIL DIGITADO
+            // ==========================================
 
             const emailDigitado =
                 document.getElementById("email").value;
 
-
-
-            /* ==========================================
-               EMAIL CADASTRADO
-            ========================================== */
-
             const emailNormalizado =
                 emailDigitado.toLowerCase();
+
+
+
+            // ==========================================
+            // BUSCA DADOS NO LOCALSTORAGE
+            // ==========================================
 
             const usuarios = JSON.parse(
                 localStorage.getItem("cadastrosUsuarios") || "[]"
@@ -181,6 +162,12 @@
                 localStorage.getItem("cadastrosEstabelecimentos") || "[]"
             );
 
+
+
+            // ==========================================
+            // VERIFICA EMAIL USUÁRIO
+            // ==========================================
+
             const emailUsuario =
                 usuarios.find(
                     (item) => item.email === emailNormalizado
@@ -188,29 +175,40 @@
                 localStorage.getItem("usuarioCadastroEmail") ||
                 localStorage.getItem("usuarioCadastro");
 
+
+
+            // ==========================================
+            // VERIFICA EMAIL ESTABELECIMENTO
+            // ==========================================
+
             const emailEstabelecimento =
                 estabelecimentos.find(
                     (item) => item.email === emailNormalizado
                 )?.email ||
                 localStorage.getItem("estabelecimentoCadastroEmail");
 
+
+
+            // ==========================================
+            // DEFINE TIPO
+            // ==========================================
+
             const tipoRecuperacao =
-                emailNormalizado ===
-                emailEstabelecimento
+                emailNormalizado === emailEstabelecimento
                     ? "estabelecimento"
-                    : emailNormalizado ===
-                    emailUsuario
-                    ? "usuario"
-                    : null;
+                    : emailNormalizado === emailUsuario
+                        ? "usuario"
+                        : null;
 
 
 
-            /* ==========================================
-               VERIFICA EMAIL
-            ========================================== */
+            // ==========================================
+            // EMAIL ENCONTRADO
+            // ==========================================
 
             if (tipoRecuperacao) {
 
+                // SALVA DADOS
                 localStorage.setItem(
                     "redefinirEmail",
                     emailNormalizado
@@ -221,41 +219,71 @@
                     tipoRecuperacao
                 );
 
-                mensagem.innerText =
-                    "E-mail de recuperação enviado com sucesso. Você será redirecionado para redefinir sua senha.";
 
-                mensagem.style.color =
-                    "green";
 
-                setTimeout(() => {
-                    window.location.href =
-                        "redefinir.html";
-                }, 2500);
+                // ==========================================
+                // VARIÁVEIS DO TEMPLATE
+                // ==========================================
 
+                const parametros = {
+                    email_usuario: emailDigitado
+                };
 
 
 
+                // ==========================================
+                // ENVIA EMAIL
+                // ==========================================
+
+                emailjs.send(
+                    "service_qymafzy",
+                    "template_zi7asg8",
+                    parametros
+                )
+
+                    .then(() => {
+
+                        mensagem.innerText =
+                            "E-mail de recuperação enviado com sucesso.";
+
+                        mensagem.style.color =
+                            "green";
+
+                        formulario.reset();
 
 
 
+                        // REDIRECIONA
+                        setTimeout(() => {
 
+                            window.location.href =
+                                "redefinir.html";
 
+                        }, 2500);
 
+                    })
 
+                    .catch((erro) => {
+
+                        console.log(erro);
+
+                        mensagem.innerText =
+                            "Erro ao enviar e-mail.";
+
+                        mensagem.style.color =
+                            "red";
+
+                    });
 
             }
 
 
 
+            // ==========================================
+            // EMAIL NÃO ENCONTRADO
+            // ==========================================
 
-
-
-
-            /* ==========================================
-               EMAIL NÃO ENCONTRADO
-            ========================================== */
-
-            else{
+            else {
 
                 mensagem.innerText =
                     "Email não encontrado.";
