@@ -24,9 +24,6 @@
         href="css/esqueci.css"
     >
 
-    <!-- EMAILJS -->
-    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-
 </head>
 
 <body>
@@ -126,11 +123,7 @@
 
     <script>
 
-        /* ==========================================
-           INICIA EMAILJS
-        ========================================== */
 
-        emailjs.init("2HZZBhBu3DyZErlD2");
 
 
 
@@ -177,22 +170,36 @@
                EMAIL CADASTRADO
             ========================================== */
 
+            const emailNormalizado =
+                emailDigitado.toLowerCase();
+
+            const usuarios = JSON.parse(
+                localStorage.getItem("cadastrosUsuarios") || "[]"
+            );
+
+            const estabelecimentos = JSON.parse(
+                localStorage.getItem("cadastrosEstabelecimentos") || "[]"
+            );
+
             const emailUsuario =
-                localStorage.getItem(
-                    "usuarioCadastroEmail"
-                ) || localStorage.getItem(
-                    "usuarioCadastro"
-                );
+                usuarios.find(
+                    (item) => item.email === emailNormalizado
+                )?.email ||
+                localStorage.getItem("usuarioCadastroEmail") ||
+                localStorage.getItem("usuarioCadastro");
 
             const emailEstabelecimento =
-                localStorage.getItem(
-                    "estabelecimentoCadastroEmail"
-                );
+                estabelecimentos.find(
+                    (item) => item.email === emailNormalizado
+                )?.email ||
+                localStorage.getItem("estabelecimentoCadastroEmail");
 
             const tipoRecuperacao =
-                emailDigitado === emailEstabelecimento
+                emailNormalizado ===
+                emailEstabelecimento
                     ? "estabelecimento"
-                    : emailDigitado === emailUsuario
+                    : emailNormalizado ===
+                    emailUsuario
                     ? "usuario"
                     : null;
 
@@ -206,7 +213,7 @@
 
                 localStorage.setItem(
                     "redefinirEmail",
-                    emailDigitado
+                    emailNormalizado
                 );
 
                 localStorage.setItem(
@@ -214,59 +221,27 @@
                     tipoRecuperacao
                 );
 
+                mensagem.innerText =
+                    "E-mail de recuperação enviado com sucesso. Você será redirecionado para redefinir sua senha.";
 
+                mensagem.style.color =
+                    "green";
 
-
-                /* ==========================================
-                   ENVIA EMAIL REAL
-                ========================================== */
-
-                emailjs.send(
-
-                    "service_qymafzy",
-                    "template_zi7asg8",
-
-                    {
-                        email: emailDigitado
-                    }
-
-                )
-
-                .then(() => {
-
-
-
-
-                    /* ==========================================
-                       SUCESSO
-                    ========================================== */
-
-                    mensagem.innerText =
-                        "Email de recuperação enviado com sucesso. Verifique seu email!";
-
-                    mensagem.style.color =
-                        "green";
-
-                })
+                setTimeout(() => {
+                    window.location.href =
+                        "redefinir.html";
+                }, 2500);
 
 
 
 
 
 
-                /* ==========================================
-                   ERRO EMAIL
-                ========================================== */
 
-                .catch(() => {
 
-                    mensagem.innerText =
-                        "Erro ao enviar email.";
 
-                    mensagem.style.color =
-                        "red";
 
-                });
+
 
             }
 

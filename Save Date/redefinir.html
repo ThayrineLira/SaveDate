@@ -110,6 +110,25 @@
         const formulario =
             document.getElementById("form-redefinir");
 
+        const mensagem =
+            document.getElementById("mensagem");
+
+        const emailParaRedefinir =
+            localStorage.getItem("redefinirEmail");
+
+        if (emailParaRedefinir) {
+            mensagem.innerText =
+                `Enviamos as instruções para ${emailParaRedefinir}. Insira sua nova senha abaixo.`;
+            mensagem.style.color = "#222";
+        } else {
+            mensagem.innerText =
+                "Solicite a recuperação de senha primeiro.";
+            mensagem.style.color = "red";
+            setTimeout(() => {
+                window.location.href = "esqueci.html";
+            }, 2000);
+        }
+
 
 
 
@@ -207,11 +226,53 @@
             }
 
             if (tipoRecuperacao === "estabelecimento") {
+                const estabelecimentos =
+                    JSON.parse(
+                        localStorage.getItem(
+                            "cadastrosEstabelecimentos"
+                        ) || "[]"
+                    );
+
+                const estabelecimento = estabelecimentos.find(
+                    (item) =>
+                        item.email ===
+                        emailParaRedefinir
+                );
+
+                if (estabelecimento) {
+                    estabelecimento.senha = novaSenha;
+                    localStorage.setItem(
+                        "cadastrosEstabelecimentos",
+                        JSON.stringify(estabelecimentos)
+                    );
+                }
+
                 localStorage.setItem(
                     "estabelecimentoCadastroSenha",
                     novaSenha
                 );
             } else {
+                const usuarios =
+                    JSON.parse(
+                        localStorage.getItem(
+                            "cadastrosUsuarios"
+                        ) || "[]"
+                    );
+
+                const usuario = usuarios.find(
+                    (item) =>
+                        item.email ===
+                        emailParaRedefinir
+                );
+
+                if (usuario) {
+                    usuario.senha = novaSenha;
+                    localStorage.setItem(
+                        "cadastrosUsuarios",
+                        JSON.stringify(usuarios)
+                    );
+                }
+
                 localStorage.setItem(
                     "usuarioCadastroSenha",
                     novaSenha

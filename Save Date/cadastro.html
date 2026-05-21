@@ -330,9 +330,48 @@
            SALVA CADASTRO
         =========================================== */
 
+        const usuarios =
+          JSON.parse(
+            localStorage.getItem(
+              "cadastrosUsuarios"
+            ) || "[]"
+          );
+
+        const emailExistente = usuarios.some(
+          (usuario) =>
+            usuario.email ===
+            email.toLowerCase()
+        );
+
+        if (emailExistente) {
+          mostrarMensagemCadastro(
+            "Já existe cadastro com este e-mail. Se não lembra a senha, você será redirecionado para redefinir.",
+            "erro"
+          );
+
+          setTimeout(() => {
+            window.location.href =
+              "esqueci.html";
+          }, 2600);
+
+          return;
+        }
+
+        usuarios.push({
+          nome,
+          email: email.toLowerCase(),
+          senha,
+          tipo: "usuario"
+        });
+
+        localStorage.setItem(
+          "cadastrosUsuarios",
+          JSON.stringify(usuarios)
+        );
+
         localStorage.setItem(
           "usuarioCadastroEmail",
-          email
+          email.toLowerCase()
         );
 
         localStorage.setItem(
@@ -367,8 +406,10 @@
            VOLTA LOGIN
         =========================================== */
 
-        window.location.href =
-          "login.html";
+        setTimeout(() => {
+          window.location.href =
+            "login.html";
+        }, 1400);
 
       });
 

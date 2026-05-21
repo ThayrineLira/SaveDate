@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <!-- Define codificação (acentos, caracteres especiais) -->
+    <meta charset="UTF-8" />
+
+    <!-- Responsividade (adapta para celular) -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Título da aba -->
+    <title>Save Date – Salvos</title>
+
+    <!-- CSS principal da página -->
+    <link rel="stylesheet" href="css/explorar.css" />
+
+    <!-- Biblioteca de ícones (Tabler Icons) -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css"
+    />
+  </head>
+
+  <body>
+
+    <!-- ================= NAVBAR ================= -->
+    <nav class="nav">
+      
+      <!-- Logo clicável -->
+      <a class="logo" href="home.html">
+        <img
+          src="img/logo.png"
+          alt="Save Date Logo"
+          class="logo-img"
+          width="32"
+          height="32"
+        />
+        Save Date
+      </a>
+
+      <!-- Links de navegação -->
+      <div class="nav-links">
+        <!-- Botão início -->
+        <a href="home.html" class="nav-link">
+          <i class="ti ti-home"></i> Início
+        </a>
+
+        <!-- Explorar -->
+        <a href="explorar.html" class="nav-link">
+          <i class="ti ti-search"></i> Explorar
+        </a>
+
+        <!-- Página atual (active) -->
+        <a href="salvos.html" class="nav-link active">
+          <i class="ti ti-heart"></i> Salvos
+        </a>
+      </div>
+    </nav>
+
+    <!-- ================= CONTEÚDO PRINCIPAL ================= -->
+    <div class="body">
+
+      <!-- Título da página -->
+      <div class="page-title">Meus Lugares Salvos</div>
+
+      <!-- Subtítulo -->
+      <div class="page-sub">
+        Veja todos os lugares que você marcou como favoritos
+      </div>
+    
+      <!-- ================= CONTADOR ================= -->
+      <div class="found">
+        <span id="count">0</span> lugares salvos
+      </div>
+
+      <!-- ================= CARDS DINÂMICOS ================= -->
+      <!-- Aqui o JavaScript vai inserir os lugares salvos -->
+      <div class="cards-grid" id="cards-grid"></div>
+    </div>
+
+    <!-- ================= SCRIPT ================= -->
+    <script src="js/salvos.js"></script>
+
+  </body>
+</html>
