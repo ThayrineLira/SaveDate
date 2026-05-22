@@ -193,10 +193,33 @@
                SALVA NOVA SENHA
             ========================================== */
 
-            localStorage.setItem(
-                "senhaCadastro",
-                novaSenha
-            );
+            const tipoRecuperacao =
+                localStorage.getItem(
+                    "redefinirTipo"
+                );
+
+            if (!tipoRecuperacao) {
+                mensagem.innerText =
+                    "Não foi possível redefinir a senha. Volte para recuperar sua conta.";
+                mensagem.style.color =
+                    "red";
+                return;
+            }
+
+            if (tipoRecuperacao === "estabelecimento") {
+                localStorage.setItem(
+                    "estabelecimentoCadastroSenha",
+                    novaSenha
+                );
+            } else {
+                localStorage.setItem(
+                    "usuarioCadastroSenha",
+                    novaSenha
+                );
+            }
+
+            localStorage.removeItem("redefinirEmail");
+            localStorage.removeItem("redefinirTipo");
 
 
 
@@ -208,7 +231,9 @@
             ========================================== */
 
             mensagem.innerText =
-                "Senha alterada com sucesso!";
+                tipoRecuperacao === "estabelecimento"
+                    ? "Senha do estabelecimento alterada com sucesso! Agora você pode fazer login com a nova senha."
+                    : "Senha alterada com sucesso! Agora você pode fazer login com sua nova senha.";
 
             mensagem.style.color =
                 "green";

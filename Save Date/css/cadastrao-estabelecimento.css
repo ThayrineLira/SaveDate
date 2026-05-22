@@ -12,11 +12,13 @@ body {
 /* CAIXA CENTRAL */
 .texto {
   background: white;
-  padding: 30px;
-  border-radius: 20px;
-  box-shadow: 0px 10px 25px rgba(0,0,0,0.2);
-  width: 300px;
-  max-height: 90vh;
+  padding: 28px;
+  border-radius: 14px;
+  box-shadow: 0px 10px 25px rgba(0,0,0,0.12);
+  width: 100%;
+  max-width: 760px;
+  max-height: 92vh;
+  overflow: auto;
 }
 .topo{
   text-align: center;
@@ -107,4 +109,37 @@ input{
     .card {
         flex: 1 1 30%;
     }
+}
+
+/* Campos adicionais do cadastro-estabelecimento */
+label{ display:block; margin-top:10px; margin-bottom:6px; font-weight:700; color:#333; }
+textarea{ min-height:80px; border-radius:12px; padding:10px; border:1px solid #e6e6e6; resize:vertical; }
+input[type="file"]{ padding:6px 0; }
+
+#preview-fotos{ margin-top:6px; }
+#preview-fotos img{ width:110px; height:80px; object-fit:cover; border-radius:8px; border:1px solid #eee; }
+
+#cardapio-controls select,
+#cardapio-controls input{ height:40px; border-radius:10px; border:1px solid #e6e6e6; padding:6px 10px }
+#cardapio-controls button{ height:40px; border-radius:10px; border:none; background:#f4a261; color:#fff; padding:8px 12px; cursor:pointer }
+#cardapio-controls button:hover{ background:#e76f51 }
+
+#lista-cardapio h4{ margin:8px 0 6px; font-size:1rem; color:#2f2f2f }
+#lista-cardapio > div{ padding:8px; background:#faf9f6; border-radius:8px; margin-bottom:8px; display:flex; align-items:center; justify-content:space-between }
+#lista-cardapio button{ background:#fff; border:1px solid #e2dfd7; color:#333; padding:6px 8px; border-radius:8px; cursor:pointer }
+#lista-cardapio button:hover{ background:#fff4e6 }
+
+#media-preco{ margin-left:6px; color:#2f4858 }
+#coordenadas{ margin-left:6px; color:#666; font-size:0.95rem }
+
+.erro-senha{ color:#d32f2f; font-weight:700; margin-top:8px; }
+
+.botao{ padding:10px 14px; border-radius:12px; font-weight:700 }
+
+/* responsividade: empilha campos em telas pequenas */
+@media (max-width:640px){
+  .texto{ padding:18px; margin:12px }
+  #cardapio-controls{ flex-direction:column; align-items:stretch }
+  #cardapio-controls input, #cardapio-controls select, #cardapio-controls button{ width:100% }
+  #preview-fotos img{ width:80px; height:56px }
 }
