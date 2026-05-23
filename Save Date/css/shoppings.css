@@ -2,14 +2,25 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+     font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+:root {
+    --primaria: #f4a261;
+    --primaria-hover: #e76f51;
+    --texto: #222;
+    --texto-claro: #666;
+    --borda: #e5e5e5;
+    --sombra: 0 8px 25px rgba(0,0,0,.08);
+    --transicao: .3s;
 }
 
 body {
     background-color: #f4f7f6;
-    color: #000000;
+    color: var(--texto);
     /* Espaço para o header fixo não cobrir o conteúdo */
-    padding-top: 80px; 
+    padding-top: 80px;
+    line-height: 1.5;
 }
 
 /* --- HEADER FIXO --- */
@@ -26,12 +37,13 @@ body {
     align-items: center;
     padding: 0 30px;
     z-index: 1000;
+    border-bottom: 1px solid var(--borda);
 }
 
 .user-name {
     font-weight: 600;
     font-size: 1.1rem;
-    color: #555;
+    color: var(--texto-claro);
     margin-left: auto; /* Empurra o nome para a direita */
     margin-right: 20px; /* Cria um espaço entre o nome e a logo */
 }
@@ -40,18 +52,19 @@ body {
     display: flex;
     align-items: center;
     text-decoration: none;
-    color: #333;
+    color: var(--texto);
     gap: 10px;
+    transition: color var(--transicao) ease;
 }
 
 .logo-container:hover .logo-text {
-    color: #007bff;
+    color: var(--primaria);
 }
 
 .logo-text {
     font-weight: 700;
     font-size: 1.2rem;
-    transition: color 0.3s ease;
+    transition: color var(--transicao) ease;
 }
 
 .logo-img {
@@ -73,7 +86,8 @@ body {
     text-align: center;
     margin-bottom: 30px;
     font-size: 2.5rem;
-    color: #2c3e50;
+    color: var(--texto);
+    font-weight: 700;
 }
 
 /* --- CARDS DOS ESTABELECIMENTOS --- */
@@ -86,15 +100,15 @@ body {
 .card {
     background-color: #ffffff;
     border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    box-shadow: var(--sombra);
     display: flex;
     overflow: hidden;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition: transform var(--transicao) ease, box-shadow var(--transicao) ease;
 }
 
 .card:hover {
     transform: translateY(-3px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.12);
 }
 
 .card-img {
@@ -114,30 +128,31 @@ body {
 
 .card-title {
     font-size: 1.5rem;
+    font-weight: 700;
     margin-bottom: 10px;
-    color: #333;
+    color: var(--texto);
 }
 
 .card-desc {
     font-size: 1rem;
-    color: #666;
-    line-height: 1.5;
+    color: var(--texto-claro);
+    line-height: 1.6;
     margin-bottom: 20px;
 }
 
 .card-link {
     align-self: flex-start;
     padding: 10px 20px;
-    background-color:#f4a261;
+    background-color: var(--primaria);
     color: #ffffff;
     text-decoration: none;
     border-radius: 5px;
     font-weight: 600;
-    transition: background-color 0.3s ease;
+    transition: background-color var(--transicao) ease;
 }
 
 .card-link:hover {
-    background-color:#f4a261;
+    background-color: var(--primaria-hover);
 }
 
 /* --- RESPONSIVIDADE (Celulares) --- */
