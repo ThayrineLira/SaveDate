@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Save Date – Detalhes</title>
+    <link rel="stylesheet" href="css/detalhes.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css"
+    />
+  </head>
+
+  <body>
+    <!-- NAVBAR -->
+    <nav class="nav">
+      <a class="logo" href="home.html">
+        <img
+          src="img/logo.png"
+          alt="Save Date Logo"
+          class="logo-img"
+          width="32"
+          height="32"
+        />
+        Save Date
+      </a>
+
+      <div class="nav-links">
+        <a href="home.html" class="nav-link">
+          <i class="ti ti-home"></i> Início
+        </a>
+        <a href="explorar.html" class="nav-link">
+          <i class="ti ti-search"></i> Explorar
+        </a>
+        <a href="salvos.html" class="nav-link">
+          <i class="ti ti-heart"></i> Salvos
+        </a>
+      </div>
+    </nav>
+
+    <!-- BANNER -->
+    <div class="banner">
+      <button class="back-btn" onclick="window.history.back()">
+        <i class="ti ti-arrow-left"></i>
+      </button>
+      <button class="fav-btn" id="fav-btn" onclick="toggleFavorito()">
+        <i class="ti ti-heart"></i>
+      </button>
+      <div class="banner-emoji" id="banner-emoji">🍽️</div>
+    </div>
+
+    <!-- CONTAINER -->
+    <div class="container">
+      <!-- HEADER -->
+      <div class="header">
+        <div class="title-section">
+          <h1 id="nome-lugar">Nome do Lugar</h1>
+          <div class="rating-section">
+            <span class="rating" id="rating">⭐ 4.8</span>
+            <span class="reviews" id="reviews">(567 avaliações)</span>
+            <span class="price" id="price">$$$</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- DESCRIPTION -->
+      <div class="description-card">
+        <p id="descricao">Descrição do estabelecimento...</p>
+
+        <!-- INFO GRID -->
+        <div class="info-grid">
+          <div class="info-item">
+            <h3>Endereço</h3>
+            <p id="endereco">Rua Exemplo, São Paulo</p>
+          </div>
+          <div class="info-item">
+            <h3>Telefone</h3>
+            <p id="telefone">(11) 99999-9999</p>
+          </div>
+          <div class="info-item">
+            <h3>Horário</h3>
+            <p id="horario">11h30 - 23h</p>
+          </div>
+          <div class="info-item">
+            <h3>Média por pessoa</h3>
+            <p id="media">R$95</p>
+          </div>
+        </div>
+
+        <!-- TAGS -->
+        <div class="tags" id="tags-container">
+          <span class="tag">Categoria</span>
+        </div>
+
+        <!-- BUTTONS -->
+        <div class="action-buttons">
+          <button class="btn-principal" onclick="abrirMapa()">
+            <i class="ti ti-map-pin"></i> Ver no Mapa
+          </button>
+          <button class="btn-secundario" onclick="ligar()">
+            <i class="ti ti-phone"></i> Ligar
+          </button>
+        </div>
+      </div>
+
+      <!-- TABS -->
+      <div class="tabs-section">
+        <div class="tabs">
+          <button class="tab active" onclick="mostrarTab('sobre')">
+            Sobre
+          </button>
+          <button class="tab" onclick="mostrarTab('fotos')">Fotos</button>
+          <button class="tab" onclick="mostrarTab('avaliacoes')">
+            Avaliações
+          </button>
+        </div>
+
+        <!-- TAB CONTENT -->
+        <div id="tab-sobre" class="tab-content active">
+          <div class="content-section">
+            <h3>Sobre este lugar</h3>
+            <p id="sobre-text">
+              Informações detalhadas sobre o estabelecimento...
+            </p>
+            <h3 style="margin-top: 20px">Diferenciais</h3>
+            <ul id="diferenciais-list" class="diferenciais-list">
+              <li>Wi-Fi grátis</li>
+              <li>Estacionamento</li>
+              <li>Ar condicionado</li>
+            </ul>
+          </div>
+        </div>
+
+        <div id="tab-fotos" class="tab-content">
+          <div class="fotos-grid" id="fotos-grid">
+            <div class="foto-placeholder">Fotos indisponíveis</div>
+          </div>
+        </div>
+
+        <div id="tab-avaliacoes" class="tab-content">
+          <div class="avaliacoes-list" id="avaliacoes-list">
+            <div class="avaliacao-item">
+              <div class="avaliacao-header">
+                <strong>Usuário</strong>
+                <span class="stars">⭐⭐⭐⭐⭐</span>
+              </div>
+              <p class="avaliacao-texto">Excelente lugar! Recomendo!</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="js/detalhes.js"></script>
+  </body>
+</html>

@@ -288,9 +288,48 @@
 
         erro.innerText = "";
 
+        const estabelecimentos =
+          JSON.parse(
+            localStorage.getItem(
+              "cadastrosEstabelecimentos"
+            ) || "[]"
+          );
+
+        const emailExistente = estabelecimentos.some(
+          (item) =>
+            item.email ===
+            email.toLowerCase()
+        );
+
+        if (emailExistente) {
+          mostrarToast(
+            "Já existe cadastro com este e-mail. Se não lembra a senha, você será redirecionado para redefinir.",
+            "erro"
+          );
+
+          setTimeout(() => {
+            window.location.href =
+              "esqueci.html";
+          }, 2600);
+
+          return false;
+        }
+
+        estabelecimentos.push({
+          nome,
+          email: email.toLowerCase(),
+          senha,
+          tipo: "estabelecimento"
+        });
+
+        localStorage.setItem(
+          "cadastrosEstabelecimentos",
+          JSON.stringify(estabelecimentos)
+        );
+
         localStorage.setItem(
           "estabelecimentoCadastroEmail",
-          email
+          email.toLowerCase()
         );
 
         localStorage.setItem(

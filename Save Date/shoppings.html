@@ -1,142 +1,175 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shoppings - Save Date</title>
-    
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
+
     <link rel="stylesheet" href="css/shoppings.css">
     <script src="js/auth.js"></script>
 </head>
+
 <body>
 
-   <header class="main-header">
+    <header class="main-header">
         <a href="home.html" class="logo-container">
-            <span class="logo-text">save date</span>
+            <span class="logo-text">Save Date</span>
             <img src="img/logo2.png" alt="Logo Save Date" class="logo-img">
         </a>
 
-        <div class="user-name">
-            Olá, [Nome do Usuário]
+        <div class="user-name" id="user-name-display">
+            Olá, Usuário
         </div>
     </header>
     <main class="container">
         <h1 class="page-title">Shoppings</h1>
 
         <section class="cards-list">
-            
+
             <article class="card">
-                <img src="imagem-shopping-1.jpg" alt="Foto do Shopping 1" class="card-img">
+                <img src="img/shoppingLeblon.png"
+                    alt="Shopping Leblon" class="card-img">
                 <div class="card-content">
                     <div>
-                        <h2 class="card-title">Shopping Center 1</h2>
-                        <p class="card-desc">Descrição do primeiro shopping. Um lugar excelente para fazer compras, com diversas lojas renomadas, praça de alimentação completa e cinema.</p>
+                        <h2 class="card-title">Shopping Leblon</h2>
+                        <p class="card-desc">O mais sofisticado shopping do Rio, localizado no bairro nobre do Leblon.
+                            Oferece lojas de grife, alta gastronomia com chefs renomados, espaço SPA e cinema. Perfeito
+                            para encontros elegantes em um ambiente premium.</p>
                     </div>
-                    <a href="https://site-do-shopping-1.com" target="_blank" class="card-link">Visitar Site</a>
+                    <a href="https://www.shoppingleblon.com.br/" target="_blank" class="card-link">Visitar Site</a>
                 </div>
             </article>
 
             <article class="card">
-                <img src="imagem-shopping-2.jpg" alt="Foto do Shopping 2" class="card-img">
+                <img src="img/shoppingGavea.jpg"
+                    alt="Shopping da Gávea" class="card-img">
                 <div class="card-content">
                     <div>
-                        <h2 class="card-title">Shopping Center 2</h2>
-                        <p class="card-desc">Descrição do segundo shopping. Perfeito para lazer e entretenimento em família, oferecendo amplos espaços e eventos semanais.</p>
+                        <h2 class="card-title">Shopping da Gávea</h2>
+                        <p class="card-desc">Ambiente luxuoso na Gávea com arquitetura moderna. Destaque para lojas de
+                            design, moda premium e restaurantes sofisticados. Ideal para quem busca compras exclusivas e
+                            ambiência refinada com vista para as montanhas do Rio.</p>
                     </div>
-                    <a href="https://site-do-shopping-2.com" target="_blank" class="card-link">Visitar Site</a>
+                    <a href="https://www.shoppingdagavea.com.br/" target="_blank" class="card-link">Visitar Site</a>
                 </div>
             </article>
 
             <article class="card">
-                <img src="imagem-shopping-3.jpg" alt="Foto do Shopping 3" class="card-img">
+                <img src="img/shoppingBarra.jpg"
+                    alt="Shopping Barra" class="card-img">
                 <div class="card-content">
                     <div>
-                        <h2 class="card-title">Shopping Center 3</h2>
-                        <p class="card-desc">Um shopping focado em lojas de grife e alta gastronomia. Estacionamento VIP e serviços exclusivos para os clientes.</p>
+                        <h2 class="card-title">Barra shopping</h2>
+                        <p class="card-desc">Moderno shopping na região da Barra, conhecido pela diversidade de lojas,
+                            praça de alimentação completa e cinema. Ótima localização para lazer em família com amplo
+                            estacionamento e fácil acesso.</p>
                     </div>
-                    <a href="https://site-do-shopping-3.com" target="_blank" class="card-link">Visitar Site</a>
+                    <a href="https://www.barrashopping.com.br/" target="_blank" class="card-link">Visitar Site</a>
                 </div>
             </article>
 
             <article class="card">
-                <img src="imagem-shopping-4.jpg" alt="Foto do Shopping 4" class="card-img">
+                <img src="img/fashionMall.webp"
+                    alt="Fashion Mall" class="card-img">
                 <div class="card-content">
                     <div>
-                        <h2 class="card-title">Shopping Center 4</h2>
-                        <p class="card-desc">Centro comercial tradicional da cidade. Fácil acesso via transporte público e ótima variedade de lojas de departamento.</p>
+                        <h2 class="card-title">Fashion Mall</h2>
+                        <p class="card-desc">Templo da moda e estilo na Barra, especializado em marcas nacionais e
+                            internacionais de designers. Ambiente climatizado com lojas de roupas, acessórios e calçados
+                            de alta qualidade. Restaurantes sofisticados e área de lazer.</p>
                     </div>
-                    <a href="https://site-do-shopping-4.com" target="_blank" class="card-link">Visitar Site</a>
+                    <a href="https://www.fashionmall.com.br/" target="_blank" class="card-link">Visitar Site</a>
+                </div>
+            </article>
+
+
+
+            <article class="card">
+                <img src="img/barraWorld.jpg"
+                    alt="Barra World Shopping" class="card-img">
+                <div class="card-content">
+                    <div>
+                        <h2 class="card-title">Barra World Shopping</h2>
+                        <p class="card-desc">É o primeiro Shopping Temático do Mundo que reproduz a arquitetura e os
+                            principais monumentos de vários Países. Idealizado e edificado pelo empresário José Koury,
+                            teve seu projeto de arquitetura desenvolvido pelos arquitetos Sérgio Gattáss e Sérgio Klein.
+                            Nos fins de semana e nas férias, atrai turistas de todas as partes do Brasil e do mundo, e é
+                            considerado uma das atrações turísticas do Rio de Janeiro.</p>
+                    </div>
+                    <a href="https://barraworld.com/" target="_blank" class="card-link">Visitar Site</a>
                 </div>
             </article>
 
             <article class="card">
-                <img src="imagem-shopping-5.jpg" alt="Foto do Shopping 5" class="card-img">
+                <img src="img/RioDesign.jpg"
+                    alt="Rio Design" class="card-img">
                 <div class="card-content">
                     <div>
-                        <h2 class="card-title">Shopping Center 5</h2>
-                        <p class="card-desc">Shopping a céu aberto, ideal para dias ensolarados. Focado em sustentabilidade e integração com a natureza.</p>
+                        <h2 class="card-title">Rio Design Center</h2>
+                        <p class="card-desc">Centro de design e decoração na Saara, perfeito para móveis, artigos de
+                            decoração e objetos únicos. Lojas especializadas em design contemporâneo. Ideal para
+                            encontros com foco em estilo e inovação em decoração.</p>
                     </div>
-                    <a href="https://site-do-shopping-5.com" target="_blank" class="card-link">Visitar Site</a>
+                    <a href="https://www.riodesignbarra.com.br/" target="_blank" class="card-link">Visitar Site</a>
                 </div>
             </article>
 
             <article class="card">
-                <img src="imagem-shopping-6.jpg" alt="Foto do Shopping 6" class="card-img">
+                <img src="img/shoppingNovaA.jpg"
+                    alt="Shopping Nova America" class="card-img">
                 <div class="card-content">
                     <div>
-                        <h2 class="card-title">Shopping Center 6</h2>
-                        <p class="card-desc">O maior shopping da região metropolitana. Centenas de opções de compras, teatro e complexo gigante de cinemas.</p>
+                        <h2 class="card-title">Shopping Nova América</h2>
+                        <p class="card-desc">Shopping completo na Zona Oeste do Rio, oferecendo variedade de lojas,
+                            praça de alimentação, cinema e opções de entretenimento. Ambiente moderno e bem estruturado,
+                            perfeito para encontros descontraídos em família.</p>
                     </div>
-                    <a href="https://site-do-shopping-6.com" target="_blank" class="card-link">Visitar Site</a>
+                    <a href="https://www.novaamerica.com.br/" target="_blank" class="card-link">Visitar Site</a>
                 </div>
             </article>
 
             <article class="card">
-                <img src="imagem-shopping-7.jpg" alt="Foto do Shopping 7" class="card-img">
+                <img src="img/bangushopping.jpg"
+                    alt="Bangu Shopping" class="card-img">
                 <div class="card-content">
                     <div>
-                        <h2 class="card-title">Shopping Center 7</h2>
-                        <p class="card-desc">Focado em outlets e promoções o ano todo. Excelente para encontrar as melhores marcas com os menores preços.</p>
+                        <h2 class="card-title">Bangu Shopping</h2>
+                        <p class="card-desc">Shopping tradicional no bairro de Bangu, com diversas lojas, praça de
+                            alimentação e cinema. Oferece bom custo-benefício com promoções frequentes. Ótima opção para
+                            quem busca compras práticas e divertimento em ambiente familiar.</p>
                     </div>
-                    <a href="https://site-do-shopping-7.com" target="_blank" class="card-link">Visitar Site</a>
-                </div>
-            </article>
-
-            <article class="card">
-                <img src="imagem-shopping-8.jpg" alt="Foto do Shopping 8" class="card-img">
-                <div class="card-content">
-                    <div>
-                        <h2 class="card-title">Shopping Center 8</h2>
-                        <p class="card-desc">Localizado no centro da cidade. Uma opção rápida e prática para quem trabalha na região e precisa resolver as coisas na hora do almoço.</p>
-                    </div>
-                    <a href="https://site-do-shopping-8.com" target="_blank" class="card-link">Visitar Site</a>
-                </div>
-            </article>
-
-            <article class="card">
-                <img src="imagem-shopping-9.jpg" alt="Foto do Shopping 9" class="card-img">
-                <div class="card-content">
-                    <div>
-                        <h2 class="card-title">Shopping Center 9</h2>
-                        <p class="card-desc">Shopping voltado para tecnologia e inovação. A maior concentração de lojas de eletrônicos e acessórios do estado.</p>
-                    </div>
-                    <a href="https://site-do-shopping-9.com" target="_blank" class="card-link">Visitar Site</a>
-                </div>
-            </article>
-
-            <article class="card">
-                <img src="imagem-shopping-10.jpg" alt="Foto do Shopping 10" class="card-img">
-                <div class="card-content">
-                    <div>
-                        <h2 class="card-title">Shopping Center 10</h2>
-                        <p class="card-desc">Ambiente aconchegante e familiar. Destaque para a área de recreação infantil e opções de restaurantes com espaço kids.</p>
-                    </div>
-                    <a href="https://site-do-shopping-10.com" target="_blank" class="card-link">Visitar Site</a>
+                    <a href="https://bangushopping.com.br/" target="_blank" class="card-link">Visitar Site</a>
                 </div>
             </article>
 
         </section>
     </main>
-        <script> protegerPagina(); </script>
+    <script>
+        // Proteger página
+        protegerPagina();
+
+        // Exibir nome do usuário logado
+        function exibirNomeUsuario() {
+            const nomeUsuario = localStorage.getItem("nomeUsuario");
+            const userName = document.getElementById("user-name-display");
+
+            if (nomeUsuario && nomeUsuario.trim() !== "") {
+                userName.textContent = `Olá, ${nomeUsuario}`;
+            } else {
+                userName.textContent = "Olá, Usuário";
+            }
+        }
+
+        // Chamar ao carregar a página
+        window.addEventListener("load", exibirNomeUsuario);
+        // Também chamar na leitura do DOM caso já esteja pronto
+        document.addEventListener("DOMContentLoaded", exibirNomeUsuario);
+        exibirNomeUsuario();
+    </script>
 </body>
+
 </html>
