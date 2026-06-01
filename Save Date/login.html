@@ -1,220 +1,476 @@
 <!doctype html>
 <html lang="pt-br">
-  <head>
+
+<head>
+
+  <!-- ==========================================
+       CONFIGURAÇÕES DA PÁGINA
+  =========================================== -->
+
+  <meta charset="UTF-8" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/login.css" />
+
+  <title>
+    Save Date
+  </title>
+
+</head>
+
+<body>
+
+  <!-- ==========================================
+       CONTAINER PRINCIPAL
+  =========================================== -->
+
+  <div class="texto">
+
     <!-- ==========================================
-         CONFIGURAÇÕES DA PÁGINA
+         TOPO / LOGO
     =========================================== -->
 
-    <meta charset="UTF-8" />
+    <header class="topo">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <div class="logo-area">
 
-    <!-- CSS -->
-    <link rel="stylesheet" href="css/login.css" />
+        <!-- LOGO -->
 
-    <title>Save Date</title>
-  </head>
+        <img src="img/logo.png" alt="Logo Save Date" class="logo" />
 
-  <body>
-    <!-- ==========================================
-         CONTAINER PRINCIPAL
-    =========================================== -->
-    <div class="texto">
-      <!-- ==========================================
-             TOPO / LOGO
-        =========================================== -->
-      <header class="topo">
-        <div class="logo-area">
-          <!-- LOGO -->
-          <img src="img/logo.png" alt="Logo Save Date" class="logo" />
+        <!-- TÍTULO -->
 
-          <!-- TÍTULO -->
-          <h1 class="titulo">SAVE DATE</h1>
+        <h1 class="titulo">
+          SAVE DATE
+        </h1>
 
-          <!-- SUBTÍTULO -->
-          <p class="subtitulo">
-            <small> SALVA ENCONTROS </small>
-          </p>
-        </div>
+        <!-- SUBTÍTULO -->
 
-        <!-- TÍTULO LOGIN -->
-        <h2>Login</h2>
-      </header>
+        <p class="subtitulo">
 
-      <!-- ==========================================
-             FORMULÁRIO LOGIN
-        =========================================== -->
-      <form id="form-login" class="login-form">
-        <!-- EMAIL -->
-        <input
-          type="email"
-          id="email"
-          name="email"
-          placeholder="Email cadastrado"
-          required
-        />
+          <small>
+            SALVA ENCONTROS
+          </small>
 
-        <!-- SENHA -->
-        <input
-          type="password"
-          id="senha"
-          name="senha"
-          placeholder="Senha"
-          required
-        />
+        </p>
 
-        <!-- ==========================================
-                 OPÇÕES LOGIN
-            =========================================== -->
-        <div class="opcao-login">
-          <!-- LEMBRAR -->
-          <label>
-            <input type="checkbox" id="remember" name="remember" />
-
-            Lembrar de mim
-          </label>
-
-          <!-- ESQUECI SENHA -->
-          <a href="esqueci.html"> Esqueceu a senha? </a>
-        </div>
-
-        <!-- BOTÃO LOGIN -->
-        <button type="submit" class="botao">Entrar</button>
-      </form>
-
-      <!-- ==========================================
-             CADASTRO
-        =========================================== -->
-      <div class="cadastro">
-        <p>Não tem conta?</p>
-
-        <a href="tipo-de-conta.html">
-          <small> Cadastre-se aqui </small>
-        </a>
       </div>
+
+      <!-- TÍTULO LOGIN -->
+
+      <h2>
+        Login
+      </h2>
+
+    </header>
+
+    <!-- ==========================================
+         FORMULÁRIO LOGIN
+    =========================================== -->
+
+    <form id="form-login" class="login-form">
+
+      <!-- EMAIL -->
+
+      <input type="email" id="email" name="email" placeholder="Email cadastrado" required />
+
+      <!-- SENHA -->
+
+      <input type="password" id="senha" name="senha" placeholder="Senha" required />
+
+      <!-- ==========================================
+           OPÇÕES LOGIN
+      =========================================== -->
+
+      <div class="opcao-login">
+
+        <!-- LEMBRAR -->
+
+        <label>
+
+          <input type="checkbox" id="remember" name="remember" />
+
+          Lembrar de mim
+
+        </label>
+
+        <!-- ESQUECI SENHA -->
+
+        <a href="esqueci.html">
+          Esqueceu a senha?
+        </a>
+
+      </div>
+
+      <!-- BOTÃO LOGIN -->
+
+      <button type="submit" class="botao">
+        Entrar
+      </button>
+
+    </form>
+
+    <!-- ==========================================
+         CADASTRO
+    =========================================== -->
+
+    <div class="cadastro">
+
+      <p>
+        Não tem conta?
+      </p>
+
+      <a href="tipo-de-conta.html">
+
+        <small>
+          Cadastre-se aqui
+        </small>
+
+      </a>
+
     </div>
 
-    <!-- ==========================================
-         JAVASCRIPT
-    =========================================== -->
-    <script>
-      /* ==========================================
-           ELEMENTOS
-        =========================================== */
+  </div>
 
-      const formulario = document.getElementById("form-login");
+  <!-- ==========================================
+       JAVASCRIPT
+  =========================================== -->
 
-      const emailInput = document.getElementById("email");
+  <script>
 
-      const senhaInput = document.getElementById("senha");
+    /* ==========================================
+         ELEMENTOS
+    =========================================== */
 
-      const rememberInput = document.getElementById("remember");
+    const formulario =
+      document.getElementById(
+        "form-login"
+      );
 
-      /* ==========================================
-           RECUPERA LOGIN SALVO
-        =========================================== */
+    const emailInput =
+      document.getElementById(
+        "email"
+      );
 
-      window.onload = function () {
-        const emailSalvo = localStorage.getItem("email");
+    const senhaInput =
+      document.getElementById(
+        "senha"
+      );
 
-        const senhaSalva = localStorage.getItem("senha");
+    const rememberInput =
+      document.getElementById(
+        "remember"
+      );
+    function pegarCadastrosUsuarios() {
+      return JSON.parse(
+        localStorage.getItem("cadastrosUsuarios") || "[]"
+      );
+    }
 
-        /* ==========================================
-               PREENCHE INPUTS
-            =========================================== */
+    function pegarCadastrosEstabelecimentos() {
+      return JSON.parse(
+        localStorage.getItem("cadastrosEstabelecimentos") || "[]"
+      );
+    }
 
-        if (emailSalvo && senhaSalva) {
-          emailInput.value = emailSalvo;
+    function buscarCadastroPorEmail(email) {
+      const emailNormalizado =
+        email.toLowerCase();
+      const usuarios = pegarCadastrosUsuarios();
+      const estabelecimentos = pegarCadastrosEstabelecimentos();
 
-          senhaInput.value = senhaSalva;
+      const usuario = usuarios.find(
+        (item) => item.email === emailNormalizado
+      );
+      if (usuario) {
+        return {
+          tipo: "usuario",
+          nome: usuario.nome,
+          senha: usuario.senha
+        };
+      }
 
-          rememberInput.checked = true;
-        }
-      };
+      const estabelecimento = estabelecimentos.find(
+        (item) => item.email === emailNormalizado
+      );
+      if (estabelecimento) {
+        return {
+          tipo: "estabelecimento",
+          nome: estabelecimento.nome,
+          senha: estabelecimento.senha
+        };
+      }
 
-      /* ==========================================
-           LOGIN
-        =========================================== */
+      const usuarioCadastroEmail =
+        localStorage.getItem("usuarioCadastroEmail") ||
+        localStorage.getItem("usuarioCadastro");
+      const usuarioCadastroSenha =
+        localStorage.getItem("usuarioCadastroSenha") ||
+        localStorage.getItem("senhaCadastro");
+      const estabelecimentoCadastroEmail =
+        localStorage.getItem("estabelecimentoCadastroEmail");
+      const estabelecimentoCadastroSenha =
+        localStorage.getItem("estabelecimentoCadastroSenha");
 
-      formulario.addEventListener("submit", function (event) {
-        // Impede recarregar
+      if (
+        usuarioCadastroEmail &&
+        emailNormalizado === usuarioCadastroEmail.toLowerCase()
+      ) {
+        return {
+          tipo: "usuario",
+          nome:
+            localStorage.getItem("usuarioCadastroNome") ||
+            localStorage.getItem("nomeCadastro") ||
+            email,
+          senha: usuarioCadastroSenha
+        };
+      }
+
+      if (
+        estabelecimentoCadastroEmail &&
+        emailNormalizado === estabelecimentoCadastroEmail.toLowerCase()
+      ) {
+        return {
+          tipo: "estabelecimento",
+          nome:
+            localStorage.getItem("estabelecimentoCadastroNome") ||
+            localStorage.getItem("nomeCadastro") ||
+            email,
+          senha: estabelecimentoCadastroSenha
+        };
+      }
+
+      return null;
+    }
+
+    /* ==========================================
+         TOAST
+    =========================================== */
+
+    function mostrarToast(
+      mensagem,
+      tipo = "sucesso"
+    ) {
+
+      const container =
+        document.getElementById(
+          "toast-container"
+        );
+
+      if (!container) {
+        return;
+      }
+
+      const toast =
+        document.createElement(
+          "div"
+        );
+
+      const emoji =
+        tipo === "sucesso"
+          ? "🎉"
+          : tipo === "aviso"
+          ? "💡"
+          : "⚠️";
+
+      toast.className =
+        `toast toast-${tipo}`;
+
+      toast.innerHTML =
+        `<div class="toast-content">
+           <span class="toast-emoji">${emoji}</span>
+           <div class="toast-text">${mensagem}</div>
+         </div>`;
+
+      container.appendChild(
+        toast
+      );
+
+      setTimeout(() => {
+
+        toast.classList.add(
+          "mostrar"
+        );
+
+      }, 100);
+
+      setTimeout(() => {
+
+        toast.classList.remove(
+          "mostrar"
+        );
+
+        setTimeout(() => {
+
+          toast.remove();
+
+        }, 300);
+
+      }, 3000);
+    }
+
+
+    /* ==========================================
+         RECUPERA LOGIN SALVO
+    =========================================== */
+
+    window.onload = function () {
+
+      const emailSalvo =
+        localStorage.getItem(
+          "email"
+        );
+
+      const senhaSalva =
+        localStorage.getItem(
+          "senha"
+        );
+
+      if (
+        emailSalvo &&
+        senhaSalva
+      ) {
+
+        emailInput.value =
+          emailSalvo;
+
+        senhaInput.value =
+          senhaSalva;
+
+        rememberInput.checked =
+          true;
+      }
+    };
+
+
+    /* ==========================================
+         LOGIN
+    =========================================== */
+
+    formulario.addEventListener(
+      "submit",
+
+      function (event) {
+
         event.preventDefault();
 
-        /* ==========================================
-               DADOS DIGITADOS
-            =========================================== */
+        const email =
+          emailInput.value.trim();
 
-        const email = emailInput.value;
+        const senha =
+          senhaInput.value.trim();
 
-        const senha = senhaInput.value;
-
-        /* ==========================================
-               DADOS CADASTRADOS
-            =========================================== */
-
-        const usuarioCadastrado = localStorage.getItem("usuarioCadastro");
-
-        const senhaCadastrada = localStorage.getItem("senhaCadastro");
+        const registro = buscarCadastroPorEmail(
+          email
+        );
 
         /* ==========================================
-               VERIFICA CADASTRO
-            =========================================== */
+             SEM CADASTRO
+        =========================================== */
 
-        if (!usuarioCadastrado || !senhaCadastrada) {
-          alert("Você precisa criar uma conta primeiro.");
+        if (!registro) {
+          mostrarToast(
+            "Parece que você ainda não tem conta. Vamos criar seu perfil?",
+            "aviso"
+          );
 
-          // Redireciona cadastro
-          window.location.href = "tipo-de-conta.html";
+          setTimeout(() => {
+            window.location.href =
+              "tipo-de-conta.html";
+          }, 1500);
 
           return;
         }
 
         /* ==========================================
-               LOGIN CORRETO
-            =========================================== */
+             LOGIN CORRETO
+        =========================================== */
 
-        if (email === usuarioCadastrado && senha === senhaCadastrada) {
-          alert("Login realizado com sucesso!");
+        const tipoCadastro = registro.tipo;
+        const nomeCadastrado = registro.nome || email;
 
-          /* ==========================================
-                   USUÁRIO LOGADO
-                =========================================== */
+        if (senha !== registro.senha) {
+          mostrarToast(
+            "E-mail ou senha incorretos. Verifique e tente novamente.",
+            "erro"
+          );
+          return;
+        }
 
-          localStorage.setItem("usuarioLogado", "true");
+        const mensagemLogin =
+          tipoCadastro === "estabelecimento"
+            ? `🎉 Bem-vindo, ${nomeCadastrado || "Estabelecimento"}! Seu perfil foi conectado.`
+            : rememberInput.checked
+            ? `🎉 Bem-vindo de volta${nomeCadastrado ? ", " + nomeCadastrado : ""}! Que bom ter você de volta.`
+            : "Seja bem-vindo! Seu login foi realizado com sucesso.";
 
-          /* ==========================================
-                   SALVA NOME
-                =========================================== */
+          mostrarToast(
+            mensagemLogin,
+            "sucesso"
+          );
 
-          localStorage.setItem("usuarioNome", email);
+          localStorage.setItem(
+            "usuarioLogado",
+            "true"
+          );
 
-          /* ==========================================
-                   LEMBRAR LOGIN
-                =========================================== */
+          localStorage.setItem(
+            "usuarioTipo",
+            tipoCadastro
+          );
 
-          if (rememberInput.checked) {
-            localStorage.setItem("email", email);
+          localStorage.setItem(
+            "nomeUsuario",
+            nomeCadastrado ||
+              email
+          );
 
-            localStorage.setItem("senha", senha);
-          } else {
-            localStorage.removeItem("email");
+          if (
+            rememberInput.checked
+          ) {
 
-            localStorage.removeItem("senha");
+            localStorage.setItem(
+              "email",
+              email
+            );
+
+            localStorage.setItem(
+              "senha",
+              senha
+            );
+
           }
 
-          /* ==========================================
-                   REDIRECIONA HOME
-                =========================================== */
+          else {
 
-          window.location.href = "home.html";
-        } else {
+            localStorage.removeItem(
+              "email"
+            );
 
-        /* ==========================================
-               LOGIN INCORRETO
-            =========================================== */
-          alert("Email ou senha incorretos.");
+            localStorage.removeItem(
+              "senha"
+            );
+          }
+
+          setTimeout(() => {
+
+            window.location.href =
+              "home.html";
+
+          }, 1500);
         }
-      });
-    </script>
-  </body>
+
+
+      
+    );
+
+  </script>
+
+  <!-- TOAST -->
+  <div id="toast-container"></div>
+
+</body>
+
 </html>

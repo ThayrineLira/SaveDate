@@ -1,56 +1,78 @@
 <!doctype html>
 <html lang="pt-br">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <title>Save Date | Explore sem sustos</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/home.css" />
-  <link rel="icon" type="image/x-icon" href="img/logo.png" />
-</head>
 
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/home.css" />
+
+  <!-- ÍCONE -->
+  <link rel="icon" type="image/x-icon" href="img/logo.png" />
+
+  <!-- SCRIPT DE PROTEÇÃO -->
+  <script src="js/auth.js"></script>
+
+</head>
 <body>
   <header id="cabecalho-principal" class="topo">
+
     <nav class="container nav-wrapper">
       <div id="logo-home" class="logo-area">
+
         <img src="img/logo.png" class="logo" alt="Logotipo Save Date" />
-        <h1 class="logo-nome">Save Date</h1>
+
+        <h1 class="logo-nome">
+          Save Date
+        </h1>
+
       </div>
       <div class="busca-container">
+
         <div class="busca-pilula">
+
           <input type="text" id="campo-busca" placeholder="Pesquisar categorias" />
           <button id="btn-buscar" type="button">🔍</button>
         </div>
+
+        <!-- SUGESTÕES -->
         <div id="sugestoes" class="sugestoes"></div>
+
       </div>
       <div id="menu-usuario" class="menu-perfil">
-        <span class="burger" onclick="toggleMenu()">☰</span>
+        <span class="burger">☰</span>
         <div class="usuario-dropdown">
           <img src="img/login.jpg" alt="Foto de perfil" class="avatar" />
-          <span id="nome-usuario" class="nome-usuario" onclick="toggleDropdown()">Entrar</span>
+          <span id="nome-usuario" class="nome-usuario">Entrar</span>
           <div id="dropdown-menu" class="dropdown-menu" style="display:none;">
             <span id="label-nome-dropdown" class="dropdown-nome"></span>
             <hr />
+            <a href="cadastro-estabelecimento.html" class="dropdown-item">Cadastrar restaurante</a>
             <a href="conta.html" class="dropdown-item">Minha Conta</a>
-            <a href="#" class="dropdown-item sair" onclick="sairLogin()">Sair</a>
+            <a href="#" id="btn-sair" class="dropdown-item sair">Sair</a>
           </div>
         </div>
       </div>
+
     </nav>
+
   </header>
 
   <main id="conteudo-principal">
     <section id="hero-banner" class="hero">
+      <div class="slide-container">
       <div id="slide-principal" class="container hero-conteudo slide-hero">
         <h2 class="hero-titulo">Saia e divirta-se<br /><span class="texto-gradiente">sem sustos no bolso.</span></h2>
         <p class="hero-subtitulo">Divirta-se mais, gaste menos</p>
         <div class="botoes-hero">
-          <button class="btn-principal" onclick="acessarFuncionalidade('login.html')">Ver Sugestões</button>
+          <button class="btn-principal" onclick="acessarFuncionalidade('sugestoes.html')">Ver Sugestões</button>
           <button class="btn-secundario" onclick="verificarLoginMapa()">Explorar Mapa</button>
         </div>
       </div>
-      <div class="container hero-conteudo slide-hero">
+      <div id="hero-slide-2" class="container hero-conteudo slide-hero">
         <h2 class="hero-titulo">Anuncie seu<span class="texto-gradiente"> restaurante aqui.</span></h2>
         <p class="hero-subtitulo">Ofereça seus serviços e conquiste clientes.</p>
         <div class="botoes-hero">
@@ -58,157 +80,223 @@
           <button class="btn-principal" onclick="acessarFuncionalidade('sugestoes.html')">Ver Sugestões</button>
           <button class="btn-secundario" onclick="verificarLoginMapa()">Explorar Mapa</button>
         </div>
+
+      </div>
+
+      </div>
+    </section>
+
+    <section class="cliente-primeira-visao" aria-label="O que voce encontra no Save Date">
+      <div class="container primeira-visao-grid">
+        <article class="primeira-visao-destaque">
+          <span class="etiqueta-secao">Antes de sair</span>
+          <h2>Escolha o rol&ecirc; certo para o seu bolso.</h2>
+          <p>Veja lugares por categoria, procure perto de voc&ecirc; e compare op&ccedil;&otilde;es antes de decidir onde ir.</p>
+          <div class="acoes-primeira-visao">
+            <button class="btn-principal" type="button" onclick="document.getElementById('secao-destaques')?.scrollIntoView({ behavior: 'smooth' }); document.getElementById('input-local')?.focus()">Buscar perto de mim</button>
+            <button class="btn-claro" type="button" onclick="acessarFuncionalidade('sugestoes.html')">Ver sugest&otilde;es</button>
+          </div>
+        </article>
+
+        <div class="beneficios-cliente">
+          <article class="beneficio-card">
+            <span class="beneficio-icone">R$</span>
+            <h3>Planeje o gasto</h3>
+            <p>Encontre op&ccedil;&otilde;es que combinam com o momento e evite surpresa no final.</p>
+          </article>
+
+          <article class="beneficio-card">
+            <span class="beneficio-icone">GPS</span>
+            <h3>Use sua regi&atilde;o</h3>
+            <p>Digite CEP ou endere&ccedil;o para carregar lugares mais pr&oacute;ximos.</p>
+          </article>
+
+          <article class="beneficio-card">
+            <span class="beneficio-icone">OK</span>
+            <h3>Compare r&aacute;pido</h3>
+            <p>Navegue por bares, restaurantes, parques, shoppings e festas.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="como-funciona-home">
+      <div class="container">
+        <div class="cabecalho-secao compacto">
+          <h2 class="titulo-secao">Como usar em poucos segundos</h2>
+          <a href="#secao-destaques" class="link-ver-tudo">Come&ccedil;ar busca</a>
+        </div>
+
+        <div class="passos-home">
+          <article class="passo-card">
+            <span class="passo-numero">1</span>
+            <h3>Informe onde voc&ecirc; est&aacute;</h3>
+            <p>Use o campo de CEP ou endere&ccedil;o para filtrar os destaques.</p>
+          </article>
+
+          <article class="passo-card">
+            <span class="passo-numero">2</span>
+            <h3>Escolha uma categoria</h3>
+            <p>Veja rapidamente o tipo de lugar ideal para o seu plano.</p>
+          </article>
+
+          <article class="passo-card">
+            <span class="passo-numero">3</span>
+            <h3>Decida sem pressa</h3>
+            <p>Compare op&ccedil;&otilde;es, abra sugest&otilde;es e planeje melhor a sa&iacute;da.</p>
+          </article>
+        </div>
       </div>
     </section>
 
     <section id="nav-categorias" class="categorias-nav">
+
       <div class="container categorias-wrapper">
         <a href="bares.html" class="item-cat" data-categoria="bares">
           <img class="icone-categoria" src="img/bar.png" alt="Ícone de bar" />
-          <span class="label-categoria">Bares</span>
+
+          <span class="label-categoria">
+            Bares
+          </span>
+
         </a>
         <a href="restaurantes.html" class="item-cat" data-categoria="restaurantes">
           <img class="icone-categoria" src="img/restaurante.png" alt="Ícone restaurante" />
-          <span class="label-categoria">Restaurantes</span>
+
+          <span class="label-categoria">
+            Restaurantes
+          </span>
+
         </a>
         <a href="parques.html" class="item-cat" data-categoria="parques">
           <img class="icone-categoria" src="img/parque.png" alt="Ícone parque" />
-          <span class="label-categoria">Parques</span>
+
+          <span class="label-categoria">
+            Parques
+          </span>
+
         </a>
         <a href="shoppings.html" class="item-cat" data-categoria="shopping">
           <img class="icone-categoria" src="img/shopping.png" alt="Ícone shopping" />
-          <span class="label-categoria">Shopping</span>
+
+          <span class="label-categoria">
+            Shopping
+          </span>
+
         </a>
         <a href="festas.html" class="item-cat" data-categoria="salão de festas">
           <img class="icone-categoria" src="img/festas.png" alt="Ícone festas" />
-          <span class="label-categoria">Salão de festas</span>
+
+          <span class="label-categoria">
+            Salão de festas
+          </span>
+
         </a>
+
       </div>
+
     </section>
 
     <section id="secao-destaques" class="destaques container">
-      <div class="cabecalho-secao">
-        <h2 id="titulo-destaques" class="titulo-secao">Picos em destaque</h2>
-        <a href="#" class="link-ver-tudo">Ver todos →</a>
+
+      <!-- CEP -->
+      <div class="cep-wrapper">
+
+        <div class="cep-box">
+
+          <span class="cep-icone">
+            📍
+          </span>
+
+          <input type="text" id="input-local" class="cep-input" placeholder="Digite um CEP ou endereço"
+            autocomplete="off" />
+
+          <button id="btn-buscar-local" class="btn-buscar-cep">
+            Buscar
+          </button>
+
+        </div>
+
       </div>
+
+      <!-- TÍTULO -->
+      <div class="area-busca-wrapper">
+        <div>
+          <span class="etiqueta-secao">&Aacute;rea de busca</span>
+          <h3>Buscar em qual dist&acirc;ncia?</h3>
+          <p>Escolha o raio para encontrar lugares pr&oacute;ximos do CEP ou endere&ccedil;o informado.</p>
+        </div>
+
+        <div class="area-busca-controle">
+          <span>2 km</span>
+          <input id="range-area-busca" type="range" min="2" max="15" step="1" value="5" />
+          <strong id="valor-area-busca">5 km</strong>
+        </div>
+      </div>
+
+      <div class="orcamento-wrapper">
+        <div class="orcamento-header">
+          <div>
+            <span class="etiqueta-secao">Filtro inteligente</span>
+            <h3>Quanto voc&ecirc; pode gastar?</h3>
+            <p>Arraste a barra para ver lugares que combinam com o seu or&ccedil;amento.</p>
+          </div>
+
+          <strong id="valor-orcamento" class="valor-orcamento">At&eacute; R$ 120</strong>
+        </div>
+
+        <div class="orcamento-controle">
+          <span>R$ 0</span>
+          <input id="range-orcamento" type="range" min="0" max="250" step="10" value="120" />
+          <span>R$ 250+</span>
+        </div>
+
+        <div class="atalhos-orcamento" aria-label="Atalhos de orcamento">
+          <button type="button" class="chip-orcamento" data-orcamento="40">Econ&ocirc;mico</button>
+          <button type="button" class="chip-orcamento ativo" data-orcamento="120">Equilibrado</button>
+          <button type="button" class="chip-orcamento" data-orcamento="220">Experiencia completa</button>
+        </div>
+
+        <p id="resultado-orcamento" class="resultado-orcamento">
+          Digite um CEP ou endere&ccedil;o para encontrar lugares dentro dessa faixa.
+        </p>
+      </div>
+
+      <div class="cabecalho-secao">
+
+        <h2 id="titulo-destaques" class="titulo-secao">
+          Picos em destaque
+        </h2>
+
+        <a href="explorar.html" class="link-ver-tudo">
+          Ver todos →
+        </a>
+
+      </div>
+
+      <!-- CARDS -->
       <div id="grade-destaques" class="grade-moderna"></div>
+
+      <!-- MENSAGEM -->
       <p id="mensagem-destaque"></p>
+
     </section>
   </main>
 
   <footer id="rodape-principal" class="rodape">
+
     <div class="container rodape-conteudo">
-      <p class="texto-rodape">&copy; 2026 Save Date • Feito com ❤️ para o seu bolso</p>
+
+      <p class="texto-rodape">
+        &copy; 2026 Save Date •
+        Feito com ❤️ para o seu bolso
+      </p>
+
     </div>
+
   </footer>
 
   <div id="toast-container"></div>
-
-  <style>
-    .usuario-dropdown {
-      position: relative;
-      display: inline-block;
-    }
-
-    .dropdown-menu {
-      position: absolute;
-      right: 0;
-      top: calc(100% + 8px);
-      background: #fff;
-      border: 1px solid #e0e0e0;
-      border-radius: 12px;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-      min-width: 180px;
-      z-index: 999;
-      padding: 10px 0;
-    }
-
-    .dropdown-nome {
-      display: block;
-      padding: 8px 16px;
-      font-weight: 600;
-      font-size: 0.9rem;
-      color: #333;
-    }
-
-    .dropdown-menu hr {
-      border: none;
-      border-top: 1px solid #eee;
-      margin: 4px 0;
-    }
-
-    .dropdown-item {
-      display: block;
-      padding: 8px 16px;
-      font-size: 0.9rem;
-      color: #444;
-      text-decoration: none;
-      transition: background 0.2s;
-    }
-
-    .dropdown-item:hover {
-      background: #f5f5f5;
-    }
-
-    .dropdown-item.sair {
-      color: #e53935;
-    }
-
-    #toast-container {
-      position: fixed;
-      bottom: 28px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 9999;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 10px;
-      pointer-events: none;
-    }
-
-    .toast {
-      background: #1e1e2e;
-      color: #fff;
-      padding: 14px 20px;
-      border-radius: 14px;
-      font-size: 0.88rem;
-      font-family: 'Inter', sans-serif;
-      font-weight: 500;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      opacity: 0;
-      transform: translateY(14px) scale(0.97);
-      transition: opacity 0.3s ease, transform 0.3s ease;
-      pointer-events: auto;
-      max-width: 340px;
-      width: max-content;
-      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.22);
-    }
-
-    .toast.show {
-      opacity: 1;
-      transform: translateY(0) scale(1);
-    }
-
-    .toast-icone {
-      font-size: 1.1rem;
-      flex-shrink: 0;
-    }
-
-    .toast.toast-erro {
-      border-left: 4px solid #e53935;
-    }
-
-    .toast.toast-info {
-      border-left: 4px solid #4f8ef7;
-    }
-
-    .toast.toast-sucesso {
-      border-left: 4px solid #43a047;
-    }
-  </style>
 
   <script>
     function mostrarToast(mensagem, tipo = "info", duracao = 3500) {
@@ -229,7 +317,7 @@
     }
 
     const usuarioLogado = localStorage.getItem("usuarioLogado");
-    const nomeUsuario = localStorage.getItem("usuarioNome");
+    const nomeUsuario = localStorage.getItem("nomeUsuario");
     const elementoNome = document.getElementById("nome-usuario");
     const labelDropdown = document.getElementById("label-nome-dropdown");
 
@@ -239,7 +327,7 @@
     }
 
     document.addEventListener("click", function (event) {
-      const menu = document.getElementById("menu-dropdown");
+      const menu = document.getElementById("dropdown-menu");
       const botao = document.querySelector(".burger");
       if (!menu || !botao) return;
       if (!menu.contains(event.target) && !botao.contains(event.target)) {
@@ -248,7 +336,7 @@
     });
 
     function toggleMenu() {
-      const menu = document.getElementById("menu-dropdown");
+      const menu = document.getElementById("dropdown-menu");
       if (!menu) return;
       menu.style.display = menu.style.display === "block" ? "none" : "block";
       if (usuarioLogado && nomeUsuario && elementoNome) elementoNome.innerText = nomeUsuario;
@@ -276,12 +364,12 @@
 
     function sairLogin() {
       localStorage.removeItem("usuarioLogado");
-      localStorage.removeItem("usuarioNome");
+      localStorage.removeItem("nomeUsuario");
       window.location.href = "home.html";
     }
 
     function acessarFuncionalidade(pagina) {
-      if (!usuarioLogado) {
+      if (localStorage.getItem("usuarioLogado") !== "true") {
         mostrarToast("Faça login primeiro para continuar.", "erro");
         setTimeout(() => window.location.href = "login.html", 1800);
         return;
@@ -290,11 +378,13 @@
     }
 
     function verificarLoginMapa() {
-      if (!usuarioLogado) {
+      if (localStorage.getItem("usuarioLogado") !== "true") {
         mostrarToast("Faça login para explorar o mapa.", "erro");
+        setTimeout(() => window.location.href = "login.html", 1400);
         return;
       }
       mostrarToast("Abrindo o mapa...", "sucesso");
+      setTimeout(() => window.location.href = "mapa.html", 450);
     }
 
     const categorias = ["bares", "restaurantes", "parques", "shopping", "salão de festas"];
@@ -328,6 +418,9 @@
     }
   </script>
 
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <script src="js/script.js"></script>
+
 </body>
+
 </html>

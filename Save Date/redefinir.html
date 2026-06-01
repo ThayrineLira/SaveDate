@@ -110,6 +110,25 @@
         const formulario =
             document.getElementById("form-redefinir");
 
+        const mensagem =
+            document.getElementById("mensagem");
+
+        const emailParaRedefinir =
+            localStorage.getItem("redefinirEmail");
+
+        if (emailParaRedefinir) {
+            mensagem.innerText =
+                `Enviamos as instruções para ${emailParaRedefinir}. Insira sua nova senha abaixo.`;
+            mensagem.style.color = "#222";
+        } else {
+            mensagem.innerText =
+                "Solicite a recuperação de senha primeiro.";
+            mensagem.style.color = "red";
+            setTimeout(() => {
+                window.location.href = "esqueci.html";
+            }, 2000);
+        }
+
 
 
 
@@ -193,10 +212,75 @@
                SALVA NOVA SENHA
             ========================================== */
 
-            localStorage.setItem(
-                "senhaCadastro",
-                novaSenha
-            );
+            const tipoRecuperacao =
+                localStorage.getItem(
+                    "redefinirTipo"
+                );
+
+            if (!tipoRecuperacao) {
+                mensagem.innerText =
+                    "Não foi possível redefinir a senha. Volte para recuperar sua conta.";
+                mensagem.style.color =
+                    "red";
+                return;
+            }
+
+            if (tipoRecuperacao === "estabelecimento") {
+                const estabelecimentos =
+                    JSON.parse(
+                        localStorage.getItem(
+                            "cadastrosEstabelecimentos"
+                        ) || "[]"
+                    );
+
+                const estabelecimento = estabelecimentos.find(
+                    (item) =>
+                        item.email ===
+                        emailParaRedefinir
+                );
+
+                if (estabelecimento) {
+                    estabelecimento.senha = novaSenha;
+                    localStorage.setItem(
+                        "cadastrosEstabelecimentos",
+                        JSON.stringify(estabelecimentos)
+                    );
+                }
+
+                localStorage.setItem(
+                    "estabelecimentoCadastroSenha",
+                    novaSenha
+                );
+            } else {
+                const usuarios =
+                    JSON.parse(
+                        localStorage.getItem(
+                            "cadastrosUsuarios"
+                        ) || "[]"
+                    );
+
+                const usuario = usuarios.find(
+                    (item) =>
+                        item.email ===
+                        emailParaRedefinir
+                );
+
+                if (usuario) {
+                    usuario.senha = novaSenha;
+                    localStorage.setItem(
+                        "cadastrosUsuarios",
+                        JSON.stringify(usuarios)
+                    );
+                }
+
+                localStorage.setItem(
+                    "usuarioCadastroSenha",
+                    novaSenha
+                );
+            }
+
+            localStorage.removeItem("redefinirEmail");
+            localStorage.removeItem("redefinirTipo");
 
 
 
@@ -208,7 +292,9 @@
             ========================================== */
 
             mensagem.innerText =
-                "Senha alterada com sucesso!";
+                tipoRecuperacao === "estabelecimento"
+                    ? "Senha do estabelecimento alterada com sucesso! Agora você pode fazer login com a nova senha."
+                    : "Senha alterada com sucesso! Agora você pode fazer login com sua nova senha.";
 
             mensagem.style.color =
                 "green";

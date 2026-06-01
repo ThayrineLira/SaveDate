@@ -1,142 +1,108 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bares - Save Date</title>
-    
-    <link rel="stylesheet" href="css/bares.css">
-    
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bares | Save Date</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/categoria.css" />
+  <link rel="icon" type="image/x-icon" href="img/logo.png" />
 </head>
 <body>
+  <header class="topo">
+    <a href="home.html" class="logo-area">
+      <img src="img/logo.png" alt="Logo Save Date" />
+      <span>Save Date</span>
+    </a>
+    <nav class="nav-categorias" aria-label="Navegação principal">
+      <a href="home.html" class="nav-link">Início</a>
+      <a href="explorar.html" class="nav-link">Explorar</a>
+      <a href="mapa.html" class="nav-link">Mapa</a>
+      <a href="salvos.html" class="nav-link">Salvos</a>
+    </nav>
+  </header>
 
-   <header class="main-header">
-        <a href="home.html" class="logo-container">
-            <span class="logo-text">save date</span>
-            <img src="img/logo2.png" alt="Logo Save Date" class="logo-img">
-        </a>
+  <section class="hero-categoria">
+    <div class="hero-conteudo">
+      <span class="etiqueta">Bares</span>
+      <h1>Bares para happy hour, date leve ou encontro com amigos.</h1>
+      <p>Opções com preço estimado, clima e atalho para detalhes. Sem imagens quebradas e com navegação integrada.</p>
+      <div class="acoes-hero">
+        <a href="explorar.html" class="btn-principal">Filtrar bares</a>
+        <a href="mapa.html" class="btn-secundario">Ver no mapa</a>
+      </div>
+    </div>
+  </section>
 
-        <div class="user-name">
-            Olá, [Nome do Usuário]
+  <main class="conteudo">
+    <div class="cabecalho-lista">
+      <div>
+        <h2>Destaques de bares</h2>
+        <p>Use estes cards como início rápido e refine depois pela página Explorar.</p>
+      </div>
+    </div>
+
+    <section class="grade-cards">
+      <article class="card-categoria">
+        <div class="card-emoji">🍺</div>
+        <div class="card-corpo">
+          <div class="card-topo">
+            <h3>O Bar do Seu Zé</h3>
+            <span class="tag-preco">R$ 45</span>
+          </div>
+          <p>Bar tradicional com petiscos, drinks clássicos e ambiente descontraído.</p>
+          <div class="meta-card">
+            <span>Amigos</span>
+            <span>Casal</span>
+            <span>Happy hour</span>
+          </div>
+          <div class="card-acoes">
+            <a href="detalhes.html?id=2" class="card-link">Ver detalhes</a>
+            <a href="mapa.html" class="card-link secundario">Mapa</a>
+          </div>
         </div>
-    </header>
-    <main class="container">
-        <h1 class="page-title">Bares</h1>
+      </article>
 
-        <section class="cards-list">
-            
-            <article class="card">
-                <img src="imagem-bar-1.jpg" alt="Foto do Bar 1" class="card-img">
-                <div class="card-content">
-                    <div>
-                        <h2 class="card-title">Bar 1</h2>
-                        <p class="card-desc">Descrição do primeiro bar. Um lugar excelente para o happy hour, com música ao vivo, ambiente descontraído e ótimas opções de petiscos.</p>
-                    </div>
-                    <a href="https://site-do-bar-1.com" target="_blank" class="card-link">Visitar Site</a>
-                </div>
-            </article>
+      <article class="card-categoria">
+        <div class="card-emoji">🍻</div>
+        <div class="card-corpo">
+          <div class="card-topo">
+            <h3>Beer & Vibes</h3>
+            <span class="tag-preco">R$ 50</span>
+          </div>
+          <p>Bar moderno para reunir amigos, ouvir música e experimentar cervejas artesanais.</p>
+          <div class="meta-card">
+            <span>Amigos</span>
+            <span>Música</span>
+            <span>Cervejas</span>
+          </div>
+          <div class="card-acoes">
+            <a href="detalhes.html?id=9" class="card-link">Ver detalhes</a>
+            <a href="sugestoes.html" class="card-link secundario">Sugestões</a>
+          </div>
+        </div>
+      </article>
 
-            <article class="card">
-                <img src="imagem-bar-2.jpg" alt="Foto do Bar 2" class="card-img">
-                <div class="card-content">
-                    <div>
-                        <h2 class="card-title">Boteco 2</h2>
-                        <p class="card-desc">O clássico boteco raiz da cidade. Perfeito para reunir os amigos no fim de semana, oferecendo porções generosas e um clima tradicional.</p>
-                    </div>
-                    <a href="https://site-do-bar-2.com" target="_blank" class="card-link">Visitar Site</a>
-                </div>
-            </article>
-
-            <article class="card">
-                <img src="imagem-bar-3.jpg" alt="Foto do Bar 3" class="card-img">
-                <div class="card-content">
-                    <div>
-                        <h2 class="card-title">Gastrobar 3</h2>
-                        <p class="card-desc">Um bar focado em alta coquetelaria e gastronomia refinada. Ambiente intimista com luz baixa, ideal para encontros e ocasiões especiais.</p>
-                    </div>
-                    <a href="https://site-do-bar-3.com" target="_blank" class="card-link">Visitar Site</a>
-                </div>
-            </article>
-
-            <article class="card">
-                <img src="imagem-bar-4.jpg" alt="Foto do Bar 4" class="card-img">
-                <div class="card-content">
-                    <div>
-                        <h2 class="card-title">Sports Bar 4</h2>
-                        <p class="card-desc">O ponto de encontro dos fãs de esporte. Telões espalhados por todo o ambiente para transmitir os principais jogos e campeonatos do momento.</p>
-                    </div>
-                    <a href="https://site-do-bar-4.com" target="_blank" class="card-link">Visitar Site</a>
-                </div>
-            </article>
-
-            <article class="card">
-                <img src="imagem-bar-5.jpg" alt="Foto do Bar 5" class="card-img">
-                <div class="card-content">
-                    <div>
-                        <h2 class="card-title">Bar Rooftop 5</h2>
-                        <p class="card-desc">Bar a céu aberto no topo de um prédio histórico. Ideal para o fim de tarde, focado em uma vista panorâmica incrível da cidade.</p>
-                    </div>
-                    <a href="https://site-do-bar-5.com" target="_blank" class="card-link">Visitar Site</a>
-                </div>
-            </article>
-
-            <article class="card">
-                <img src="imagem-bar-6.jpg" alt="Foto do Bar 6" class="card-img">
-                <div class="card-content">
-                    <div>
-                        <h2 class="card-title">Pub 6</h2>
-                        <p class="card-desc">Pub no melhor estilo britânico. Apresenta uma vasta seleção de opções artesanais, mesas de sinuca e bandas de rock nos finais de semana.</p>
-                    </div>
-                    <a href="https://site-do-bar-6.com" target="_blank" class="card-link">Visitar Site</a>
-                </div>
-            </article>
-
-            <article class="card">
-                <img src="imagem-bar-7.jpg" alt="Foto do Bar 7" class="card-img">
-                <div class="card-content">
-                    <div>
-                        <h2 class="card-title">Bar de Tapas 7</h2>
-                        <p class="card-desc">Focado em porções pequenas e degustações. Excelente para experimentar novos sabores e conhecer a culinária espanhola moderna.</p>
-                    </div>
-                    <a href="https://site-do-bar-7.com" target="_blank" class="card-link">Visitar Site</a>
-                </div>
-            </article>
-
-            <article class="card">
-                <img src="imagem-bar-8.jpg" alt="Foto do Bar 8" class="card-img">
-                <div class="card-content">
-                    <div>
-                        <h2 class="card-title">Bar Central 8</h2>
-                        <p class="card-desc">Localizado bem no centro da cidade. Uma opção rápida e prática para quem sai do trabalho na região e quer relaxar antes de ir para casa.</p>
-                    </div>
-                    <a href="https://site-do-bar-8.com" target="_blank" class="card-link">Visitar Site</a>
-                </div>
-            </article>
-
-            <article class="card">
-                <img src="imagem-bar-9.jpg" alt="Foto do Bar 9" class="card-img">
-                <div class="card-content">
-                    <div>
-                        <h2 class="card-title">Bar Temático 9</h2>
-                        <p class="card-desc">Bar focado em jogos de tabuleiro e cultura geek. Ambiente colorido e divertido, perfeito para interagir e conhecer pessoas novas.</p>
-                    </div>
-                    <a href="https://site-do-bar-9.com" target="_blank" class="card-link">Visitar Site</a>
-                </div>
-            </article>
-
-            <article class="card">
-                <img src="imagem-bar-10.jpg" alt="Foto do Bar 10" class="card-img">
-                <div class="card-content">
-                    <div>
-                        <h2 class="card-title">Lounge Bar 10</h2>
-                        <p class="card-desc">Ambiente sofisticado com música eletrônica ambiente. Destaque para os sofás confortáveis e o design de interiores moderno e elegante.</p>
-                    </div>
-                    <a href="https://site-do-bar-10.com" target="_blank" class="card-link">Visitar Site</a>
-                </div>
-            </article>
-
-        </section>
-    </main>
-
+      <article class="card-categoria">
+        <div class="card-emoji">🍹</div>
+        <div class="card-corpo">
+          <div class="card-topo">
+            <h3>Lounge Central</h3>
+            <span class="tag-preco">R$ 70</span>
+          </div>
+          <p>Drinks autorais e clima mais calmo para quem quer conversar sem pressa.</p>
+          <div class="meta-card">
+            <span>Drinks</span>
+            <span>Casal</span>
+            <span>Noite</span>
+          </div>
+          <div class="card-acoes">
+            <a href="explorar.html" class="card-link">Explorar</a>
+            <a href="mapa.html" class="card-link secundario">Mapa</a>
+          </div>
+        </div>
+      </article>
+    </section>
+  </main>
 </body>
 </html>

@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mapa | Save Date</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet" />
+  <link rel="icon" type="image/x-icon" href="img/logo.png" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="css/mapa.css" />
+</head>
+<body>
+  <header class="topo">
+    <a href="home.html" class="logo-area">
+      <img src="img/logo.png" alt="Logo Save Date" />
+      <span>Save Date</span>
+    </a>
+
+    <div class="busca-mapa">
+      <input id="input-local" type="text" placeholder="Busque por bairro, lugar ou categoria" autocomplete="off" />
+      <button class="btn-buscar-mapa" id="btn-buscar" type="button" onclick="buscarNoMapa()">Buscar</button>
+    </div>
+
+    <a href="home.html" class="btn-voltar">Voltar</a>
+  </header>
+
+  <nav class="categorias-mapa" id="categorias" aria-label="Categorias do mapa">
+    <button class="cat-btn ativo" type="button" data-categoria="todos">Todos</button>
+    <button class="cat-btn" type="button" data-categoria="bares">
+      <img src="img/bar.png" alt="" /> Bares
+    </button>
+    <button class="cat-btn" type="button" data-categoria="restaurantes">
+      <img src="img/restaurante.png" alt="" /> Restaurantes
+    </button>
+    <button class="cat-btn" type="button" data-categoria="parques">
+      <img src="img/parque.png" alt="" /> Parques
+    </button>
+    <button class="cat-btn" type="button" data-categoria="shopping">
+      <img src="img/shopping.png" alt="" /> Shopping
+    </button>
+    <button class="cat-btn" type="button" data-categoria="festas">
+      <img src="img/festas.png" alt="" /> Festas
+    </button>
+  </nav>
+
+  <main class="layout">
+    <aside class="painel">
+      <div class="painel-header">
+        <p class="painel-titulo" id="painel-titulo">Lugares no mapa</p>
+        <p class="painel-subtitulo" id="painel-sub">Escolha uma categoria ou pesquise por texto</p>
+      </div>
+      <div class="lista-lugares" id="lista-lugares"></div>
+    </aside>
+
+    <div id="mapa" aria-label="Mapa de lugares"></div>
+  </main>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="js/mapa.js"></script>
+</body>
+</html>

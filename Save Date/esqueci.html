@@ -9,23 +9,14 @@
 
     <meta charset="UTF-8">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>
         Recuperar senha
     </title>
 
     <!-- CSS -->
-    <link
-        rel="stylesheet"
-        href="css/esqueci.css"
-    >
-
-    <!-- EMAILJS -->
-    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <link rel="stylesheet" href="css/esqueci.css">
 
 </head>
 
@@ -45,11 +36,7 @@
         <header class="topo">
 
             <!-- LOGO -->
-            <img
-                src="img/logo.png"
-                alt="Logo Save Date"
-                class="logo"
-            >
+            <img src="img/logo.png" alt="Logo Save Date" class="logo">
 
             <!-- TÍTULO -->
             <h1 class="titulo">
@@ -84,18 +71,11 @@
         <form id="form-recuperar">
 
             <!-- EMAIL -->
-            <input
-                type="email"
-                id="email"
-                placeholder="Digite seu email"
-                required
-            >
+            <input type="email" id="email" placeholder="Digite seu email" required>
 
 
             <!-- BOTÃO -->
-            <button
-                type="submit"
-                class="botao" >
+            <button type="submit" class="botao">
                 Enviar link </button>
 
         </form>
@@ -123,138 +103,187 @@
     <!-- ==========================================
          JAVASCRIPT
     =========================================== -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 
     <script>
 
-        /* ==========================================
-           INICIA EMAILJS
-        ========================================== */
+        // ==========================================
+        // INICIA EMAILJS
+        // ==========================================
 
         emailjs.init("2HZZBhBu3DyZErlD2");
 
 
 
-
-
-        /* ==========================================
-           FORMULÁRIO
-        ========================================== */
+        // ==========================================
+        // FORMULÁRIO
+        // ==========================================
 
         const formulario =
             document.getElementById("form-recuperar");
-
-
 
         const mensagem =
             document.getElementById("mensagem");
 
 
 
+        // ==========================================
+        // RECUPERAR SENHA
+        // ==========================================
 
+        formulario.addEventListener("submit", function (event) {
 
-
-        /* ==========================================
-           RECUPERAR SENHA
-        ========================================== */
-
-        formulario.addEventListener("submit", function(event){
-
-            // Impede recarregar
+            // Impede recarregar página
             event.preventDefault();
 
 
 
-            /* ==========================================
-               EMAIL DIGITADO
-            ========================================== */
+            // ==========================================
+            // EMAIL DIGITADO
+            // ==========================================
 
             const emailDigitado =
                 document.getElementById("email").value;
 
+            const emailNormalizado =
+                emailDigitado.toLowerCase();
 
 
-            /* ==========================================
-               EMAIL CADASTRADO
-            ========================================== */
 
-            const emailCadastrado =
+            // ==========================================
+            // BUSCA DADOS NO LOCALSTORAGE
+            // ==========================================
+
+            const usuarios = JSON.parse(
+                localStorage.getItem("cadastrosUsuarios") || "[]"
+            );
+
+            const estabelecimentos = JSON.parse(
+                localStorage.getItem("cadastrosEstabelecimentos") || "[]"
+            );
+
+
+
+            // ==========================================
+            // VERIFICA EMAIL USUÁRIO
+            // ==========================================
+
+            const emailUsuario =
+                usuarios.find(
+                    (item) => item.email === emailNormalizado
+                )?.email ||
+                localStorage.getItem("usuarioCadastroEmail") ||
                 localStorage.getItem("usuarioCadastro");
 
 
 
-            /* ==========================================
-               VERIFICA EMAIL
-            ========================================== */
+            // ==========================================
+            // VERIFICA EMAIL ESTABELECIMENTO
+            // ==========================================
 
-            if(emailDigitado === emailCadastrado){
+            const emailEstabelecimento =
+                estabelecimentos.find(
+                    (item) => item.email === emailNormalizado
+                )?.email ||
+                localStorage.getItem("estabelecimentoCadastroEmail");
 
 
 
+            // ==========================================
+            // DEFINE TIPO
+            // ==========================================
 
-                /* ==========================================
-                   ENVIA EMAIL REAL
-                ========================================== */
+            const tipoRecuperacao =
+                emailNormalizado === emailEstabelecimento
+                    ? "estabelecimento"
+                    : emailNormalizado === emailUsuario
+                        ? "usuario"
+                        : null;
+
+
+
+            // ==========================================
+            // EMAIL ENCONTRADO
+            // ==========================================
+
+            if (tipoRecuperacao) {
+
+                // SALVA DADOS
+                localStorage.setItem(
+                    "redefinirEmail",
+                    emailNormalizado
+                );
+
+                localStorage.setItem(
+                    "redefinirTipo",
+                    tipoRecuperacao
+                );
+
+
+
+                // ==========================================
+                // VARIÁVEIS DO TEMPLATE
+                // ==========================================
+
+                const parametros = {
+                    email_usuario: emailDigitado
+                };
+
+
+
+                // ==========================================
+                // ENVIA EMAIL
+                // ==========================================
 
                 emailjs.send(
-
                     "service_qymafzy",
                     "template_zi7asg8",
-
-                    {
-                        email: emailDigitado
-                    }
-
+                    parametros
                 )
 
-                .then(() => {
+                    .then(() => {
+
+                        mensagem.innerText =
+                            "E-mail de recuperação enviado com sucesso.";
+
+                        mensagem.style.color =
+                            "green";
+
+                        formulario.reset();
 
 
 
+                        // REDIRECIONA
+                        setTimeout(() => {
 
-                    /* ==========================================
-                       SUCESSO
-                    ========================================== */
+                            window.location.href =
+                                "redefinir.html";
 
-                    mensagem.innerText =
-                        "Email de recuperação enviado com sucesso. Verifique seu email!";
+                        }, 2500);
 
-                    mensagem.style.color =
-                        "green";
+                    })
 
-                })
+                    .catch((erro) => {
 
+                        console.log(erro);
 
+                        mensagem.innerText =
+                            "Erro ao enviar e-mail.";
 
+                        mensagem.style.color =
+                            "red";
 
-
-
-                /* ==========================================
-                   ERRO EMAIL
-                ========================================== */
-
-                .catch(() => {
-
-                    mensagem.innerText =
-                        "Erro ao enviar email.";
-
-                    mensagem.style.color =
-                        "red";
-
-                });
+                    });
 
             }
 
 
 
+            // ==========================================
+            // EMAIL NÃO ENCONTRADO
+            // ==========================================
 
-
-
-
-            /* ==========================================
-               EMAIL NÃO ENCONTRADO
-            ========================================== */
-
-            else{
+            else {
 
                 mensagem.innerText =
                     "Email não encontrado.";

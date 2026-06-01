@@ -1,701 +1,2296 @@
-/* ================================================
-   SAVE DATE — Busca por CEP ou Endereço
-   APIs (gratuitas, sem chave):
-   • ViaCEP       → CEP → logradouro/cidade
-   • Nominatim    → endereço ou CEP → lat/lon
-   • Overpass API → lat/lon → lugares reais
-   ================================================ */
+/* =========================================================
+   VERIFICA LOGIN
+========================================================= */
+
+function usuarioEstaLogado() {
+
+  return localStorage.getItem(
+    "usuarioLogado"
+  ) === "true";
+}
 
 
-/* ================================================
-   CONFIGURAÇÕES
-   ================================================ */
-const RAIOS_KM    = [2000, 5000, 10000];  // expande automaticamente se não achar nada
-const MAX_CARDS   = 12;                   // máximo de cards exibidos
+/* =========================================================
+   MOSTRAR NOME DO USUÁRIO
+========================================================= */
 
-const TIPOS_OSM = {
-  bares:        ['amenity=bar', 'amenity=pub', 'amenity=nightclub'],
-  restaurantes: ['amenity=restaurant', 'amenity=fast_food', 'amenity=cafe'],
-  parques:      ['leisure=park', 'leisure=garden', 'leisure=nature_reserve'],
-  cinema:       ['amenity=cinema'],
-  shopping:     ['shop=mall', 'building=mall'],
-  festas:       ['amenity=nightclub', 'amenity=events_venue'],
-};
+function carregarUsuario() {
 
-let categoriaAtiva    = 'bares';
-let coordenadasAtuais = null;  // salva última busca para trocar categoria sem redigitar
+  const nome =
+    localStorage.getItem(
+      "nomeUsuario"
+    );
+
+  const logado =
+    localStorage.getItem(
+      "usuarioLogado"
+    );
+
+  const $nomeUsuario =
+    $("#nome-usuario");
+
+  const $dropdownNome =
+    $("#label-nome-dropdown");
+
+  const tipoUsuario =
+    localStorage.getItem(
+      "usuarioTipo"
+    );
+
+  /* =========================================
+     USUÁRIO LOGADO
+  ========================================= */
+
+  if (
+    logado === "true" &&
+    nome
+  ) {
+
+    const nomeExibicao =
+      tipoUsuario === "estabelecimento"
+        ? `${nome} (Estabelecimento)`
+        : nome;
+
+    $nomeUsuario.text(
+      nomeExibicao
+    );
+
+    $dropdownNome.text(
+      nomeExibicao
+    );
+  }
+
+  /* =========================================
+     NÃO LOGADO
+  ========================================= */
+
+  else {
+
+    $nomeUsuario.text(
+      "Entrar"
+    );
+  }
+}
+
+let lugaresCarregados =
+  [];
+
+const ORCAMENTO_PADRAO =
+  120;
+
+function formatarOrcamento(valor) {
+
+  if (valor >= 250) {
+    return "R$ 250+";
+  }
+
+  return `R$ ${valor}`;
+}
+
+function obterOrcamentoSelecionado() {
+
+  const valor =
+    parseInt(
+      $("#range-orcamento").val(),
+      10
+    );
+
+  if (Number.isNaN(valor)) {
+    return ORCAMENTO_PADRAO;
+  }
+
+  return valor;
+}
+
+function estimarFaixaPreco(local) {
+
+  if (local && !local.tags && local.cardapio) {
+    const itens = [
+      ...((local.cardapio || {}).pratos || []),
+      ...((local.cardapio || {}).bebidas || [])
+    ];
+
+    const valores = itens
+      .map(item => {
+        const preco = String(item.preco || '').replace(',', '.');
+        const numero = parseFloat(preco.replace(/[^\d.]/g, ''));
+        return Number.isFinite(numero) ? numero : null;
+      })
+      .filter(valor => valor !== null);
+
+    if (!valores.length) {
+      return {
+        media: 0,
+        label: 'Consulte o cardapio'
+      };
+    }
+
+    const menor = Math.min(...valores);
+    const maior = Math.max(...valores);
+    const media = Math.round(valores.reduce((total, valor) => total + valor, 0) / valores.length);
+
+    return {
+      media,
+      label: `R$ ${menor.toFixed(2).replace('.', ',')} - R$ ${maior.toFixed(2).replace('.', ',')}`
+    };
+  }
+
+  const tags =
+    local.tags || {};
+
+  if (
+    tags.price ||
+    tags.price_range
+  ) {
+
+    const precoTexto =
+      String(
+        tags.price || tags.price_range
+      );
+
+    const sinais =
+      (precoTexto.match(/\$/g) || []).length;
+
+    if (sinais) {
+      const media =
+        sinais * 60;
+
+      return {
+        media,
+        label: `R$ ${Math.max(20, media - 30)} - R$ ${media + 40}`
+      };
+    }
+  }
+
+  if (tags.leisure === "park") {
+    return {
+      media: 0,
+      label: "R$ 0 - R$ 30"
+    };
+  }
+
+  if (tags.shop === "mall") {
+    return {
+      media: 60,
+      label: "R$ 30 - R$ 90"
+    };
+  }
+
+  if (tags.amenity === "bar") {
+    return {
+      media: 80,
+      label: "R$ 40 - R$ 120"
+    };
+  }
+
+  if (tags.amenity === "restaurant") {
+    return {
+      media: 120,
+      label: "R$ 60 - R$ 180"
+    };
+  }
+
+  if (tags.amenity === "nightclub") {
+    return {
+      media: 160,
+      label: "R$ 80 - R$ 250"
+    };
+  }
+
+  return {
+    media: 90,
+    label: "R$ 40 - R$ 140"
+  };
+}
+
+function filtrarPorOrcamento(lugares) {
+
+  const orcamento =
+    obterOrcamentoSelecionado();
+
+  return lugares.filter(local => {
+
+    const preco =
+      estimarFaixaPreco(local);
+
+    return preco.media <= orcamento;
+  }).sort((a, b) => {
+
+    return estimarFaixaPreco(a).media -
+      estimarFaixaPreco(b).media;
+  });
+}
+
+function atualizarResumoOrcamento(total, exibidos) {
+
+  const orcamento =
+    obterOrcamentoSelecionado();
+
+  $("#valor-orcamento").text(
+    `At\u00e9 ${formatarOrcamento(orcamento)}`
+  );
+
+  $(".chip-orcamento").removeClass(
+    "ativo"
+  );
+
+  $(`.chip-orcamento[data-orcamento="${orcamento}"]`).addClass(
+    "ativo"
+  );
+
+  if (!total) {
+    $("#resultado-orcamento").text(
+      "Digite um CEP ou endere\u00e7o para encontrar lugares dentro dessa faixa."
+    );
+    return;
+  }
+
+  $("#resultado-orcamento").text(
+    `${exibidos} de ${total} lugares cabem no or\u00e7amento de ${formatarOrcamento(orcamento)}.`
+  );
+}
+
+function iniciarFiltroOrcamento() {
+
+  const $range =
+    $("#range-orcamento");
+
+  if (!$range.length) {
+    return;
+  }
+
+  atualizarResumoOrcamento(
+    0,
+    0
+  );
+
+  $range.on(
+    "input",
+
+    function () {
+
+      atualizarResumoOrcamento(
+        lugaresCarregados.length,
+        filtrarPorOrcamento(lugaresCarregados).length
+      );
+
+      if (lugaresCarregados.length) {
+        if (lugaresCarregados[0]?.cardapio) {
+          mostrarCardsCatalogo(
+            lugaresCarregados,
+            lugaresCarregados.length
+          );
+        } else {
+          mostrarCards(
+            lugaresCarregados
+          );
+        }
+      }
+    }
+  );
+
+  $(".chip-orcamento").on(
+    "click",
+
+    function () {
+
+      const valor =
+        $(this).data(
+          "orcamento"
+        );
+
+      $range.val(
+        valor
+      ).trigger(
+        "input"
+      );
+    }
+  );
+}
 
 
-/* ================================================
-   DETECTAR: É CEP ou endereço?
-   ================================================ */
+/* =========================================================
+   MENU DROPDOWN
+========================================================= */
+
+function iniciarMenuPerfil() {
+
+  const $burger =
+    $(".burger");
+
+  const $nomeUsuario =
+    $("#nome-usuario");
+
+  const $dropdown =
+    $("#dropdown-menu");
+
+  if (!$burger.length || !$dropdown.length) {
+    return;
+  }
+
+  $burger.on(
+    "click",
+
+    function (e) {
+
+      e.stopPropagation();
+
+      $dropdown.fadeToggle(150);
+    }
+  );
+
+  if ($nomeUsuario.length) {
+    $nomeUsuario.on(
+      "click",
+      function (e) {
+        e.stopPropagation();
+
+        if (
+          $nomeUsuario.text() ===
+            "Entrar"
+        ) {
+          window.location.href =
+            "login.html";
+          return;
+        }
+
+        $dropdown.fadeToggle(150);
+      }
+    );
+  }
+
+  $dropdown.on(
+    "click",
+    function (e) {
+      e.stopPropagation();
+    }
+  );
+
+  $(document).on(
+    "click",
+
+    function () {
+
+      $dropdown.fadeOut(150);
+    }
+  );
+}
+
+
+/* =========================================================
+   LOGOUT
+========================================================= */
+
+function iniciarLogout() {
+
+  const $btn =
+    $("#btn-sair");
+
+  if (!$btn.length) {
+    return;
+  }
+
+  $btn.on(
+    "click",
+
+    function (e) {
+
+      e.preventDefault();
+
+      localStorage.removeItem(
+        "usuarioLogado"
+      );
+
+      localStorage.removeItem(
+        "nomeUsuario"
+      );
+
+      localStorage.removeItem(
+        "usuarioTipo"
+      );
+
+      mostrarToast(
+        "Você saiu da conta.",
+        "aviso"
+      );
+
+      setTimeout(() => {
+
+        window.location.reload();
+
+      }, 1000);
+    }
+  );
+}
+
+
+/* =========================================================
+   HIDE BANNER FOR LOGGED USER
+========================================================= */
+
+function ocultarSegundoBannerSeLogado() {
+
+  if (!usuarioEstaLogado()) {
+    return;
+  }
+
+  $("#hero-slide-2").hide();
+
+  $(".slide-container").addClass(
+    "slide-static"
+  );
+}
+
+
+/* =========================================================
+   ESTABELECIMENTO DASHBOARD
+========================================================= */
+
+function mostrarPainelEstabelecimento() {
+
+  const tipoUsuario =
+    localStorage.getItem(
+      "usuarioTipo"
+    );
+
+  const homeNormal =
+    document.getElementById(
+      "home-normal"
+    );
+
+  const dashboard =
+    document.getElementById(
+      "estabelecimento-dashboard"
+    );
+
+  if (
+    tipoUsuario === "estabelecimento"
+  ) {
+
+    if (homeNormal) {
+      homeNormal.style.display =
+        "none";
+    }
+
+    if (dashboard) {
+      dashboard.style.display =
+        "block";
+
+      const nome =
+        localStorage.getItem(
+          "nomeUsuario"
+        ) ||
+        localStorage.getItem(
+          "nomeCadastro"
+        ) ||
+        "Seu estabelecimento";
+
+      const welcomeName =
+        dashboard.querySelector(
+          ".dashboard-welcome-nome"
+        );
+
+      if (welcomeName) {
+        welcomeName.textContent =
+          nome;
+      }
+    }
+
+    return;
+  }
+
+  if (dashboard) {
+    dashboard.style.display =
+      "none";
+  }
+
+  if (homeNormal) {
+    homeNormal.style.display =
+      "block";
+  }
+}
+
+
+/* =========================================================
+   FUNÇÕES DO PAINEL DO ESTABELECIMENTO (CRUD SIMPLES)
+========================================================= */
+
+function carregarDadosEstabelecimento() {
+  const raw = localStorage.getItem('estabelecimentoDados');
+
+  if (raw) {
+    try {
+      return JSON.parse(raw);
+    } catch (e) {
+      return null;
+    }
+  }
+
+  // valores padrão
+  return {
+    id: localStorage.getItem('estabelecimentoCadastroEmail') || 'estabelecimento',
+    nome: localStorage.getItem('nomeUsuario') || 'Seu estabelecimento',
+    endereco: localStorage.getItem('estabelecimentoCadastroEndereco') || '',
+    complemento: localStorage.getItem('estabelecimentoCadastroComplemento') || '',
+    telefone: localStorage.getItem('estabelecimentoCadastroTelefone') || '',
+    email: localStorage.getItem('estabelecimentoCadastroEmail') || '',
+    categorias: ['restaurantes'],
+    horarios: [],
+    cardapio: { pratos: [], bebidas: [] },
+    status: 'Ativo',
+    avaliacoes: 24,
+    visualizacoes: 1300,
+    favoritos: 48,
+    eventos: [],
+    fotos: []
+  };
+}
+
+function carregarCatalogoEstabelecimentos() {
+  const raw = localStorage.getItem('estabelecimentosCatalogo');
+
+  if (!raw) {
+    return [];
+  }
+
+  try {
+    const dados = JSON.parse(raw);
+    return Array.isArray(dados) ? dados : [];
+  } catch (erro) {
+    return [];
+  }
+}
+
+function salvarCatalogoEstabelecimentos(catalogo) {
+  localStorage.setItem('estabelecimentosCatalogo', JSON.stringify(catalogo));
+}
+
+function sincronizarCatalogoEstabelecimento(dados) {
+  const id = dados.email || localStorage.getItem('estabelecimentoCadastroEmail') || 'estabelecimento';
+  const catalogo = carregarCatalogoEstabelecimentos();
+
+  const registro = {
+    id,
+    nome: dados.nome || localStorage.getItem('estabelecimentoCadastroNome') || 'Seu estabelecimento',
+    endereco: dados.endereco || localStorage.getItem('estabelecimentoCadastroEndereco') || '',
+    complemento: dados.complemento || localStorage.getItem('estabelecimentoCadastroComplemento') || '',
+    telefone: dados.telefone || localStorage.getItem('estabelecimentoCadastroTelefone') || '',
+    email: dados.email || localStorage.getItem('estabelecimentoCadastroEmail') || '',
+    categorias: dados.categorias || ['restaurantes'],
+    horarios: dados.horarios || [],
+    cardapio: dados.cardapio || { pratos: [], bebidas: [] },
+    fotos: dados.fotos || [],
+    status: dados.status || 'Ativo',
+    publicado: Boolean((dados.fotos || []).length && ((((dados.cardapio || {}).pratos) || []).length || ((((dados.cardapio || {}).bebidas) || []).length)))
+  };
+
+  const indice = catalogo.findIndex(item => item.id === id);
+
+  if (indice >= 0) {
+    catalogo[indice] = {
+      ...catalogo[indice],
+      ...registro
+    };
+  } else {
+    catalogo.push(registro);
+  }
+
+  salvarCatalogoEstabelecimentos(catalogo);
+}
+
+function salvarDadosEstabelecimento(dados) {
+  localStorage.setItem('estabelecimentoDados', JSON.stringify(dados));
+  sincronizarCatalogoEstabelecimento(dados);
+}
+
+function atualizarResumoDashboard() {
+  const dados = carregarDadosEstabelecimento() || {};
+
+  const avaliacoes = document.getElementById('dash-avaliacoes');
+  const visualizacoes = document.getElementById('dash-visualizacoes');
+  const favoritos = document.getElementById('dash-favoritos');
+  const statusText = document.querySelector('.dashboard-status-text');
+  const welcomeName = document.querySelector('.dashboard-welcome-nome');
+
+  if (avaliacoes) avaliacoes.textContent = dados.avaliacoes ?? 0;
+  if (visualizacoes) visualizacoes.textContent = dados.visualizacoes ?? 0;
+  if (favoritos) favoritos.textContent = dados.favoritos ?? 0;
+  if (statusText) statusText.textContent = dados.status ?? 'Ativo';
+  if (welcomeName) welcomeName.textContent = dados.nome ?? 'Seu estabelecimento';
+}
+
+let eventoEditIndex = -1;
+
+function abrirModalEvento(indice = -1) {
+  const overlay = document.getElementById('evento-modal-overlay');
+  const tituloInput = document.getElementById('evento-titulo');
+  const descricaoInput = document.getElementById('evento-descricao');
+  const dataInput = document.getElementById('evento-data');
+  const modalTitle = document.getElementById('modal-evento-titulo');
+  const dados = carregarDadosEstabelecimento();
+
+  if (!overlay || !tituloInput || !descricaoInput || !dataInput || !modalTitle || !dados) {
+    return;
+  }
+
+  eventoEditIndex = indice;
+
+  if (indice >= 0 && dados.eventos?.[indice]) {
+    modalTitle.textContent = 'Editar evento';
+    tituloInput.value = dados.eventos[indice].titulo || '';
+    descricaoInput.value = dados.eventos[indice].descricao || '';
+    dataInput.value = dados.eventos[indice].data || '';
+  } else {
+    modalTitle.textContent = 'Adicionar evento';
+    tituloInput.value = '';
+    descricaoInput.value = '';
+    dataInput.value = '';
+  }
+
+  overlay.style.display = 'flex';
+  setTimeout(() => tituloInput.focus(), 100);
+}
+
+function fecharModalEvento() {
+  const overlay = document.getElementById('evento-modal-overlay');
+  if (!overlay) return;
+  overlay.style.display = 'none';
+  eventoEditIndex = -1;
+}
+
+function salvarEvento(e) {
+  e.preventDefault();
+
+  const tituloInput = document.getElementById('evento-titulo');
+  const descricaoInput = document.getElementById('evento-descricao');
+  const dataInput = document.getElementById('evento-data');
+  const dados = carregarDadosEstabelecimento();
+
+  if (!tituloInput || !dataInput || !dados) {
+    return;
+  }
+
+  const titulo = tituloInput.value.trim();
+  const descricao = descricaoInput.value.trim();
+  const data = dataInput.value.trim();
+
+  if (!titulo || !data) {
+    mostrarToast('Preencha título e data.', 'erro');
+    return;
+  }
+
+  dados.eventos = dados.eventos || [];
+  const evento = { titulo, descricao, data };
+
+  if (eventoEditIndex >= 0 && dados.eventos[eventoEditIndex]) {
+    dados.eventos[eventoEditIndex] = evento;
+    mostrarToast('Evento atualizado.', 'sucesso');
+  } else {
+    dados.eventos.push(evento);
+    mostrarToast('Evento adicionado.', 'sucesso');
+  }
+
+  salvarDadosEstabelecimento(dados);
+  fecharModalEvento();
+  renderizarEventos();
+}
+
+let pendingRemoveIndex = -1;
+
+function removerEvento(indice) {
+  const dados = carregarDadosEstabelecimento();
+  if (!dados?.eventos?.[indice]) {
+    return;
+  }
+
+  dados.eventos.splice(indice, 1);
+  salvarDadosEstabelecimento(dados);
+  renderizarEventos();
+  mostrarToast('Evento removido.', 'aviso');
+}
+
+function abrirConfirmacaoRemocao(indice) {
+  const overlay = document.getElementById('confirm-modal-overlay');
+  const mensagem = document.getElementById('confirm-message');
+  const dados = carregarDadosEstabelecimento();
+
+  if (!overlay || !mensagem || !dados?.eventos?.[indice]) return;
+
+  pendingRemoveIndex = indice;
+  mensagem.textContent = `Tem certeza de que deseja remover o evento "${dados.eventos[indice].titulo}"?`;
+  overlay.style.display = 'flex';
+}
+
+function fecharConfirmacaoRemocao() {
+  const overlay = document.getElementById('confirm-modal-overlay');
+  if (!overlay) return;
+
+  overlay.style.display = 'none';
+  pendingRemoveIndex = -1;
+}
+
+function confirmarRemocaoEvento() {
+  if (pendingRemoveIndex < 0) {
+    fecharConfirmacaoRemocao();
+    return;
+  }
+
+  removerEvento(pendingRemoveIndex);
+  fecharConfirmacaoRemocao();
+}
+
+function renderizarEventos() {
+  const dashboard = document.getElementById('estabelecimento-dashboard');
+  if (!dashboard) return;
+
+  const lista = dashboard.querySelector('.events-list');
+  if (!lista) return;
+
+  const dados = carregarDadosEstabelecimento();
+  const eventos = dados?.eventos || [];
+
+  lista.innerHTML = '';
+
+  if (!eventos.length) {
+    lista.innerHTML = '<li class="event-empty">Nenhum evento cadastrado.</li>';
+    return;
+  }
+
+  eventos.forEach((ev, idx) => {
+    const li = document.createElement('li');
+
+    li.innerHTML = `
+      <div>
+        <strong>${ev.titulo}</strong>
+        <span>${ev.descricao || ''}</span>
+      </div>
+      <div class="evento-acoes">
+        <button type="button" class="btn-editar">Editar</button>
+        <button type="button" class="btn-remover">Remover</button>
+      </div>
+      <span class="event-date">${ev.data || ''}</span>
+    `;
+
+    const editar = li.querySelector('.btn-editar');
+    const remover = li.querySelector('.btn-remover');
+
+    if (editar) {
+      editar.addEventListener('click', () => abrirModalEvento(idx));
+    }
+    if (remover) {
+      remover.addEventListener('click', () => abrirConfirmacaoRemocao(idx));
+    }
+
+    lista.appendChild(li);
+  });
+}
+
+function adicionarEvento() {
+  abrirModalEvento(-1);
+}
+
+function iniciarDashboardActions() {
+  const btnAdicionar = document.querySelector('.dashboard-event-button');
+  if (btnAdicionar) btnAdicionar.addEventListener('click', adicionarEvento);
+
+  const dashboard = document.getElementById('estabelecimento-dashboard');
+  if (!dashboard) return;
+
+  // Tornar nome clicável/éditavel via modal
+  const welcomeName = dashboard.querySelector('.dashboard-welcome-nome');
+  if (welcomeName) {
+    welcomeName.style.cursor = 'pointer';
+    welcomeName.title = 'Clique para editar nome';
+    welcomeName.addEventListener('click', abrirModalNome);
+  }
+
+  // Toggle status ao clicar
+  const statusText = dashboard.querySelector('.dashboard-status-text');
+  if (statusText) {
+    statusText.style.cursor = 'pointer';
+    statusText.title = 'Clique para alternar status';
+    statusText.addEventListener('click', function () {
+      const dados = carregarDadosEstabelecimento();
+      dados.status = (dados.status === 'Ativo') ? 'Inativo' : 'Ativo';
+      salvarDadosEstabelecimento(dados);
+      statusText.textContent = dados.status;
+      mostrarToast('Status atualizado.', 'sucesso');
+      atualizarResumoDashboard();
+    });
+  }
+
+  atualizarResumoDashboard();
+  renderizarEventos();
+}
+
+
+/* =========================================================
+   AÇÕES RÁPIDAS DO DASHBOARD
+========================================================= */
+
+function handleQuickAction(action) {
+  const actionLower = (action || '').toLowerCase();
+
+  switch (actionLower) {
+    case 'adicionar fotos':
+      abrirModalFotos();
+      break;
+
+    case 'categorias':
+      abrirModalCategorias();
+      break;
+
+    case 'pratos':
+      abrirModalCardapio('prato');
+      break;
+
+    case 'bebidas':
+      abrirModalCardapio('bebida', 'Água, Cerveja, Refrigerante');
+      break;
+
+    case 'horário':
+      abrirModalHorario();
+      break;
+
+    case 'configurações':
+      mostrarToast('Configurações: edite nome clicando no nome, altere status clicando no status.', 'sucesso');
+      break;
+
+    default:
+      mostrarToast('Ação não reconhecida.', 'erro');
+  }
+}
+
+/* =========================================================
+   MODAIS DE AÇÕES RÁPIDAS
+========================================================= */
+
+function abrirModalFotos() {
+  const overlay = document.getElementById('fotos-modal-overlay');
+  if (overlay) {
+    overlay.style.display = 'flex';
+    document.getElementById('foto-arquivo').focus();
+  }
+}
+
+function fecharModalFotos() {
+  const overlay = document.getElementById('fotos-modal-overlay');
+  if (overlay) {
+    overlay.style.display = 'none';
+    document.getElementById('form-fotos').reset();
+  }
+}
+
+function abrirModalCategorias() {
+  const overlay = document.getElementById('categorias-modal-overlay');
+  if (overlay) {
+    overlay.style.display = 'flex';
+    document.getElementById('categoria-nome').focus();
+  }
+}
+
+function fecharModalCategorias() {
+  const overlay = document.getElementById('categorias-modal-overlay');
+  if (overlay) {
+    overlay.style.display = 'none';
+    document.getElementById('form-categorias').reset();
+  }
+}
+
+function abrirModalCardapio(tipo, placeholder = '') {
+  const overlay = document.getElementById('cardapio-modal-overlay');
+  if (overlay) {
+    overlay.style.display = 'flex';
+    const titulo = document.getElementById('cardapio-modal-titulo');
+    const nomeInput = document.getElementById('cardapio-nome');
+    
+    if (titulo) titulo.textContent = `Adicionar ${tipo}`;
+    if (nomeInput) {
+      nomeInput.placeholder = placeholder || `Ex: ${tipo === 'prato' ? 'Frango à Parmegiana' : 'Suco Natural'}`;
+      nomeInput.focus();
+    }
+    
+    // Guardar tipo no form
+    document.getElementById('form-cardapio').dataset.tipo = tipo;
+  }
+}
+
+function fecharModalCardapio() {
+  const overlay = document.getElementById('cardapio-modal-overlay');
+  if (overlay) {
+    overlay.style.display = 'none';
+    document.getElementById('form-cardapio').reset();
+  }
+}
+
+function abrirModalHorario() {
+  const overlay = document.getElementById('horario-modal-overlay');
+  if (overlay) {
+    overlay.style.display = 'flex';
+    document.getElementById('horario-texto').focus();
+  }
+}
+
+function fecharModalHorario() {
+  const overlay = document.getElementById('horario-modal-overlay');
+  if (overlay) {
+    overlay.style.display = 'none';
+    document.getElementById('form-horario').reset();
+  }
+}
+
+function abrirModalNome() {
+  const overlay = document.getElementById('nome-modal-overlay');
+  const nomeInput = document.getElementById('nome-input');
+  const welcomeName = document.querySelector('.dashboard-welcome-nome');
+  
+  if (overlay && nomeInput && welcomeName) {
+    nomeInput.value = welcomeName.textContent;
+    overlay.style.display = 'flex';
+    nomeInput.focus();
+    nomeInput.select();
+  }
+}
+
+function fecharModalNome() {
+  const overlay = document.getElementById('nome-modal-overlay');
+  if (overlay) {
+    overlay.style.display = 'none';
+    document.getElementById('form-nome').reset();
+  }
+}
+
+function iniciarAcoesRapidas() {
+  const links = document.querySelectorAll('.dashboard-action-link');
+  links.forEach(link => {
+    link.addEventListener('click', function (e) {
+      e.preventDefault();
+      const action = (this.textContent || '').trim();
+      handleQuickAction(action);
+    });
+  });
+}
+
+function iniciarModalAcoes() {
+  // Fechar modais com botão ×
+  document.querySelectorAll('.action-close').forEach(btn => {
+    btn.addEventListener('click', function (e) {
+      e.preventDefault();
+      const action = this.dataset.action;
+      if (action === 'fotos') fecharModalFotos();
+      else if (action === 'categorias') fecharModalCategorias();
+      else if (action === 'cardapio') fecharModalCardapio();
+      else if (action === 'horario') fecharModalHorario();
+      else if (action === 'nome') fecharModalNome();
+    });
+  });
+
+  // Fechar modais ao clicar fora
+  document.querySelectorAll('.modal-overlay').forEach(overlay => {
+    if (overlay.id.includes('fotos') || overlay.id.includes('categorias') || 
+        overlay.id.includes('cardapio') || overlay.id.includes('horario') || overlay.id.includes('nome')) {
+      overlay.addEventListener('click', function (e) {
+        if (e.target === overlay) {
+          if (overlay.id === 'fotos-modal-overlay') fecharModalFotos();
+          else if (overlay.id === 'categorias-modal-overlay') fecharModalCategorias();
+          else if (overlay.id === 'cardapio-modal-overlay') fecharModalCardapio();
+          else if (overlay.id === 'horario-modal-overlay') fecharModalHorario();
+          else if (overlay.id === 'nome-modal-overlay') fecharModalNome();
+        }
+      });
+    }
+  });
+
+  // Formulário de Fotos
+  const formFotos = document.getElementById('form-fotos');
+  if (formFotos) {
+    formFotos.addEventListener('submit', function (e) {
+      e.preventDefault();
+      const arquivo = document.getElementById('foto-arquivo').files[0];
+      if (!arquivo) return;
+
+      const reader = new FileReader();
+      reader.onload = function (evento) {
+        const dados = carregarDadosEstabelecimento();
+        dados.fotos = dados.fotos || [];
+        dados.fotos.push(evento.target.result);
+        salvarDadosEstabelecimento(dados);
+        mostrarToast('Foto adicionada.', 'sucesso');
+        fecharModalFotos();
+      };
+      reader.readAsDataURL(arquivo);
+    });
+  }
+
+  // Formulário de Categorias
+  const formCategorias = document.getElementById('form-categorias');
+  if (formCategorias) {
+    formCategorias.addEventListener('submit', function (e) {
+      e.preventDefault();
+      const categoria = document.getElementById('categoria-nome').value.trim();
+      if (!categoria) return;
+
+      const dados = carregarDadosEstabelecimento();
+      dados.categorias = dados.categorias || [];
+      dados.categorias.push(categoria);
+      salvarDadosEstabelecimento(dados);
+      mostrarToast('Categoria adicionada.', 'sucesso');
+      fecharModalCategorias();
+    });
+  }
+
+  // Formulário de Cardápio (Pratos/Bebidas)
+  const formCardapio = document.getElementById('form-cardapio');
+  if (formCardapio) {
+    formCardapio.addEventListener('submit', function (e) {
+      e.preventDefault();
+      const tipo = this.dataset.tipo || 'prato';
+      const nome = document.getElementById('cardapio-nome').value.trim();
+      if (!nome) return;
+
+      const descricao = document.getElementById('cardapio-descricao').value.trim() || '';
+      const preco = document.getElementById('cardapio-preco').value.trim() || '';
+
+      const dados = carregarDadosEstabelecimento();
+      dados.cardapio = dados.cardapio || { pratos: [], bebidas: [] };
+
+      if (tipo === 'prato') {
+        dados.cardapio.pratos.push({ nome, descricao, preco });
+      } else {
+        dados.cardapio.bebidas.push({ nome, descricao, preco });
+      }
+
+      salvarDadosEstabelecimento(dados);
+      const tipoCapitalizado = tipo.charAt(0).toUpperCase() + tipo.slice(1);
+      mostrarToast(`${tipoCapitalizado} adicionado.`, 'sucesso');
+      fecharModalCardapio();
+    });
+  }
+
+  // Formulário de Horário
+  const formHorario = document.getElementById('form-horario');
+  if (formHorario) {
+    formHorario.addEventListener('submit', function (e) {
+      e.preventDefault();
+      const horario = document.getElementById('horario-texto').value.trim();
+      if (!horario) return;
+
+      const dados = carregarDadosEstabelecimento();
+      dados.horarios = dados.horarios || [];
+      dados.horarios.push(horario);
+      salvarDadosEstabelecimento(dados);
+      mostrarToast('Horário adicionado.', 'sucesso');
+      fecharModalHorario();
+    });
+  }
+
+  // Formulário de Nome
+  const formNome = document.getElementById('form-nome');
+  if (formNome) {
+    formNome.addEventListener('submit', function (e) {
+      e.preventDefault();
+      const novoNome = document.getElementById('nome-input').value.trim();
+      if (!novoNome) return;
+
+      const dados = carregarDadosEstabelecimento();
+      dados.nome = novoNome;
+      salvarDadosEstabelecimento(dados);
+      
+      const welcomeName = document.querySelector('.dashboard-welcome-nome');
+      if (welcomeName) {
+        welcomeName.textContent = novoNome;
+      }
+      
+      mostrarToast('Nome atualizado.', 'sucesso');
+      fecharModalNome();
+      atualizarResumoDashboard();
+    });
+  }
+}
+
+function iniciarEventosDashboard() {
+  const btnAdicionar = document.querySelector('.dashboard-event-button');
+  if (btnAdicionar) {
+    btnAdicionar.addEventListener('click', adicionarEvento);
+  }
+
+  const fecharBtn = document.getElementById('btn-fechar-evento');
+  const cancelarBtn = document.getElementById('btn-cancelar-evento');
+  const formEvento = document.getElementById('form-evento');
+  const overlay = document.getElementById('evento-modal-overlay');
+
+  if (fecharBtn) {
+    fecharBtn.addEventListener('click', fecharModalEvento);
+  }
+  if (cancelarBtn) {
+    cancelarBtn.addEventListener('click', fecharModalEvento);
+  }
+  if (formEvento) {
+    formEvento.addEventListener('submit', salvarEvento);
+  }
+  if (overlay) {
+    overlay.addEventListener('click', function (e) {
+      if (e.target === overlay) {
+        fecharModalEvento();
+      }
+    });
+  }
+
+  const confirmOverlay = document.getElementById('confirm-modal-overlay');
+  const confirmYes = document.getElementById('confirm-yes');
+  const confirmNo = document.getElementById('confirm-no');
+
+  if (confirmNo) {
+    confirmNo.addEventListener('click', fecharConfirmacaoRemocao);
+  }
+
+  if (confirmYes) {
+    confirmYes.addEventListener('click', confirmarRemocaoEvento);
+  }
+
+  if (confirmOverlay) {
+    confirmOverlay.addEventListener('click', function (e) {
+      if (e.target === confirmOverlay) {
+        fecharConfirmacaoRemocao();
+      }
+    });
+  }
+}
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+function mostrarToast(
+  mensagem,
+  tipo = "sucesso"
+) {
+
+  const container =
+    document.getElementById(
+      "toast-container"
+    );
+
+  if (!container) {
+    return;
+  }
+
+  const toast =
+    document.createElement("div");
+
+  toast.className =
+    `toast toast-${tipo}`;
+
+  toast.textContent =
+    mensagem;
+
+  container.appendChild(
+    toast
+  );
+
+  setTimeout(() => {
+
+    toast.classList.add(
+      "mostrar"
+    );
+
+  }, 100);
+
+  setTimeout(() => {
+
+    toast.classList.remove(
+      "mostrar"
+    );
+
+    setTimeout(() => {
+
+      toast.remove();
+
+    }, 300);
+
+  }, 3000);
+}
+
+
+/* =========================================================
+   VALIDAR CEP
+========================================================= */
+
 function ehCep(texto) {
-  return /^\d{5}-?\d{3}$/.test(texto.trim());
+
+  return /^\d{5}-?\d{3}$/.test(
+    texto
+  );
 }
 
 
-/* ================================================
-   CEP → COORDENADAS  (ViaCEP + Nominatim)
-   ================================================ */
-async function cepParaCoordenadas(cep) {
-  const cepLimpo = cep.replace(/\D/g, '');
+/* =========================================================
+   RESOLVER CEP / ENDEREÇO
+========================================================= */
 
-  const resVia = await fetch(`https://viacep.com.br/ws/${cepLimpo}/json/`);
-  const dados  = await resVia.json();
+async function resolverEntrada(texto) {
 
-  if (dados.erro) throw new Error('CEP não encontrado. Verifique e tente novamente.');
+  /* =========================================
+     CEP
+  ========================================= */
 
-  const partes = [dados.logradouro, dados.bairro, dados.localidade, dados.uf, 'Brasil'];
-  const endereco = partes.filter(Boolean).join(', ');
+  if (ehCep(texto)) {
 
-  return await enderecoParaCoordenadas(endereco, dados.localidade, dados.bairro);
-}
+    const cep =
+      texto.replace(/\D/g, '');
 
+    const viaCep =
+      await fetch(
+        `https://viacep.com.br/ws/${cep}/json/`
+      );
 
-/* ================================================
-   ENDEREÇO LIVRE → COORDENADAS  (Nominatim)
-   ================================================ */
-async function enderecoParaCoordenadas(endereco, cidade = '', bairro = '') {
+    const dados =
+      await viaCep.json();
+
+    if (dados.erro) {
+
+      throw new Error(
+        "CEP não encontrado"
+      );
+    }
+
+    texto =
+      `${dados.localidade}, ${dados.uf}`;
+  }
+
+  /* =========================================
+     COORDENADAS
+  ========================================= */
+
   const url =
-    `https://nominatim.openstreetmap.org/search` +
-    `?q=${encodeURIComponent(endereco)}` +
+    `https://nominatim.openstreetmap.org/search?q=` +
+    encodeURIComponent(texto) +
     `&format=json&limit=1&countrycodes=br`;
 
-  const res  = await fetch(url, { headers: { 'Accept-Language': 'pt-BR' } });
-  const geo  = await res.json();
+  const resposta =
+    await fetch(url);
 
-  if (!geo.length) {
+  const dados =
+    await resposta.json();
+
+  if (!dados.length) {
+
     throw new Error(
-      'Endereço não encontrado. Tente ser mais específico (ex: "Av. Paulista, São Paulo").'
+      "Endereço não encontrado"
     );
   }
 
   return {
-    lat:    parseFloat(geo[0].lat),
-    lon:    parseFloat(geo[0].lon),
-    cidade: cidade || geo[0].display_name.split(',')[2]?.trim() || '',
-    bairro: bairro || geo[0].display_name.split(',')[1]?.trim() || '',
-    label:  geo[0].display_name,
+
+    lat: parseFloat(
+      dados[0].lat
+    ),
+
+    lon: parseFloat(
+      dados[0].lon
+    )
   };
 }
 
 
-/* ================================================
-   ENTRADA UNIFICADA → detecta CEP ou endereço
-   ================================================ */
-async function resolverEntrada(texto) {
-  const t = texto.trim();
-  if (!t) throw new Error('Digite um CEP ou endereço para buscar.');
+/* =========================================================
+   BUSCAR LOCAIS
+========================================================= */
 
-  if (ehCep(t)) {
-    return await cepParaCoordenadas(t);
-  } else {
-    return await enderecoParaCoordenadas(t);
-  }
-}
+async function resolverEntradaPrecisa(texto) {
 
+  const buscarCoordenadas =
+    async consulta => {
 
-/* ================================================
-   COORDENADAS + RAIO → LUGARES  (Overpass)
-   ================================================ */
-async function buscarLugares(lat, lon, categoria, raio) {
-  const tipos = TIPOS_OSM[categoria] || TIPOS_OSM['bares'];
+      const url =
+        `https://nominatim.openstreetmap.org/search?q=` +
+        encodeURIComponent(consulta) +
+        `&format=json&limit=1&countrycodes=br`;
 
-  const filtros = tipos
-    .map(t => `node[${t}](around:${raio},${lat},${lon});\nway[${t}](around:${raio},${lat},${lon});`)
-    .join('\n');
+      const resposta =
+        await fetch(url);
 
-  const query = `[out:json][timeout:25];\n(\n${filtros}\n);\nout center ${MAX_CARDS * 2};`;
+      if (!resposta.ok) {
+        return null;
+      }
 
-  const res   = await fetch('https://overpass-api.de/api/interpreter', {
-    method: 'POST',
-    body:   query,
-  });
-  const dados = await res.json();
-  return (dados.elements || []).filter(el => el.tags?.name);
-}
+      const dados =
+        await resposta.json();
 
+      if (!dados.length) {
+        return null;
+      }
 
-/* ================================================
-   BUSCA COM EXPANSÃO AUTOMÁTICA DE RAIO
-   ================================================ */
-async function buscarComExpansao(lat, lon, categoria) {
-  for (let i = 0; i < RAIOS_KM.length; i++) {
-    const raio     = RAIOS_KM[i];
-    const lugares  = await buscarLugares(lat, lon, categoria, raio);
-    const ultimo   = i === RAIOS_KM.length - 1;
+      return {
 
-    if (lugares.length > 0 || ultimo) {
-      return { lugares, raio, expandido: i > 0 };
+        lat: parseFloat(
+          dados[0].lat
+        ),
+
+        lon: parseFloat(
+          dados[0].lon
+        )
+      };
+    };
+
+  if (!ehCep(texto)) {
+
+    const coords =
+      await buscarCoordenadas(
+        texto
+      );
+
+    if (coords) {
+      return coords;
     }
 
-    /* Aviso de expansão no meio */
-    mostrarAvisoExpansao(raio, RAIOS_KM[i + 1]);
+    throw new Error(
+      "Endereco nao encontrado"
+    );
   }
+
+  const cep =
+    texto.replace(
+      /\D/g,
+      ""
+    );
+
+  const viaCep =
+    await fetch(
+      `https://viacep.com.br/ws/${cep}/json/`
+    );
+
+  if (!viaCep.ok) {
+    throw new Error(
+      "Nao foi possivel consultar esse CEP"
+    );
+  }
+
+  const dadosCep =
+    await viaCep.json();
+
+  if (dadosCep.erro) {
+
+    throw new Error(
+      "CEP nao encontrado"
+    );
+  }
+
+  const consultas =
+    [
+      [
+        dadosCep.logradouro,
+        dadosCep.bairro,
+        dadosCep.localidade,
+        dadosCep.uf,
+        "Brasil"
+      ].filter(Boolean).join(", "),
+      `${dadosCep.bairro || ""}, ${dadosCep.localidade}, ${dadosCep.uf}, Brasil`,
+      `${dadosCep.localidade}, ${dadosCep.uf}, Brasil`
+    ];
+
+  for (const consulta of consultas) {
+
+    const coords =
+      await buscarCoordenadas(
+        consulta
+      );
+
+    if (coords) {
+      return coords;
+    }
+  }
+
+  throw new Error(
+    "Nao encontramos coordenadas para esse CEP"
+  );
 }
 
+function obterRaioBusca() {
 
-/* ================================================
-   DISTÂNCIA  (Haversine)
-   ================================================ */
-function distanciaKm(lat1, lon1, lat2, lon2) {
-  const R    = 10000;
-  const dLat = ((lat2 - lat1) * Math.PI) / 180;
-  const dLon = ((lon2 - lon1) * Math.PI) / 180;
-  const a    =
-    Math.sin(dLat / 2) ** 2 +
-    Math.cos((lat1 * Math.PI) / 180) *
-    Math.cos((lat2 * Math.PI) / 180) *
-    Math.sin(dLon / 2) ** 2;
-  return (R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))).toFixed(1);
+  const valor =
+    parseInt(
+      $("#range-area-busca").val(),
+      10
+    );
+
+  if (Number.isNaN(valor)) {
+    return 5000;
+  }
+
+  return valor * 1000;
 }
 
+function iniciarAreaBusca() {
 
-/* ================================================
-   AVISO TEMPORÁRIO DE EXPANSÃO
-   ================================================ */
-function mostrarAvisoExpansao(raioAtual, raioNovo) {
-  const grade = document.getElementById('grade-destaques');
-  grade.innerHTML = `
-    <p class="aviso-expandindo">
-      🔍 Nada encontrado em ${raioAtual / 1000} km… ampliando para ${raioNovo / 1000} km
-    </p>`;
-}
+  const $range =
+    $("#range-area-busca");
 
-
-/* ================================================
-   GERAR CARDS
-   ================================================ */
-function gerarCards(lugares, latBase, lonBase, raio, expandido) {
-  const grade  = document.getElementById('grade-destaques');
-  const titulo = document.getElementById('titulo-destaques');
-
-  grade.innerHTML = '';
-
-  if (!lugares.length) {
-    grade.innerHTML = `
-      <p class="aviso-vazio">
-        😕 Nenhum lugar encontrado mesmo com ${raio / 1000} km de raio.<br>
-        Tente outra categoria ou um endereço diferente.
-      </p>`;
+  if (!$range.length) {
     return;
   }
 
-  titulo.textContent = 'Picos perto de você';
+  const atualizarTexto =
+    () => {
 
-  if (expandido) {
-    const aviso = document.createElement('p');
-    aviso.className = 'aviso-raio';
-    aviso.textContent = `📍 Resultados ampliados para ${raio / 1000} km — nada mais perto.`;
-    grade.before(aviso);
+      $("#valor-area-busca").text(
+        `${$range.val()} km`
+      );
+    };
+
+  atualizarTexto();
+
+  $range.on(
+    "input",
+    atualizarTexto
+  );
+
+  $range.on(
+    "change",
+
+    function () {
+
+      if (
+        $("#input-local").val().trim()
+      ) {
+        buscar();
+      }
+    }
+  );
+}
+
+function obterImagemFallback(local) {
+
+  const tags =
+    local.tags || {};
+
+  if (tags.leisure === "park") {
+    return "img/parque.png";
   }
 
-  lugares.slice(0, MAX_CARDS).forEach((lugar) => {
-    const tags     = lugar.tags || {};
-    const nome     = tags.name;
-    const latL     = lugar.lat  ?? lugar.center?.lat;
-    const lonL     = lugar.lon  ?? lugar.center?.lon;
-    const dist     = latL ? `${distanciaKm(latBase, lonBase, latL, lonL)} km` : '—';
-    const telefone = tags.phone             || tags['contact:phone']   || null;
-    const site     = tags.website           || tags['contact:website'] || null;
-    const horario  = tags.opening_hours     || null;
-    const tipo     = tags.cuisine || tags.leisure || tags.amenity || tags.shop || categoriaAtiva;
-    const maps     = latL
-      ? `https://www.google.com/maps?q=${latL},${lonL}`
-      : `https://www.google.com/maps/search/${encodeURIComponent(nome)}`;
+  if (tags.shop === "mall") {
+    return "img/shopping.png";
+  }
 
-    const card = document.createElement('article');
-    card.className      = 'card-moderno card-local';
-    card.dataset.nome   = nome.toLowerCase();
+  if (tags.amenity === "bar") {
+    return "img/bar.png";
+  }
+
+  if (tags.amenity === "restaurant") {
+    return "img/restaurante.png";
+  }
+
+  if (tags.amenity === "nightclub") {
+    return "img/festas.png";
+  }
+
+  return "img/logo.png";
+}
+
+function obterImagemLocal(local) {
+
+  const tags =
+    local.tags || {};
+
+  if (tags.image) {
+    return tags.image;
+  }
+
+  if (tags.wikimedia_commons) {
+
+    const arquivo =
+      tags.wikimedia_commons
+        .replace(/^File:/, "");
+
+    return `https://commons.wikimedia.org/wiki/Special:FilePath/${encodeURIComponent(arquivo)}`;
+  }
+
+  return obterImagemFallback(
+    local
+  );
+}
+
+function escaparAtributo(valor) {
+
+  return String(valor || "")
+    .replace(/&/g, "&amp;")
+    .replace(/"/g, "&quot;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+}
+
+function obterEnderecoLocal(local) {
+
+  const tags =
+    local.tags || {};
+
+  return [
+    tags["addr:street"],
+    tags["addr:housenumber"],
+    tags["addr:suburb"] ||
+      tags["addr:neighbourhood"],
+    tags["addr:city"]
+  ].filter(Boolean).join(", ");
+}
+
+function obterResumoLocal(local, tipo, faixaPreco) {
+
+  const tags =
+    local.tags || {};
+
+  const partes =
+    [];
+
+  if (tags.cuisine) {
+    partes.push(
+      `Culinaria: ${tags.cuisine.replace(/_/g, " ")}.`
+    );
+  }
+
+  if (tags.opening_hours) {
+    partes.push(
+      `Horario informado: ${tags.opening_hours}.`
+    );
+  }
+
+  if (tags.website) {
+    partes.push(
+      "Tem site cadastrado para consultar mais detalhes."
+    );
+  }
+
+  if (!partes.length) {
+    partes.push(
+      `Opcao da categoria ${tipo.replace(/[^\w\sÀ-ÿ]/g, "").trim() || "local"}, com faixa estimada de ${faixaPreco.label}.`
+    );
+  }
+
+  return partes.join(" ");
+}
+
+function abrirDetalhesLocal(dados) {
+
+  $("#detalhes-local-overlay").remove();
+
+  const endereco =
+    dados.endereco ||
+    "Endereco detalhado nao informado. Use o mapa para confirmar a rota.";
+
+  const horario =
+    dados.horario ||
+    "Horario nao informado";
+
+  const contato =
+    dados.telefone ||
+    dados.site ||
+    "Contato nao informado";
+
+  const $overlay =
+    $(`
+      <div id="detalhes-local-overlay" class="modal-overlay local-modal-overlay">
+        <article class="modal local-modal">
+          <button type="button" class="modal-close local-modal-close" aria-label="Fechar detalhes">&times;</button>
+
+          <img
+            class="local-modal-img"
+            src="${escaparAtributo(dados.imagem)}"
+            alt="Foto de ${escaparAtributo(dados.nome)}"
+            onerror="this.onerror=null;this.src='${escaparAtributo(dados.fallback)}';"
+          />
+
+          <div class="local-modal-body">
+            <span class="local-modal-tipo">${escaparAtributo(dados.tipo)}</span>
+            <h2>${escaparAtributo(dados.nome)}</h2>
+            <p class="local-modal-descricao">${escaparAtributo(dados.resumo)}</p>
+
+            <div class="local-modal-info">
+              <div>
+                <span>Preco estimado</span>
+                <strong>${escaparAtributo(dados.preco)}</strong>
+              </div>
+              <div>
+                <span>Endereco</span>
+                <strong>${escaparAtributo(endereco)}</strong>
+              </div>
+              <div>
+                <span>Horario</span>
+                <strong>${escaparAtributo(horario)}</strong>
+              </div>
+              <div>
+                <span>Contato</span>
+                <strong>${escaparAtributo(contato)}</strong>
+              </div>
+            </div>
+
+            <div class="local-modal-actions">
+              <button type="button" class="btn-claro local-modal-close">Voltar</button>
+              <a href="${escaparAtributo(dados.maps)}" target="_blank" class="btn-principal">Ver no mapa</a>
+            </div>
+          </div>
+        </article>
+      </div>
+    `);
+
+  $("body").append(
+    $overlay
+  );
+
+  $overlay.on(
+    "click",
+
+    function (e) {
+
+      if (
+        e.target === this ||
+        $(e.target).hasClass("local-modal-close")
+      ) {
+        $overlay.remove();
+      }
+    }
+  );
+}
+
+async function buscarLugares(
+  lat,
+  lon,
+  raio = obterRaioBusca()
+) {
+
+  const filtros = `
+
+    node[amenity=bar](around:${raio},${lat},${lon});
+    way[amenity=bar](around:${raio},${lat},${lon});
+
+    node[amenity=restaurant](around:${raio},${lat},${lon});
+    way[amenity=restaurant](around:${raio},${lat},${lon});
+
+    node[leisure=park](around:${raio},${lat},${lon});
+    way[leisure=park](around:${raio},${lat},${lon});
+
+    node[shop=mall](around:${raio},${lat},${lon});
+    way[shop=mall](around:${raio},${lat},${lon});
+
+    node[amenity=nightclub](around:${raio},${lat},${lon});
+    way[amenity=nightclub](around:${raio},${lat},${lon});
+
+  `;
+
+  const query = `
+
+    [out:json];
+
+    (
+      ${filtros}
+    );
+
+    out center 24;
+
+  `;
+
+  const resposta =
+    await fetch(
+      "https://overpass-api.de/api/interpreter",
+      {
+        method: "POST",
+        body: query
+      }
+    );
+
+  const dados =
+    await resposta.json();
+
+  return dados.elements || [];
+}
+
+
+/* =========================================================
+   MOSTRAR CARDS
+========================================================= */
+
+function mostrarCards(lugares) {
+
+  const grade =
+    document.getElementById(
+      "grade-destaques"
+    );
+
+  if (!grade) {
+    return;
+  }
+
+  const lugaresFiltrados =
+    filtrarPorOrcamento(
+      lugares
+    );
+
+  atualizarResumoOrcamento(
+    lugares.length,
+    lugaresFiltrados.length
+  );
+
+  grade.innerHTML = "";
+
+  /* =========================================
+     NENHUM LOCAL
+  ========================================= */
+
+  if (!lugares.length) {
+
+    grade.innerHTML = `
+
+      <p class="aviso-vazio">
+        Nenhum local encontrado.
+      </p>
+
+    `;
+
+    return;
+  }
+
+  if (!lugaresFiltrados.length) {
+
+    grade.innerHTML = `
+
+      <p class="aviso-vazio">
+        Nenhum local encontrado dentro desse or\u00e7amento. Aumente a barra para ver mais op\u00e7\u00f5es.
+      </p>
+
+    `;
+
+    return;
+  }
+
+  /* =========================================
+     CARDS
+  ========================================= */
+
+  lugaresFiltrados.forEach(local => {
+
+    const nome =
+      local.tags?.name ||
+      "Local";
+
+    let tipo = "";
+
+    if (
+      local.tags?.amenity === "bar"
+    ) {
+
+      tipo = "🍺 Bar";
+    }
+
+    else if (
+      local.tags?.amenity === "restaurant"
+    ) {
+
+      tipo =
+        "🍔 Restaurante";
+    }
+
+    else if (
+      local.tags?.shop === "mall"
+    ) {
+
+      tipo =
+        "🛍 Shopping";
+    }
+
+    else if (
+      local.tags?.leisure === "park"
+    ) {
+
+      tipo =
+        "🌳 Parque";
+    }
+
+    else if (
+      local.tags?.amenity === "nightclub"
+    ) {
+
+      tipo =
+        "🎉 Festa";
+    }
+
+    const lat =
+      local.lat ||
+      local.center?.lat;
+
+    const lon =
+      local.lon ||
+      local.center?.lon;
+
+    const maps =
+      `https://www.google.com/maps?q=${lat},${lon}`;
+
+    const faixaPreco =
+      estimarFaixaPreco(
+        local
+      );
+
+    const imagemLocal =
+      obterImagemLocal(
+        local
+      );
+
+    const imagemFallback =
+      obterImagemFallback(
+        local
+      );
+
+    const resumoLocal =
+      obterResumoLocal(
+        local,
+        tipo,
+        faixaPreco
+      );
+
+    const enderecoLocal =
+      obterEnderecoLocal(
+        local
+      );
+
+    const card =
+      document.createElement(
+        "div"
+      );
+
+    card.className =
+      "card-local";
+
+    /* =========================================
+       NÃO LOGADO
+    ========================================= */
+
+    if (
+      !usuarioEstaLogado()
+    ) {
+
+      card.innerHTML = `
+
+        <img
+          class="foto-local"
+          src="${escaparAtributo(imagemFallback)}"
+          alt="Imagem da categoria do local"
+        />
+
+        <div class="info-card">
+
+          <h3 class="nome-local">
+            🔒 Faça login para ver os locais
+          </h3>
+
+          <p class="subtitulo-local">
+            Você precisa entrar na sua conta.
+          </p>
+
+          <button
+            class="btn-principal"
+            onclick="window.location.href='login.html'"
+          >
+            Fazer Login
+          </button>
+
+        </div>
+
+      `;
+
+      grade.appendChild(
+        card
+      );
+
+      return;
+    }
+
+    /* =========================================
+       CARD NORMAL
+    ========================================= */
 
     card.innerHTML = `
-      <div class="capa-card capa-sem-foto">
-        <div class="placeholder-foto">📍</div>
-        <button class="btn-favoritar">♥️</button>
-        <span class="etiqueta etiqueta-preco">${tipo}</span>
-      </div>
+
+      <img
+        class="foto-local"
+        src="${escaparAtributo(imagemLocal)}"
+        alt="Foto de ${escaparAtributo(nome)}"
+        onerror="this.onerror=null;this.src='${escaparAtributo(imagemFallback)}';"
+      />
+
       <div class="info-card">
-        <div class="titulo-rating">
-          <h3 class="nome-local">${nome}</h3>
-          <span class="nota-avaliacao">★ —</span>
-        </div>
-        <p class="subtitulo-local">${tipo} • ${dist} de distância</p>
-        ${horario  ? `<p class="horario-local">🕐 ${horario}</p>`                          : ''}
-        ${telefone ? `<p class="tel-local">📞 <a href="tel:${telefone}">${telefone}</a></p>` : ''}
-        <div class="acoes-card">
-          <a class="btn-maps" href="${maps}" target="_blank" rel="noopener">Ver no Mapa</a>
-          ${site ? `<a class="btn-site" href="${site}" target="_blank" rel="noopener">Site</a>` : ''}
-        </div>
-      </div>`;
+
+        <h3 class="nome-local">
+          ${escaparAtributo(nome)}
+        </h3>
+
+        <p class="subtitulo-local">
+          ${tipo}
+        </p>
+
+        <p class="preco-local">
+          <span>Faixa estimada</span>
+          <strong>${faixaPreco.label}</strong>
+        </p>
+
+        <p class="descricao-local-card">
+          ${escaparAtributo(resumoLocal)}
+        </p>
+
+        <button
+          type="button"
+          class="btn-principal btn-detalhes-local"
+        >
+          Ver detalhes
+        </button>
+
+      </div>
+
+    `;
+
+    card
+      .querySelector(
+        ".btn-detalhes-local"
+      )
+      ?.addEventListener(
+        "click",
+
+        function () {
+
+          abrirDetalhesLocal({
+            nome,
+            tipo,
+            imagem: imagemLocal,
+            fallback: imagemFallback,
+            resumo: resumoLocal,
+            preco: faixaPreco.label,
+            endereco: enderecoLocal,
+            horario: local.tags?.opening_hours,
+            telefone: local.tags?.phone,
+            site: local.tags?.website,
+            maps
+          });
+        }
+      );
 
     grade.appendChild(card);
   });
 }
 
-
-/* ================================================
-   MOSTRAR SKELETONS
-   ================================================ */
-function mostrarSkeletons(qtd = 6) {
-  const grade = document.getElementById('grade-destaques');
-  grade.innerHTML = Array(qtd).fill('<div class="card-skeleton"></div>').join('');
-
-  /* Remove aviso de raio anterior se existir */
-  const avisoAnterior = document.querySelector('.aviso-raio');
-  if (avisoAnterior) avisoAnterior.remove();
+function normalizarTexto(texto) {
+  return String(texto || '')
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '');
 }
 
+function carregarRestaurantesPublicados() {
+  return carregarCatalogoEstabelecimentos().filter(item => {
+    const categorias = item.categorias || [];
+    const temConteudo = Boolean((item.fotos || []).length && ((((item.cardapio || {}).pratos) || []).length || ((((item.cardapio || {}).bebidas) || []).length)));
 
-/* ================================================
-   BUSCA PRINCIPAL — chamada pelo botão ou Enter
-   ================================================ */
-async function buscarLugaresPorEntrada() {
-  const input     = document.getElementById('input-local');
-  const btnBuscar = document.getElementById('btn-buscar-local');
-  const texto     = input?.value?.trim();
+    return categorias.includes('restaurantes') && (item.status || 'Ativo') !== 'Inativo' && (item.publicado || temConteudo);
+  });
+}
 
-  if (!texto) {
-    input?.focus();
+function filtrarRestaurantesPorBusca(restaurantes, busca) {
+  const termo = normalizarTexto(busca);
+
+  if (!termo) {
+    return restaurantes;
+  }
+
+  return restaurantes.filter(item => {
+    const alvo = [
+      item.nome,
+      item.endereco,
+      item.complemento,
+      item.telefone,
+      ...(item.categorias || []),
+      ...(((item.cardapio || {}).pratos) || []).map(prato => `${prato.nome} ${prato.descricao || ''}`)
+    ].join(' ');
+
+    return normalizarTexto(alvo).includes(termo);
+  });
+}
+
+function mostrarCardsCatalogo(restaurantes, totalCatalogo = restaurantes.length) {
+  const grade = document.getElementById('grade-destaques');
+
+  if (!grade) {
     return;
   }
 
-  mostrarSkeletons();
-  if (btnBuscar) btnBuscar.disabled = true;
+  const restaurantesFiltrados = filtrarPorOrcamento(restaurantes);
 
-  try {
-    const coords = await resolverEntrada(texto);
-    coordenadasAtuais = coords;
+  atualizarResumoOrcamento(totalCatalogo, restaurantesFiltrados.length);
+  grade.innerHTML = '';
 
-    const { lugares, raio, expandido } = await buscarComExpansao(
-      coords.lat, coords.lon, categoriaAtiva
-    );
-
-    gerarCards(lugares, coords.lat, coords.lon, raio, expandido);
-
-  } catch (err) {
-    document.getElementById('grade-destaques').innerHTML =
-      `<p class="aviso-erro">⚠️ ${err.message}</p>`;
-  } finally {
-    if (btnBuscar) btnBuscar.disabled = false;
+  if (!restaurantes.length) {
+    grade.innerHTML = `
+      <p class="aviso-vazio">
+        Nenhum restaurante cadastrado foi publicado ainda.
+      </p>
+    `;
+    return;
   }
-}
 
-
-/* ================================================
-   TROCAR CATEGORIA — reutiliza coordenadas salvas
-   ================================================ */
-async function trocarCategoria(novaCategoria) {
-  categoriaAtiva = novaCategoria;
-
-  document.querySelectorAll('.item-cat').forEach((el) => {
-    el.classList.toggle('ativo', el.dataset.categoria === novaCategoria);
-  });
-
-  if (!coordenadasAtuais) return;
-
-  mostrarSkeletons(3);
-
-  try {
-    const { lugares, raio, expandido } = await buscarComExpansao(
-      coordenadasAtuais.lat, coordenadasAtuais.lon, novaCategoria
-    );
-    gerarCards(lugares, coordenadasAtuais.lat, coordenadasAtuais.lon, raio, expandido);
-  } catch {
-    document.getElementById('grade-destaques').innerHTML =
-      `<p class="aviso-erro">⚠️ Erro ao buscar lugares.</p>`;
+  if (!restaurantesFiltrados.length) {
+    grade.innerHTML = `
+      <p class="aviso-vazio">
+        Nenhum restaurante cadastrado cabe nesse orcamento. Ajuste a faixa para ver mais opcoes.
+      </p>
+    `;
+    return;
   }
-}
 
+  restaurantesFiltrados.forEach(local => {
+    const nome = local.nome || 'Restaurante';
+    const imagemLocal = (local.fotos || [])[0] || 'img/restaurante.png';
+    const imagemFallback = 'img/restaurante.png';
+    const faixaPreco = estimarFaixaPreco(local);
+    const enderecoCompleto = [local.endereco, local.complemento].filter(Boolean).join(', ');
+    const resumoLocal = (((local.cardapio || {}).pratos) || [])[0]?.descricao ||
+      `Restaurante cadastrado na plataforma com ${(local.fotos || []).length} foto(s) e cardapio proprio.`;
+    const maps = `https://www.google.com/maps?q=${encodeURIComponent(enderecoCompleto || nome)}`;
+    const card = document.createElement('div');
 
-/* ================================================
-   INICIALIZAÇÃO
-   ================================================ */
-document.addEventListener('DOMContentLoaded', function () {
+    card.className = 'card-local';
 
-  /* Injeta campo de busca acima dos destaques */
-  const secao = document.getElementById('secao-destaques');
-  if (secao) {
-    const wrapper = document.createElement('div');
-    wrapper.className = 'cep-wrapper';
-    wrapper.innerHTML = `
-      <div class="cep-box">
-        <span class="cep-icone">📍</span>
-        <input
-          type="text"
-          id="input-local"
-          class="cep-input"
-          placeholder="CEP ou endereço (ex: 22041-001 ou Av. Paulista, SP)"
-          autocomplete="off"
-        />
-        <button id="btn-buscar-local" class="btn-buscar-cep" onclick="buscarLugaresPorEntrada()">
-          Buscar
+    card.innerHTML = `
+      <img
+        class="foto-local"
+        src="${escaparAtributo(imagemLocal)}"
+        alt="Foto de ${escaparAtributo(nome)}"
+        onerror="this.onerror=null;this.src='${escaparAtributo(imagemFallback)}';"
+      />
+
+      <div class="info-card">
+        <h3 class="nome-local">
+          ${escaparAtributo(nome)}
+        </h3>
+
+        <p class="subtitulo-local">
+          Restaurante cadastrado
+        </p>
+
+        <p class="preco-local">
+          <span>Faixa do cardapio</span>
+          <strong>${faixaPreco.label}</strong>
+        </p>
+
+        <p class="descricao-local-card">
+          ${escaparAtributo(resumoLocal)}
+        </p>
+
+        <button
+          type="button"
+          class="btn-principal btn-detalhes-local"
+        >
+          Ver detalhes
         </button>
       </div>
     `;
-    secao.insertBefore(wrapper, secao.querySelector('.cabecalho-secao'));
+
+    card
+      .querySelector('.btn-detalhes-local')
+      ?.addEventListener('click', function () {
+        abrirDetalhesLocal({
+          nome,
+          tipo: 'Restaurante cadastrado',
+          imagem: imagemLocal,
+          fallback: imagemFallback,
+          resumo: resumoLocal,
+          preco: faixaPreco.label,
+          endereco: enderecoCompleto,
+          horario: (local.horarios || []).join(' | '),
+          telefone: local.telefone,
+          site: local.email,
+          maps
+        });
+      });
+
+    grade.appendChild(card);
+  });
+}
+
+function carregarCatalogoHome(busca = '') {
+  const catalogo = carregarRestaurantesPublicados();
+  const filtrados = filtrarRestaurantesPorBusca(catalogo, busca);
+
+  lugaresCarregados = filtrados;
+  mostrarCardsCatalogo(filtrados, filtrados.length);
+}
+
+
+/* =========================================================
+   BUSCAR
+========================================================= */
+
+async function buscar() {
+
+  const input =
+    document.getElementById(
+      "input-local"
+    );
+
+  const texto =
+    input.value.trim();
+
+  if (!texto) {
+
+    mostrarToast(
+      "Digite um CEP ou endereço.",
+      "erro"
+    );
+
+    return;
   }
 
-  /* Máscara automática: se parecer CEP, formata; se não, deixa livre */
-  document.addEventListener('input', function (e) {
-    if (e.target.id !== 'input-local') return;
-    const v = e.target.value.replace(/\D/g, '');
-    /* Só aplica máscara se os primeiros chars forem todos dígitos e ≤ 8 */
-    if (/^\d+$/.test(e.target.value.replace('-', '')) && v.length <= 8) {
-      e.target.value = v.length > 5 ? v.slice(0, 5) + '-' + v.slice(5, 8) : v;
-    }
-  });
+  try {
 
-  /* Enter dispara busca */
-  document.addEventListener('keydown', function (e) {
-    if (e.key === 'Enter' && e.target.id === 'input-local') buscarLugaresPorEntrada();
-  });
+    const grade =
+      document.getElementById(
+        "grade-destaques"
+      );
 
-  /* Clique nas categorias */
-  document.querySelectorAll('.item-cat').forEach(function (el) {
-    el.addEventListener('click', function (e) {
-      e.preventDefault();
-      trocarCategoria(el.dataset.categoria);
-    });
-  });
+    grade.innerHTML = `
 
-});
-    /* ================================================
-       CONFIGURAÇÕES
-       ================================================ */
-    const RAIOS_BUSCA = [2000, 5000, 10000];
-    const MAX_LUGARES = 20;
+      <div class="card-skeleton"></div>
+      <div class="card-skeleton"></div>
+      <div class="card-skeleton"></div>
 
-    const TIPOS_OSM = {
-      bares:        ['amenity=bar','amenity=pub','amenity=nightclub'],
-      restaurantes: ['amenity=restaurant','amenity=fast_food','amenity=cafe'],
-      parques:      ['leisure=park','leisure=garden','leisure=nature_reserve'],
-      cinema:       ['amenity=cinema'],
-      shopping:     ['shop=mall','building=mall'],
-      festas:       ['amenity=nightclub','amenity=events_venue'],
-    };
+    `;
 
-    let categoriaAtiva    = 'bares';
-    let coordenadasAtuais = null;
-    let marcadores        = [];
-    let marcadorUsuario   = null;
+    const coords =
+      await resolverEntradaPrecisa(
+        texto
+      );
 
+    const lugares =
+      await buscarLugares(
+        coords.lat,
+        coords.lon,
+        obterRaioBusca()
+      );
 
-    /* ================================================
-       INICIALIZA MAPA (centro no Brasil)
-       ================================================ */
-    const map = L.map('mapa').setView([-15.78, -47.93], 4);
+    lugaresCarregados =
+      lugares;
 
-    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-      maxZoom: 19,
-    }).addTo(map);
+    mostrarCards(
+      lugares
+    );
 
-    /* Ícone personalizado */
-    const iconePin = L.divIcon({
-      className: '',
-      html: `<div style="
-        background:#ff5a5f;color:#fff;font-size:18px;
-        width:36px;height:36px;border-radius:50% 50% 50% 0;
-        transform:rotate(-45deg);display:flex;align-items:center;
-        justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.25);
-        border:2px solid #fff;">
-        <span style="transform:rotate(45deg)">📍</span>
-      </div>`,
-      iconSize:   [36, 36],
-      iconAnchor: [18, 36],
-      popupAnchor:[0, -36],
-    });
+  } catch (erro) {
 
-    const iconeUsuario = L.divIcon({
-      className: '',
-      html: `<div style="
-        background:#4a90e2;color:#fff;font-size:14px;
-        width:32px;height:32px;border-radius:50%;
-        display:flex;align-items:center;justify-content:center;
-        box-shadow:0 2px 8px rgba(0,0,0,.25);border:3px solid #fff;">
-        👤
-      </div>`,
-      iconSize:   [32, 32],
-      iconAnchor: [16, 16],
-    });
+    lugaresCarregados =
+      [];
 
+    atualizarResumoOrcamento(
+      0,
+      0
+    );
 
-    /* ================================================
-       DETECTAR CEP OU ENDEREÇO
-       ================================================ */
-    function ehCep(t) { return /^\d{5}-?\d{3}$/.test(t.trim()); }
+    mostrarToast(
+      erro.message,
+      "erro"
+    );
 
-    async function resolverEntrada(texto) {
-      const t = texto.trim();
-      if (!t) throw new Error('Digite um CEP ou endereço.');
-      return ehCep(t) ? await cepParaCoords(t) : await enderecoParaCoords(t);
-    }
+    document.getElementById(
+      "grade-destaques"
+    ).innerHTML = "";
+  }
+}
 
-    async function cepParaCoords(cep) {
-      const limpo = cep.replace(/\D/g,'');
-      const r = await fetch(`https://viacep.com.br/ws/${limpo}/json/`);
-      const d = await r.json();
-      if (d.erro) throw new Error('CEP não encontrado.');
-      const end = [d.logradouro,d.bairro,d.localidade,d.uf,'Brasil'].filter(Boolean).join(', ');
-      return await enderecoParaCoords(end, d.localidade, d.bairro);
-    }
+function buscarCatalogoHomeAction() {
+  const input =
+    document.getElementById(
+      "input-local"
+    );
 
-    async function enderecoParaCoords(endereco, cidade='', bairro='') {
-      const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(endereco)}&format=json&limit=1&countrycodes=br`;
-      const r = await fetch(url, { headers:{'Accept-Language':'pt-BR'} });
-      const g = await r.json();
-      if (!g.length) throw new Error('Endereço não encontrado. Tente ser mais específico.');
-      return {
-        lat:    parseFloat(g[0].lat),
-        lon:    parseFloat(g[0].lon),
-        cidade: cidade || g[0].display_name.split(',')[2]?.trim() || '',
-        bairro: bairro || '',
-      };
-    }
+  const grade =
+    document.getElementById(
+      "grade-destaques"
+    );
+
+  const texto =
+    input?.value.trim() || "";
+
+  if (grade) {
+    grade.innerHTML = `
+
+      <div class="card-skeleton"></div>
+      <div class="card-skeleton"></div>
+      <div class="card-skeleton"></div>
+
+    `;
+  }
+
+  carregarCatalogoHome(
+    texto
+  );
+}
+
+buscar = buscarCatalogoHomeAction;
 
 
-    /* ================================================
-       OVERPASS → LUGARES
-       ================================================ */
-    async function buscarOSM(lat, lon, categoria, raio) {
-      const tipos = TIPOS_OSM[categoria] || TIPOS_OSM['bares'];
-      const filtros = tipos.map(t =>
-        `node[${t}](around:${raio},${lat},${lon});\nway[${t}](around:${raio},${lat},${lon});`
-      ).join('\n');
-      const query = `[out:json][timeout:25];\n(\n${filtros}\n);\nout center ${MAX_LUGARES * 2};`;
-      const r = await fetch('https://overpass-api.de/api/interpreter', { method:'POST', body:query });
-      const d = await r.json();
-      return (d.elements || []).filter(e => e.tags?.name);
-    }
+/* =========================================================
+   INICIAR
+========================================================= */
 
-    async function buscarComExpansao(lat, lon, categoria) {
-      for (let i = 0; i < RAIOS_BUSCA.length; i++) {
-        const raio    = RAIOS_BUSCA[i];
-        const lugares = await buscarOSM(lat, lon, categoria, raio);
-        if (lugares.length > 0 || i === RAIOS_BUSCA.length - 1) {
-          return { lugares, raio, expandido: i > 0 };
+$(function () {
+
+    carregarUsuario();
+
+    iniciarMenuPerfil();
+
+    iniciarLogout();
+
+    mostrarPainelEstabelecimento();
+
+    ocultarSegundoBannerSeLogado();
+    iniciarDashboardActions();
+    iniciarAcoesRapidas();
+    iniciarModalAcoes();
+    iniciarEventosDashboard();
+    iniciarFiltroOrcamento();
+    sincronizarCatalogoEstabelecimento(
+      carregarDadosEstabelecimento()
+    );
+    $(".area-busca-wrapper").hide();
+    $("#input-local").attr(
+      "placeholder",
+      "Digite nome, bairro ou endereco do restaurante"
+    );
+    $("#mensagem-destaque").text(
+      "Veja restaurantes cadastrados pela plataforma e filtre por orcamento."
+    );
+    $("#resultado-orcamento").text(
+      "Digite nome, bairro ou endereco para encontrar restaurantes cadastrados nessa faixa."
+    );
+    carregarCatalogoHome();
+
+    /* =========================================
+       BOTÃO BUSCAR
+    ========================================= */
+
+    $("#btn-buscar-local").on(
+      "click",
+      buscarCatalogoHomeAction
+    );
+
+    /* =========================================
+       ENTER
+    ========================================= */
+
+    $("#input-local").on(
+      "keydown",
+
+      function (e) {
+
+        if (
+          e.key === "Enter"
+        ) {
+
+          buscarCatalogoHomeAction();
         }
-        document.getElementById('painel-sub').textContent =
-          `Nada em ${raio/1000}km… ampliando para ${RAIOS_BUSCA[i+1]/1000}km`;
       }
-    }
-
-
-    /* ================================================
-       DISTÂNCIA
-       ================================================ */
-    function distKm(la1,lo1,la2,lo2) {
-      const R=6371, dLa=((la2-la1)*Math.PI)/180, dLo=((lo2-lo1)*Math.PI)/180;
-      const a=Math.sin(dLa/2)**2+Math.cos(la1*Math.PI/180)*Math.cos(la2*Math.PI/180)*Math.sin(dLo/2)**2;
-      return (R*2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a))).toFixed(1);
-    }
-
-
-    /* ================================================
-       LIMPAR MARCADORES
-       ================================================ */
-    function limparMarcadores() {
-      marcadores.forEach(m => map.removeLayer(m));
-      marcadores = [];
-    }
-
-
-    /* ================================================
-       RENDERIZAR LUGARES NO MAPA + PAINEL
-       ================================================ */
-    function renderizarLugares(lugares, lat, lon, raio, expandido) {
-      limparMarcadores();
-
-      const lista   = document.getElementById('lista-lugares');
-      const titulo  = document.getElementById('painel-titulo');
-      const sub     = document.getElementById('painel-sub');
-
-      lista.innerHTML = '';
-
-      if (expandido) {
-        const av = document.createElement('p');
-        av.className   = 'aviso-raio';
-        av.textContent = `📍 Ampliado para ${raio/1000} km — nada mais perto.`;
-        lista.appendChild(av);
-      }
-
-      titulo.textContent = `${lugares.length} lugar${lugares.length !== 1 ? 'es' : ''} encontrado${lugares.length !== 1 ? 's' : ''}`;
-      sub.textContent    = categoriaAtiva.charAt(0).toUpperCase() + categoriaAtiva.slice(1) +
-                           (expandido ? ` • raio ${raio/1000} km` : ` • raio ${raio/1000} km`);
-
-      if (!lugares.length) {
-        lista.innerHTML += `<div class="estado-vazio"><div class="icone">😕</div>Nenhum lugar encontrado.<br>Tente outra categoria.</div>`;
-        return;
-      }
-
-      const bounds = [];
-      bounds.push([lat, lon]);
-
-      lugares.slice(0, MAX_LUGARES).forEach((lugar, idx) => {
-        const tags = lugar.tags || {};
-        const nome = tags.name;
-        const latL = lugar.lat ?? lugar.center?.lat;
-        const lonL = lugar.lon ?? lugar.center?.lon;
-        if (!latL || !lonL) return;
-
-        const dist = distKm(lat, lon, latL, lonL);
-        const tipo = tags.cuisine || tags.leisure || tags.amenity || tags.shop || categoriaAtiva;
-        const tel  = tags.phone || tags['contact:phone'] || null;
-        const site = tags.website || tags['contact:website'] || null;
-        const maps = `https://www.google.com/maps?q=${latL},${lonL}`;
-
-        bounds.push([latL, lonL]);
-
-        /* MARCADOR */
-        const marcador = L.marker([latL, lonL], { icon: iconePin })
-          .addTo(map)
-          .bindPopup(`
-            <div class="popup-save">
-              <div class="popup-nome">${nome}</div>
-              <div class="popup-tipo">${tipo}</div>
-              <div class="popup-nota">★ — &nbsp;<small>${dist} km</small></div>
-              ${tel ? `<div style="font-size:.75rem;margin-bottom:.4rem">📞 ${tel}</div>` : ''}
-              <a class="popup-btn" href="${maps}" target="_blank" rel="noopener">Ver no Maps</a>
-              ${site ? ` &nbsp;<a class="popup-btn" style="background:#555" href="${site}" target="_blank">Site</a>` : ''}
-            </div>
-          `, { maxWidth: 240 });
-
-        marcadores.push(marcador);
-
-        /* CARD NO PAINEL */
-        const card = document.createElement('div');
-        card.className    = 'card-lugar';
-        card.dataset.idx  = idx;
-        card.innerHTML    = `
-          <div class="card-lugar-placeholder">📍</div>
-          <div class="card-lugar-info">
-            <div class="card-lugar-nome">${nome}</div>
-            <div class="card-lugar-tipo">${tipo}</div>
-            <div class="card-lugar-nota">
-              <span class="estrela">★</span>
-              <span class="nota-num">—</span>
-            </div>
-            <div class="card-lugar-dist">${dist} km de distância</div>
-          </div>`;
-
-        /* Clique no card → foca marcador */
-        card.addEventListener('click', () => {
-          document.querySelectorAll('.card-lugar').forEach(c => c.classList.remove('selecionado'));
-          card.classList.add('selecionado');
-          map.setView([latL, lonL], 17, { animate: true });
-          marcador.openPopup();
-        });
-
-        lista.appendChild(card);
-      });
-
-      /* Ajusta zoom para caber todos os pontos */
-      if (bounds.length > 1) {
-        map.fitBounds(bounds, { padding: [40, 40] });
-      }
-    }
-
-
-    /* ================================================
-       SKELETONS NO PAINEL
-       ================================================ */
-    function mostrarSkeletons() {
-      const lista = document.getElementById('lista-lugares');
-      lista.innerHTML = Array(5).fill('<div class="skeleton-item"></div>').join('');
-      document.getElementById('painel-sub').textContent = 'Buscando lugares…';
-    }
-
-
-    /* ================================================
-       BUSCA PRINCIPAL
-       ================================================ */
-    async function buscarNoMapa() {
-      const input = document.getElementById('input-local');
-      const btn   = document.getElementById('btn-buscar');
-      const texto = input?.value?.trim();
-      if (!texto) { input?.focus(); return; }
-
-      mostrarSkeletons();
-      btn.disabled = true;
-      limparMarcadores();
-
-      try {
-        const coords = await resolverEntrada(texto);
-        coordenadasAtuais = coords;
-
-        /* Marcador do usuário */
-        if (marcadorUsuario) map.removeLayer(marcadorUsuario);
-        marcadorUsuario = L.marker([coords.lat, coords.lon], { icon: iconeUsuario })
-          .addTo(map)
-          .bindPopup('<b>Você está aqui</b>')
-          .openPopup();
-
-        const { lugares, raio, expandido } = await buscarComExpansao(
-          coords.lat, coords.lon, categoriaAtiva
-        );
-
-        renderizarLugares(lugares, coords.lat, coords.lon, raio, expandido);
-
-      } catch (err) {
-        document.getElementById('lista-lugares').innerHTML =
-          `<div class="estado-vazio"><div class="icone">⚠️</div>${err.message}</div>`;
-        document.getElementById('painel-sub').textContent = 'Erro na busca';
-      } finally {
-        btn.disabled = false;
-      }
-    }
-
-
-    /* ================================================
-       TROCAR CATEGORIA
-       ================================================ */
-    async function trocarCategoria(nova) {
-      categoriaAtiva = nova;
-
-      document.querySelectorAll('.cat-btn').forEach(b => {
-        b.classList.toggle('ativo', b.dataset.categoria === nova);
-      });
-
-      if (!coordenadasAtuais) return;
-
-      mostrarSkeletons();
-      limparMarcadores();
-
-      try {
-        const { lugares, raio, expandido } = await buscarComExpansao(
-          coordenadasAtuais.lat, coordenadasAtuais.lon, nova
-        );
-        renderizarLugares(lugares, coordenadasAtuais.lat, coordenadasAtuais.lon, raio, expandido);
-      } catch {
-        document.getElementById('lista-lugares').innerHTML =
-          `<div class="estado-vazio"><div class="icone">⚠️</div>Erro ao buscar lugares.</div>`;
-      }
-    }
-
-
-    /* ================================================
-       LISTENERS
-       ================================================ */
-    document.getElementById('categorias').addEventListener('click', e => {
-      const btn = e.target.closest('.cat-btn');
-      if (btn) trocarCategoria(btn.dataset.categoria);
-    });
-
-    document.getElementById('input-local').addEventListener('keydown', e => {
-      if (e.key === 'Enter') buscarNoMapa();
-    });
-
-    /* Máscara CEP */
-    document.getElementById('input-local').addEventListener('input', function () {
-      const v = this.value.replace(/\D/g,'');
-      if (/^\d+$/.test(this.value.replace('-','')) && v.length <= 8) {
-        this.value = v.length > 5 ? v.slice(0,5)+'-'+v.slice(5,8) : v;
-      }
-    });
-
-    /* Se vier com CEP/endereço na URL (?q=...) busca automaticamente */
-    const params = new URLSearchParams(window.location.search);
-    if (params.get('q')) {
-      document.getElementById('input-local').value = params.get('q');
-      buscarNoMapa();
-    }
+    );
+});

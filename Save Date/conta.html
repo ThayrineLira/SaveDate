@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Minha Conta | Save Date</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/conta.css" />
+  <link rel="icon" type="image/x-icon" href="img/logo.png" />
+</head>
+<body>
+  <header class="topo">
+    <a href="home.html" class="logo-area">
+      <img src="img/logo.png" alt="Logo Save Date" />
+      <span>Save Date</span>
+    </a>
+
+    <nav class="nav-conta" aria-label="Navegação principal">
+      <a href="home.html" class="nav-link">Início</a>
+      <a href="explorar.html" class="nav-link">Explorar</a>
+      <a href="salvos.html" class="nav-link">Salvos</a>
+    </nav>
+  </header>
+
+  <main class="conta-wrapper">
+    <section class="perfil-header">
+      <div id="avatar-conta" class="avatar-conta">U</div>
+      <div>
+        <span id="tipo-conta" class="badge-tipo">Usuário</span>
+        <h1 id="nome-conta">Minha Conta</h1>
+        <p>Gerencie seu perfil, veja seus favoritos e continue planejando seus próximos rolês.</p>
+      </div>
+    </section>
+
+    <section class="grid-conta">
+      <article class="painel">
+        <h2>Dados do perfil</h2>
+        <div class="campo">
+          <span>E-mail</span>
+          <strong id="email-conta">E-mail não informado</strong>
+        </div>
+        <div class="campo">
+          <span>Tipo de conta</span>
+          <strong id="tipo-detalhe">Conta de visitante</strong>
+        </div>
+
+        <form id="form-conta" class="form-conta">
+          <label for="nome-input">
+            Nome exibido
+            <input id="nome-input" type="text" autocomplete="name" />
+          </label>
+          <button class="btn" type="submit">Salvar nome</button>
+        </form>
+
+        <p id="mensagem-conta" class="mensagem" aria-live="polite"></p>
+      </article>
+
+      <article class="painel">
+        <h2>Resumo</h2>
+        <div class="metricas">
+          <div class="metrica">
+            <strong id="salvos-count">0</strong>
+            <span>Favoritos</span>
+          </div>
+          <div class="metrica">
+            <strong id="tipo-count">Pessoa</strong>
+            <span>Perfil</span>
+          </div>
+          <div class="metrica">
+            <strong>2026</strong>
+            <span>Save Date</span>
+          </div>
+        </div>
+
+        <div class="acoes">
+          <a href="sugestoes.html" class="btn secundario">Ver sugestões</a>
+          <button id="btn-limpar-salvos" class="btn secundario" type="button">Limpar favoritos</button>
+          <button id="btn-sair-conta" class="btn perigo" type="button">Sair</button>
+        </div>
+      </article>
+    </section>
+
+    <section class="painel" style="margin-top: 18px;">
+      <h2>Lugares salvos</h2>
+      <div id="lista-salvos-conta" class="lista-salvos"></div>
+    </section>
+  </main>
+
+  <script src="js/conta.js"></script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Save Date | Salvos</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/explorar.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css" />
+  <link rel="icon" type="image/x-icon" href="img/logo.png" />
+</head>
+<body>
+  <nav class="nav">
+    <a class="logo" href="home.html">
+      <img src="img/logo.png" alt="Save Date Logo" class="logo-img" width="32" height="32" />
+      Save Date
+    </a>
+
+    <div class="nav-links">
+      <a href="home.html" class="nav-link">
+        <i class="ti ti-home"></i> Início
+      </a>
+      <a href="explorar.html" class="nav-link">
+        <i class="ti ti-search"></i> Explorar
+      </a>
+      <a href="mapa.html" class="nav-link">
+        <i class="ti ti-map-pin"></i> Mapa
+      </a>
+      <a href="salvos.html" class="nav-link active">
+        <i class="ti ti-heart"></i> Salvos
+      </a>
+    </div>
+  </nav>
+
+  <main class="body">
+    <h1 class="page-title">Meus lugares salvos</h1>
+    <p class="page-sub">Veja todos os lugares que você marcou como favoritos</p>
+    <p class="found"><span id="count">0</span> lugares salvos</p>
+    <section class="cards-grid" id="cards-grid"></section>
+  </main>
+
+  <script src="js/salvos.js"></script>
+</body>
+</html>

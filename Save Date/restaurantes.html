@@ -1,118 +1,108 @@
-<!DOCTYPE html>
-<html lang="pt-br">
+<!doctype html>
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Save Date</title>
-    <link rel="stylesheet" href="css/restaurante.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Restaurantes | Save Date</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/categoria.css" />
+  <link rel="icon" type="image/x-icon" href="img/logo.png" />
 </head>
 <body>
+  <header class="topo">
+    <a href="home.html" class="logo-area">
+      <img src="img/logo.png" alt="Logo Save Date" />
+      <span>Save Date</span>
+    </a>
+    <nav class="nav-categorias" aria-label="Navegação principal">
+      <a href="home.html" class="nav-link">Início</a>
+      <a href="explorar.html" class="nav-link">Explorar</a>
+      <a href="mapa.html" class="nav-link">Mapa</a>
+      <a href="salvos.html" class="nav-link">Salvos</a>
+    </nav>
+  </header>
 
-    <!-- Navbar -->
-    <header class="navbar">
-        <div class="logo">Save Date</div>
+  <section class="hero-categoria">
+    <div class="hero-conteudo">
+      <span class="etiqueta">Restaurantes</span>
+      <h1>Opções para jantar, comemorar ou comer bem sem improviso.</h1>
+      <p>Veja restaurantes por faixa de preço, clima e ocasião. Para filtros mais completos, use a página Explorar.</p>
+      <div class="acoes-hero">
+        <a href="explorar.html" class="btn-principal">Abrir filtros</a>
+        <a href="mapa.html" class="btn-secundario">Ver no mapa</a>
+      </div>
+    </div>
+  </section>
 
-        <nav>
-            <a href="#">Início</a>
-            <a href="#">Explorar</a>
-            <a href="#">Salvos</a>
-        </nav>
-    </header>
-    <!-- Banner -->
-    <section class="banner"> 
-        <button class="back-btn">←</button>
-        <button class="fav-btn">♡</button>
+  <main class="conteudo">
+    <div class="cabecalho-lista">
+      <div>
+        <h2>Destaques de restaurantes</h2>
+        <p>Cards estáticos para navegação rápida no front-end.</p>
+      </div>
+    </div>
 
-        <div class="restaurant-info">
-            <h1>Famiglia Mancini</h1>
-            <p>⭐ 4.8 (567 avaliações) • $$$</p>
-        </div>
-    </section>
-
-    <!-- Card principal -->
-    <section class="details-card">
-
-        <p class="descricao">
-            Restaurante italiano clássico com massas artesanais e ambiente acolhedor para toda a família.
-        </p>
-
-        <div class="info-grid">
-            <div>
-                <h3>Endereço</h3>
-                <p>Rua Exemplo, São Paulo</p>
-            </div>
-
-            <div>
-                <h3>Telefone</h3>
-                <p>(11) 99999-9999</p>
-            </div>
-
-            <div>
-                <h3>Horário</h3>
-                <p>11h30 - 23h</p>
-            </div>
-
-            <div>
-                <h3>Média por pessoa</h3>
-                <p>R$95</p>
-            </div>
-        </div>
-
-        <!-- Tags -->
-        <div class="tags">
-            <span>Família</span>
+    <section class="grade-cards">
+      <article class="card-categoria">
+        <img src="img/pagRestaurante.jpeg" alt="Mesa de restaurante" />
+        <div class="card-corpo">
+          <div class="card-topo">
+            <h3>Família Mancini</h3>
+            <span class="tag-preco">R$ 95</span>
+          </div>
+          <p>Restaurante italiano com massas artesanais e ambiente acolhedor para casal ou família.</p>
+          <div class="meta-card">
+            <span>Italiano</span>
             <span>Casal</span>
-            <span>Estacionamento</span>
-            <span>Ar condicionado</span>
+            <span>Família</span>
+          </div>
+          <div class="card-acoes">
+            <a href="detalhes.html?id=1" class="card-link">Ver detalhes</a>
+            <a href="mapa.html" class="card-link secundario">Mapa</a>
+          </div>
         </div>
+      </article>
 
-        <!-- Abas -->
-        <div class="tabs">
-            <button class="active">Cardápio</button>
-            <button>Avaliações</button>
-            <button>Fotos</button>
+      <article class="card-categoria">
+        <div class="card-emoji">🍕</div>
+        <div class="card-corpo">
+          <div class="card-topo">
+            <h3>Pizzaria do Bairro</h3>
+            <span class="tag-preco">R$ 60</span>
+          </div>
+          <p>Forno a lenha, ambiente informal e boa escolha para grupos ou encontros sem pressa.</p>
+          <div class="meta-card">
+            <span>Pizzaria</span>
+            <span>Amigos</span>
+            <span>Casal</span>
+          </div>
+          <div class="card-acoes">
+            <a href="detalhes.html?id=4" class="card-link">Ver detalhes</a>
+            <a href="sugestoes.html" class="card-link secundario">Sugestões</a>
+          </div>
         </div>
+      </article>
 
-        <!-- Cardápio -->
-        <div class="menu-list">
-            <h2>MASSAS</h2>
-
-            <div class="item">
-                <div>
-                    <h3>Ravioli de Ricota</h3>
-                    <p>Ao molho sugo com manjericão fresco</p>
-                </div>
-                <span>R$52,00</span>
-            </div>
-
-            <div class="item">
-                <div>
-                    <h3>Risoto de Funghi</h3>
-                    <p>Com cogumelos frescos e parmesão</p>
-                </div>
-                <span>R$58,00</span>
-            </div>
+      <article class="card-categoria">
+        <div class="card-emoji">☕</div>
+        <div class="card-corpo">
+          <div class="card-topo">
+            <h3>Café Aconchego</h3>
+            <span class="tag-preco">R$ 25</span>
+          </div>
+          <p>Boa opção para conversar, tomar café especial e fazer um programa mais leve.</p>
+          <div class="meta-card">
+            <span>Café</span>
+            <span>Econômico</span>
+            <span>Casal</span>
+          </div>
+          <div class="card-acoes">
+            <a href="detalhes.html?id=5" class="card-link">Ver detalhes</a>
+            <a href="explorar.html" class="card-link secundario">Explorar</a>
+          </div>
         </div>
-        <div class="menu-list">
-            <h2>CARNES</h2>
-
-            <div class="item">
-                <div>
-                    <h3>Bife à Parmegiana</h3>
-                    <p>Com arroz e batata frita</p>
-                </div>
-                <span>R$65,00</span>
-            </div>
-
-            <div class="item">
-                <div>
-                    <h3>Frango Grelhado</h3>
-                    <p>Com legumes salteados</p>
-                </div>
-                <span>R$48,00</span>
-            </div>
-
+      </article>
     </section>
-
+  </main>
 </body>
 </html>

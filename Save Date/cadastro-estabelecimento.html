@@ -4,7 +4,57 @@
     <meta charset="UTF-8" />
     <title>Cadastro Estabelecimento - Save Date</title>
     <link rel="stylesheet" href="css/cadastrao-estabelecimento.css" />
-  </head>
+      <style>
+        #toast-container {
+          position: fixed;
+          top: 20px;
+          right: 20px;
+          display: flex;
+          flex-direction: column;
+          gap: 12px;
+          z-index: 99999;
+        }
+        .toast {
+          min-width: 260px;
+          padding: 15px 20px;
+          border-radius: 16px;
+          color: #fff;
+          font-weight: 600;
+          font-size: 15px;
+          opacity: 0;
+          transform: translateX(100px);
+          transition: .3s;
+          box-shadow: 0 10px 25px rgba(0,0,0,.15);
+        }
+        .toast.show {
+          opacity: 1;
+          transform: translateX(0);
+        }
+        .toast-sucesso {
+          background: linear-gradient(135deg, #2e7d32, #43a047);
+        }
+        .toast-erro {
+          background: linear-gradient(135deg, #c62828, #e53935);
+        }
+        .toast-info {
+          background: linear-gradient(135deg, #4f8ef7, #7aa9ff);
+        }
+        .toast-content {
+          display: flex;
+          align-items: flex-start;
+          gap: 12px;
+        }
+        .toast-emoji {
+          font-size: 20px;
+          line-height: 1;
+          margin-top: 3px;
+        }
+        .toast-text {
+          line-height: 1.4;
+          word-break: break-word;
+        }
+      </style>
+    </head>
 
   <body>
     <div class="texto">
@@ -16,35 +66,45 @@
         </div>
         <h3>Cadastrar Estabelecimento:</h3>
       </header>
-      <form class="login-form" onsubmit="return validarSenha();">
-        <input type="text" placeholder="Nome do estabelecimento" required />
-        <input type="text" placeholder="CNPJ" required />
-        <input
-          type="text"
-          id="cep"
-          placeholder="CEP"
-          required
-          onblur="buscarCEP()"
-        />
-        <input
-          type="text"
-          id="endereco"
-          placeholder="Endereço"
-          readonly
-          required
-        />
-        <input type="text" placeholder="Número / Complemento" required />
-        <input type="email" placeholder="Email para contato" required />
-        <input type="tel" placeholder="Telefone para contato" required />
-        <input type="password" id="senha" placeholder="Senha" required />
+      <form class="login-form" onsubmit="return cadastrarEstabelecimento();">
+        <input id="nome" type="text" placeholder="Nome do estabelecimento" required />
+        <input type="text" id="cep" placeholder="CEP" required onblur="buscarCEP()" />
+        <input type="text" id="endereco" placeholder="Endereço" readonly required />
+        <input id="complemento" type="text" placeholder="Número / Complemento" required />
+        <input id="email" type="email" placeholder="Email para contato" required />
+        <input id="telefone" type="tel" placeholder="Telefone para contato" required />
+        <input id="senha" type="password" placeholder="Senha" required />
+
+        <label for="descricao">Descrição do local</label>
+        <textarea id="descricao" placeholder="Descreva seu estabelecimento" rows="4"></textarea>
+
+        <label>Fotos do local</label>
+        <input id="fotos" type="file" accept="image/*" multiple onchange="handleFotos(this.files)" />
+        <div id="preview-fotos" style="display:flex;gap:8px;margin:8px 0;flex-wrap:wrap;"></div>
+
+        <label>Cardápio</label>
+        <div id="cardapio-controls" style="display:flex;gap:8px;margin-bottom:8px;flex-wrap:wrap;">
+          <select id="tipo-item">
+            <option value="prato">Prato</option>
+            <option value="bebida">Bebida</option>
+          </select>
+          <input id="nome-item" type="text" placeholder="Nome do item" />
+          <input id="preco-item" type="number" placeholder="Preço (R$)" step="0.01" />
+          <button type="button" onclick="adicionarItemCardapio()">Adicionar item</button>
+        </div>
+        <div id="lista-cardapio" style="margin-bottom:8px;"></div>
+
+        <div style="display:flex;gap:12px;align-items:center;margin-bottom:12px;">
+          <button type="button" onclick="calcularMediaPreco()">Calcular média de preço</button>
+          <strong id="media-preco">Média: —</strong>
+          <button type="button" onclick="obterCoordenadasDoEndereco()">Obter coordenadas</button>
+          <span id="coordenadas">lat: —, lon: —</span>
+        </div>
+
+        <div id="erroSenha" class="erro-senha"></div>
         <button type="submit" class="botao">Cadastrar</button>
-        <button
-          onclick="window.location.href = 'tipo-de-conta.html'"
-          class="botao"
-        >
-          Voltar
-        </button>
-        <!-- LOGIN -->
+        <button onclick="window.location.href = 'tipo-de-conta.html'"
+          class="botao" type="button">Voltar</button>
       </form>
     </div>
 
@@ -54,7 +114,7 @@
         let cep = document.getElementById("cep").value.replace("-", "");
 
         if (cep.length !== 8) {
-          alert("CEP inválido!");
+          mostrarToast("CEP inválido!", "erro");
           return;
         }
 
@@ -62,18 +122,160 @@
           .then((res) => res.json())
           .then((dados) => {
             if (dados.erro) {
-              alert("CEP não encontrado!");
+              mostrarToast("CEP não encontrado!", "aviso");
               return;
             }
 
             document.getElementById("endereco").value =
               dados.logradouro + ", " + dados.bairro + " - " + dados.localidade;
           })
-          .catch(() => alert("Erro ao buscar CEP"));
+          .catch(() => mostrarToast("Erro ao buscar CEP", "erro"));
       }
 
-      // 🔐 VALIDAÇÃO SENHA
-      function validarSenha() {
+      function mostrarToast(mensagem, tipo = "sucesso") {
+        const container = document.getElementById("toast-container");
+        if (!container) {
+          return;
+        }
+
+        const emoji =
+          tipo === "sucesso"
+            ? "🎉"
+            : tipo === "aviso"
+            ? "💡"
+            : "⚠️";
+
+        const toast = document.createElement("div");
+        toast.className = `toast toast-${tipo}`;
+        toast.innerHTML =
+          `<div class="toast-content"><span class="toast-emoji">${emoji}</span><div class="toast-text">${mensagem}</div></div>`;
+
+        container.appendChild(toast);
+
+        setTimeout(() => {
+          toast.classList.add("mostrar");
+        }, 100);
+
+        setTimeout(() => {
+          toast.classList.remove("mostrar");
+          setTimeout(() => {
+            toast.remove();
+          }, 300);
+        }, 3000);
+      }
+
+      // armazenamento temporário para fotos/cardápio/coordenadas
+      let fotosArray = [];
+      let cardapioObj = { pratos: [], bebidas: [] };
+      let coordenadas = { lat: null, lon: null };
+
+      // 📸 MANUSEIO DE FOTOS
+      function handleFotos(files) {
+        const preview = document.getElementById('preview-fotos');
+        for (let i = 0; i < files.length; i++) {
+          const file = files[i];
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            const dataUrl = e.target.result;
+            fotosArray.push(dataUrl);
+            const img = document.createElement('img');
+            img.src = dataUrl;
+            img.style.width = '100px';
+            img.style.height = '70px';
+            img.style.objectFit = 'cover';
+            img.style.borderRadius = '8px';
+            img.style.border = '1px solid #eee';
+            preview.appendChild(img);
+          };
+          reader.readAsDataURL(file);
+        }
+      }
+
+      // 🍽️ CARDÁPIO: adicionar / renderizar / calcular média
+      function adicionarItemCardapio() {
+        const tipo = document.getElementById('tipo-item').value;
+        const nome = document.getElementById('nome-item').value.trim();
+        const precoRaw = document.getElementById('preco-item').value;
+        const preco = parseFloat(precoRaw);
+        if (!nome || Number.isNaN(preco)) {
+          mostrarToast('Preencha nome e preço válidos para o item.', 'aviso');
+          return;
+        }
+        const item = { nome, preco };
+        if (tipo === 'prato') cardapioObj.pratos.push(item);
+        else cardapioObj.bebidas.push(item);
+
+        document.getElementById('nome-item').value = '';
+        document.getElementById('preco-item').value = '';
+
+        atualizarListaCardapio();
+        calcularMediaPreco();
+      }
+
+      function atualizarListaCardapio() {
+        const lista = document.getElementById('lista-cardapio');
+        lista.innerHTML = '';
+        if (cardapioObj.pratos.length) {
+          const h = document.createElement('h4'); h.innerText = 'Pratos'; lista.appendChild(h);
+          cardapioObj.pratos.forEach((it, idx) => {
+            const div = document.createElement('div');
+            div.style.display = 'flex'; div.style.justifyContent = 'space-between'; div.style.gap='8px'; div.style.marginBottom='6px';
+            div.innerHTML = `<div>${it.nome} — R$ ${it.preco.toFixed(2)}</div>`;
+            const btn = document.createElement('button'); btn.type='button'; btn.innerText='Remover'; btn.onclick = () => { cardapioObj.pratos.splice(idx,1); atualizarListaCardapio(); calcularMediaPreco(); };
+            div.appendChild(btn);
+            lista.appendChild(div);
+          });
+        }
+        if (cardapioObj.bebidas.length) {
+          const h = document.createElement('h4'); h.innerText = 'Bebidas'; lista.appendChild(h);
+          cardapioObj.bebidas.forEach((it, idx) => {
+            const div = document.createElement('div');
+            div.style.display = 'flex'; div.style.justifyContent = 'space-between'; div.style.gap='8px'; div.style.marginBottom='6px';
+            div.innerHTML = `<div>${it.nome} — R$ ${it.preco.toFixed(2)}</div>`;
+            const btn = document.createElement('button'); btn.type='button'; btn.innerText='Remover'; btn.onclick = () => { cardapioObj.bebidas.splice(idx,1); atualizarListaCardapio(); calcularMediaPreco(); };
+            div.appendChild(btn);
+            lista.appendChild(div);
+          });
+        }
+      }
+
+      function calcularMediaPreco() {
+        const todos = [...cardapioObj.pratos, ...cardapioObj.bebidas];
+        if (!todos.length) {
+          document.getElementById('media-preco').innerText = 'Média: —';
+          return null;
+        }
+        const soma = todos.reduce((s, it) => s + (Number(it.preco) || 0), 0);
+        const media = soma / todos.length;
+        document.getElementById('media-preco').innerText = `Média: R$ ${media.toFixed(2)}`;
+        return media;
+      }
+
+      // 📍 OBTER COORDENADAS (Nominatim)
+      async function obterCoordenadasDoEndereco() {
+        const endereco = document.getElementById('endereco').value;
+        if (!endereco) { mostrarToast('Informe o endereço antes de obter coordenadas.', 'aviso'); return; }
+        try {
+          const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(endereco)}&format=json&limit=1&countrycodes=br`;
+          const res = await fetch(url);
+          const dados = await res.json();
+          if (!dados || !dados.length) { mostrarToast('Não foi possível obter coordenadas.', 'aviso'); return; }
+          coordenadas.lat = parseFloat(dados[0].lat);
+          coordenadas.lon = parseFloat(dados[0].lon);
+          document.getElementById('coordenadas').innerText = `lat: ${coordenadas.lat.toFixed(6)}, lon: ${coordenadas.lon.toFixed(6)}`;
+          mostrarToast('Coordenadas obtidas com sucesso.', 'sucesso');
+        } catch (e) {
+          mostrarToast('Erro ao obter coordenadas.', 'erro');
+        }
+      }
+
+      // 🔐 CADASTRAR ESTABELECIMENTO
+      function cadastrarEstabelecimento() {
+        const nome = document.getElementById("nome").value;
+        const endereco = document.getElementById("endereco").value;
+        const complemento = document.getElementById("complemento").value;
+        const email = document.getElementById("email").value;
+        const telefone = document.getElementById("telefone").value;
         const senha = document.getElementById("senha").value;
         const erro = document.getElementById("erroSenha");
 
@@ -85,8 +287,147 @@
         }
 
         erro.innerText = "";
-        alert("Cadastro realizado com sucesso!");
-        return true;
+
+        const estabelecimentos =
+          JSON.parse(
+            localStorage.getItem(
+              "cadastrosEstabelecimentos"
+            ) || "[]"
+          );
+
+        const emailExistente = estabelecimentos.some(
+          (item) =>
+            item.email ===
+            email.toLowerCase()
+        );
+
+        if (emailExistente) {
+          mostrarToast(
+            "Já existe cadastro com este e-mail. Se não lembra a senha, você será redirecionado para redefinir.",
+            "erro"
+          );
+
+          setTimeout(() => {
+            window.location.href =
+              "esqueci.html";
+          }, 2600);
+
+          return false;
+        }
+
+        estabelecimentos.push({
+          nome,
+          email: email.toLowerCase(),
+          senha,
+          tipo: "estabelecimento"
+        });
+
+        localStorage.setItem(
+          "cadastrosEstabelecimentos",
+          JSON.stringify(estabelecimentos)
+        );
+
+        localStorage.setItem(
+          "estabelecimentoCadastroEmail",
+          email.toLowerCase()
+        );
+
+        localStorage.setItem(
+          "estabelecimentoCadastroSenha",
+          senha
+        );
+
+        localStorage.setItem(
+          "estabelecimentoCadastroNome",
+          nome
+        );
+
+        localStorage.setItem(
+          "estabelecimentoCadastroEndereco",
+          endereco
+        );
+
+        localStorage.setItem(
+          "estabelecimentoCadastroComplemento",
+          complemento
+        );
+
+        localStorage.setItem(
+          "estabelecimentoCadastroTelefone",
+          telefone
+        );
+
+        localStorage.setItem(
+          "tipoCadastro",
+          "estabelecimento"
+        );
+
+        const catalogoRaw =
+          localStorage.getItem(
+            "estabelecimentosCatalogo"
+          );
+
+        let catalogo =
+          [];
+
+        if (catalogoRaw) {
+          try {
+            catalogo =
+              JSON.parse(catalogoRaw) || [];
+          } catch (erroCatalogo) {
+            catalogo = [];
+          }
+        }
+
+        const descricao = document.getElementById('descricao')?.value || '';
+
+        const registro =
+          {
+            id: email,
+            nome,
+            endereco,
+            complemento,
+            telefone,
+            email,
+            descricao,
+            categorias: ["restaurantes"],
+            fotos: fotosArray.slice(),
+            horarios: [],
+            cardapio: JSON.parse(JSON.stringify(cardapioObj)),
+            media_preco: calcularMediaPreco(),
+            localizacao: coordenadas.lat && coordenadas.lon ? { lat: coordenadas.lat, lon: coordenadas.lon } : null,
+            status: "Ativo",
+            publicado: Boolean((fotosArray || []).length && (((cardapioObj.pratos || []).length) || ((cardapioObj.bebidas || []).length)))
+          };
+
+        const indiceExistente =
+          catalogo.findIndex(item => item.id === email);
+
+        if (indiceExistente >= 0) {
+          catalogo[indiceExistente] =
+            {
+              ...catalogo[indiceExistente],
+              ...registro
+            };
+        } else {
+          catalogo.push(registro);
+        }
+
+        localStorage.setItem(
+          "estabelecimentosCatalogo",
+          JSON.stringify(catalogo)
+        );
+
+        mostrarToast(
+          "Cadastro de estabelecimento realizado com sucesso!",
+          "sucesso"
+        );
+
+        setTimeout(() => {
+          window.location.href = "login.html";
+        }, 1400);
+
+        return false;
       }
 
       // 🔙 VOLTAR
@@ -94,5 +435,7 @@
         window.history.back(); // volta para página anterior
       }
     </script>
+
+    <div id="toast-container"></div>
   </body>
 </html>

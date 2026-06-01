@@ -88,7 +88,7 @@
       <input
         type="text"
         id="nome"
-        placeholder="Nome completo"
+        placeholder="Nome/Usuário"
         required
       >
 
@@ -98,44 +98,6 @@
         type="email"
         id="email"
         placeholder="Email"
-        required
-      >
-
-
-      <!-- CPF -->
-      <input
-        type="text"
-        id="cpf"
-        placeholder="CPF"
-        required
-      >
-
-
-      <!-- CEP -->
-      <input
-        type="text"
-        id="cep"
-        placeholder="CEP"
-        required
-        onblur="buscarCEP()"
-      >
-
-
-      <!-- ENDEREÇO -->
-      <input
-        type="text"
-        id="endereco"
-        placeholder="Endereço"
-        readonly
-        required
-      >
-
-
-      <!-- NÚMERO -->
-      <input
-        type="text"
-        id="numero"
-        placeholder="Número / Complemento"
         required
       >
 
@@ -155,7 +117,11 @@
         class="erro"
       ></div>
 
-
+      <!-- MENSAGEM -->
+      <div
+        id="mensagemCadastro"
+        class="mensagem"
+      ></div>
 
       <!-- BOTÃO -->
       <button
@@ -193,6 +159,25 @@
   =========================================== -->
   <script>
 
+    function mostrarMensagemCadastro(texto, tipo = 'erro') {
+      const mensagem = document.getElementById('mensagemCadastro');
+      if (!mensagem) {
+        return;
+      }
+
+      mensagem.textContent = texto;
+      mensagem.className = 'mensagem ' + tipo;
+
+      if (tipo === 'sucesso') {
+        mensagem.style.display = 'block';
+      }
+
+      setTimeout(() => {
+        mensagem.textContent = '';
+        mensagem.className = 'mensagem';
+      }, 3200);
+    }
+
     /* ==========================================
        BUSCAR CEP
     =========================================== */
@@ -213,7 +198,7 @@
 
       if (cep.length !== 8) {
 
-        alert("CEP inválido!");
+        mostrarMensagemCadastro("CEP inválido!", "erro");
 
         return;
 
@@ -236,7 +221,7 @@
 
           if (dados.erro) {
 
-            alert("CEP não encontrado!");
+            mostrarMensagemCadastro("CEP não encontrado!", "erro");
 
             return;
 
@@ -259,7 +244,7 @@
 
         .catch(() => {
 
-          alert("Erro ao buscar CEP");
+          mostrarMensagemCadastro("Erro ao buscar CEP", "erro");
 
         });
 
@@ -345,19 +330,63 @@
            SALVA CADASTRO
         =========================================== */
 
+        const usuarios =
+          JSON.parse(
+            localStorage.getItem(
+              "cadastrosUsuarios"
+            ) || "[]"
+          );
+
+        const emailExistente = usuarios.some(
+          (usuario) =>
+            usuario.email ===
+            email.toLowerCase()
+        );
+
+        if (emailExistente) {
+          mostrarMensagemCadastro(
+            "Já existe cadastro com este e-mail. Se não lembra a senha, você será redirecionado para redefinir.",
+            "erro"
+          );
+
+          setTimeout(() => {
+            window.location.href =
+              "esqueci.html";
+          }, 2600);
+
+          return;
+        }
+
+        usuarios.push({
+          nome,
+          email: email.toLowerCase(),
+          senha,
+          tipo: "usuario"
+        });
+
         localStorage.setItem(
-          "usuarioCadastro",
-          email
+          "cadastrosUsuarios",
+          JSON.stringify(usuarios)
         );
 
         localStorage.setItem(
-          "senhaCadastro",
+          "usuarioCadastroEmail",
+          email.toLowerCase()
+        );
+
+        localStorage.setItem(
+          "usuarioCadastroSenha",
           senha
         );
 
         localStorage.setItem(
-          "nomeCadastro",
+          "usuarioCadastroNome",
           nome
+        );
+
+        localStorage.setItem(
+          "tipoCadastro",
+          "usuario"
         );
 
 
@@ -366,8 +395,9 @@
            SUCESSO
         =========================================== */
 
-        alert(
-          "Cadastro realizado com sucesso!"
+        mostrarMensagemCadastro(
+          "Cadastro realizado com sucesso!",
+          "sucesso"
         );
 
 
@@ -376,8 +406,10 @@
            VOLTA LOGIN
         =========================================== */
 
-        window.location.href =
-          "login.html";
+        setTimeout(() => {
+          window.location.href =
+            "login.html";
+        }, 1400);
 
       });
 

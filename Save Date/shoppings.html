@@ -1,142 +1,108 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shoppings - Save Date</title>
-    
-    <link rel="stylesheet" href="css/shoppings.css">
-    
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shoppings | Save Date</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/categoria.css" />
+  <link rel="icon" type="image/x-icon" href="img/logo.png" />
 </head>
 <body>
+  <header class="topo">
+    <a href="home.html" class="logo-area">
+      <img src="img/logo.png" alt="Logo Save Date" />
+      <span>Save Date</span>
+    </a>
+    <nav class="nav-categorias" aria-label="Navegação principal">
+      <a href="home.html" class="nav-link">Início</a>
+      <a href="explorar.html" class="nav-link">Explorar</a>
+      <a href="mapa.html" class="nav-link">Mapa</a>
+      <a href="salvos.html" class="nav-link">Salvos</a>
+    </nav>
+  </header>
 
-   <header class="main-header">
-        <a href="home.html" class="logo-container">
-            <span class="logo-text">save date</span>
-            <img src="img/logo2.png" alt="Logo Save Date" class="logo-img">
-        </a>
+  <section class="hero-categoria">
+    <div class="hero-conteudo">
+      <span class="etiqueta">Shoppings</span>
+      <h1>Programas cobertos para comer, passear, comprar e ir ao cinema.</h1>
+      <p>Shoppings são boas opções quando o clima não ajuda ou quando o grupo quer várias escolhas no mesmo lugar.</p>
+      <div class="acoes-hero">
+        <a href="explorar.html" class="btn-principal">Filtrar shoppings</a>
+        <a href="mapa.html" class="btn-secundario">Ver no mapa</a>
+      </div>
+    </div>
+  </section>
 
-        <div class="user-name">
-            Olá, [Nome do Usuário]
+  <main class="conteudo">
+    <div class="cabecalho-lista">
+      <div>
+        <h2>Destaques de shoppings</h2>
+        <p>Opções com imagens reais já presentes no projeto.</p>
+      </div>
+    </div>
+
+    <section class="grade-cards">
+      <article class="card-categoria">
+        <img src="img/shoppingLeblon.png" alt="Shopping Leblon" />
+        <div class="card-corpo">
+          <div class="card-topo">
+            <h3>Shopping Leblon</h3>
+            <span class="tag-preco">Livre</span>
+          </div>
+          <p>Lojas, restaurantes e cinema em um ambiente elegante para passeios mais tranquilos.</p>
+          <div class="meta-card">
+            <span>Cinema</span>
+            <span>Restaurantes</span>
+            <span>Casal</span>
+          </div>
+          <div class="card-acoes">
+            <a href="https://www.shoppingleblon.com.br/" target="_blank" class="card-link">Visitar site</a>
+            <a href="mapa.html" class="card-link secundario">Mapa</a>
+          </div>
         </div>
-    </header>
-    <main class="container">
-        <h1 class="page-title">Shoppings</h1>
+      </article>
 
-        <section class="cards-list">
-            
-            <article class="card">
-                <img src="imagem-shopping-1.jpg" alt="Foto do Shopping 1" class="card-img">
-                <div class="card-content">
-                    <div>
-                        <h2 class="card-title">Shopping Center 1</h2>
-                        <p class="card-desc">Descrição do primeiro shopping. Um lugar excelente para fazer compras, com diversas lojas renomadas, praça de alimentação completa e cinema.</p>
-                    </div>
-                    <a href="https://site-do-shopping-1.com" target="_blank" class="card-link">Visitar Site</a>
-                </div>
-            </article>
+      <article class="card-categoria">
+        <img src="img/shoppingBarra.jpg" alt="Barra Shopping" />
+        <div class="card-corpo">
+          <div class="card-topo">
+            <h3>Barra Shopping</h3>
+            <span class="tag-preco">Livre</span>
+          </div>
+          <p>Shopping amplo com praça de alimentação, cinema e várias opções para família.</p>
+          <div class="meta-card">
+            <span>Família</span>
+            <span>Amigos</span>
+            <span>Compras</span>
+          </div>
+          <div class="card-acoes">
+            <a href="https://www.barrashopping.com.br/" target="_blank" class="card-link">Visitar site</a>
+            <a href="detalhes.html?id=6" class="card-link secundario">Detalhes</a>
+          </div>
+        </div>
+      </article>
 
-            <article class="card">
-                <img src="imagem-shopping-2.jpg" alt="Foto do Shopping 2" class="card-img">
-                <div class="card-content">
-                    <div>
-                        <h2 class="card-title">Shopping Center 2</h2>
-                        <p class="card-desc">Descrição do segundo shopping. Perfeito para lazer e entretenimento em família, oferecendo amplos espaços e eventos semanais.</p>
-                    </div>
-                    <a href="https://site-do-shopping-2.com" target="_blank" class="card-link">Visitar Site</a>
-                </div>
-            </article>
-
-            <article class="card">
-                <img src="imagem-shopping-3.jpg" alt="Foto do Shopping 3" class="card-img">
-                <div class="card-content">
-                    <div>
-                        <h2 class="card-title">Shopping Center 3</h2>
-                        <p class="card-desc">Um shopping focado em lojas de grife e alta gastronomia. Estacionamento VIP e serviços exclusivos para os clientes.</p>
-                    </div>
-                    <a href="https://site-do-shopping-3.com" target="_blank" class="card-link">Visitar Site</a>
-                </div>
-            </article>
-
-            <article class="card">
-                <img src="imagem-shopping-4.jpg" alt="Foto do Shopping 4" class="card-img">
-                <div class="card-content">
-                    <div>
-                        <h2 class="card-title">Shopping Center 4</h2>
-                        <p class="card-desc">Centro comercial tradicional da cidade. Fácil acesso via transporte público e ótima variedade de lojas de departamento.</p>
-                    </div>
-                    <a href="https://site-do-shopping-4.com" target="_blank" class="card-link">Visitar Site</a>
-                </div>
-            </article>
-
-            <article class="card">
-                <img src="imagem-shopping-5.jpg" alt="Foto do Shopping 5" class="card-img">
-                <div class="card-content">
-                    <div>
-                        <h2 class="card-title">Shopping Center 5</h2>
-                        <p class="card-desc">Shopping a céu aberto, ideal para dias ensolarados. Focado em sustentabilidade e integração com a natureza.</p>
-                    </div>
-                    <a href="https://site-do-shopping-5.com" target="_blank" class="card-link">Visitar Site</a>
-                </div>
-            </article>
-
-            <article class="card">
-                <img src="imagem-shopping-6.jpg" alt="Foto do Shopping 6" class="card-img">
-                <div class="card-content">
-                    <div>
-                        <h2 class="card-title">Shopping Center 6</h2>
-                        <p class="card-desc">O maior shopping da região metropolitana. Centenas de opções de compras, teatro e complexo gigante de cinemas.</p>
-                    </div>
-                    <a href="https://site-do-shopping-6.com" target="_blank" class="card-link">Visitar Site</a>
-                </div>
-            </article>
-
-            <article class="card">
-                <img src="imagem-shopping-7.jpg" alt="Foto do Shopping 7" class="card-img">
-                <div class="card-content">
-                    <div>
-                        <h2 class="card-title">Shopping Center 7</h2>
-                        <p class="card-desc">Focado em outlets e promoções o ano todo. Excelente para encontrar as melhores marcas com os menores preços.</p>
-                    </div>
-                    <a href="https://site-do-shopping-7.com" target="_blank" class="card-link">Visitar Site</a>
-                </div>
-            </article>
-
-            <article class="card">
-                <img src="imagem-shopping-8.jpg" alt="Foto do Shopping 8" class="card-img">
-                <div class="card-content">
-                    <div>
-                        <h2 class="card-title">Shopping Center 8</h2>
-                        <p class="card-desc">Localizado no centro da cidade. Uma opção rápida e prática para quem trabalha na região e precisa resolver as coisas na hora do almoço.</p>
-                    </div>
-                    <a href="https://site-do-shopping-8.com" target="_blank" class="card-link">Visitar Site</a>
-                </div>
-            </article>
-
-            <article class="card">
-                <img src="imagem-shopping-9.jpg" alt="Foto do Shopping 9" class="card-img">
-                <div class="card-content">
-                    <div>
-                        <h2 class="card-title">Shopping Center 9</h2>
-                        <p class="card-desc">Shopping voltado para tecnologia e inovação. A maior concentração de lojas de eletrônicos e acessórios do estado.</p>
-                    </div>
-                    <a href="https://site-do-shopping-9.com" target="_blank" class="card-link">Visitar Site</a>
-                </div>
-            </article>
-
-            <article class="card">
-                <img src="imagem-shopping-10.jpg" alt="Foto do Shopping 10" class="card-img">
-                <div class="card-content">
-                    <div>
-                        <h2 class="card-title">Shopping Center 10</h2>
-                        <p class="card-desc">Ambiente aconchegante e familiar. Destaque para a área de recreação infantil e opções de restaurantes com espaço kids.</p>
-                    </div>
-                    <a href="https://site-do-shopping-10.com" target="_blank" class="card-link">Visitar Site</a>
-                </div>
-            </article>
-
-        </section>
-    </main>
-
+      <article class="card-categoria">
+        <img src="img/fashionMall.webp" alt="Fashion Mall" />
+        <div class="card-corpo">
+          <div class="card-topo">
+            <h3>Fashion Mall</h3>
+            <span class="tag-preco">Livre</span>
+          </div>
+          <p>Boa escolha para restaurante, lojas e programa mais confortável em ambiente fechado.</p>
+          <div class="meta-card">
+            <span>Moda</span>
+            <span>Restaurantes</span>
+            <span>Conforto</span>
+          </div>
+          <div class="card-acoes">
+            <a href="https://www.fashionmall.com.br/" target="_blank" class="card-link">Visitar site</a>
+            <a href="sugestoes.html" class="card-link secundario">Sugestões</a>
+          </div>
+        </div>
+      </article>
+    </section>
+  </main>
 </body>
 </html>
