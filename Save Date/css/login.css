@@ -153,6 +153,7 @@ input[type="password"] {
   word-break:break-word;
 }
 
+.toast.show,
 .toast.mostrar{
 
   opacity:1;
@@ -181,13 +182,23 @@ input[type="password"] {
     );
 }
 
+.toast-info{
+
+  background:
+    linear-gradient(
+      135deg,
+      #4f8ef7,
+      #7aa9ff
+    );
+}
+
 .toast-aviso{
 
   background:
     linear-gradient(
       135deg,
-      #ef6c00,
-      #ff9800
+      #f57c00,
+      #f4a261
     );
 }
 

@@ -5,7 +5,7 @@
 }
 
 body {
-  font-family: "Sora", sans-serif;
+  font-family: Inter, Arial, sans-serif;
   background: #f8f8f8;
   color: #222;
   line-height: 1.6;
@@ -63,7 +63,7 @@ body {
   border: none;
   background: none;
   transition: all 0.2s;
-  font-family: "Sora", sans-serif;
+  font-family: Inter, Arial, sans-serif;
   text-decoration: none;
 }
 
@@ -251,7 +251,7 @@ body {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  font-family: "Sora", sans-serif;
+  font-family: Inter, Arial, sans-serif;
 }
 
 .btn-principal {
@@ -303,7 +303,7 @@ body {
   transition: all 0.2s;
   border-bottom: 3px solid transparent;
   margin-bottom: -2px;
-  font-family: "Sora", sans-serif;
+  font-family: Inter, Arial, sans-serif;
 }
 
 .tab:hover {

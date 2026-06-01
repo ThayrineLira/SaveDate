@@ -1,208 +1,112 @@
 <!doctype html>
 <html lang="pt-BR">
-  <head>
-    <!-- Define codificação (acentos, caracteres especiais) -->
-    <meta charset="UTF-8" />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Save Date | Explorar</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/explorar.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css" />
+  <link rel="icon" type="image/x-icon" href="img/logo.png" />
+</head>
+<body>
+  <nav class="nav">
+    <a class="logo" href="home.html">
+      <img src="img/logo.png" alt="Save Date Logo" class="logo-img" width="32" height="32" />
+      Save Date
+    </a>
 
-    <!-- Responsividade (adapta para celular) -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <!-- Título da aba -->
-    <title>Save Date – Explorar</title>
-
-    <!-- CSS principal da página -->
-    <link rel="stylesheet" href="css/explorar.css" />
-
-    <!-- Biblioteca de ícones (Tabler Icons) -->
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css"
-    />
-  </head>
-
-  <body>
-
-    <!-- ================= NAVBAR ================= -->
-    <nav class="nav">
-      
-      <!-- Logo clicável -->
-      <a class="logo" href="home.html">
-        <img
-          src="img/logo.png"
-          alt="Save Date Logo"
-          class="logo-img"
-          width="32"
-          height="32"
-        />
-        Save Date
+    <div class="nav-links">
+      <a href="home.html" class="nav-link">
+        <i class="ti ti-home"></i> Início
       </a>
+      <button class="nav-link active" type="button">
+        <i class="ti ti-search"></i> Explorar
+      </button>
+      <a href="mapa.html" class="nav-link">
+        <i class="ti ti-map-pin"></i> Mapa
+      </a>
+      <a href="salvos.html" class="nav-link">
+        <i class="ti ti-heart"></i> Salvos
+      </a>
+    </div>
+  </nav>
 
-      <!-- Links de navegação -->
-      <div class="nav-links">
-        <!-- Botão início -->
-        <a href="home.html" class="nav-link">
-          <i class="ti ti-home"></i> Início
-        </a>
+  <main class="body">
+    <h1 class="page-title">Explorar</h1>
+    <p class="page-sub">Encontre o lugar perfeito para o seu encontro</p>
 
-        <!-- Página atual (active) -->
-        <button class="nav-link active">
-          <i class="ti ti-search"></i> Explorar
-        </button>
-
-        <!-- Página de favoritos -->
-        <a href="salvos.html" class="nav-link">
-          <i class="ti ti-heart"></i> Salvos
-        </a>
-      </div>
-    </nav>
-
-    <!-- ================= CONTEÚDO PRINCIPAL ================= -->
-    <div class="body">
-
-      <!-- Título da página -->
-      <div class="page-title">Explorar</div>
-
-      <!-- Subtítulo -->
-      <div class="page-sub">
-        Encontre o lugar perfeito para seu encontro
-      </div>
-    
-      <!-- ================= BUSCA ================= -->
-      <div class="search">
-        <i class="ti ti-search"></i>
-
-        <!-- Campo de busca (ligado ao JS pelo ID) -->
-        <input
-          type="text"
-          id="search-input"
-          placeholder="Buscar lugares, bares, restaurantes..."
-        />
-      </div>
-
-      <!-- ================= FILTRO POR TIPO (CHIPS) ================= -->
-      <div class="chips">
-
-        <!-- Todos -->
-        <button class="chip active" onclick="selectChip(this)">
-          ✦ Todos
-        </button>
-
-        <!-- Amigos -->
-        <button class="chip" onclick="selectChip(this)">
-          👥 Amigos
-        </button>
-
-        <!-- Família (CORRIGIDO) -->
-        <button class="chip" onclick="selectChip(this)">
-          👨‍👩‍👧 Família
-        </button>
-
-        <!-- Casal -->
-        <button class="chip" onclick="selectChip(this)">
-          💑 Casal
-        </button>
-      </div>
-
-      <!-- ================= CATEGORIAS ================= -->
-      <div class="cats">
-
-        <!-- Categoria: Todos -->
-        <div class="cat active" onclick="selectCat(this, 'Todos')">
-          <div class="cat-icon">🗂️</div>
-          <div class="cat-label">Todos</div>
-        </div>
-
-        <!-- Restaurante -->
-        <div class="cat" onclick="selectCat(this, 'Restaurante')">
-          <div class="cat-icon">🍽️</div>
-          <div class="cat-label">Restaurante</div>
-        </div>
-
-        <!-- Bar -->
-        <div class="cat" onclick="selectCat(this, 'Bar')">
-          <div class="cat-icon">🍺</div>
-          <div class="cat-label">Bar</div>
-        </div>
-
-        <!-- Lanchonete -->
-        <div class="cat" onclick="selectCat(this, 'Lanchonete')">
-          <div class="cat-icon">🍔</div>
-          <div class="cat-label">Lanchonete</div>
-        </div>
-
-        <!-- Pizzaria -->
-        <div class="cat" onclick="selectCat(this, 'Pizzaria')">
-          <div class="cat-icon">🍕</div>
-          <div class="cat-label">Pizzaria</div>
-        </div>
-
-        <!-- Café -->
-        <div class="cat" onclick="selectCat(this, 'Café')">
-          <div class="cat-icon">☕</div>
-          <div class="cat-label">Café</div>
-        </div>
-
-        <!-- Shopping -->
-        <div class="cat" onclick="selectCat(this, 'Shopping')">
-          <div class="cat-icon">🛍️</div>
-          <div class="cat-label">Shopping</div>
-        </div>
-
-        <!-- Parque -->
-        <div class="cat" onclick="selectCat(this, 'Parque')">
-          <div class="cat-icon">🌳</div>
-          <div class="cat-label">Parque</div>
-        </div>
-
-        <!-- Sorveteria -->
-        <div class="cat" onclick="selectCat(this, 'Sorveteria')">
-          <div class="cat-icon">🧁</div>
-          <div class="cat-label">Sorveteria</div>
-        </div>
-      </div>
-
-      <!-- ================= ORÇAMENTO ================= -->
-      <div class="budget">
-
-        <div class="budget-header">
-          <div class="budget-label">💲 Orçamento por pessoa</div>
-
-          <!-- Valor dinâmico controlado por JS -->
-          <div class="budget-val" id="budget-val">R$200+</div>
-        </div>
-
-        <!-- Slider de orçamento -->
-        <input
-          type="range"
-          id="budget-range"
-          min="10"
-          max="200"
-          value="200"
-          oninput="updateBudget(this.value)"
-        />
-
-        <!-- Labels fixos -->
-        <div class="range-labels">
-          <span>R$10</span>
-          <span>R$50</span>
-          <span>R$100</span>
-          <span>R$200+</span>
-        </div>
-      </div>
-
-      <!-- ================= CONTADOR ================= -->
-      <div class="found">
-        <span id="count">9</span> lugares encontrados
-      </div>
-
-      <!-- ================= CARDS DINÂMICOS ================= -->
-      <!-- Aqui o JavaScript vai inserir os lugares -->
-      <div class="cards-grid" id="cards-grid"></div>
+    <div class="search">
+      <i class="ti ti-search"></i>
+      <input type="text" id="search-input" placeholder="Buscar lugares, bares, restaurantes..." />
     </div>
 
-    <!-- ================= SCRIPT ================= -->
-    <!-- Deve ficar no final para garantir que o HTML já carregou -->
-    <script src="js/explorar.js"></script>
+    <div class="chips" aria-label="Tipo de rolê">
+      <button class="chip active" type="button" data-chip="Todos" onclick="selectChip(this)">✦ Todos</button>
+      <button class="chip" type="button" data-chip="Amigos" onclick="selectChip(this)">👥 Amigos</button>
+      <button class="chip" type="button" data-chip="Família" onclick="selectChip(this)">👨‍👩‍👧 Família</button>
+      <button class="chip" type="button" data-chip="Casal" onclick="selectChip(this)">💕 Casal</button>
+    </div>
 
-  </body>
+    <div class="cats" aria-label="Categorias">
+      <div class="cat active" onclick="selectCat(this, 'Todos')">
+        <div class="cat-icon">🗂️</div>
+        <div class="cat-label">Todos</div>
+      </div>
+      <div class="cat" onclick="selectCat(this, 'Restaurante')">
+        <div class="cat-icon">🍽️</div>
+        <div class="cat-label">Restaurante</div>
+      </div>
+      <div class="cat" onclick="selectCat(this, 'Bar')">
+        <div class="cat-icon">🍺</div>
+        <div class="cat-label">Bar</div>
+      </div>
+      <div class="cat" onclick="selectCat(this, 'Lanchonete')">
+        <div class="cat-icon">🍔</div>
+        <div class="cat-label">Lanchonete</div>
+      </div>
+      <div class="cat" onclick="selectCat(this, 'Pizzaria')">
+        <div class="cat-icon">🍕</div>
+        <div class="cat-label">Pizzaria</div>
+      </div>
+      <div class="cat" onclick="selectCat(this, 'Café')">
+        <div class="cat-icon">☕</div>
+        <div class="cat-label">Café</div>
+      </div>
+      <div class="cat" onclick="selectCat(this, 'Shopping')">
+        <div class="cat-icon">🛍️</div>
+        <div class="cat-label">Shopping</div>
+      </div>
+      <div class="cat" onclick="selectCat(this, 'Parque')">
+        <div class="cat-icon">🌳</div>
+        <div class="cat-label">Parque</div>
+      </div>
+      <div class="cat" onclick="selectCat(this, 'Sorveteria')">
+        <div class="cat-icon">🍨</div>
+        <div class="cat-label">Sorveteria</div>
+      </div>
+    </div>
+
+    <section class="budget" aria-label="Orçamento por pessoa">
+      <div class="budget-header">
+        <div class="budget-label">💲 Orçamento por pessoa</div>
+        <div class="budget-val" id="budget-val">R$200+</div>
+      </div>
+
+      <input type="range" id="budget-range" min="10" max="200" value="200" oninput="updateBudget(this.value)" />
+
+      <div class="range-labels">
+        <span>R$10</span>
+        <span>R$50</span>
+        <span>R$100</span>
+        <span>R$200+</span>
+      </div>
+    </section>
+
+    <p class="found"><span id="count">0</span> lugares encontrados</p>
+    <section class="cards-grid" id="cards-grid"></section>
+  </main>
+
+  <script src="js/explorar.js"></script>
+</body>
 </html>

@@ -1,175 +1,108 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shoppings - Save Date</title>
-
-    <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
-
-    <link rel="stylesheet" href="css/shoppings.css">
-    <script src="js/auth.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shoppings | Save Date</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/categoria.css" />
+  <link rel="icon" type="image/x-icon" href="img/logo.png" />
 </head>
-
 <body>
+  <header class="topo">
+    <a href="home.html" class="logo-area">
+      <img src="img/logo.png" alt="Logo Save Date" />
+      <span>Save Date</span>
+    </a>
+    <nav class="nav-categorias" aria-label="Navegação principal">
+      <a href="home.html" class="nav-link">Início</a>
+      <a href="explorar.html" class="nav-link">Explorar</a>
+      <a href="mapa.html" class="nav-link">Mapa</a>
+      <a href="salvos.html" class="nav-link">Salvos</a>
+    </nav>
+  </header>
 
-    <header class="main-header">
-        <a href="home.html" class="logo-container">
-            <span class="logo-text">Save Date</span>
-            <img src="img/logo2.png" alt="Logo Save Date" class="logo-img">
-        </a>
+  <section class="hero-categoria">
+    <div class="hero-conteudo">
+      <span class="etiqueta">Shoppings</span>
+      <h1>Programas cobertos para comer, passear, comprar e ir ao cinema.</h1>
+      <p>Shoppings são boas opções quando o clima não ajuda ou quando o grupo quer várias escolhas no mesmo lugar.</p>
+      <div class="acoes-hero">
+        <a href="explorar.html" class="btn-principal">Filtrar shoppings</a>
+        <a href="mapa.html" class="btn-secundario">Ver no mapa</a>
+      </div>
+    </div>
+  </section>
 
-        <div class="user-name" id="user-name-display">
-            Olá, Usuário
+  <main class="conteudo">
+    <div class="cabecalho-lista">
+      <div>
+        <h2>Destaques de shoppings</h2>
+        <p>Opções com imagens reais já presentes no projeto.</p>
+      </div>
+    </div>
+
+    <section class="grade-cards">
+      <article class="card-categoria">
+        <img src="img/shoppingLeblon.png" alt="Shopping Leblon" />
+        <div class="card-corpo">
+          <div class="card-topo">
+            <h3>Shopping Leblon</h3>
+            <span class="tag-preco">Livre</span>
+          </div>
+          <p>Lojas, restaurantes e cinema em um ambiente elegante para passeios mais tranquilos.</p>
+          <div class="meta-card">
+            <span>Cinema</span>
+            <span>Restaurantes</span>
+            <span>Casal</span>
+          </div>
+          <div class="card-acoes">
+            <a href="https://www.shoppingleblon.com.br/" target="_blank" class="card-link">Visitar site</a>
+            <a href="mapa.html" class="card-link secundario">Mapa</a>
+          </div>
         </div>
-    </header>
-    <main class="container">
-        <h1 class="page-title">Shoppings</h1>
+      </article>
 
-        <section class="cards-list">
+      <article class="card-categoria">
+        <img src="img/shoppingBarra.jpg" alt="Barra Shopping" />
+        <div class="card-corpo">
+          <div class="card-topo">
+            <h3>Barra Shopping</h3>
+            <span class="tag-preco">Livre</span>
+          </div>
+          <p>Shopping amplo com praça de alimentação, cinema e várias opções para família.</p>
+          <div class="meta-card">
+            <span>Família</span>
+            <span>Amigos</span>
+            <span>Compras</span>
+          </div>
+          <div class="card-acoes">
+            <a href="https://www.barrashopping.com.br/" target="_blank" class="card-link">Visitar site</a>
+            <a href="detalhes.html?id=6" class="card-link secundario">Detalhes</a>
+          </div>
+        </div>
+      </article>
 
-            <article class="card">
-                <img src="img/shoppingLeblon.png"
-                    alt="Shopping Leblon" class="card-img">
-                <div class="card-content">
-                    <div>
-                        <h2 class="card-title">Shopping Leblon</h2>
-                        <p class="card-desc">O mais sofisticado shopping do Rio, localizado no bairro nobre do Leblon.
-                            Oferece lojas de grife, alta gastronomia com chefs renomados, espaço SPA e cinema. Perfeito
-                            para encontros elegantes em um ambiente premium.</p>
-                    </div>
-                    <a href="https://www.shoppingleblon.com.br/" target="_blank" class="card-link">Visitar Site</a>
-                </div>
-            </article>
-
-            <article class="card">
-                <img src="img/shoppingGavea.jpg"
-                    alt="Shopping da Gávea" class="card-img">
-                <div class="card-content">
-                    <div>
-                        <h2 class="card-title">Shopping da Gávea</h2>
-                        <p class="card-desc">Ambiente luxuoso na Gávea com arquitetura moderna. Destaque para lojas de
-                            design, moda premium e restaurantes sofisticados. Ideal para quem busca compras exclusivas e
-                            ambiência refinada com vista para as montanhas do Rio.</p>
-                    </div>
-                    <a href="https://www.shoppingdagavea.com.br/" target="_blank" class="card-link">Visitar Site</a>
-                </div>
-            </article>
-
-            <article class="card">
-                <img src="img/shoppingBarra.jpg"
-                    alt="Shopping Barra" class="card-img">
-                <div class="card-content">
-                    <div>
-                        <h2 class="card-title">Barra shopping</h2>
-                        <p class="card-desc">Moderno shopping na região da Barra, conhecido pela diversidade de lojas,
-                            praça de alimentação completa e cinema. Ótima localização para lazer em família com amplo
-                            estacionamento e fácil acesso.</p>
-                    </div>
-                    <a href="https://www.barrashopping.com.br/" target="_blank" class="card-link">Visitar Site</a>
-                </div>
-            </article>
-
-            <article class="card">
-                <img src="img/fashionMall.webp"
-                    alt="Fashion Mall" class="card-img">
-                <div class="card-content">
-                    <div>
-                        <h2 class="card-title">Fashion Mall</h2>
-                        <p class="card-desc">Templo da moda e estilo na Barra, especializado em marcas nacionais e
-                            internacionais de designers. Ambiente climatizado com lojas de roupas, acessórios e calçados
-                            de alta qualidade. Restaurantes sofisticados e área de lazer.</p>
-                    </div>
-                    <a href="https://www.fashionmall.com.br/" target="_blank" class="card-link">Visitar Site</a>
-                </div>
-            </article>
-
-
-
-            <article class="card">
-                <img src="img/barraWorld.jpg"
-                    alt="Barra World Shopping" class="card-img">
-                <div class="card-content">
-                    <div>
-                        <h2 class="card-title">Barra World Shopping</h2>
-                        <p class="card-desc">É o primeiro Shopping Temático do Mundo que reproduz a arquitetura e os
-                            principais monumentos de vários Países. Idealizado e edificado pelo empresário José Koury,
-                            teve seu projeto de arquitetura desenvolvido pelos arquitetos Sérgio Gattáss e Sérgio Klein.
-                            Nos fins de semana e nas férias, atrai turistas de todas as partes do Brasil e do mundo, e é
-                            considerado uma das atrações turísticas do Rio de Janeiro.</p>
-                    </div>
-                    <a href="https://barraworld.com/" target="_blank" class="card-link">Visitar Site</a>
-                </div>
-            </article>
-
-            <article class="card">
-                <img src="img/RioDesign.jpg"
-                    alt="Rio Design" class="card-img">
-                <div class="card-content">
-                    <div>
-                        <h2 class="card-title">Rio Design Center</h2>
-                        <p class="card-desc">Centro de design e decoração na Saara, perfeito para móveis, artigos de
-                            decoração e objetos únicos. Lojas especializadas em design contemporâneo. Ideal para
-                            encontros com foco em estilo e inovação em decoração.</p>
-                    </div>
-                    <a href="https://www.riodesignbarra.com.br/" target="_blank" class="card-link">Visitar Site</a>
-                </div>
-            </article>
-
-            <article class="card">
-                <img src="img/shoppingNovaA.jpg"
-                    alt="Shopping Nova America" class="card-img">
-                <div class="card-content">
-                    <div>
-                        <h2 class="card-title">Shopping Nova América</h2>
-                        <p class="card-desc">Shopping completo na Zona Oeste do Rio, oferecendo variedade de lojas,
-                            praça de alimentação, cinema e opções de entretenimento. Ambiente moderno e bem estruturado,
-                            perfeito para encontros descontraídos em família.</p>
-                    </div>
-                    <a href="https://www.novaamerica.com.br/" target="_blank" class="card-link">Visitar Site</a>
-                </div>
-            </article>
-
-            <article class="card">
-                <img src="img/bangushopping.jpg"
-                    alt="Bangu Shopping" class="card-img">
-                <div class="card-content">
-                    <div>
-                        <h2 class="card-title">Bangu Shopping</h2>
-                        <p class="card-desc">Shopping tradicional no bairro de Bangu, com diversas lojas, praça de
-                            alimentação e cinema. Oferece bom custo-benefício com promoções frequentes. Ótima opção para
-                            quem busca compras práticas e divertimento em ambiente familiar.</p>
-                    </div>
-                    <a href="https://bangushopping.com.br/" target="_blank" class="card-link">Visitar Site</a>
-                </div>
-            </article>
-
-        </section>
-    </main>
-    <script>
-        // Proteger página
-        protegerPagina();
-
-        // Exibir nome do usuário logado
-        function exibirNomeUsuario() {
-            const nomeUsuario = localStorage.getItem("nomeUsuario");
-            const userName = document.getElementById("user-name-display");
-
-            if (nomeUsuario && nomeUsuario.trim() !== "") {
-                userName.textContent = `Olá, ${nomeUsuario}`;
-            } else {
-                userName.textContent = "Olá, Usuário";
-            }
-        }
-
-        // Chamar ao carregar a página
-        window.addEventListener("load", exibirNomeUsuario);
-        // Também chamar na leitura do DOM caso já esteja pronto
-        document.addEventListener("DOMContentLoaded", exibirNomeUsuario);
-        exibirNomeUsuario();
-    </script>
+      <article class="card-categoria">
+        <img src="img/fashionMall.webp" alt="Fashion Mall" />
+        <div class="card-corpo">
+          <div class="card-topo">
+            <h3>Fashion Mall</h3>
+            <span class="tag-preco">Livre</span>
+          </div>
+          <p>Boa escolha para restaurante, lojas e programa mais confortável em ambiente fechado.</p>
+          <div class="meta-card">
+            <span>Moda</span>
+            <span>Restaurantes</span>
+            <span>Conforto</span>
+          </div>
+          <div class="card-acoes">
+            <a href="https://www.fashionmall.com.br/" target="_blank" class="card-link">Visitar site</a>
+            <a href="sugestoes.html" class="card-link secundario">Sugestões</a>
+          </div>
+        </div>
+      </article>
+    </section>
+  </main>
 </body>
-
 </html>

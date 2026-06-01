@@ -30,7 +30,7 @@ function carregarUsuario() {
     $("#nome-usuario");
 
   const $dropdownNome =
-    $("#dropdown-nome");
+    $("#label-nome-dropdown");
 
   const tipoUsuario =
     localStorage.getItem(
@@ -342,17 +342,29 @@ function iniciarMenuPerfil() {
   if ($nomeUsuario.length) {
     $nomeUsuario.on(
       "click",
-      function () {
+      function (e) {
+        e.stopPropagation();
+
         if (
           $nomeUsuario.text() ===
             "Entrar"
         ) {
           window.location.href =
             "login.html";
+          return;
         }
+
+        $dropdown.fadeToggle(150);
       }
     );
   }
+
+  $dropdown.on(
+    "click",
+    function (e) {
+      e.stopPropagation();
+    }
+  );
 
   $(document).on(
     "click",
