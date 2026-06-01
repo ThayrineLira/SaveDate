@@ -8,7 +8,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
 
   <!-- CSS -->
-  <link rel="stylesheet" href="css/home.css" />
+  <link rel="stylesheet" href="css/home.css?v=1.1" />
 
   <!-- ÍCONE -->
   <link rel="icon" type="image/x-icon" href="img/logo.png" />
@@ -43,16 +43,16 @@
 
       </div>
       <div id="menu-usuario" class="menu-perfil">
-        <span class="burger">☰</span>
+        <span class="burger" onclick="toggleDropdown()">☰</span>
         <div class="usuario-dropdown">
           <img src="img/login.jpg" alt="Foto de perfil" class="avatar" />
-          <span id="nome-usuario" class="nome-usuario">Entrar</span>
+          <span id="nome-usuario" class="nome-usuario" onclick="toggleDropdown()">Entrar</span>
           <div id="dropdown-menu" class="dropdown-menu" style="display:none;">
             <span id="label-nome-dropdown" class="dropdown-nome"></span>
             <hr />
             <a href="cadastro-estabelecimento.html" class="dropdown-item">Cadastrar restaurante</a>
             <a href="conta.html" class="dropdown-item">Minha Conta</a>
-            <a href="#" id="btn-sair" class="dropdown-item sair">Sair</a>
+            <a href="javascript:void(0)" id="btn-sair" class="dropdown-item sair" onclick="event.preventDefault(); sairLogin();">Sair</a>
           </div>
         </div>
       </div>
@@ -62,8 +62,9 @@
   </header>
 
   <main id="conteudo-principal">
-    <section id="hero-banner" class="hero">
-      <div class="slide-container">
+    <div id="home-normal">
+      <section id="hero-banner" class="hero">
+        <div class="slide-container">
       <div id="slide-principal" class="container hero-conteudo slide-hero">
         <h2 class="hero-titulo">Saia e divirta-se<br /><span class="texto-gradiente">sem sustos no bolso.</span></h2>
         <p class="hero-subtitulo">Divirta-se mais, gaste menos</p>
@@ -196,6 +197,42 @@
       </div>
 
     </section>
+    </div>
+
+    <section id="home-estabelecimento-panel" class="estabelecimento-panel container" style="display:none;">
+      <div class="cabecalho-secao compacto">
+        <h2 class="titulo-secao">Painel do seu estabelecimento</h2>
+        <div class="premium-status">
+          <span id="premium-badge" class="premium-badge"></span>
+          <a id="btn-premium" class="btn-principal" href="pagamento.html">Seja Premium</a>
+        </div>
+      </div>
+
+      <div class="painel-cartoes-grid">
+        <article class="card-local painel-card avaliacoes-card">
+          <h3>Avaliações</h3>
+          <div id="avaliacao-estrelas" class="avaliacao-estrelas"></div>
+          <p id="avaliacao-midia" class="subtitulo-local">Avaliação do estabelecimento.</p>
+          <p class="texto-pequeno">Mostre sua reputação para clientes e aumente a visibilidade do seu local.</p>
+        </article>
+
+        <article class="card-local painel-card acoes-rapidas-card">
+          <h3>Ações Rápidas</h3>
+          <div class="dashboard-actions">
+            <a href="#" class="dashboard-action-link action-add-images">Adicionar imagens</a>
+            <a href="#" class="dashboard-action-link action-edit-cardapio">Editar cardápio</a>
+            <a href="#" class="dashboard-action-link action-remove-comments">Remover comentários</a>
+          </div>
+          <p id="acoes-rapidas-texto" class="texto-pequeno">Assine Premium para desbloquear ações rápidas do estabelecimento.</p>
+        </article>
+      </div>
+
+      <article class="card-local painel-card comentarios-card">
+        <h3>Comentários dos clientes</h3>
+        <ul id="lista-comentarios" class="comentarios-lista"></ul>
+        <p id="comentarios-limite" class="texto-pequeno"></p>
+      </article>
+    </section>
 
     <section id="secao-destaques" class="destaques container">
 
@@ -283,6 +320,34 @@
     </section>
   </main>
 
+  <div id="fotos-modal-overlay" class="modal-overlay" style="display:none;">
+    <div class="modal-card">
+      <button class="action-close" data-action="fotos">×</button>
+      <h3>Adicionar imagem</h3>
+      <form id="form-fotos">
+        <label for="foto-arquivo">Escolha um arquivo</label>
+        <input type="file" id="foto-arquivo" accept="image/*" required />
+        <button type="submit" class="btn-principal">Enviar imagem</button>
+      </form>
+    </div>
+  </div>
+
+  <div id="cardapio-modal-overlay" class="modal-overlay" style="display:none;">
+    <div class="modal-card">
+      <button class="action-close" data-action="cardapio">×</button>
+      <h3 id="cardapio-modal-titulo">Adicionar item</h3>
+      <form id="form-cardapio" data-tipo="prato">
+        <label for="cardapio-nome">Nome do item</label>
+        <input type="text" id="cardapio-nome" required />
+        <label for="cardapio-descricao">Descrição</label>
+        <textarea id="cardapio-descricao" rows="3"></textarea>
+        <label for="cardapio-preco">Preço</label>
+        <input type="text" id="cardapio-preco" placeholder="R$ 0,00" />
+        <button type="submit" class="btn-principal">Salvar item</button>
+      </form>
+    </div>
+  </div>
+
   <footer id="rodape-principal" class="rodape">
 
     <div class="container rodape-conteudo">
@@ -356,15 +421,33 @@
     document.addEventListener("click", function (e) {
       const dropdown = document.querySelector(".usuario-dropdown");
       const menu = document.getElementById("dropdown-menu");
-      if (!dropdown || !menu) return;
-      if (!dropdown.contains(e.target)) {
+      const burger = document.querySelector(".burger");
+      if (!dropdown || !menu || !burger) return;
+      if (!dropdown.contains(e.target) && !burger.contains(e.target)) {
         menu.style.display = "none";
       }
     });
 
-    function sairLogin() {
+    function sairLogin(event) {
+      if (event && event.preventDefault) {
+        event.preventDefault();
+      }
+      const dropdown = document.getElementById("dropdown-menu");
+      if (dropdown) {
+        dropdown.style.display = "none";
+      }
       localStorage.removeItem("usuarioLogado");
       localStorage.removeItem("nomeUsuario");
+      localStorage.removeItem("usuarioTipo");
+      localStorage.removeItem("usuarioLogadoEmail");
+      localStorage.removeItem("estabelecimentoCadastroEmail");
+      localStorage.removeItem("estabelecimentoCadastroSenha");
+      localStorage.removeItem("estabelecimentoCadastroNome");
+      localStorage.removeItem("estabelecimentoCadastroEndereco");
+      localStorage.removeItem("estabelecimentoCadastroComplemento");
+      localStorage.removeItem("estabelecimentoCadastroTelefone");
+      localStorage.removeItem("estabelecimentoDados");
+      localStorage.removeItem("usuarioPremium");
       window.location.href = "home.html";
     }
 
@@ -419,7 +502,7 @@
   </script>
 
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-  <script src="js/script.js"></script>
+  <script src="js/script.js?v=1.1"></script>
 
 </body>
 

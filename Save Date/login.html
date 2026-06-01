@@ -359,6 +359,9 @@
         const email =
           emailInput.value.trim();
 
+        const emailNormalizado =
+          email.toLowerCase();
+
         const senha =
           senhaInput.value.trim();
 
@@ -427,6 +430,32 @@
               email
           );
 
+          localStorage.setItem(
+            "usuarioLogadoEmail",
+            emailNormalizado
+          );
+
+          localStorage.removeItem("usuarioPremium");
+
+          if (tipoCadastro === "estabelecimento") {
+            localStorage.setItem(
+              "estabelecimentoCadastroEmail",
+              emailNormalizado
+            );
+            localStorage.setItem(
+              "estabelecimentoCadastroNome",
+              nomeCadastrado || email
+            );
+          } else {
+            localStorage.removeItem("estabelecimentoCadastroEmail");
+            localStorage.removeItem("estabelecimentoCadastroSenha");
+            localStorage.removeItem("estabelecimentoCadastroNome");
+            localStorage.removeItem("estabelecimentoCadastroEndereco");
+            localStorage.removeItem("estabelecimentoCadastroComplemento");
+            localStorage.removeItem("estabelecimentoCadastroTelefone");
+            localStorage.removeItem("usuarioPremium");
+          }
+
           if (
             rememberInput.checked
           ) {
@@ -454,11 +483,13 @@
             );
           }
 
+          const destino =
+            tipoCadastro === "estabelecimento"
+              ? "home.html"
+              : "home.html";
+
           setTimeout(() => {
-
-            window.location.href =
-              "home.html";
-
+            window.location.href = destino;
           }, 1500);
         }
 

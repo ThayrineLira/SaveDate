@@ -361,6 +361,18 @@
           "tipoCadastro",
           "estabelecimento"
         );
+        localStorage.setItem(
+          "usuarioLogado",
+          "true"
+        );
+        localStorage.setItem(
+          "usuarioTipo",
+          "estabelecimento"
+        );
+        localStorage.setItem(
+          "nomeUsuario",
+          nome
+        );
 
         const catalogoRaw =
           localStorage.getItem(
@@ -424,7 +436,7 @@
         );
 
         setTimeout(() => {
-          window.location.href = "login.html";
+          window.location.href = "home.html";
         }, 1400);
 
         return false;

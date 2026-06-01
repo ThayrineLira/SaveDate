@@ -141,6 +141,42 @@ function sairLogin() {
     "usuarioTipo"
   );
 
+  localStorage.removeItem(
+    "usuarioLogadoEmail"
+  );
+
+  localStorage.removeItem(
+    "estabelecimentoCadastroEmail"
+  );
+
+  localStorage.removeItem(
+    "estabelecimentoCadastroSenha"
+  );
+
+  localStorage.removeItem(
+    "estabelecimentoCadastroNome"
+  );
+
+  localStorage.removeItem(
+    "estabelecimentoCadastroEndereco"
+  );
+
+  localStorage.removeItem(
+    "estabelecimentoCadastroComplemento"
+  );
+
+  localStorage.removeItem(
+    "estabelecimentoCadastroTelefone"
+  );
+
+  localStorage.removeItem(
+    "estabelecimentoDados"
+  );
+
+  localStorage.removeItem(
+    "usuarioPremium"
+  );
+
   window.location.href = "home.html";
 
 }

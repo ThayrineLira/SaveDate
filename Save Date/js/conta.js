@@ -114,6 +114,14 @@ function sairConta() {
   localStorage.removeItem("usuarioLogado");
   localStorage.removeItem("nomeUsuario");
   localStorage.removeItem("usuarioTipo");
+  localStorage.removeItem("usuarioLogadoEmail");
+  localStorage.removeItem("estabelecimentoCadastroEmail");
+  localStorage.removeItem("estabelecimentoCadastroSenha");
+  localStorage.removeItem("estabelecimentoCadastroNome");
+  localStorage.removeItem("estabelecimentoCadastroEndereco");
+  localStorage.removeItem("estabelecimentoCadastroComplemento");
+  localStorage.removeItem("estabelecimentoCadastroTelefone");
+  localStorage.removeItem("usuarioPremium");
   window.location.href = "home.html";
 }
 

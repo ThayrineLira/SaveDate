@@ -33,9 +33,9 @@ function carregarUsuario() {
     $("#label-nome-dropdown");
 
   const tipoUsuario =
-    localStorage.getItem(
+    (localStorage.getItem(
       "usuarioTipo"
-    );
+    ) || "").toLowerCase();
 
   /* =========================================
      USUÁRIO LOGADO
@@ -449,13 +449,18 @@ function ocultarSegundoBannerSeLogado() {
 function mostrarPainelEstabelecimento() {
 
   const tipoUsuario =
-    localStorage.getItem(
+    (localStorage.getItem(
       "usuarioTipo"
-    );
+    ) || "").toLowerCase();
 
   const homeNormal =
     document.getElementById(
       "home-normal"
+    );
+
+  const painelEstabelecimento =
+    document.getElementById(
+      "home-estabelecimento-panel"
     );
 
   const dashboard =
@@ -470,6 +475,11 @@ function mostrarPainelEstabelecimento() {
     if (homeNormal) {
       homeNormal.style.display =
         "none";
+    }
+
+    if (painelEstabelecimento) {
+      painelEstabelecimento.style.display =
+        "block";
     }
 
     if (dashboard) {
@@ -501,6 +511,11 @@ function mostrarPainelEstabelecimento() {
 
   if (dashboard) {
     dashboard.style.display =
+      "none";
+  }
+
+  if (painelEstabelecimento) {
+    painelEstabelecimento.style.display =
       "none";
   }
 
@@ -544,6 +559,188 @@ function carregarDadosEstabelecimento() {
     eventos: [],
     fotos: []
   };
+}
+
+function getEstabelecimentoEmailKey() {
+  return localStorage.getItem('estabelecimentoCadastroEmail') || 'estabelecimento';
+}
+
+function carregarComentariosEstabelecimento() {
+  const key = getEstabelecimentoEmailKey();
+  const raw = localStorage.getItem(`comentarios_${key}`);
+  let comentarios = [];
+
+  if (raw) {
+    try {
+      comentarios = JSON.parse(raw) || [];
+    } catch (e) {
+      comentarios = [];
+    }
+  }
+
+  if (!Array.isArray(comentarios) || comentarios.length === 0) {
+    comentarios = [
+      { usuario: 'Ana', texto: 'Ambiente agradável e ótimo atendimento.', estrelas: 5 },
+      { usuario: 'João', texto: 'Comida deliciosa, mas o atendimento poderia ser mais rápido.', estrelas: 4 },
+      { usuario: 'Mariana', texto: 'A melhor opção da região para jantar com amigos.', estrelas: 5 },
+      { usuario: 'Lucas', texto: 'Ótima experiência, recomendo o prato especial da casa.', estrelas: 5 }
+    ];
+    localStorage.setItem(`comentarios_${key}`, JSON.stringify(comentarios));
+  }
+
+  return comentarios;
+}
+
+function salvarComentariosEstabelecimento(comentarios) {
+  const key = getEstabelecimentoEmailKey();
+  localStorage.setItem(`comentarios_${key}`, JSON.stringify(comentarios));
+}
+
+function getRemocoesComentariosRestantes() {
+  const key = getEstabelecimentoEmailKey();
+  const removidas = parseInt(localStorage.getItem(`comentariosRemovidos_${key}`) || '0', 10);
+  return Math.max(0, 10 - removidas);
+}
+
+function registrarRemocaoComentario() {
+  const key = getEstabelecimentoEmailKey();
+  const removidas = parseInt(localStorage.getItem(`comentariosRemovidos_${key}`) || '0', 10) + 1;
+  localStorage.setItem(`comentariosRemovidos_${key}`, String(removidas));
+}
+
+function isEstabelecimentoLogado() {
+  const tipoUsuario = (localStorage.getItem('usuarioTipo') || '').toLowerCase();
+  const estabelecimentoEmail = localStorage.getItem('estabelecimentoCadastroEmail');
+  return (
+    localStorage.getItem('usuarioLogado') === 'true' &&
+    (tipoUsuario === 'estabelecimento' || (!tipoUsuario && Boolean(estabelecimentoEmail)))
+  );
+}
+
+function calcularEstrelasMedias(comentarios) {
+  if (!comentarios.length) return 0;
+  const soma = comentarios.reduce((total, comentario) => total + (comentario.estrelas || 0), 0);
+  return Number((soma / comentarios.length).toFixed(1));
+}
+
+function renderizarPainelEstabelecimentoHome() {
+  const painel = document.getElementById('home-estabelecimento-panel');
+  if (!painel) return;
+
+  const comentarios = carregarComentariosEstabelecimento();
+  const media = calcularEstrelasMedias(comentarios);
+  const avaliacaoEstrelas = document.getElementById('avaliacao-estrelas');
+  const avaliacaoMidia = document.getElementById('avaliacao-midia');
+  const listaComentarios = document.getElementById('lista-comentarios');
+  const premiumBadge = document.getElementById('premium-badge');
+  const btnPremium = document.getElementById('btn-premium');
+  const estabelecimentoEmail = localStorage.getItem('estabelecimentoCadastroEmail');
+  const premiumAtivo =
+    localStorage.getItem('usuarioPremium') === 'true' ||
+    (estabelecimentoEmail && localStorage.getItem(`estabelecimentoPremium_${estabelecimentoEmail}`) === 'true');
+
+  if (avaliacaoEstrelas) {
+    avaliacaoEstrelas.innerHTML = Array.from({ length: 5 }, (_, i) => {
+      const classe = i < Math.round(media) ? 'star filled' : 'star';
+      return `<span class="${classe}">★</span>`;
+    }).join('');
+  }
+
+  if (avaliacaoMidia) {
+    avaliacaoMidia.textContent = `${media} de 5 baseado em ${comentarios.length} avaliações.`;
+  }
+
+  if (listaComentarios) {
+    listaComentarios.innerHTML = comentarios.length
+      ? comentarios.map((comentario, index) => `
+          <li>
+            <div class="comentario-autor">${comentario.usuario} · ${comentario.estrelas} estrelas</div>
+            <div class="comentario-texto">${comentario.texto}</div>
+            ${premiumAtivo ? `<button type="button" class="btn-remover-comentario" data-index="${index}">Remover comentário</button>` : ''}
+          </li>
+        `).join('')
+      : '<li class="comentario-vazio">Nenhum comentário encontrado.</li>';
+
+    if (premiumAtivo) {
+      listaComentarios.querySelectorAll('.btn-remover-comentario').forEach((botao) => {
+        botao.addEventListener('click', function () {
+          const limite = getRemocoesComentariosRestantes();
+          if (limite <= 0) {
+            mostrarToast('Você já removeu 10 comentários.', 'aviso');
+            return;
+          }
+          const index = parseInt(this.dataset.index, 10);
+          const novosComentarios = carregarComentariosEstabelecimento();
+          if (Number.isNaN(index) || index < 0 || index >= novosComentarios.length) return;
+          novosComentarios.splice(index, 1);
+          salvarComentariosEstabelecimento(novosComentarios);
+          registrarRemocaoComentario();
+          renderizarPainelEstabelecimentoHome();
+          mostrarToast('Comentário removido.', 'sucesso');
+        });
+      });
+    }
+  }
+
+  const acoesRapidasTexto = document.getElementById('acoes-rapidas-texto');
+  const actionAddImages = document.querySelector('.action-add-images');
+  const actionEditCardapio = document.querySelector('.action-edit-cardapio');
+  const actionRemoveComments = document.querySelector('.action-remove-comments');
+
+  if (premiumAtivo) {
+    if (premiumBadge) premiumBadge.textContent = 'Premium ativo';
+    if (acoesRapidasTexto) acoesRapidasTexto.textContent = 'Use ações rápidas para atualizar fotos, cardápio e reputação do seu estabelecimento.';
+    if (actionAddImages) actionAddImages.classList.remove('disabled');
+    if (actionEditCardapio) actionEditCardapio.classList.remove('disabled');
+    if (actionRemoveComments) actionRemoveComments.classList.remove('disabled');
+    if (btnPremium) {
+      btnPremium.textContent = 'Premium ativo';
+      btnPremium.classList.add('btn-claro');
+      btnPremium.removeAttribute('href');
+      btnPremium.onclick = (e) => e.preventDefault();
+    }
+  } else {
+    if (premiumBadge) premiumBadge.textContent = 'Assine Premium';
+    if (acoesRapidasTexto) acoesRapidasTexto.textContent = 'Assine Premium para desbloquear ações rápidas como imagens, cardápio e remoção de comentários.';
+    if (actionAddImages) actionAddImages.classList.add('disabled');
+    if (actionEditCardapio) actionEditCardapio.classList.add('disabled');
+    if (actionRemoveComments) actionRemoveComments.classList.add('disabled');
+    if (btnPremium) {
+      btnPremium.textContent = 'Pagar Premium';
+      btnPremium.href = 'pagamento.html';
+      btnPremium.onclick = null;
+    }
+  }
+
+  const comentariosLimite = document.getElementById('comentarios-limite');
+  if (comentariosLimite) {
+    if (premiumAtivo) {
+      const removosRestantes = getRemocoesComentariosRestantes();
+      comentariosLimite.textContent = removosRestantes > 0
+        ? `Você pode remover até ${removosRestantes} comentário(s) restantes.`
+        : 'Você já utilizou as 10 remoções permitidas.';
+    } else {
+      comentariosLimite.textContent = 'Assine Premium para remover comentários dos usuários.';
+    }
+  }
+}
+
+function setupHomeEstabelecimentoView() {
+  const painel = document.getElementById('home-estabelecimento-panel');
+  const secaoDestaques = document.getElementById('secao-destaques');
+  const heroBanner = document.getElementById('hero-banner');
+  const primeiraVisao = document.querySelector('.cliente-primeira-visao');
+  const comoFunciona = document.querySelector('.como-funciona-home');
+  const navCategorias = document.getElementById('nav-categorias');
+
+  if (painel) painel.style.display = 'block';
+  if (heroBanner) heroBanner.style.display = 'none';
+  if (primeiraVisao) primeiraVisao.style.display = 'none';
+  if (comoFunciona) comoFunciona.style.display = 'none';
+  if (navCategorias) navCategorias.style.display = 'none';
+  if (secaoDestaques) secaoDestaques.style.display = 'none';
+
+  renderizarPainelEstabelecimentoHome();
 }
 
 function carregarCatalogoEstabelecimentos() {
@@ -832,6 +1029,7 @@ function handleQuickAction(action) {
   const actionLower = (action || '').toLowerCase();
 
   switch (actionLower) {
+    case 'adicionar imagens':
     case 'adicionar fotos':
       abrirModalFotos();
       break;
@@ -840,12 +1038,23 @@ function handleQuickAction(action) {
       abrirModalCategorias();
       break;
 
+    case 'editar cardápio':
+    case 'editar cardapio':
+      abrirModalCardapio('prato');
+      break;
+
     case 'pratos':
       abrirModalCardapio('prato');
       break;
 
     case 'bebidas':
       abrirModalCardapio('bebida', 'Água, Cerveja, Refrigerante');
+      break;
+
+    case 'remover comentários':
+    case 'remover comentarios':
+      document.getElementById('lista-comentarios')?.scrollIntoView({ behavior: 'smooth' });
+      mostrarToast('Use os botões junto a cada comentário para removê-los.', 'sucesso');
       break;
 
     case 'horário':
@@ -965,6 +1174,10 @@ function iniciarAcoesRapidas() {
   links.forEach(link => {
     link.addEventListener('click', function (e) {
       e.preventDefault();
+      if (this.classList.contains('disabled')) {
+        mostrarToast('Assine Premium para desbloquear essa ação.', 'aviso');
+        return;
+      }
       const action = (this.textContent || '').trim();
       handleQuickAction(action);
     });
@@ -2254,27 +2467,27 @@ $(function () {
     sincronizarCatalogoEstabelecimento(
       carregarDadosEstabelecimento()
     );
-    $(".area-busca-wrapper").hide();
-    $("#input-local").attr(
-      "placeholder",
-      "Digite nome, bairro ou endereco do restaurante"
-    );
-    $("#mensagem-destaque").text(
-      "Veja restaurantes cadastrados pela plataforma e filtre por orcamento."
-    );
-    $("#resultado-orcamento").text(
-      "Digite nome, bairro ou endereco para encontrar restaurantes cadastrados nessa faixa."
-    );
-    carregarCatalogoHome();
 
-    /* =========================================
-       BOTÃO BUSCAR
-    ========================================= */
+    let tipoUsuario = (localStorage.getItem('usuarioTipo') || '').toLowerCase();
+    if (!tipoUsuario && localStorage.getItem('usuarioLogado') === 'true' && localStorage.getItem('estabelecimentoCadastroEmail')) {
+      tipoUsuario = 'estabelecimento';
+      localStorage.setItem('usuarioTipo', 'estabelecimento');
+    }
 
-    $("#btn-buscar-local").on(
-      "click",
-      buscarCatalogoHomeAction
-    );
+    if (tipoUsuario === 'estabelecimento' || isEstabelecimentoLogado()) {
+      setupHomeEstabelecimentoView();
+    } else {
+      carregarCatalogoHome();
+
+      /* =========================================
+         BOTÃO BUSCAR
+      ========================================= */
+
+      $("#btn-buscar-local").on(
+        "click",
+        buscarCatalogoHomeAction
+      );
+    }
 
     /* =========================================
        ENTER
