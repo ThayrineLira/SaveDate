@@ -43,16 +43,16 @@
 
       </div>
       <div id="menu-usuario" class="menu-perfil">
-        <span class="burger" onclick="toggleDropdown()">☰</span>
+        <span class="burger">☰</span>
         <div class="usuario-dropdown">
           <img src="img/login.jpg" alt="Foto de perfil" class="avatar" />
-          <span id="nome-usuario" class="nome-usuario" onclick="toggleDropdown()">Entrar</span>
+          <span id="nome-usuario" class="nome-usuario">Entrar</span>
           <div id="dropdown-menu" class="dropdown-menu" style="display:none;">
             <span id="label-nome-dropdown" class="dropdown-nome"></span>
             <hr />
             <a href="cadastro-estabelecimento.html" class="dropdown-item">Cadastrar restaurante</a>
             <a href="conta.html" class="dropdown-item">Minha Conta</a>
-            <a href="javascript:void(0)" id="btn-sair" class="dropdown-item sair" onclick="event.preventDefault(); sairLogin();">Sair</a>
+            <a href="javascript:void(0)" id="btn-sair" class="dropdown-item sair">Sair</a>
           </div>
         </div>
       </div>
@@ -389,66 +389,6 @@
     if (usuarioLogado && nomeUsuario) {
       if (elementoNome) elementoNome.innerText = nomeUsuario;
       if (labelDropdown) labelDropdown.innerText = nomeUsuario;
-    }
-
-    document.addEventListener("click", function (event) {
-      const menu = document.getElementById("dropdown-menu");
-      const botao = document.querySelector(".burger");
-      if (!menu || !botao) return;
-      if (!menu.contains(event.target) && !botao.contains(event.target)) {
-        menu.style.display = "none";
-      }
-    });
-
-    function toggleMenu() {
-      const menu = document.getElementById("dropdown-menu");
-      if (!menu) return;
-      menu.style.display = menu.style.display === "block" ? "none" : "block";
-      if (usuarioLogado && nomeUsuario && elementoNome) elementoNome.innerText = nomeUsuario;
-      if (labelDropdown) labelDropdown.innerText = nomeUsuario || "";
-    }
-
-    function toggleDropdown() {
-      if (!usuarioLogado) {
-        window.location.href = "login.html";
-        return;
-      }
-      const menu = document.getElementById("dropdown-menu");
-      if (!menu) return;
-      menu.style.display = menu.style.display === "none" ? "block" : "none";
-    }
-
-    document.addEventListener("click", function (e) {
-      const dropdown = document.querySelector(".usuario-dropdown");
-      const menu = document.getElementById("dropdown-menu");
-      const burger = document.querySelector(".burger");
-      if (!dropdown || !menu || !burger) return;
-      if (!dropdown.contains(e.target) && !burger.contains(e.target)) {
-        menu.style.display = "none";
-      }
-    });
-
-    function sairLogin(event) {
-      if (event && event.preventDefault) {
-        event.preventDefault();
-      }
-      const dropdown = document.getElementById("dropdown-menu");
-      if (dropdown) {
-        dropdown.style.display = "none";
-      }
-      localStorage.removeItem("usuarioLogado");
-      localStorage.removeItem("nomeUsuario");
-      localStorage.removeItem("usuarioTipo");
-      localStorage.removeItem("usuarioLogadoEmail");
-      localStorage.removeItem("estabelecimentoCadastroEmail");
-      localStorage.removeItem("estabelecimentoCadastroSenha");
-      localStorage.removeItem("estabelecimentoCadastroNome");
-      localStorage.removeItem("estabelecimentoCadastroEndereco");
-      localStorage.removeItem("estabelecimentoCadastroComplemento");
-      localStorage.removeItem("estabelecimentoCadastroTelefone");
-      localStorage.removeItem("estabelecimentoDados");
-      localStorage.removeItem("usuarioPremium");
-      window.location.href = "home.html";
     }
 
     function acessarFuncionalidade(pagina) {

@@ -409,6 +409,42 @@ function iniciarLogout() {
         "usuarioTipo"
       );
 
+      localStorage.removeItem(
+        "usuarioLogadoEmail"
+      );
+
+      localStorage.removeItem(
+        "estabelecimentoCadastroEmail"
+      );
+
+      localStorage.removeItem(
+        "estabelecimentoCadastroSenha"
+      );
+
+      localStorage.removeItem(
+        "estabelecimentoCadastroNome"
+      );
+
+      localStorage.removeItem(
+        "estabelecimentoCadastroEndereco"
+      );
+
+      localStorage.removeItem(
+        "estabelecimentoCadastroComplemento"
+      );
+
+      localStorage.removeItem(
+        "estabelecimentoCadastroTelefone"
+      );
+
+      localStorage.removeItem(
+        "estabelecimentoDados"
+      );
+
+      localStorage.removeItem(
+        "usuarioPremium"
+      );
+
       mostrarToast(
         "Você saiu da conta.",
         "aviso"
@@ -416,7 +452,7 @@ function iniciarLogout() {
 
       setTimeout(() => {
 
-        window.location.reload();
+        window.location.href = "home.html";
 
       }, 1000);
     }
