@@ -30,18 +30,25 @@
         </h1>
 
       </div>
-      <div class="busca-container">
+     <div class="busca-container">
 
-        <div class="busca-pilula">
+  <div class="busca-pilula">
 
-          <input type="text" id="campo-busca" placeholder="Pesquisar categorias" />
-          <button id="btn-buscar" type="button">🔍</button>
-        </div>
+    <input
+      type="text"
+      id="campo-busca"
+      placeholder="Pesquisar categorias"
+    />
 
-        <!-- SUGESTÕES -->
-        <div id="sugestoes" class="sugestoes"></div>
+    <button id="btn-buscar" title="Buscar">
+      🔍
+    </button>
 
-      </div>
+  </div>
+
+  <div id="sugestoes" class="sugestoes"></div>
+
+</div>
       <div id="menu-usuario" class="menu-perfil">
         <span class="burger">☰</span>
         <div class="usuario-dropdown">
@@ -234,19 +241,20 @@
       </article>
     </section>
 
-    <section id="secao-destaques" class="destaques container">
+       <section id="secao-destaques" class="destaques container">
 
       <!-- CEP -->
+            <!-- CEP -->
       <div class="cep-wrapper">
 
         <div class="cep-box">
 
-          <span class="cep-icone">
-            📍
-          </span>
-
           <input type="text" id="input-local" class="cep-input" placeholder="Digite um CEP ou endereço"
             autocomplete="off" />
+
+          <button id="btn-minha-local" class="btn-minha-local" title="Usar minha localização">
+            📍
+          </button>
 
           <button id="btn-buscar-local" class="btn-buscar-cep">
             Buscar
@@ -397,6 +405,35 @@
         setTimeout(() => window.location.href = "login.html", 1800);
         return;
       }
+<<<<<<< Updated upstream
+=======
+      const menu = document.getElementById("dropdown-menu");
+      if (!menu) return;
+      menu.style.display = menu.style.display === "none" ? "block" : "none";
+    }
+
+    document.addEventListener("click", function (e) {
+      const dropdown = document.querySelector(".usuario-dropdown");
+      const menu = document.getElementById("dropdown-menu");
+      if (!dropdown || !menu) return;
+      if (!dropdown.contains(e.target)) {
+        menu.style.display = "none";
+      }
+    });
+
+    function sairLogin() {
+      localStorage.removeItem("usuarioLogado");
+      localStorage.removeItem("nomeUsuario");
+      window.location.href = "home.html";
+    }
+
+    function acessarFuncionalidade(pagina) {
+      if (localStorage.getItem("usuarioLogado") !== "true") {
+        mostrarToast("Faça login primeiro para continuar.", "erro");
+        setTimeout(() => window.location.href = "login.html", 1800);
+        return;
+      }
+>>>>>>> Stashed changes
       window.location.href = pagina;
     }
 
@@ -442,7 +479,117 @@
   </script>
 
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<<<<<<< Updated upstream
   <script src="js/script.js?v=1.1"></script>
+=======
+  <script src="js/script.js"></script>
+  <script src="js/localizacao.js"></script>
+  <script>
+    // Botão usar minha localização
+    document.getElementById('btn-minha-local')?.addEventListener('click', async function() {
+      const botao = this;
+      botao.textContent = '⏳';
+      botao.disabled = true;
+      
+      try {
+        await buscarProximos();
+      } catch (erro) {
+        mostrarToast(erro, 'erro');
+      } finally {
+        botao.textContent = '📍';
+        botao.disabled = false;
+      }
+    });
+    
+    // Atualizar quando mudar os ranges
+    document.getElementById('range-area-busca')?.addEventListener('input', buscarComCache);
+    document.getElementById('range-orcamento')?.addEventListener('input', buscarComCache);
+  </script>
+
+<script>
+  document.getElementById('btn-buscar')?.addEventListener('click', function() {
+    const termo = document.getElementById('campo-busca').value.toLowerCase();
+    if(termo.length < 2) {
+      mostrarToast('Digite pelo menos 2 letras', 'info');
+      return;
+    }
+    // Busca nos categorias
+    const categorias = ["bares", "restaurantes", "parques", "shopping", "salão de festas"];
+    const achou = categorias.find(c => c.includes(termo));
+    if(achou) {
+      window.location.href = achou + '.html';
+    } else {
+      mostrarToast('Categoria não encontrada: ' + termo, 'erro');
+    }
+  });
+</script>
+  <script>
+    // ATUALIZAR RANGES
+    document.getElementById('range-area-busca')?.addEventListener('input', function() {
+      document.getElementById('valor-area-busca').textContent = this.value + ' km';
+    });
+
+    document.getElementById('range-orcamento')?.addEventListener('input', function() {
+      document.getElementById('valor-orcamento').textContent = 'Até R$ ' + this.value;
+    });
+  </script>
+    <script>
+    // CHIPS DE ORÇAMENTO
+    document.querySelectorAll('.chip-orcamento').forEach(chip => {
+      chip.addEventListener('click', function() {
+        document.querySelectorAll('.chip-orcamento').forEach(c => c.classList.remove('ativo'));
+        this.classList.add('ativo');
+        const valor = this.dataset.orcamento;
+        document.getElementById('range-orcamento').value = valor;
+        document.getElementById('valor-orcamento').textContent = 'Até R$ ' + valor;
+      });
+    });
+  </script>
+
+<script>
+document.getElementById('btn-localizacao').addEventListener('click', () => {
+
+  if (!navigator.geolocation) {
+    alert('Seu navegador não suporta geolocalização.');
+    return;
+  }
+
+  navigator.geolocation.getCurrentPosition(
+
+    (posicao) => {
+
+      const latitude = posicao.coords.latitude;
+      const longitude = posicao.coords.longitude;
+
+      console.log('Latitude:', latitude);
+      console.log('Longitude:', longitude);
+
+      mostrarToast(
+        'Localização obtida com sucesso!',
+        'sucesso'
+      );
+
+      // Aqui você pode chamar sua função buscarProximos()
+      buscarProximos(latitude, longitude);
+
+    },
+
+    (erro) => {
+
+      mostrarToast(
+        'Permissão de localização negada.',
+        'erro'
+      );
+
+      console.error(erro);
+
+    }
+
+  );
+
+});
+</script>
+>>>>>>> Stashed changes
 
 </body>
 

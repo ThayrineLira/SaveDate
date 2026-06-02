@@ -118,7 +118,10 @@ body{
 
 .busca-pilula{
 
-  width:420px;
+
+  width:100%;
+  max-width:450px;
+  min-width:200px;
   height:55px;
 
   background:#fff;
@@ -146,6 +149,10 @@ body{
   font-size:15px;
 
   padding-left:15px;
+}
+
+#campo-busca:focus {
+  border-color: var(--primaria);
 }
 
 .busca-pilula button{
@@ -2013,4 +2020,61 @@ body{
   .btn-buscar-cep{
     width:100%;
   }
+}
+
+/* =========================================================
+   BOTÃO MINHA LOCALIZAÇÃO
+========================================================= */
+
+.btn-minha-local {
+  background: #4caf50;
+  border: none;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.3s, transform 0.3s;
+}
+
+.btn-minha-local:hover {
+  background: #388e3c;
+  transform: scale(1.05);
+}
+
+.btn-minha-local:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.cep-icone {
+  font-size: 20px;
+  padding-left: 10px;
+}
+/* CURSORES */
+.chip-orcamento, .btn-minha-local, #btn-buscar { cursor: pointer; }
+#campo-busca:focus { border-color: var(--primaria); }
+.btn-minha-local:hover { box-shadow: 0 0 15px rgba(76, 175, 80, 0.6); }
+.btn-localizacao{
+  background: #4CAF50;
+  color: white;
+  border: none;
+  padding: 12px 18px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.btn-localizacao:hover{
+  background: #388E3C;
+  transform: translateY(-2px);
+}
+
+.btn-localizacao:disabled{
+  background: #999;
+  cursor: not-allowed;
 }
