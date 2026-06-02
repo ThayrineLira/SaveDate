@@ -9,7 +9,7 @@
   <link rel="icon" type="image/x-icon" href="img/logo.png" />
    <script src="js/auth.js"></script>
 </head>
-<body>
+<body data-categoria="parques">
   <header class="topo">
     <a href="home.html" class="logo-area">
       <img src="img/logo.png" alt="Logo Save Date" />
@@ -20,6 +20,7 @@
       <a href="explorar.html" class="nav-link">Explorar</a>
       <a href="mapa.html" class="nav-link">Mapa</a>
       <a href="salvos.html" class="nav-link">Salvos</a>
+      <a href="premium.html" class="nav-link nav-premium">★ Premium</a>
     </nav>
   </header>
 
@@ -43,67 +44,10 @@
       </div>
     </div>
 
-    <section class="grade-cards">
-      <article class="card-categoria">
-        <div class="card-emoji"><img src="img/parqueindependencia.jpg" alt="Mesa de restaurante" /></div>
-        <div class="card-corpo">
-          <div class="card-topo">
-            <h3>Parque da Independência</h3>
-            <span class="tag-preco">Grátis</span>
-          </div>
-          <p>Área verde histórica, boa para caminhar, fazer piquenique e conversar.</p>
-          <div class="meta-card">
-            <span>Casal</span>
-            <span>Família</span>
-            <span>Ao ar livre</span>
-          </div>
-          <div class="card-acoes">
-            <a href="detalhes.html?id=7" class="card-link">Ver detalhes</a>
-            <a href="mapa.html" class="card-link secundario">Mapa</a>
-          </div>
-        </div>
-      </article>
-
-      <article class="card-categoria">
-        <div class="card-emoji"><img src="img/piquenique.jpg" alt="Mesa de restaurante" /></div>
-        <div class="card-corpo">
-          <div class="card-topo">
-            <h3>Piquenique no parque</h3>
-            <span class="tag-preco">R$ 30</span>
-          </div>
-          <p>Plano econômico: leve lanches, escolha um gramado e aproveite o fim de tarde.</p>
-          <div class="meta-card">
-            <span>Econômico</span>
-            <span>Casal</span>
-            <span>Fim de tarde</span>
-          </div>
-          <div class="card-acoes">
-            <a href="sugestoes.html" class="card-link">Ver sugestão</a>
-            <a href="explorar.html" class="card-link secundario">Explorar</a>
-          </div>
-        </div>
-      </article>
-
-      <article class="card-categoria">
-        <div class="card-emoji"><img src="img/trilha.jpg" alt="Mesa de restaurante" /></div>
-        <div class="card-corpo">
-          <div class="card-topo">
-            <h3>Trilha leve</h3>
-            <span class="tag-preco">Grátis</span>
-          </div>
-          <p>Caminhada curta para quem quer um programa ativo sem depender de reserva.</p>
-          <div class="meta-card">
-            <span>Amigos</span>
-            <span>Natureza</span>
-            <span>Grátis</span>
-          </div>
-          <div class="card-acoes">
-            <a href="mapa.html" class="card-link">Ver mapa</a>
-            <a href="explorar.html" class="card-link secundario">Explorar</a>
-          </div>
-        </div>
-      </article>
-    </section>
+    <section class="grade-cards"></section>
   </main>
+
+  <script src="js/dados.js"></script>
+  <script src="js/categoria.js"></script>
 </body>
 </html>

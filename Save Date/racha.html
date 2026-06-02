@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Racha da Conta | Save Date</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/ferramentas.css" />
+  <link rel="icon" type="image/x-icon" href="img/logo.png" />
+  <script src="js/auth.js"></script>
+</head>
+<body>
+  <header class="topo">
+    <a href="home.html" class="logo-area">
+      <img src="img/logo.png" alt="Logo Save Date" />
+      <span>Save Date</span>
+    </a>
+    <nav class="nav-categorias" aria-label="Navegação principal">
+      <a href="home.html" class="nav-link">Início</a>
+      <a href="explorar.html" class="nav-link">Explorar</a>
+      <a href="roteiro.html" class="nav-link">Planejar rolê</a>
+      <a href="comparar.html" class="nav-link">Comparar</a>
+      <a href="premium.html" class="nav-link nav-premium">★ Premium</a>
+    </nav>
+  </header>
+
+  <section class="hero-ferramenta">
+    <span class="etiqueta">✦ Exclusivo Save Date</span>
+    <h1>Racha da Conta</h1>
+    <p>Divida a conta entre todo mundo, com gorjeta opcional — sem briga e sem susto no fim do rolê.</p>
+  </section>
+
+  <main class="conteudo">
+    <section class="painel">
+      <h2>Calcular</h2>
+
+      <div class="campo">
+        <label for="lugar-estimativa">Estimar pelo lugar (opcional)</label>
+        <select id="lugar-estimativa">
+          <option value="">— Digitar valor manualmente —</option>
+        </select>
+      </div>
+
+      <div class="linha">
+        <div class="campo">
+          <label for="total">Valor total da conta (R$)</label>
+          <input type="number" id="total" min="0" step="0.01" placeholder="0,00" />
+        </div>
+        <div class="campo">
+          <label for="pessoas">Número de pessoas</label>
+          <input type="number" id="pessoas" min="1" step="1" value="2" />
+        </div>
+      </div>
+
+      <div class="campo">
+        <label>Gorjeta</label>
+        <div class="opcoes-chip" id="gorjeta-opcao">
+          <button type="button" data-gorjeta="0" class="ativo">Sem gorjeta</button>
+          <button type="button" data-gorjeta="10">10%</button>
+          <button type="button" data-gorjeta="15">15%</button>
+        </div>
+      </div>
+
+      <div class="btn-linha">
+        <button type="button" class="btn" id="btn-calcular">Calcular racha</button>
+      </div>
+    </section>
+
+    <section class="painel" id="resultado-painel" style="display:none;">
+      <h2>Resultado</h2>
+      <div class="resultado-total">
+        <span>Cada pessoa paga</span>
+        <strong id="por-pessoa">R$ 0</strong>
+      </div>
+      <div class="paradas">
+        <div class="parada">
+          <div class="parada-info"><h3>Conta</h3><span>Valor informado</span></div>
+          <div class="parada-preco" id="r-conta">R$ 0</div>
+        </div>
+        <div class="parada">
+          <div class="parada-info"><h3>Gorjeta</h3><span id="r-gorjeta-label">0%</span></div>
+          <div class="parada-preco" id="r-gorjeta">R$ 0</div>
+        </div>
+        <div class="parada">
+          <div class="parada-info"><h3>Total com gorjeta</h3><span id="r-pessoas-label">entre 2 pessoas</span></div>
+          <div class="parada-preco" id="r-total">R$ 0</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="js/dados.js"></script>
+  <script>
+    const $ = (id) => document.getElementById(id);
+    let gorjeta = 0;
+
+    function moeda(v) {
+      return "R$ " + (Math.round(v * 100) / 100).toFixed(2).replace(".", ",");
+    }
+
+    function preencherLugares() {
+      const sel = $("lugar-estimativa");
+      lugaresData
+        .filter((l) => l.preco > 0)
+        .forEach((l) => {
+          const opt = document.createElement("option");
+          opt.value = l.preco;
+          opt.textContent = `${l.nome} — ~R$ ${l.preco}/pessoa`;
+          sel.appendChild(opt);
+        });
+    }
+
+    function aplicarEstimativa() {
+      const precoPessoa = parseFloat($("lugar-estimativa").value);
+      if (!precoPessoa) return;
+      const pessoas = parseInt($("pessoas").value, 10) || 1;
+      $("total").value = (precoPessoa * pessoas).toFixed(2);
+      calcular();
+    }
+
+    function calcular() {
+      const total = parseFloat($("total").value) || 0;
+      const pessoas = Math.max(1, parseInt($("pessoas").value, 10) || 1);
+
+      if (total <= 0) {
+        $("resultado-painel").style.display = "none";
+        return;
+      }
+
+      const valorGorjeta = total * (gorjeta / 100);
+      const totalComGorjeta = total + valorGorjeta;
+      const porPessoa = totalComGorjeta / pessoas;
+
+      $("resultado-painel").style.display = "block";
+      $("por-pessoa").textContent = moeda(porPessoa);
+      $("r-conta").textContent = moeda(total);
+      $("r-gorjeta").textContent = moeda(valorGorjeta);
+      $("r-gorjeta-label").textContent = gorjeta + "%";
+      $("r-total").textContent = moeda(totalComGorjeta);
+      $("r-pessoas-label").textContent =
+        "entre " + pessoas + (pessoas === 1 ? " pessoa" : " pessoas");
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+      preencherLugares();
+
+      $("lugar-estimativa").addEventListener("change", aplicarEstimativa);
+      $("pessoas").addEventListener("input", calcular);
+      $("total").addEventListener("input", calcular);
+
+      $("gorjeta-opcao").addEventListener("click", function (e) {
+        const btn = e.target.closest("button");
+        if (!btn) return;
+        this.querySelectorAll("button").forEach((b) => b.classList.remove("ativo"));
+        btn.classList.add("ativo");
+        gorjeta = parseInt(btn.dataset.gorjeta, 10);
+        calcular();
+      });
+
+      $("btn-calcular").addEventListener("click", calcular);
+    });
+  </script>
+</body>
+</html>

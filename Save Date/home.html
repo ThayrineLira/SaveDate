@@ -58,6 +58,10 @@
             <span id="label-nome-dropdown" class="dropdown-nome"></span>
             <hr />
             <a href="cadastro-estabelecimento.html" class="dropdown-item">Cadastrar restaurante</a>
+            <a href="roteiro.html" class="dropdown-item">Planejar rolê 🗺️</a>
+            <a href="racha.html" class="dropdown-item">Racha da conta 🧾</a>
+            <a href="comparar.html" class="dropdown-item">Comparar lugares ⚖️</a>
+            <a href="premium.html" class="dropdown-item">Premium ★</a>
             <a href="conta.html" class="dropdown-item">Minha Conta</a>
             <a href="javascript:void(0)" id="btn-sair" class="dropdown-item sair">Sair</a>
           </div>
@@ -204,6 +208,45 @@
       </div>
 
     </section>
+
+    <section class="ferramentas-home container" aria-label="Ferramentas exclusivas">
+      <div class="cabecalho-secao compacto">
+        <h2 class="titulo-secao">Ferramentas exclusivas</h2>
+        <span class="link-ver-tudo" style="cursor:default;">Só no Save Date</span>
+      </div>
+      <div class="ferramentas-grid">
+        <a href="roteiro.html" class="ferramenta-card">
+          <span class="ferramenta-icone">🗺️</span>
+          <h3>Planejador de Rolê</h3>
+          <p>Diga seu orçamento e a gente monta um rolê completo com lugares que cabem no bolso.</p>
+          <span class="ferramenta-link">Montar meu rolê →</span>
+        </a>
+        <a href="racha.html" class="ferramenta-card">
+          <span class="ferramenta-icone">🧾</span>
+          <h3>Racha da Conta</h3>
+          <p>Divida a conta entre amigos, com gorjeta opcional, sem briga no fim.</p>
+          <span class="ferramenta-link">Dividir agora →</span>
+        </a>
+        <a href="comparar.html" class="ferramenta-card">
+          <span class="ferramenta-icone">⚖️</span>
+          <h3>Comparar Lugares</h3>
+          <p>Coloque até 3 lugares lado a lado e decida por preço, nota e estilo.</p>
+          <span class="ferramenta-link">Comparar →</span>
+        </a>
+      </div>
+    </section>
+
+    <section class="premium-cta container" aria-label="Convite para o Premium">
+      <div class="premium-cta-conteudo">
+        <span class="premium-cta-etiqueta">★ Save Date Premium</span>
+        <h2>Salve lugares sem limite e planeje rolês completos.</h2>
+        <p>Filtros avançados, roteiro de date, recomendações e navegação sem anúncios. Cancele quando quiser.</p>
+      </div>
+      <div class="premium-cta-acoes">
+        <a href="premium.html" class="btn-principal">Venha ser Premium</a>
+        <a href="premium.html" class="btn-claro">Ver planos</a>
+      </div>
+    </section>
     </div>
 
     <section id="home-estabelecimento-panel" class="estabelecimento-panel container" style="display:none;">
@@ -211,7 +254,7 @@
         <h2 class="titulo-secao">Painel do seu estabelecimento</h2>
         <div class="premium-status">
           <span id="premium-badge" class="premium-badge"></span>
-          <a id="btn-premium" class="btn-principal" href="pagamento.html">Seja Premium</a>
+          <a id="btn-premium" class="btn-principal" href="premium.html">Seja Premium</a>
         </div>
       </div>
 
@@ -405,35 +448,6 @@
         setTimeout(() => window.location.href = "login.html", 1800);
         return;
       }
-<<<<<<< Updated upstream
-=======
-      const menu = document.getElementById("dropdown-menu");
-      if (!menu) return;
-      menu.style.display = menu.style.display === "none" ? "block" : "none";
-    }
-
-    document.addEventListener("click", function (e) {
-      const dropdown = document.querySelector(".usuario-dropdown");
-      const menu = document.getElementById("dropdown-menu");
-      if (!dropdown || !menu) return;
-      if (!dropdown.contains(e.target)) {
-        menu.style.display = "none";
-      }
-    });
-
-    function sairLogin() {
-      localStorage.removeItem("usuarioLogado");
-      localStorage.removeItem("nomeUsuario");
-      window.location.href = "home.html";
-    }
-
-    function acessarFuncionalidade(pagina) {
-      if (localStorage.getItem("usuarioLogado") !== "true") {
-        mostrarToast("Faça login primeiro para continuar.", "erro");
-        setTimeout(() => window.location.href = "login.html", 1800);
-        return;
-      }
->>>>>>> Stashed changes
       window.location.href = pagina;
     }
 
@@ -479,18 +493,17 @@
   </script>
 
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-<<<<<<< Updated upstream
-  <script src="js/script.js?v=1.1"></script>
-=======
+  <script src="js/dados.js"></script>
+  <script src="js/premium.js"></script>
   <script src="js/script.js"></script>
+  <script src="js/home-destaques.js"></script>
   <script src="js/localizacao.js"></script>
   <script>
-    // Botão usar minha localização
-    document.getElementById('btn-minha-local')?.addEventListener('click', async function() {
+    // Botão "usar minha localização" (📍)
+    document.getElementById('btn-minha-local')?.addEventListener('click', async function () {
       const botao = this;
       botao.textContent = '⏳';
       botao.disabled = true;
-      
       try {
         await buscarProximos();
       } catch (erro) {
@@ -500,96 +513,52 @@
         botao.disabled = false;
       }
     });
-    
-    // Atualizar quando mudar os ranges
-    document.getElementById('range-area-busca')?.addEventListener('input', buscarComCache);
-    document.getElementById('range-orcamento')?.addEventListener('input', buscarComCache);
-  </script>
 
-<script>
-  document.getElementById('btn-buscar')?.addEventListener('click', function() {
-    const termo = document.getElementById('campo-busca').value.toLowerCase();
-    if(termo.length < 2) {
-      mostrarToast('Digite pelo menos 2 letras', 'info');
-      return;
-    }
-    // Busca nos categorias
-    const categorias = ["bares", "restaurantes", "parques", "shopping", "salão de festas"];
-    const achou = categorias.find(c => c.includes(termo));
-    if(achou) {
-      window.location.href = achou + '.html';
-    } else {
-      mostrarToast('Categoria não encontrada: ' + termo, 'erro');
-    }
-  });
-</script>
-  <script>
-    // ATUALIZAR RANGES
-    document.getElementById('range-area-busca')?.addEventListener('input', function() {
+    // Atualizar os rótulos dos ranges enquanto arrasta
+    document.getElementById('range-area-busca')?.addEventListener('input', function () {
       document.getElementById('valor-area-busca').textContent = this.value + ' km';
     });
-
-    document.getElementById('range-orcamento')?.addEventListener('input', function() {
+    document.getElementById('range-orcamento')?.addEventListener('input', function () {
       document.getElementById('valor-orcamento').textContent = 'Até R$ ' + this.value;
     });
-  </script>
-    <script>
-    // CHIPS DE ORÇAMENTO
+
+    // Chips de orçamento
     document.querySelectorAll('.chip-orcamento').forEach(chip => {
-      chip.addEventListener('click', function() {
+      chip.addEventListener('click', function () {
         document.querySelectorAll('.chip-orcamento').forEach(c => c.classList.remove('ativo'));
         this.classList.add('ativo');
         const valor = this.dataset.orcamento;
-        document.getElementById('range-orcamento').value = valor;
+        const range = document.getElementById('range-orcamento');
+        range.value = valor;
         document.getElementById('valor-orcamento').textContent = 'Até R$ ' + valor;
+        range.dispatchEvent(new Event('input'));
       });
     });
+
+    // Busca por categoria (lupa do topo)
+    document.getElementById('btn-buscar')?.addEventListener('click', function () {
+      const termo = document.getElementById('campo-busca').value.toLowerCase().trim();
+      if (termo.length < 2) {
+        mostrarToast('Digite pelo menos 2 letras', 'info');
+        return;
+      }
+      const mapaCategorias = {
+        bares: 'bares.html',
+        restaurantes: 'restaurantes.html',
+        parques: 'parques.html',
+        shopping: 'shoppings.html',
+        shoppings: 'shoppings.html',
+        festas: 'festas.html',
+        'salão de festas': 'festas.html'
+      };
+      const chave = Object.keys(mapaCategorias).find(c => c.includes(termo));
+      if (chave) {
+        window.location.href = mapaCategorias[chave];
+      } else {
+        mostrarToast('Categoria não encontrada: ' + termo, 'erro');
+      }
+    });
   </script>
-
-<script>
-document.getElementById('btn-localizacao').addEventListener('click', () => {
-
-  if (!navigator.geolocation) {
-    alert('Seu navegador não suporta geolocalização.');
-    return;
-  }
-
-  navigator.geolocation.getCurrentPosition(
-
-    (posicao) => {
-
-      const latitude = posicao.coords.latitude;
-      const longitude = posicao.coords.longitude;
-
-      console.log('Latitude:', latitude);
-      console.log('Longitude:', longitude);
-
-      mostrarToast(
-        'Localização obtida com sucesso!',
-        'sucesso'
-      );
-
-      // Aqui você pode chamar sua função buscarProximos()
-      buscarProximos(latitude, longitude);
-
-    },
-
-    (erro) => {
-
-      mostrarToast(
-        'Permissão de localização negada.',
-        'erro'
-      );
-
-      console.error(erro);
-
-    }
-
-  );
-
-});
-</script>
->>>>>>> Stashed changes
 
 </body>
 

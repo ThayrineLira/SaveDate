@@ -2078,3 +2078,410 @@ body{
   background: #999;
   cursor: not-allowed;
 }
+
+/* =========================================================
+   FERRAMENTAS EXCLUSIVAS (HOME)
+========================================================= */
+
+.ferramentas-home {
+  margin: 28px auto;
+}
+
+.ferramentas-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 18px;
+  margin-top: 16px;
+}
+
+.ferramenta-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 24px;
+  border-radius: 18px;
+  border: 1px solid #eadfd4;
+  background: #fff;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, .06);
+  text-decoration: none;
+  color: inherit;
+  transition: transform .2s, box-shadow .2s, border-color .2s;
+}
+
+.ferramenta-card:hover {
+  transform: translateY(-3px);
+  border-color: #f4a261;
+  box-shadow: 0 18px 38px rgba(231, 111, 81, .14);
+}
+
+.ferramenta-icone {
+  font-size: 2.4rem;
+}
+
+.ferramenta-card h3 {
+  font-size: 1.2rem;
+}
+
+.ferramenta-card p {
+  color: #666;
+  line-height: 1.5;
+  flex: 1;
+}
+
+.ferramenta-link {
+  margin-top: 6px;
+  font-weight: 900;
+  color: #e76f51;
+}
+
+/* =========================================================
+   BANNER "VENHA SER PREMIUM"
+========================================================= */
+
+.premium-cta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 22px;
+  margin: 28px auto;
+  padding: 32px clamp(20px, 4vw, 44px);
+  border-radius: 20px;
+  background: linear-gradient(135deg, #2f2a26, #4a3b2f);
+  color: #fff;
+  box-shadow: 0 18px 44px rgba(0, 0, 0, .18);
+}
+
+.premium-cta-conteudo {
+  max-width: 620px;
+}
+
+.premium-cta-etiqueta {
+  display: inline-block;
+  margin-bottom: 12px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: rgba(244, 162, 97, .2);
+  color: #f7c08a;
+  font-size: .78rem;
+  font-weight: 900;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+
+.premium-cta-conteudo h2 {
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  line-height: 1.15;
+  margin-bottom: 10px;
+}
+
+.premium-cta-conteudo p {
+  color: rgba(255, 255, 255, .82);
+  line-height: 1.55;
+}
+
+.premium-cta-acoes {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.premium-cta-acoes .btn-principal {
+  background: #f4a261;
+  border: none;
+}
+
+.premium-cta-acoes .btn-principal:hover {
+  background: #e76f51;
+}
+
+.premium-cta-acoes .btn-claro {
+  background: rgba(255, 255, 255, .12);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, .35);
+}
+
+.premium-cta-acoes .btn-claro:hover {
+  background: rgba(255, 255, 255, .22);
+}
+
+@media (max-width: 760px) {
+  .premium-cta {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .premium-cta-acoes {
+    width: 100%;
+  }
+
+  .premium-cta-acoes a {
+    flex: 1;
+    text-align: center;
+  }
+}
+
+/* =========================================================
+   ============  REFINAMENTO PROFISSIONAL (v2)  ============
+   Camada final: tipografia, hero, ritmo de seções, cards,
+   header e rodapé mais polidos. Sobrescreve o necessário.
+========================================================= */
+
+:root {
+  --raio-card: 16px;
+  --raio-btn: 12px;
+  --sombra-suave: 0 4px 14px rgba(17, 24, 39, .05);
+  --sombra-card: 0 14px 36px rgba(17, 24, 39, .08);
+  --sombra-card-hover: 0 22px 48px rgba(231, 111, 81, .16);
+  --tinta-escura: #2b2018;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #1f2430;
+}
+
+h1, h2, h3 {
+  letter-spacing: -0.02em;
+}
+
+::selection {
+  background: rgba(244, 162, 97, .28);
+}
+
+/* ---------- HEADER ---------- */
+.topo {
+  height: 76px;
+  background: rgba(255, 255, 255, .85);
+  backdrop-filter: saturate(160%) blur(12px);
+  -webkit-backdrop-filter: saturate(160%) blur(12px);
+  border-bottom: 1px solid rgba(17, 24, 39, .06);
+  box-shadow: 0 1px 0 rgba(17, 24, 39, .02), 0 8px 24px rgba(17, 24, 39, .04);
+}
+
+.logo-nome {
+  font-size: 1.35rem;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  background: linear-gradient(120deg, #e76f51, #f4a261);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.busca-pilula {
+  height: 50px;
+  border: 1px solid #e7e3df;
+  border-radius: 999px;
+  box-shadow: var(--sombra-suave);
+  transition: border-color .2s, box-shadow .2s;
+}
+
+.busca-pilula:focus-within {
+  border-color: var(--primaria);
+  box-shadow: 0 0 0 4px rgba(244, 162, 97, .15);
+}
+
+.busca-pilula button {
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg, #f4a261, #e76f51);
+}
+
+.menu-perfil {
+  border: 1px solid #ece7e2;
+  border-radius: 999px;
+  transition: box-shadow .2s, border-color .2s;
+}
+
+.menu-perfil:hover {
+  border-color: #e0d6cc;
+  box-shadow: var(--sombra-card);
+}
+
+/* ---------- HERO ---------- */
+.hero {
+  background: linear-gradient(135deg, #2b2018 0%, #7a3f2c 42%, #e76f51 100%);
+  border-radius: 0 0 28px 28px;
+  position: relative;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(110% 80% at 82% 0%, rgba(255, 255, 255, .16), transparent 55%),
+    radial-gradient(90% 90% at 10% 110%, rgba(244, 162, 97, .25), transparent 60%);
+  pointer-events: none;
+}
+
+.hero-conteudo {
+  position: relative;
+  z-index: 1;
+  min-height: 480px;
+  padding: 88px 20px;
+}
+
+.hero-titulo {
+  font-size: clamp(2.2rem, 5.4vw, 3.7rem);
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  line-height: 1.04;
+  text-shadow: 0 2px 24px rgba(0, 0, 0, .18);
+}
+
+.texto-gradiente {
+  background: linear-gradient(95deg, #ffe6c2, #f4a261);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.hero-subtitulo {
+  font-size: 1.15rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, .9);
+  margin-top: 14px;
+}
+
+/* ---------- BOTÕES ---------- */
+.btn-principal,
+.btn-secundario,
+.btn-claro {
+  border-radius: var(--raio-btn);
+  letter-spacing: -0.01em;
+}
+
+.btn-principal {
+  background: linear-gradient(135deg, #f4a261, #e76f51);
+  box-shadow: 0 12px 24px rgba(231, 111, 81, .28);
+}
+
+.btn-principal:hover {
+  background: linear-gradient(135deg, #e76f51, #d65a3c);
+  box-shadow: 0 16px 30px rgba(231, 111, 81, .34);
+}
+
+/* ---------- RITMO DAS SEÇÕES ---------- */
+.cliente-primeira-visao {
+  padding: 72px 0;
+  background: #fffaf4;
+}
+
+.como-funciona-home {
+  padding: 72px 0;
+}
+
+.categorias-nav {
+  padding: 72px 0;
+  background: linear-gradient(180deg, #ffffff, #fffaf4);
+}
+
+.ferramentas-home {
+  margin: 64px auto;
+}
+
+.premium-cta {
+  margin: 16px auto 64px;
+  border-radius: 22px;
+}
+
+/* Títulos de seção com acento */
+.titulo-secao {
+  font-size: clamp(1.5rem, 3vw, 2.1rem);
+  font-weight: 900;
+  letter-spacing: -0.025em;
+  color: #1f2430;
+}
+
+.cabecalho-secao {
+  align-items: center;
+}
+
+.etiqueta-secao,
+.premium-cta-etiqueta,
+.ferramenta-link {
+  letter-spacing: .03em;
+}
+
+.link-ver-tudo {
+  font-weight: 800;
+  color: #e76f51;
+}
+
+/* ---------- CARDS (raio + sombra unificados) ---------- */
+.primeira-visao-destaque,
+.beneficio-card,
+.passo-card,
+.item-cat,
+.ferramenta-card {
+  border-radius: var(--raio-card);
+  border-color: #efe6db;
+  box-shadow: var(--sombra-card);
+}
+
+.beneficio-card,
+.passo-card,
+.item-cat {
+  transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease;
+}
+
+.beneficio-card:hover,
+.passo-card:hover {
+  transform: translateY(-4px);
+  border-color: #f4a261;
+  box-shadow: var(--sombra-card-hover);
+}
+
+.item-cat {
+  border-radius: var(--raio-card);
+}
+
+.item-cat img {
+  border-radius: 14px;
+}
+
+/* Ícones dos benefícios/passos com a cara da marca */
+.beneficio-icone {
+  width: 46px;
+  height: 46px;
+  border-radius: 13px;
+  background: linear-gradient(135deg, #2b3a45, #20303a);
+  font-size: .82rem;
+}
+
+.passo-numero {
+  width: 46px;
+  height: 46px;
+  border-radius: 13px;
+  background: linear-gradient(135deg, #f4a261, #e76f51);
+  font-size: 1.05rem;
+}
+
+/* ---------- RODAPÉ ---------- */
+.rodape {
+  margin-top: 0;
+  padding: 40px 0;
+  background: var(--tinta-escura);
+  border-top: none;
+}
+
+.rodape-conteudo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.texto-rodape {
+  color: rgba(255, 255, 255, .7);
+  font-size: .95rem;
+}

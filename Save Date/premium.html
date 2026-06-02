@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Premium | Save Date</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/premium.css" />
+  <link rel="icon" type="image/x-icon" href="img/logo.png" />
+  <script src="js/auth.js"></script>
+</head>
+<body>
+  <header class="topo">
+    <a href="home.html" class="logo-area">
+      <img src="img/logo.png" alt="Logo Save Date" />
+      <span>Save Date</span>
+    </a>
+    <nav class="nav-categorias" aria-label="Navegação principal">
+      <a href="home.html" class="nav-link">Início</a>
+      <a href="explorar.html" class="nav-link">Explorar</a>
+      <a href="conta.html" class="nav-link">Minha Conta</a>
+    </nav>
+  </header>
+
+  <section class="hero-premium">
+    <span class="etiqueta">★ Premium</span>
+    <h1>Aproveite o Save Date sem limites.</h1>
+    <p>Escolha o plano ideal para você ou para o seu estabelecimento. Cancele quando quiser.</p>
+    <div id="status-premium" class="status-premium" style="display:none;"></div>
+  </section>
+
+  <main class="planos" id="lista-planos"></main>
+
+  <footer class="rodape">
+    <p>&copy; 2026 Save Date • Feito com ❤️ para o seu bolso</p>
+  </footer>
+
+  <script src="js/premium.js"></script>
+  <script>
+    function montarPlano(plano, ativo, ehDoMeuTipo) {
+      const beneficios = plano.beneficios.map((b) => `<li>${b}</li>`).join("");
+      const fita = ehDoMeuTipo ? '<span class="fita">Recomendado</span>' : "";
+      const publicoLabel = plano.publico === "estabelecimento" ? "Para estabelecimentos" : "Para você";
+
+      const botao = ativo
+        ? '<span class="btn-assinar ativo">Plano ativo ✓</span>'
+        : `<a class="btn-assinar" href="pagamento.html?plano=${plano.id}">Assinar ${plano.precoLabel}</a>`;
+
+      return `
+        <article class="plano ${ehDoMeuTipo ? "destaque" : ""}">
+          ${fita}
+          <span class="publico">${publicoLabel}</span>
+          <h2>${plano.nome}</h2>
+          <p class="resumo">${plano.resumo}</p>
+          <div class="preco">${plano.precoLabel}<span>${plano.periodo}</span></div>
+          <ul>${beneficios}</ul>
+          ${botao}
+        </article>
+      `;
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+      const lista = document.getElementById("lista-planos");
+      const statusEl = document.getElementById("status-premium");
+      const logado = premiumEstaLogado();
+      const tipo = premiumTipoConta();
+
+      const planos = Object.values(PLANOS_PREMIUM);
+
+      lista.innerHTML = planos
+        .map((plano) => {
+          const ativo =
+            logado &&
+            ((plano.publico === "estabelecimento" && estabelecimentoTemPremium()) ||
+              (plano.publico === "usuario" && usuarioTemPremium()));
+          const ehDoMeuTipo = logado && plano.publico === tipo;
+          return montarPlano(plano, ativo, ehDoMeuTipo);
+        })
+        .join("");
+
+      if (!logado) {
+        statusEl.style.display = "block";
+        statusEl.style.background = "#fff3dd";
+        statusEl.style.color = "#a86a12";
+        statusEl.innerHTML =
+          'Você ainda não está logado. <a href="login.html" style="color:#e76f51;font-weight:900;">Entre na sua conta</a> para assinar.';
+      } else if (temPremiumAtivo()) {
+        statusEl.style.display = "block";
+        statusEl.textContent = "🎉 Você já é Premium! Aproveite todos os benefícios.";
+      }
+    });
+  </script>
+</body>
+</html>

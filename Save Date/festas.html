@@ -9,7 +9,7 @@
   <link rel="icon" type="image/x-icon" href="img/logo.png" />
    <script src="js/auth.js"></script>
 </head>
-<body>
+<body data-categoria="festas">
   <header class="topo">
     <a href="home.html" class="logo-area">
       <img src="img/logo.png" alt="Logo Save Date" />
@@ -20,6 +20,7 @@
       <a href="explorar.html" class="nav-link">Explorar</a>
       <a href="mapa.html" class="nav-link">Mapa</a>
       <a href="salvos.html" class="nav-link">Salvos</a>
+      <a href="premium.html" class="nav-link nav-premium">★ Premium</a>
     </nav>
   </header>
 
@@ -43,67 +44,10 @@
       </div>
     </div>
 
-    <section class="grade-cards">
-      <article class="card-categoria">
-        <div class="card-emoji"><img src="img/aurora.jpg" alt="Mesa de restaurante" /></div>
-        <div class="card-corpo">
-          <div class="card-topo">
-            <h3>Casa de Eventos Aurora</h3>
-            <span class="tag-preco">R$ 180</span>
-          </div>
-          <p>Espaço compacto para aniversários, confraternizações e encontros com amigos.</p>
-          <div class="meta-card">
-            <span>Grupo</span>
-            <span>Evento</span>
-            <span>Reserva</span>
-          </div>
-          <div class="card-acoes">
-            <a href="mapa.html" class="card-link">Ver mapa</a>
-            <a href="sugestoes.html" class="card-link secundario">Sugestões</a>
-          </div>
-        </div>
-      </article>
-
-      <article class="card-categoria">
-        <div class="card-emoji"><img src="img/jardim.jpeg" alt="Mesa de restaurante" /></div>
-        <div class="card-corpo">
-          <div class="card-topo">
-            <h3>Salão Jardim</h3>
-            <span class="tag-preco">R$ 220</span>
-          </div>
-          <p>Ambiente para festa pequena com área externa, mesas e espaço para decoração.</p>
-          <div class="meta-card">
-            <span>Aniversário</span>
-            <span>Família</span>
-            <span>Área externa</span>
-          </div>
-          <div class="card-acoes">
-            <a href="explorar.html" class="card-link">Explorar</a>
-            <a href="mapa.html" class="card-link secundario">Mapa</a>
-          </div>
-        </div>
-      </article>
-
-      <article class="card-categoria">
-        <div class="card-emoji"><img src="img/dj.jpg" alt="Mesa de restaurante" /></div>
-        <div class="card-corpo">
-          <div class="card-topo">
-            <h3>Noite com DJ</h3>
-            <span class="tag-preco">R$ 160</span>
-          </div>
-          <p>Opção para grupos que querem música, pista pequena e clima de comemoração.</p>
-          <div class="meta-card">
-            <span>Amigos</span>
-            <span>Música</span>
-            <span>Noite</span>
-          </div>
-          <div class="card-acoes">
-            <a href="sugestoes.html" class="card-link">Ver sugestão</a>
-            <a href="mapa.html" class="card-link secundario">Mapa</a>
-          </div>
-        </div>
-      </article>
-    </section>
+    <section class="grade-cards"></section>
   </main>
+
+  <script src="js/dados.js"></script>
+  <script src="js/categoria.js"></script>
 </body>
 </html>

@@ -188,6 +188,114 @@ body {
     font-weight: 700;
 }
 
+/* --- RESUMO DO PLANO --- */
+.plano-resumo {
+    text-align: center;
+    margin-bottom: 8px;
+}
+
+.plano-resumo strong {
+    display: block;
+    font-size: 1.4rem;
+    color: #111827;
+}
+
+.plano-publico {
+    display: inline-block;
+    margin-top: 6px;
+    font-size: .8rem;
+    font-weight: 700;
+    color: #2a9d8f;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+}
+
+/* --- ABAS DE MÉTODO --- */
+.metodo-tabs {
+    display: flex;
+    gap: 8px;
+    background: #f3f4f6;
+    border-radius: 12px;
+    padding: 6px;
+    margin: 18px 0;
+}
+
+.metodo-tab {
+    flex: 1;
+    border: none;
+    background: transparent;
+    padding: 12px;
+    border-radius: 9px;
+    font-weight: 800;
+    color: #6b7280;
+    cursor: pointer;
+    transition: background .2s, color .2s;
+}
+
+.metodo-tab.ativa {
+    background: #fff;
+    color: #111827;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .08);
+}
+
+/* --- FORMULÁRIO DE CARTÃO --- */
+.form-cartao {
+    display: grid;
+    gap: 14px;
+    text-align: left;
+}
+
+.form-cartao label {
+    display: grid;
+    gap: 6px;
+    font-size: .88rem;
+    font-weight: 700;
+    color: #374151;
+}
+
+.form-cartao input {
+    padding: 13px 14px;
+    border: 1px solid #d1d5db;
+    border-radius: 10px;
+    font-size: 1rem;
+}
+
+.form-cartao input:focus {
+    outline: none;
+    border-color: #f4a261;
+    box-shadow: 0 0 0 3px rgba(244, 162, 97, .2);
+}
+
+.form-cartao-linha {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+}
+
+/* --- BOTÃO CONFIRMAR --- */
+.btn-confirmar {
+    width: 100%;
+    margin-top: 22px;
+    padding: 16px;
+    border: none;
+    border-radius: 12px;
+    background: #f4a261;
+    color: #fff;
+    font-size: 1.05rem;
+    font-weight: 900;
+    cursor: pointer;
+    transition: background .25s;
+}
+
+.btn-confirmar:hover {
+    background: #e7924c;
+}
+
+.btn-confirmar:disabled {
+    background: #9ca3af;
+    cursor: default;
+}
+
 /* Rodapé */
 .rodape {
     padding: 28px 0;

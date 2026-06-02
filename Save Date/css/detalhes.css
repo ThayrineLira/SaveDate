@@ -77,16 +77,41 @@ body {
   position: relative;
   height: 280px;
   background: linear-gradient(135deg, #f4a261, #ee8959);
+  background-position: center;
+  background-size: cover;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
 }
 
+.banner::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 18% 16%, rgba(255, 255, 255, 0.16), transparent 30%),
+    linear-gradient(180deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.28));
+  pointer-events: none;
+}
+
+.banner.banner-com-foto::after {
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.45));
+}
+
 .banner-emoji {
   font-size: 80px;
-  opacity: 0.3;
+  opacity: 0.32;
   position: absolute;
+  z-index: 1;
+  filter: drop-shadow(0 14px 28px rgba(0, 0, 0, 0.28));
+}
+
+.banner-com-foto .banner-emoji {
+  right: 28px;
+  bottom: 22px;
+  font-size: 64px;
+  opacity: 0.95;
 }
 
 .back-btn,
@@ -373,15 +398,57 @@ body {
   gap: 12px;
 }
 
+.foto-real {
+  width: 100%;
+  height: 100%;
+  min-height: 220px;
+  object-fit: cover;
+  border-radius: 10px;
+  display: block;
+}
+
+.foto-principal {
+  grid-column: span 2;
+}
+
 .foto-placeholder {
   aspect-ratio: 1;
-  background: #f0f0f0;
-  border-radius: 8px;
+  min-height: 180px;
+  padding: 18px;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.18), transparent 32%),
+    linear-gradient(135deg, #2f4858, #e76f51);
+  border-radius: 10px;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  color: #888;
+  gap: 8px;
+  color: #fff;
+  text-align: center;
   font-size: 13px;
+  grid-column: 1 / -1;
+}
+
+.foto-placeholder span {
+  font-size: 42px;
+  line-height: 1;
+}
+
+.foto-placeholder strong {
+  font-size: 15px;
+}
+
+.foto-placeholder small {
+  max-width: 260px;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.foto-mini {
+  grid-column: auto;
+}
+
+.foto-placeholder-expandida {
   grid-column: 1 / -1;
 }
 
@@ -469,5 +536,14 @@ body {
 
   .fotos-grid {
     grid-template-columns: repeat(2, 1fr);
+  }
+
+  .foto-principal,
+  .foto-mini {
+    grid-column: 1 / -1;
+  }
+
+  .foto-real {
+    min-height: 210px;
   }
 }

@@ -1,14 +1,5 @@
-const lugaresConta = [
-  { id: 1, nome: "Família Mancini", categoria: "Restaurante" },
-  { id: 2, nome: "O Bar do Seu Zé", categoria: "Bar" },
-  { id: 3, nome: "Gourmet Burguer", categoria: "Lanchonete" },
-  { id: 4, nome: "Pizzaria do Bairro", categoria: "Pizzaria" },
-  { id: 5, nome: "Café Aconchego", categoria: "Café" },
-  { id: 6, nome: "Shopping Center VillaGe", categoria: "Shopping" },
-  { id: 7, nome: "Parque da Independência", categoria: "Parque" },
-  { id: 8, nome: "Sorveteria Gelato", categoria: "Sorveteria" },
-  { id: 9, nome: "Beer & Vibes", categoria: "Bar" }
-];
+/* Os dados dos lugares vêm de js/dados.js (lugaresData global). */
+const lugaresConta = (typeof lugaresData !== "undefined") ? lugaresData : [];
 
 function obterDadosConta() {
   const tipo = localStorage.getItem("usuarioTipo") || "usuario";
@@ -68,6 +59,8 @@ function renderizarConta() {
   document.getElementById("tipo-count").textContent =
     dados.tipo === "estabelecimento" ? "Local" : "Pessoa";
 
+  atualizarPremiumConta();
+
   const lista = document.getElementById("lista-salvos-conta");
   lista.innerHTML = "";
 
@@ -86,6 +79,26 @@ function renderizarConta() {
     `;
     lista.appendChild(item);
   });
+}
+
+function atualizarPremiumConta() {
+  const badge = document.getElementById("badge-premium");
+  const link = document.getElementById("link-premium");
+  const ehPremium = typeof temPremiumAtivo === "function" && temPremiumAtivo();
+
+  if (badge) badge.style.display = ehPremium ? "inline-flex" : "none";
+
+  if (link) {
+    if (ehPremium) {
+      link.textContent = "Premium ativo ✓";
+      link.classList.add("secundario");
+      link.removeAttribute("href");
+    } else {
+      link.textContent = "Seja Premium ★";
+      link.classList.remove("secundario");
+      link.href = "premium.html";
+    }
+  }
 }
 
 function salvarNome(event) {

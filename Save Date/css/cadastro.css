@@ -1,108 +1,168 @@
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --primaria: #f4a261;
+  --primaria-escura: #e76f51;
+  --texto: #222;
+  --texto-suave: #667085;
+  --borda: #eadfd4;
+  --sombra-card: 0 24px 70px rgba(43, 32, 24, 0.2);
+}
+
 body {
-  background: linear-gradient(to bottom,#ffb464,#ed846d,#e56a7a,#6b5e55);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+  min-height: 100vh;
   margin: 0;
-  font-family: Arial, sans-serif;
+  padding: 28px 16px;
+  display: grid;
+  place-items: center;
+  font-family: Inter, Arial, sans-serif;
+  color: var(--texto);
+  background:
+    radial-gradient(circle at 18% 12%, rgba(255, 255, 255, 0.32), transparent 28%),
+    linear-gradient(135deg, #2b2018 0%, #a9543b 46%, #f4a261 100%);
 }
 
-/* CAIXA CENTRAL */
 .texto {
-  background: white;
-  padding: 30px;
-  border-radius: 20px;
-  box-shadow: 0px 10px 25px rgba(0,0,0,0.2);
-  width: 300px;
-  max-height: 90vh;
+  width: min(100%, 430px);
+  padding: clamp(24px, 5vw, 36px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: var(--sombra-card);
+  backdrop-filter: blur(14px);
 }
 
-/* LOGO */
-.logo {
-  width: 70px;
-  margin-bottom: 5px;
-}
-.logo-area{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 20px;
-}
-.topo{
+.topo,
+.logo-area {
   text-align: center;
 }
 
-/* TITULO */
-.titulo {
-    margin: 0;
-    }
-    .subtitulo {
-    margin: 0;
-    color: gray;
-    }
-
-/* FORM */
-.login-form {
+.logo-area {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  margin-top: 20px;
+  align-items: center;
+  margin-bottom: 18px;
 }
 
-/*BOTÃO*/
-.botao{
-  height: 35px;
-  border-radius: 20px;
-  border: none;
-  background: #e56a7a;
-  color: white;
+.logo {
+  width: 74px;
+  height: 74px;
+  object-fit: contain;
+  margin-bottom: 8px;
+}
+
+.titulo {
+  margin: 0;
+  color: var(--primaria-escura);
+  font-size: 1.55rem;
+  font-weight: 900;
+  letter-spacing: 0.03em;
+}
+
+.subtitulo {
+  margin: 2px 0 0;
+  color: var(--texto-suave);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.topo h3 {
+  margin: 16px 0 0;
+  font-size: clamp(1.25rem, 4vw, 1.65rem);
+  font-weight: 900;
+}
+
+.login-form {
+  display: grid;
+  gap: 12px;
+  margin-top: 22px;
+}
+
+input {
+  width: 100%;
+  min-height: 48px;
+  padding: 0 16px;
+  border: 1px solid var(--borda);
+  border-radius: 14px;
+  outline: none;
+  background: #fff;
+  color: var(--texto);
+  font: inherit;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+input:focus {
+  border-color: var(--primaria);
+  box-shadow: 0 0 0 4px rgba(244, 162, 97, 0.18);
+}
+
+.botao {
+  min-height: 48px;
+  border: 1px solid transparent;
+  border-radius: 14px;
+  background: linear-gradient(135deg, var(--primaria), var(--primaria-escura));
+  color: #fff;
   cursor: pointer;
-  transition: 0.3s;
+  font: inherit;
+  font-weight: 900;
+  transition: transform 0.2s, box-shadow 0.2s, filter 0.2s;
 }
 
 .botao:hover {
-  background: #d45565;
-}
-/*links de voltar*/
-
-.cadastro{
-  text-align: center;
-  margin: auto;
-}
-.tipo-conta{
-    text-align: center;
-    margin: auto;
-}
-input{
-    height: 30px;
-    border-radius: 20px;
-    border: 1px solid #ccc;
-    padding-left: 15px;
+  transform: translateY(-1px);
+  box-shadow: 0 14px 28px rgba(231, 111, 81, 0.25);
+  filter: brightness(1.02);
 }
 
-/*Responsividade*/
-/* Celular */
-@media (max-width: 600px) {
-    .cards {
-        flex-direction: column;
-    }
-
-    h1 {
-        font-size: 20px;
-    }
+.botao[type="button"] {
+  background: #fff;
+  color: #2f4858;
+  border-color: var(--borda);
+  box-shadow: none;
 }
 
-/* Tablet */
-@media (max-width: 900px) {
-    .card {
-        flex: 1 1 45%;
-    }
+.erro,
+.mensagem {
+  display: block;
+  min-height: 0;
+  margin-top: -2px;
+  color: #c62828;
+  font-size: 0.88rem;
+  font-weight: 800;
+  line-height: 1.35;
 }
 
-/* Desktop */
-@media (min-width: 901px) {
-    .card {
-        flex: 1 1 30%;
-    }
+.mensagem {
+  margin: 0;
+  padding: 0;
+}
+
+.mensagem.sucesso {
+  padding: 12px 14px;
+  border: 1px solid rgba(46, 125, 50, 0.16);
+  border-radius: 12px;
+  background: #edf7ed;
+  color: #2e7d32;
+}
+
+.mensagem.erro {
+  padding: 12px 14px;
+  border: 1px solid rgba(198, 40, 40, 0.16);
+  border-radius: 12px;
+  background: #fff1f1;
+  color: #c62828;
+}
+
+@media (max-width: 520px) {
+  body {
+    align-items: start;
+    padding-top: 18px;
+  }
+
+  .texto {
+    border-radius: 18px;
+  }
 }

@@ -60,14 +60,17 @@ function calcularDistancia(lat1, lon1, lat2, lon2) {
 }
 
 // ===== 3. CARREGAR ESTABELECIMENTOS =====
+// Usa a fonte única (js/dados.js). Mantém o campo preco_medio
+// que o restante deste arquivo espera.
 async function carregarEstabelecimentos() {
-  try {
-    const resposta = await fetch('js/estabelecimentos.json');
-    return await resposta.json();
-  } catch (erro) {
-    console.error('Erro ao carregar:', erro);
-    return [];
-  }
+  const base =
+    (typeof window !== 'undefined' && Array.isArray(window.lugaresData))
+      ? window.lugaresData
+      : [];
+
+  return base
+    .filter((lugar) => typeof lugar.lat === 'number' && typeof lugar.lon === 'number')
+    .map((lugar) => ({ ...lugar, preco_medio: lugar.preco }));
 }
 
 // ===== 4. FILTRAR =====
@@ -109,16 +112,19 @@ function renderizarCards(estabelecimentos) {
   }
   
   estabelecimentos.forEach(est => {
-    const card = document.createElement('div');
+    const card = document.createElement('a');
     card.className = 'card-estabelecimento';
-    card.style.cssText = 'background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin: 10px 0;';
-    
-    const distanciaTexto = est.distancia < 1 
-      ? Math.round(est.distancia * 1000) + ' m' 
+    card.href = `detalhes.html?id=${est.id}`;
+    card.style.cssText = 'display:block; text-decoration:none; color:inherit; background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin: 10px 0;';
+
+    const distanciaTexto = est.distancia < 1
+      ? Math.round(est.distancia * 1000) + ' m'
       : est.distancia.toFixed(1) + ' km';
-    
+
+    const imagem = est.imagem || 'img/logo.png';
+
     card.innerHTML = `
-      <img src="${est.imagem}" alt="${est.nome}" style="width: 100%; height: 150px; object-fit: cover;" />
+      <img src="${imagem}" alt="${est.nome}" style="width: 100%; height: 150px; object-fit: cover;" onerror="this.onerror=null;this.src='img/logo.png';" />
       <div style="padding: 15px;">
         <span style="background: #e3f2fd; color: #1976d2; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 600;">${est.categoria}</span>
         <h3 style="font-size: 16px; margin: 10px 0 5px;">${est.nome}</h3>
@@ -154,8 +160,24 @@ async function buscarProximos() {
     
     // Carregar e filtrar estabelecimentos
     const todos = await carregarEstabelecimentos();
-    const filtrados = filtrarEstabelecimentos(todos, usuario.latitude, usuario.longitude, raioKm, orcamentoMax);
-    
+    let filtrados = filtrarEstabelecimentos(todos, usuario.latitude, usuario.longitude, raioKm, orcamentoMax);
+
+    // Fallback: se nada cair no raio, mostra os mais próximos dentro do orçamento.
+    if (filtrados.length === 0) {
+      filtrados = todos
+        .map((est) => ({
+          ...est,
+          distancia: calcularDistancia(usuario.latitude, usuario.longitude, est.lat, est.lon)
+        }))
+        .filter((est) => est.preco_medio <= orcamentoMax)
+        .sort((a, b) => a.distancia - b.distancia)
+        .slice(0, 6);
+
+      renderizarCards(filtrados);
+      mostrarToast('Nenhum lugar no raio escolhido. Mostrando os mais próximos.', 'info');
+      return;
+    }
+
     // Renderizar
     renderizarCards(filtrados);
     mostrarToast('Locais próximos encontrados!', 'sucesso');

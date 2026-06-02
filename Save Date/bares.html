@@ -9,7 +9,7 @@
   <link rel="icon" type="image/x-icon" href="img/logo.png" />
    <script src="js/auth.js"></script>
 </head>
-<body>
+<body data-categoria="bares">
   <header class="topo">
     <a href="home.html" class="logo-area">
       <img src="img/logo.png" alt="Logo Save Date" />
@@ -20,6 +20,7 @@
       <a href="explorar.html" class="nav-link">Explorar</a>
       <a href="mapa.html" class="nav-link">Mapa</a>
       <a href="salvos.html" class="nav-link">Salvos</a>
+      <a href="premium.html" class="nav-link nav-premium">★ Premium</a>
     </nav>
   </header>
 
@@ -43,67 +44,10 @@
       </div>
     </div>
 
-    <section class="grade-cards">
-      <article class="card-categoria">
-        <div class="card-emoji"><img src="img/seuze.jpg" alt="Mesa de restaurante" /></div>
-        <div class="card-corpo">
-          <div class="card-topo">
-            <h3>O Bar do Seu Zé</h3>
-            <span class="tag-preco">R$ 45</span>
-          </div>
-          <p>Bar tradicional com petiscos, drinks clássicos e ambiente descontraído.</p>
-          <div class="meta-card">
-            <span>Amigos</span>
-            <span>Casal</span>
-            <span>Happy hour</span>
-          </div>
-          <div class="card-acoes">
-            <a href="detalhes.html?id=2" class="card-link">Ver detalhes</a>
-            <a href="mapa.html" class="card-link secundario">Mapa</a>
-          </div>
-        </div>
-      </article>
-
-      <article class="card-categoria">
-        <div class="card-emoji"><img src="img/beerevibe.jpg" alt="Mesa de restaurante" /></div>
-        <div class="card-corpo">
-          <div class="card-topo">
-            <h3>Beer & Vibes</h3>
-            <span class="tag-preco">R$ 50</span>
-          </div>
-          <p>Bar moderno para reunir amigos, ouvir música e experimentar cervejas artesanais.</p>
-          <div class="meta-card">
-            <span>Amigos</span>
-            <span>Música</span>
-            <span>Cervejas</span>
-          </div>
-          <div class="card-acoes">
-            <a href="detalhes.html?id=9" class="card-link">Ver detalhes</a>
-            <a href="sugestoes.html" class="card-link secundario">Sugestões</a>
-          </div>
-        </div>
-      </article>
-
-      <article class="card-categoria">
-        <div class="card-emoji"><img src="img/central.jpg" alt="Mesa de restaurante" /></div>
-        <div class="card-corpo">
-          <div class="card-topo">
-            <h3>Lounge Central</h3>
-            <span class="tag-preco">R$ 70</span>
-          </div>
-          <p>Drinks autorais e clima mais calmo para quem quer conversar sem pressa.</p>
-          <div class="meta-card">
-            <span>Drinks</span>
-            <span>Casal</span>
-            <span>Noite</span>
-          </div>
-          <div class="card-acoes">
-            <a href="explorar.html" class="card-link">Explorar</a>
-            <a href="mapa.html" class="card-link secundario">Mapa</a>
-          </div>
-        </div>
-      </article>
-    </section>
+    <section class="grade-cards"></section>
   </main>
+
+  <script src="js/dados.js"></script>
+  <script src="js/categoria.js"></script>
 </body>
 </html>

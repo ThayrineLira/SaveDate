@@ -132,6 +132,20 @@ body {
   text-transform: uppercase;
 }
 
+.badge-premium {
+  display: inline-flex;
+  align-items: center;
+  width: max-content;
+  margin: 0 0 10px 8px;
+  padding: 7px 11px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #f4a261, #e76f51);
+  color: #fff;
+  font-size: .78rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
 .grid-conta {
   display: grid;
   grid-template-columns: minmax(280px, .8fr) minmax(320px, 1.2fr);

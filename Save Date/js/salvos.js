@@ -1,14 +1,4 @@
-const lugaresData = [
-  { id: 1, nome: "Família Mancini", categoria: "Restaurante", emoji: "🍽️", preco: 95, avaliacoes: 4.8, localizacao: "Zona sul, São Paulo" },
-  { id: 2, nome: "O Bar do Seu Zé", categoria: "Bar", emoji: "🍺", preco: 45, avaliacoes: 4.6, localizacao: "Vila Mariana" },
-  { id: 3, nome: "Gourmet Burguer", categoria: "Lanchonete", emoji: "🍔", preco: 35, avaliacoes: 4.5, localizacao: "Pinheiros" },
-  { id: 4, nome: "Pizzaria do Bairro", categoria: "Pizzaria", emoji: "🍕", preco: 60, avaliacoes: 4.7, localizacao: "Mooca" },
-  { id: 5, nome: "Café Aconchego", categoria: "Café", emoji: "☕", preco: 25, avaliacoes: 4.9, localizacao: "Vila Madalena" },
-  { id: 6, nome: "Shopping Center VillaGe", categoria: "Shopping", emoji: "🛍️", preco: 0, avaliacoes: 4.4, localizacao: "Zona norte" },
-  { id: 7, nome: "Parque da Independência", categoria: "Parque", emoji: "🌳", preco: 0, avaliacoes: 4.6, localizacao: "Ipiranga" },
-  { id: 8, nome: "Sorveteria Gelato", categoria: "Sorveteria", emoji: "🍨", preco: 20, avaliacoes: 4.8, localizacao: "Consolação" },
-  { id: 9, nome: "Beer & Vibes", categoria: "Bar", emoji: "🍻", preco: 50, avaliacoes: 4.5, localizacao: "Bom Retiro" }
-];
+/* Os dados dos lugares vêm de js/dados.js (lugaresData global). */
 
 function obterSalvos() {
   try {
@@ -81,6 +71,10 @@ function toggleSalvo(event, id) {
   if (salvos.includes(id)) {
     salvos.splice(salvos.indexOf(id), 1);
   } else {
+    if (typeof podeAdicionarSalvo === "function" && !podeAdicionarSalvo(salvos.length)) {
+      premiumAvisoLimite();
+      return;
+    }
     salvos.push(id);
   }
 

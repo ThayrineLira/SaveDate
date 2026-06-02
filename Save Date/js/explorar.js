@@ -1,109 +1,38 @@
-const lugaresData = [
-  {
-    id: 1,
-    nome: "Família Mancini",
-    categoria: "Restaurante",
-    emoji: "🍽️",
-    preco: 95,
-    avaliacoes: 4.8,
-    countAvaliacao: 567,
-    localizacao: "Zona sul, São Paulo",
-    tags: ["Família", "Casal"]
-  },
-  {
-    id: 2,
-    nome: "O Bar do Seu Zé",
-    categoria: "Bar",
-    emoji: "🍺",
-    preco: 45,
-    avaliacoes: 4.6,
-    countAvaliacao: 324,
-    localizacao: "Vila Mariana",
-    tags: ["Amigos", "Casal"]
-  },
-  {
-    id: 3,
-    nome: "Gourmet Burguer",
-    categoria: "Lanchonete",
-    emoji: "🍔",
-    preco: 35,
-    avaliacoes: 4.5,
-    countAvaliacao: 412,
-    localizacao: "Pinheiros",
-    tags: ["Amigos", "Família"]
-  },
-  {
-    id: 4,
-    nome: "Pizzaria do Bairro",
-    categoria: "Pizzaria",
-    emoji: "🍕",
-    preco: 60,
-    avaliacoes: 4.7,
-    countAvaliacao: 598,
-    localizacao: "Mooca",
-    tags: ["Família", "Casal", "Amigos"]
-  },
-  {
-    id: 5,
-    nome: "Café Aconchego",
-    categoria: "Café",
-    emoji: "☕",
-    preco: 25,
-    avaliacoes: 4.9,
-    countAvaliacao: 876,
-    localizacao: "Vila Madalena",
-    tags: ["Casal"]
-  },
-  {
-    id: 6,
-    nome: "Shopping Center VillaGe",
-    categoria: "Shopping",
-    emoji: "🛍️",
-    preco: 0,
-    avaliacoes: 4.4,
-    countAvaliacao: 1200,
-    localizacao: "Zona norte",
-    tags: ["Família", "Amigos"]
-  },
-  {
-    id: 7,
-    nome: "Parque da Independência",
-    categoria: "Parque",
-    emoji: "🌳",
-    preco: 0,
-    avaliacoes: 4.6,
-    countAvaliacao: 445,
-    localizacao: "Ipiranga",
-    tags: ["Família", "Casal"]
-  },
-  {
-    id: 8,
-    nome: "Sorveteria Gelato",
-    categoria: "Sorveteria",
-    emoji: "🍨",
-    preco: 20,
-    avaliacoes: 4.8,
-    countAvaliacao: 567,
-    localizacao: "Consolação",
-    tags: ["Amigos", "Família", "Casal"]
-  },
-  {
-    id: 9,
-    nome: "Beer & Vibes",
-    categoria: "Bar",
-    emoji: "🍻",
-    preco: 50,
-    avaliacoes: 4.5,
-    countAvaliacao: 289,
-    localizacao: "Bom Retiro",
-    tags: ["Amigos"]
-  }
-];
+/* Os dados dos lugares vêm de js/dados.js (lugaresData global). */
 
 let filtroAtivo = "Todos";
 let chipAtivo = "Todos";
 let orcamentoBuscado = 200;
 let termoBusca = "";
+
+function obterImagemLugar(lugar) {
+  return typeof lugar.imagem === "string" && lugar.imagem.trim()
+    ? lugar.imagem.trim()
+    : "";
+}
+
+function renderMidiaCard(lugar) {
+  const imagem = obterImagemLugar(lugar);
+  const alt = `Foto de ${lugar.nome}`;
+
+  if (imagem) {
+    return `
+      <img class="card-photo" src="${imagem}" alt="${alt}" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+      <div class="card-fallback card-fallback-backup" aria-label="${alt}">
+        <span class="card-emoji" aria-hidden="true">${lugar.emoji}</span>
+        <span class="card-fallback-text">Imagem em breve</span>
+      </div>
+      <span class="card-emoji card-emoji-overlay" aria-hidden="true">${lugar.emoji}</span>
+    `;
+  }
+
+  return `
+    <div class="card-fallback" aria-label="${alt}">
+      <span class="card-emoji" aria-hidden="true">${lugar.emoji}</span>
+      <span class="card-fallback-text">Imagem em breve</span>
+    </div>
+  `;
+}
 
 function obterSalvos() {
   try {
@@ -200,7 +129,7 @@ function renderCards(lugares) {
     card.className = "card";
     card.innerHTML = `
       <div class="card-img">
-        <span style="font-size: 60px;">${lugar.emoji}</span>
+        ${renderMidiaCard(lugar)}
         <div class="card-badge">${lugar.categoria}</div>
         <div class="card-price">${precoTexto}</div>
         <button class="card-heart ${heartClass}" type="button" onclick="toggleSalvo(event, ${lugar.id})">${heartText}</button>
@@ -232,6 +161,10 @@ function toggleSalvo(event, id) {
     btn.classList.remove("saved");
     btn.textContent = "♡";
   } else {
+    if (typeof podeAdicionarSalvo === "function" && !podeAdicionarSalvo(salvos.length)) {
+      premiumAvisoLimite();
+      return;
+    }
     salvos.push(id);
     btn.classList.add("saved");
     btn.textContent = "♥";

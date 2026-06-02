@@ -743,7 +743,7 @@ function renderizarPainelEstabelecimentoHome() {
     if (actionRemoveComments) actionRemoveComments.classList.add('disabled');
     if (btnPremium) {
       btnPremium.textContent = 'Pagar Premium';
-      btnPremium.href = 'pagamento.html';
+      btnPremium.href = 'pagamento.html?plano=parceiro';
       btnPremium.onclick = null;
     }
   }

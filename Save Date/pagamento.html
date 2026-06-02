@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Save Date | Pagamento via Pix</title>
+    <title>Save Date | Pagamento</title>
     <link rel="icon" type="image/x-icon" href="img/logo.png" />
     <link rel="stylesheet" href="css/pagamento.css" />
 </head>
@@ -15,82 +15,175 @@
           <img src="img/logo.png" alt="Save Date" class="logo-icon" />
           <span class="logo-text">Save Date</span>
         </a>
-        <a href="home.html" class="header-action">Voltar</a>
+        <a href="premium.html" class="header-action">Voltar aos planos</a>
       </div>
     </header>
 
     <main class="container">
-        
-        <h1 class="page-title">Finalizar Pagamento</h1>
+
+        <h1 class="page-title">Finalizar Assinatura</h1>
 
         <div class="payment-box">
-            <svg class="pix-logo" viewBox="0 0 1000 351" xmlns="http://www.w3.org/2000/svg">
-                <path d="M298.6 157.4l63.2-63.2c16-16 16-42 0-58l-37-36.2c-16-16-42-16-58 0l-63.2 63.2c-16 16-16 42 0 58l37 36.2c16.2 16.2 42.2 16.2 58 0zM195.4 260.6l63.2-63.2c16-16 16-42 0-58l-37-36.2c-16-16-42-16-58 0l-63.2 63.2c-16 16-16 42 0 58l37 36.2c16 16 42 16 58 0z" fill="#32bcad"/>
-                <path d="M682.1 133.4c-12.2 0-23.7 5.9-30.8 15.9l-118.9 168h55c8 0 15.4-4.2 19.5-11l91.4-129.2 14.5 21.8c3.2 4.8 8.6 7.7 14.4 7.7h59.9l-105-157.3c-0.1 0-0.1-0.1 0 0zm-155.8-21.7l37 55.4 17.8-25.2c6.6-9.3 17.2-14.9 28.5-14.9h54.1L611 51.3c-7.3-11-19.6-17.6-32.8-17.6H523.3c-8 0-15.5 4.2-19.6 11l-50.6 71.5 37.4 55.6 35.8-50.1zm-152.1 0l75.4 112.3 46-64.8-37.4-55.6c-4.1-6.1-11-9.8-18.4-9.8h-83.8c-12.8 0-24.3 6.9-30.3 18l-94.8 174.5V111.7c0-12.3-10-22.3-22.3-22.3h-44.6v233.1h44.6v-65.7l23.1-42.5 59.8 108.2c6.1 11.1 17.7 18 30.4 18h83.8c13 0 24.5-7.1 30.5-18.4l102.1-191.1-37-55.4-107.5 196-61.9-112c-4.1-7.4-11.9-12.1-20.4-12.1h-0.2z" fill="#32bcad"/>
-            </svg>
 
-            <p class="card-desc">Abra o aplicativo do seu banco, selecione a opção Pix e utilize a chave abaixo para realizar o pagamento.</p>
+            <div class="plano-resumo" id="plano-resumo">
+                <strong id="plano-nome">Plano Premium</strong>
+                <span id="plano-publico" class="plano-publico"></span>
+            </div>
 
-            <div class="payment-amount">Valor a pagar: <strong>R$ 50,00</strong></div>
+            <div class="payment-amount">Valor a pagar: <strong id="plano-valor">R$ 0,00</strong></div>
 
-            <div class="payment-methods">
+            <div class="metodo-tabs">
+                <button type="button" class="metodo-tab ativa" data-metodo="pix" onclick="trocarMetodo('pix')">PIX</button>
+                <button type="button" class="metodo-tab" data-metodo="cartao" onclick="trocarMetodo('cartao')">Cartão</button>
+            </div>
+
+            <!-- PIX -->
+            <div class="metodo-conteudo" id="metodo-pix">
+              <p class="card-desc">Abra o app do seu banco, escolha Pix e use a chave abaixo para pagar.</p>
               <div class="payment-method">
-                <strong>PIX</strong>
+                <strong>Chave Pix (CPF)</strong>
                 <div class="pix-key-container" id="pixKey">19606550788</div>
-                <a href="#" class="card-link" id="copyBtn" onclick="copiarPix(event)">
-                    Copiar Chave Pix
-                </a>
+                <a href="#" class="card-link" id="copyBtn" onclick="copiarPix(event)">Copiar chave Pix</a>
               </div>
             </div>
 
-            <div class="status" id="statusMessage">
-                <div class="spinner"></div>
-                Aguardando a confirmação do depósito...
+            <!-- CARTÃO -->
+            <div class="metodo-conteudo" id="metodo-cartao" style="display:none;">
+              <form class="form-cartao" onsubmit="return false;">
+                <label>Número do cartão
+                  <input type="text" id="card-numero" inputmode="numeric" maxlength="19" placeholder="0000 0000 0000 0000" />
+                </label>
+                <label>Nome impresso no cartão
+                  <input type="text" id="card-nome" placeholder="Como está no cartão" />
+                </label>
+                <div class="form-cartao-linha">
+                  <label>Validade
+                    <input type="text" id="card-validade" maxlength="5" placeholder="MM/AA" />
+                  </label>
+                  <label>CVV
+                    <input type="text" id="card-cvv" inputmode="numeric" maxlength="4" placeholder="123" />
+                  </label>
+                </div>
+              </form>
             </div>
+
+            <button type="button" class="btn-confirmar" id="btn-confirmar" onclick="confirmarPagamento()">
+                Confirmar pagamento
+            </button>
+
+            <div class="status" id="statusMessage" style="display:none;"></div>
         </div>
 
     </main>
 
+    <footer class="rodape">
+      <div class="container rodape-conteudo">
+        <p class="texto-rodape">&copy; 2026 Save Date • Pagamento simulado para fins de demonstração</p>
+      </div>
+    </footer>
+
+    <script src="js/premium.js"></script>
     <script>
-        function copiarPix(event) {
-            event.preventDefault();
-            const pixKey = document.getElementById('pixKey').innerText;
-            
-            navigator.clipboard.writeText(pixKey).then(() => {
-                const btn = document.getElementById('copyBtn');
-                btn.innerText = 'Chave Copiada! ✓';
-                btn.style.backgroundColor = '#2ecc71'; 
-                
-                setTimeout(() => {
-                    btn.innerText = 'Copiar Chave Pix';
-                    btn.style.backgroundColor = '#f4a261'; 
-                }, 3000);
-            }).catch(err => {
-                alert('Erro ao copiar. Copie o texto manualmente.');
+        let metodoAtual = "pix";
+
+        function obterPlanoDaUrl() {
+            const id = new URLSearchParams(window.location.search).get("plano");
+            return PLANOS_PREMIUM[id] || null;
+        }
+
+        const plano = obterPlanoDaUrl();
+
+        function preencherResumo() {
+            if (!plano) {
+                document.querySelector(".payment-box").innerHTML =
+                    '<p class="card-desc">Plano não encontrado. <a href="premium.html">Voltar aos planos</a>.</p>';
+                return;
+            }
+            document.getElementById("plano-nome").textContent = plano.nome;
+            document.getElementById("plano-publico").textContent =
+                plano.publico === "estabelecimento" ? "Plano para estabelecimentos" : "Plano para você";
+            document.getElementById("plano-valor").textContent = `${plano.precoLabel} ${plano.periodo}`;
+        }
+
+        function trocarMetodo(metodo) {
+            metodoAtual = metodo;
+            document.getElementById("metodo-pix").style.display = metodo === "pix" ? "block" : "none";
+            document.getElementById("metodo-cartao").style.display = metodo === "cartao" ? "block" : "none";
+            document.querySelectorAll(".metodo-tab").forEach((tab) => {
+                tab.classList.toggle("ativa", tab.dataset.metodo === metodo);
             });
         }
 
-        // Simulação de Retorno Automático para testes (10 segundos)
-        setTimeout(() => {
-            localStorage.setItem('usuarioPremium', 'true');
-            const email = localStorage.getItem('estabelecimentoCadastroEmail') || localStorage.getItem('email');
-            if (email) {
-                localStorage.setItem(`estabelecimentoPremium_${email}`, 'true');
-            }
-            const statusDiv = document.getElementById('statusMessage');
-            statusDiv.style.color = '#2ecc71';
-            statusDiv.innerHTML = '<strong>Pagamento Recebido! Redirecionando...</strong>';
-            
-            setTimeout(() => {
-                window.location.href = 'home.html';
-            }, 2000);
-        }, 10000);
-    </script>
+        function copiarPix(event) {
+            event.preventDefault();
+            const pixKey = document.getElementById("pixKey").innerText;
+            navigator.clipboard.writeText(pixKey).then(() => {
+                const btn = document.getElementById("copyBtn");
+                btn.innerText = "Chave copiada! ✓";
+                setTimeout(() => { btn.innerText = "Copiar chave Pix"; }, 3000);
+            }).catch(() => alert("Copie o texto manualmente."));
+        }
 
-    <footer class="rodape">
-      <div class="container rodape-conteudo">
-        <p class="texto-rodape">&copy; 2026 Save Date • Feito com ❤️ para o seu bolso</p>
-      </div>
-    </footer>
+        function validarCartao() {
+            const numero = document.getElementById("card-numero").value.replace(/\s/g, "");
+            const nome = document.getElementById("card-nome").value.trim();
+            const validade = document.getElementById("card-validade").value.trim();
+            const cvv = document.getElementById("card-cvv").value.trim();
+
+            if (numero.length < 13) return "Informe um número de cartão válido.";
+            if (!nome) return "Informe o nome impresso no cartão.";
+            if (!/^\d{2}\/\d{2}$/.test(validade)) return "Validade deve estar no formato MM/AA.";
+            if (cvv.length < 3) return "Informe um CVV válido.";
+            return null;
+        }
+
+        function mostrarStatus(texto, cor) {
+            const statusDiv = document.getElementById("statusMessage");
+            statusDiv.style.display = "flex";
+            statusDiv.style.color = cor;
+            statusDiv.innerHTML = texto;
+        }
+
+        function confirmarPagamento() {
+            if (!plano) return;
+
+            if (metodoAtual === "cartao") {
+                const erro = validarCartao();
+                if (erro) {
+                    mostrarStatus(`<strong>${erro}</strong>`, "#dc2626");
+                    return;
+                }
+            }
+
+            const btn = document.getElementById("btn-confirmar");
+            btn.disabled = true;
+            btn.textContent = "Processando...";
+            mostrarStatus('<div class="spinner"></div> Confirmando seu pagamento...', "#f59e0b");
+
+            // Simula o processamento do pagamento (2s) e confirma manualmente.
+            setTimeout(() => {
+                ativarPremium(plano.id);
+                mostrarStatus("<strong>Pagamento confirmado! Premium ativado 🎉</strong>", "#16a34a");
+                btn.textContent = "Concluído ✓";
+                setTimeout(() => { window.location.href = "home.html"; }, 1800);
+            }, 2000);
+        }
+
+        // Máscaras simples
+        document.addEventListener("DOMContentLoaded", function () {
+            preencherResumo();
+
+            const numero = document.getElementById("card-numero");
+            numero?.addEventListener("input", () => {
+                numero.value = numero.value.replace(/\D/g, "").replace(/(.{4})/g, "$1 ").trim();
+            });
+            const validade = document.getElementById("card-validade");
+            validade?.addEventListener("input", () => {
+                let v = validade.value.replace(/\D/g, "");
+                if (v.length >= 3) v = v.slice(0, 2) + "/" + v.slice(2, 4);
+                validade.value = v;
+            });
+        });
+    </script>
 </body>
 </html>
