@@ -176,6 +176,29 @@
       );
     }
 
+    function garantirContaAdmin() {
+      const usuarios = pegarCadastrosUsuarios();
+      const emailAdmin = "admin@savedate.com";
+      const adminExistente = usuarios.find(
+        (item) => item.email === emailAdmin
+      );
+
+      if (adminExistente) {
+        adminExistente.nome = "Administrador";
+        adminExistente.senha = "Admin@123";
+        adminExistente.tipo = "admin";
+      } else {
+        usuarios.push({
+          nome: "Administrador",
+          email: emailAdmin,
+          senha: "Admin@123",
+          tipo: "admin"
+        });
+      }
+
+      localStorage.setItem("cadastrosUsuarios", JSON.stringify(usuarios));
+    }
+
     function pegarCadastrosEstabelecimentos() {
       return JSON.parse(
         localStorage.getItem("cadastrosEstabelecimentos") || "[]"
@@ -185,6 +208,15 @@
     function buscarCadastroPorEmail(email) {
       const emailNormalizado =
         email.toLowerCase();
+
+      if (emailNormalizado === "admin@savedate.com") {
+        return {
+          tipo: "admin",
+          nome: "Administrador",
+          senha: "Admin@123"
+        };
+      }
+
       const usuarios = pegarCadastrosUsuarios();
       const estabelecimentos = pegarCadastrosEstabelecimentos();
 
@@ -193,7 +225,7 @@
       );
       if (usuario) {
         return {
-          tipo: "usuario",
+          tipo: usuario.tipo || "usuario",
           nome: usuario.nome,
           senha: usuario.senha
         };
@@ -324,6 +356,7 @@
     =========================================== */
 
     window.onload = function () {
+      garantirContaAdmin();
 
       const emailSalvo =
         localStorage.getItem(
@@ -460,6 +493,7 @@
             localStorage.removeItem("estabelecimentoCadastroEndereco");
             localStorage.removeItem("estabelecimentoCadastroComplemento");
             localStorage.removeItem("estabelecimentoCadastroTelefone");
+            localStorage.removeItem("estabelecimentoDados");
             localStorage.removeItem("usuarioPremium");
           }
 
@@ -491,8 +525,8 @@
           }
 
           const destino =
-            tipoCadastro === "estabelecimento"
-              ? "home.html"
+            tipoCadastro === "admin"
+              ? "admin.html"
               : "home.html";
 
           setTimeout(() => {

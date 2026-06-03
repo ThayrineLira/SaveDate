@@ -326,6 +326,34 @@ body {
   line-height: 1.55;
 }
 
+.card-extra-cat {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.badge-aberto {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  padding: 5px 9px;
+  border-radius: 999px;
+  font-size: .75rem;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.badge-aberto.aberto {
+  background: rgba(42, 157, 143, .12);
+  color: #247769;
+}
+
+.badge-aberto.fechado {
+  background: rgba(120, 120, 120, .12);
+  color: #666;
+}
+
 .meta-card {
   display: flex;
   flex-wrap: wrap;

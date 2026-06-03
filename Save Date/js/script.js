@@ -37,6 +37,16 @@ function carregarUsuario() {
       "usuarioTipo"
     ) || "").toLowerCase();
 
+  const $linkAdmin =
+    $("#link-admin");
+
+  if ($linkAdmin.length) {
+    $linkAdmin.toggle(
+      logado === "true" &&
+      tipoUsuario === "admin"
+    );
+  }
+
   /* =========================================
      USUÁRIO LOGADO
   ========================================= */
@@ -646,10 +656,9 @@ function registrarRemocaoComentario() {
 
 function isEstabelecimentoLogado() {
   const tipoUsuario = (localStorage.getItem('usuarioTipo') || '').toLowerCase();
-  const estabelecimentoEmail = localStorage.getItem('estabelecimentoCadastroEmail');
   return (
     localStorage.getItem('usuarioLogado') === 'true' &&
-    (tipoUsuario === 'estabelecimento' || (!tipoUsuario && Boolean(estabelecimentoEmail)))
+    tipoUsuario === 'estabelecimento'
   );
 }
 
@@ -844,6 +853,32 @@ function carregarCatalogoEstabelecimentos() {
 
 function salvarCatalogoEstabelecimentos(catalogo) {
   localStorage.setItem('estabelecimentosCatalogo', JSON.stringify(catalogo));
+}
+
+function removerUsuariosDoCatalogoEstabelecimentos() {
+  const usuarios = (() => {
+    try {
+      return JSON.parse(localStorage.getItem('cadastrosUsuarios') || '[]') || [];
+    } catch (erro) {
+      return [];
+    }
+  })();
+
+  if (!usuarios.length) return;
+
+  const emailsUsuarios = new Set(
+    usuarios.map((usuario) => String(usuario.email || '').toLowerCase()).filter(Boolean)
+  );
+  const catalogo = carregarCatalogoEstabelecimentos();
+  const filtrado = catalogo.filter((item) => {
+    const email = String(item.email || '').toLowerCase();
+    const id = String(item.id || '').toLowerCase();
+    return !emailsUsuarios.has(email) && !emailsUsuarios.has(id);
+  });
+
+  if (filtrado.length !== catalogo.length) {
+    salvarCatalogoEstabelecimentos(filtrado);
+  }
 }
 
 function sincronizarCatalogoEstabelecimento(dados) {
@@ -2548,19 +2583,16 @@ $(function () {
     iniciarModalAcoes();
     iniciarEventosDashboard();
     iniciarFiltroOrcamento();
-    sincronizarCatalogoEstabelecimento(
-      carregarDadosEstabelecimento()
-    );
 
     let tipoUsuario = (localStorage.getItem('usuarioTipo') || '').toLowerCase();
-    if (!tipoUsuario && localStorage.getItem('usuarioLogado') === 'true' && localStorage.getItem('estabelecimentoCadastroEmail')) {
-      tipoUsuario = 'estabelecimento';
-      localStorage.setItem('usuarioTipo', 'estabelecimento');
-    }
 
     if (tipoUsuario === 'estabelecimento' || isEstabelecimentoLogado()) {
+      sincronizarCatalogoEstabelecimento(
+        carregarDadosEstabelecimento()
+      );
       setupHomeEstabelecimentoView();
     } else {
+      removerUsuariosDoCatalogoEstabelecimentos();
       carregarCatalogoHome();
 
       /* =========================================

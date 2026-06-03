@@ -24,6 +24,7 @@ function montarCardCategoria(lugar) {
   const seloPatrocinado = patrocinado
     ? '<span class="selo-patrocinado">★ Patrocinado</span>'
     : "";
+  const badgeAberto = typeof badgeAbertoHTML === "function" ? badgeAbertoHTML(lugar.horario) : "";
 
   const article = document.createElement("article");
   article.className = "card-categoria" + (patrocinado ? " patrocinado" : "");
@@ -36,6 +37,7 @@ function montarCardCategoria(lugar) {
         <span class="tag-preco">${precoTexto(lugar)}</span>
       </div>
       <p>${lugar.descricao || "Confira os detalhes e veja se combina com o seu rolê."}</p>
+      ${badgeAberto ? `<div class="card-extra-cat">${badgeAberto}</div>` : ""}
       <div class="meta-card">${metas}</div>
       <div class="card-acoes">
         <a href="detalhes.html?id=${lugar.id}" class="card-link">Ver detalhes</a>

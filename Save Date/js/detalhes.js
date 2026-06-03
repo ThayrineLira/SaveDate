@@ -114,8 +114,136 @@ function carregarDetalhes() {
     diferenciaisList.appendChild(li);
   });
 
+  const badgeEl = document.getElementById("badge-aberto-detalhe");
+  if (badgeEl && typeof badgeAbertoHTML === "function") {
+    badgeEl.innerHTML = badgeAbertoHTML(lugar.horario);
+  }
+
   renderizarFotos(lugar);
   verificarFavorito(lugar.id);
+
+  configurarEstrelas();
+  renderResumoAvaliacoes(lugar);
+  renderAvaliacoesUsuario(lugar.id);
+}
+
+/* =========================================================
+   AVALIAÇÕES DE USUÁRIO (guardadas no navegador via dados.js)
+========================================================= */
+let notaSelecionadaAval = 0;
+
+function escaparHtml(txt) {
+  return String(txt == null ? "" : txt)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+function formatarDataAval(iso) {
+  try {
+    return new Date(iso).toLocaleDateString("pt-BR", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric"
+    });
+  } catch (e) {
+    return "";
+  }
+}
+
+function estrelasTexto(nota) {
+  const n = Math.max(0, Math.min(5, Math.round(Number(nota) || 0)));
+  return "★★★★★".slice(0, n) + "☆☆☆☆☆".slice(0, 5 - n);
+}
+
+function configurarEstrelas() {
+  const grupo = document.getElementById("aval-estrelas");
+  if (!grupo) return;
+  const estrelas = Array.from(grupo.querySelectorAll(".estrela"));
+  const pintar = (n) => estrelas.forEach((e, i) => e.classList.toggle("ativa", i < n));
+
+  estrelas.forEach((e) => {
+    e.addEventListener("mouseenter", () => pintar(Number(e.dataset.valor)));
+    e.addEventListener("click", () => {
+      notaSelecionadaAval = Number(e.dataset.valor);
+      pintar(notaSelecionadaAval);
+    });
+  });
+  grupo.addEventListener("mouseleave", () => pintar(notaSelecionadaAval));
+}
+
+function renderResumoAvaliacoes(lugar) {
+  const el = document.getElementById("aval-resumo");
+  if (!el) return;
+  const resumo = mediaAvaliacaoUsuario(lugar.id);
+
+  if (!resumo) {
+    el.innerHTML = `
+      <div class="aval-resumo-box">
+        <strong>Nota do guia: ⭐ ${lugar.avaliacoes.toFixed(1)}</strong>
+        <span>Seja o primeiro a avaliar este lugar!</span>
+      </div>`;
+    return;
+  }
+
+  el.innerHTML = `
+    <div class="aval-resumo-box">
+      <strong>⭐ ${resumo.media.toFixed(1)} <span class="aval-stars-mini">${estrelasTexto(resumo.media)}</span></strong>
+      <span>${resumo.total} avaliação(ões) de usuários · nota do guia ${lugar.avaliacoes.toFixed(1)}</span>
+    </div>`;
+}
+
+function renderAvaliacoesUsuario(id) {
+  const lista = document.getElementById("avaliacoes-list");
+  if (!lista) return;
+  const itens = getAvaliacoesUsuario(id);
+
+  if (!itens.length) {
+    lista.innerHTML =
+      '<p class="aval-vazio">Ainda não há avaliações de usuários. Que tal deixar a sua?</p>';
+    return;
+  }
+
+  lista.innerHTML = itens
+    .map(
+      (a) => `
+      <div class="avaliacao-item">
+        <div class="avaliacao-header">
+          <strong>${escaparHtml(a.autor)}</strong>
+          <span class="stars">${estrelasTexto(a.nota)}</span>
+        </div>
+        ${a.comentario ? `<p class="avaliacao-texto">${escaparHtml(a.comentario)}</p>` : ""}
+        <small class="avaliacao-data">${formatarDataAval(a.data)}</small>
+      </div>`
+    )
+    .join("");
+}
+
+function enviarAvaliacao(event) {
+  event.preventDefault();
+  const id = obterIdDaUrl();
+
+  if (!notaSelecionadaAval) {
+    alert("Escolha de 1 a 5 estrelas para avaliar.");
+    return;
+  }
+
+  const texto = document.getElementById("aval-texto").value;
+  const autor = document.getElementById("aval-autor").value;
+  addAvaliacaoUsuario(id, notaSelecionadaAval, texto, autor);
+
+  notaSelecionadaAval = 0;
+  document.getElementById("aval-texto").value = "";
+  document.getElementById("aval-autor").value = "";
+  document
+    .querySelectorAll("#aval-estrelas .estrela")
+    .forEach((e) => e.classList.remove("ativa"));
+
+  const lugar = lugaresData.find((l) => l.id === id);
+  if (lugar) renderResumoAvaliacoes(lugar);
+  renderAvaliacoesUsuario(id);
 }
 
 function verificarFavorito(id) {

@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Save Date | Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/admin.css" />
+  <link rel="icon" type="image/x-icon" href="img/logo.png" />
+</head>
+<body>
+  <header class="admin-topo">
+    <a href="home.html" class="admin-logo">
+      <img src="img/logo.png" alt="Save Date" />
+      <span>Save Date Admin</span>
+    </a>
+    <nav class="admin-nav">
+      <a href="home.html">Home</a>
+      <button type="button" id="btn-admin-sair">Sair</button>
+    </nav>
+  </header>
+
+  <main class="admin-container">
+    <section class="admin-hero">
+      <div>
+        <span class="admin-kicker">Painel administrativo</span>
+        <h1>Cadastros do Save Date</h1>
+        <p>Gerencie usuarios e estabelecimentos cadastrados no prototipo.</p>
+      </div>
+      <button type="button" class="btn-secundario" id="btn-admin-atualizar">Atualizar</button>
+    </section>
+
+    <section class="admin-kpis" aria-label="Resumo">
+      <article>
+        <span>Usuarios</span>
+        <strong id="kpi-usuarios">0</strong>
+      </article>
+      <article>
+        <span>Estabelecimentos</span>
+        <strong id="kpi-estabelecimentos">0</strong>
+      </article>
+      <article>
+        <span>No catalogo</span>
+        <strong id="kpi-catalogo">0</strong>
+      </article>
+      <article>
+        <span>Premium ativos</span>
+        <strong id="kpi-premium">0</strong>
+      </article>
+      <article>
+        <span>Receita mensal</span>
+        <strong id="kpi-receita-mensal">R$ 0</strong>
+      </article>
+      <article>
+        <span>Receita anual</span>
+        <strong id="kpi-receita-anual">R$ 0</strong>
+      </article>
+    </section>
+
+    <section class="admin-grid">
+      <article class="admin-card admin-financeiro">
+        <div class="admin-card-head">
+          <div>
+            <h2>Dashboard de receitas</h2>
+            <p>Estimativa baseada nos planos Premium ativos neste navegador.</p>
+          </div>
+        </div>
+        <div class="financeiro-grid">
+          <div>
+            <span>Usuarios Plus</span>
+            <strong id="financeiro-clientes-premium">0</strong>
+            <small>R$ 9,90/mês cada</small>
+          </div>
+          <div>
+            <span>Parceiros Premium</span>
+            <strong id="financeiro-estabelecimentos-premium">0</strong>
+            <small>R$ 50,00/mês estimado</small>
+          </div>
+          <div>
+            <span>Ticket medio</span>
+            <strong id="financeiro-ticket-medio">R$ 0</strong>
+            <small>Por assinatura ativa</small>
+          </div>
+          <div>
+            <span>MRR estimado</span>
+            <strong id="financeiro-mrr">R$ 0</strong>
+            <small>Receita recorrente mensal</small>
+          </div>
+        </div>
+      </article>
+
+      <article class="admin-card">
+        <div class="admin-card-head">
+          <div>
+            <h2>Usuarios cadastrados</h2>
+            <p>Contas comuns nao entram mais no catalogo de restaurantes.</p>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Nome</th>
+                <th>Email</th>
+                <th>Tipo</th>
+                <th>Acoes</th>
+              </tr>
+            </thead>
+            <tbody id="tabela-usuarios"></tbody>
+          </table>
+        </div>
+      </article>
+
+      <article class="admin-card">
+        <div class="admin-card-head">
+          <div>
+            <h2>Estabelecimentos</h2>
+            <p>Restaurantes e locais cadastrados por parceiros.</p>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Nome</th>
+                <th>Email</th>
+                <th>Status</th>
+                <th>Acoes</th>
+              </tr>
+            </thead>
+            <tbody id="tabela-estabelecimentos"></tbody>
+          </table>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <div id="admin-toast" class="admin-toast" aria-live="polite"></div>
+  <script src="js/admin.js"></script>
+</body>
+</html>

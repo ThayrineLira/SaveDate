@@ -336,11 +336,22 @@
               "cadastrosUsuarios"
             ) || "[]"
           );
+        const estabelecimentos =
+          JSON.parse(
+            localStorage.getItem(
+              "cadastrosEstabelecimentos"
+            ) || "[]"
+          );
 
-        const emailExistente = usuarios.some(
+        const emailNormalizado = email.toLowerCase();
+        const emailExistente = emailNormalizado === "admin@savedate.com" || usuarios.some(
           (usuario) =>
             usuario.email ===
-            email.toLowerCase()
+            emailNormalizado
+        ) || estabelecimentos.some(
+          (estabelecimento) =>
+            estabelecimento.email ===
+            emailNormalizado
         );
 
         if (emailExistente) {
@@ -359,7 +370,7 @@
 
         usuarios.push({
           nome,
-          email: email.toLowerCase(),
+          email: emailNormalizado,
           senha,
           tipo: "usuario"
         });
@@ -371,7 +382,7 @@
 
         localStorage.setItem(
           "usuarioCadastroEmail",
-          email.toLowerCase()
+          emailNormalizado
         );
 
         localStorage.setItem(
@@ -388,6 +399,15 @@
           "tipoCadastro",
           "usuario"
         );
+
+        localStorage.removeItem("estabelecimentoCadastroEmail");
+        localStorage.removeItem("estabelecimentoCadastroSenha");
+        localStorage.removeItem("estabelecimentoCadastroNome");
+        localStorage.removeItem("estabelecimentoCadastroEndereco");
+        localStorage.removeItem("estabelecimentoCadastroComplemento");
+        localStorage.removeItem("estabelecimentoCadastroTelefone");
+        localStorage.removeItem("estabelecimentoDados");
+        localStorage.removeItem("usuarioTipo");
 
 
 

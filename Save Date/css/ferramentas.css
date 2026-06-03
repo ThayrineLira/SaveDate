@@ -250,6 +250,55 @@ body {
   border-color: var(--primaria);
 }
 
+.check-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--borda);
+  font-weight: 700;
+}
+
+.check-item:last-child {
+  border-bottom: none;
+}
+
+.premium-lock {
+  padding: 18px;
+  border: 1px solid rgba(231, 111, 81, .25);
+  border-radius: 12px;
+  background: #fff3e8;
+  color: #7a3f2c;
+  font-weight: 800;
+  margin-bottom: 18px;
+}
+
+.mini-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 12px;
+}
+
+.mini-card {
+  padding: 16px;
+  border: 1px solid var(--borda);
+  border-radius: 12px;
+  background: #fffaf4;
+}
+
+.mini-card span {
+  display: block;
+  color: var(--texto-suave);
+  font-size: .85rem;
+  font-weight: 800;
+}
+
+.mini-card strong {
+  display: block;
+  margin-top: 6px;
+  font-size: 1.35rem;
+}
+
 /* ---------- RESULTADOS ---------- */
 .resultado-total {
   display: flex;

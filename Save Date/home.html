@@ -63,6 +63,7 @@
             <a href="comparar.html" class="dropdown-item">Comparar lugares ⚖️</a>
             <a href="premium.html" class="dropdown-item">Premium ★</a>
             <a href="conta.html" class="dropdown-item">Minha Conta</a>
+            <a href="admin.html" id="link-admin" class="dropdown-item" style="display:none;">Gerenciador</a>
             <a href="javascript:void(0)" id="btn-sair" class="dropdown-item sair">Sair</a>
           </div>
         </div>
@@ -96,6 +97,25 @@
       </div>
 
       </div>
+    </section>
+
+    <section class="home-atalhos container" aria-label="Acessos principais">
+      <a href="#secao-destaques" class="home-atalho principal">
+        <span>Buscar lugares</span>
+        <strong>Por local e or&ccedil;amento</strong>
+      </a>
+      <a href="explorar.html" class="home-atalho">
+        <span>Explorar</span>
+        <strong>Filtros completos</strong>
+      </a>
+      <a href="sugestoes.html" class="home-atalho">
+        <span>Sugest&otilde;es</span>
+        <strong>Ideias prontas</strong>
+      </a>
+      <a href="premium.html" class="home-atalho">
+        <span>Premium</span>
+        <strong>Sem limites</strong>
+      </a>
     </section>
 
     <section class="cliente-primeira-visao" aria-label="O que voce encontra no Save Date">
@@ -221,6 +241,12 @@
           <p>Diga seu orçamento e a gente monta um rolê completo com lugares que cabem no bolso.</p>
           <span class="ferramenta-link">Montar meu rolê →</span>
         </a>
+        <a href="match-role.html" class="ferramenta-card">
+          <span class="ferramenta-icone">🎯</span>
+          <h3>Match de Rolê</h3>
+          <p>Responda clima, tempo e bolso para receber uma sugestão rápida de lugar.</p>
+          <span class="ferramenta-link">Descobrir match →</span>
+        </a>
         <a href="racha.html" class="ferramenta-card">
           <span class="ferramenta-icone">🧾</span>
           <h3>Racha da Conta</h3>
@@ -232,6 +258,49 @@
           <h3>Comparar Lugares</h3>
           <p>Coloque até 3 lugares lado a lado e decida por preço, nota e estilo.</p>
           <span class="ferramenta-link">Comparar →</span>
+        </a>
+        <a href="checklist-role.html" class="ferramenta-card">
+          <span class="ferramenta-icone">✅</span>
+          <h3>Checklist do Rolê</h3>
+          <p>Monte uma lista rápida para não esquecer reserva, transporte, horário e orçamento.</p>
+          <span class="ferramenta-link">Criar checklist →</span>
+        </a>
+      </div>
+    </section>
+
+    <section class="ferramentas-home ferramentas-premium container" aria-label="Ferramentas premium">
+      <div class="cabecalho-secao compacto">
+        <h2 class="titulo-secao">Ferramentas Premium</h2>
+        <a href="premium.html" class="link-ver-tudo">Ver planos</a>
+      </div>
+      <div class="ferramentas-grid">
+        <a href="radar-vantagens.html" class="ferramenta-card premium-tool" data-premium-tipo="usuario">
+          <span class="premium-selo">Plus</span>
+          <span class="ferramenta-icone">💎</span>
+          <h3>Radar de Vantagens</h3>
+          <p>Simule descontos e vantagens para escolher o melhor custo-benefício do rolê.</p>
+          <span class="ferramenta-link">Abrir radar →</span>
+        </a>
+        <a href="date-lab.html" class="ferramenta-card premium-tool" data-premium-tipo="usuario">
+          <span class="premium-selo">Plus</span>
+          <span class="ferramenta-icone">✨</span>
+          <h3>Date Lab</h3>
+          <p>Gere ideias de encontro por humor, orçamento e tempo disponível.</p>
+          <span class="ferramenta-link">Gerar ideia →</span>
+        </a>
+        <a href="campanhas-premium.html" class="ferramenta-card premium-tool" data-premium-tipo="estabelecimento">
+          <span class="premium-selo parceiro">Parceiro</span>
+          <span class="ferramenta-icone">📣</span>
+          <h3>Central de Campanhas</h3>
+          <p>Crie promoções, eventos e chamadas para destacar seu restaurante.</p>
+          <span class="ferramenta-link">Criar campanha →</span>
+        </a>
+        <a href="insights-premium.html" class="ferramenta-card premium-tool" data-premium-tipo="estabelecimento">
+          <span class="premium-selo parceiro">Parceiro</span>
+          <span class="ferramenta-icone">📊</span>
+          <h3>Insights do Restaurante</h3>
+          <p>Veja métricas simuladas de visualizações, salvamentos e reputação.</p>
+          <span class="ferramenta-link">Ver insights →</span>
         </a>
       </div>
     </section>
@@ -303,6 +372,8 @@
             <a href="#" class="dashboard-action-link action-add-images">📷 Adicionar imagens</a>
             <a href="#" class="dashboard-action-link action-edit-cardapio">🍽️ Editar cardápio</a>
             <a href="#" class="dashboard-action-link action-remove-comments">🧹 Remover comentários</a>
+            <a href="campanhas-premium.html" class="dashboard-action-link">📣 Campanhas Premium</a>
+            <a href="insights-premium.html" class="dashboard-action-link">📊 Insights Premium</a>
           </div>
           <p id="acoes-rapidas-texto" class="texto-pequeno">Assine Premium para desbloquear ações rápidas do estabelecimento.</p>
         </article>
@@ -588,6 +659,48 @@
       } else {
         mostrarToast('Categoria não encontrada: ' + termo, 'erro');
       }
+    });
+    document.querySelectorAll('.premium-tool').forEach(link => {
+      link.addEventListener('click', function (event) {
+        const tipoNecessario = this.dataset.premiumTipo;
+        const tipoAtual = (localStorage.getItem('usuarioTipo') || 'usuario').toLowerCase();
+        const emailAtual = (localStorage.getItem('usuarioLogadoEmail') || localStorage.getItem('estabelecimentoCadastroEmail') || '').toLowerCase();
+        const logado = localStorage.getItem('usuarioLogado') === 'true';
+        const premiumUsuario =
+          localStorage.getItem('clientePremiumAtivo') === 'true' ||
+          localStorage.getItem(`clientePremium_${emailAtual}`) === 'true';
+        const premiumEstabelecimento =
+          localStorage.getItem('usuarioPremium') === 'true' ||
+          localStorage.getItem(`estabelecimentoPremium_${emailAtual}`) === 'true';
+        const premiumAtivo =
+          tipoNecessario === 'estabelecimento'
+            ? premiumEstabelecimento
+            : premiumUsuario;
+
+        if (!logado) {
+          event.preventDefault();
+          mostrarToast('Faça login para acessar ferramentas Premium.', 'erro');
+          setTimeout(() => window.location.href = 'login.html', 1200);
+          return;
+        }
+
+        if (tipoNecessario && tipoAtual !== tipoNecessario) {
+          event.preventDefault();
+          mostrarToast(
+            tipoNecessario === 'estabelecimento'
+              ? 'Essa ferramenta é para restaurantes parceiros.'
+              : 'Essa ferramenta é para usuários Plus.',
+            'info'
+          );
+          return;
+        }
+
+        if (!premiumAtivo) {
+          event.preventDefault();
+          mostrarToast('Essa ferramenta é Premium. Escolha um plano para liberar.', 'info');
+          setTimeout(() => window.location.href = 'premium.html', 1400);
+        }
+      });
     });
   </script>
 

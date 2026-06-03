@@ -1,0 +1,299 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --primaria: #f4a261;
+  --primaria-escura: #e76f51;
+  --texto: #222;
+  --suave: #667085;
+  --borda: #e5e5e5;
+  --fundo: #f7f8fa;
+}
+
+body {
+  min-height: 100vh;
+  background: var(--fundo);
+  color: var(--texto);
+  font-family: Inter, Arial, sans-serif;
+}
+
+.admin-topo {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 14px clamp(18px, 4vw, 44px);
+  border-bottom: 1px solid var(--borda);
+  background: #fff;
+  box-shadow: 0 2px 12px rgba(17, 24, 39, 0.04);
+}
+
+.admin-logo,
+.admin-nav,
+.admin-nav a,
+.admin-nav button {
+  display: inline-flex;
+  align-items: center;
+}
+
+.admin-logo {
+  gap: 10px;
+  color: var(--primaria-escura);
+  font-weight: 900;
+  text-decoration: none;
+}
+
+.admin-logo img {
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+}
+
+.admin-nav {
+  gap: 8px;
+}
+
+.admin-nav a,
+.admin-nav button,
+.btn-secundario,
+.btn-acao {
+  min-height: 38px;
+  padding: 9px 13px;
+  border: 1px solid var(--borda);
+  border-radius: 8px;
+  background: #fff;
+  color: #344054;
+  cursor: pointer;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.admin-nav button,
+.btn-secundario {
+  background: linear-gradient(135deg, var(--primaria), var(--primaria-escura));
+  color: #fff;
+  border-color: transparent;
+}
+
+.admin-container {
+  width: min(1180px, 100%);
+  margin: 0 auto;
+  padding: 32px 20px 52px;
+}
+
+.admin-hero {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 18px;
+}
+
+.admin-kicker {
+  display: inline-flex;
+  margin-bottom: 8px;
+  color: var(--primaria-escura);
+  font-size: 12px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.admin-hero h1 {
+  font-size: clamp(1.8rem, 4vw, 2.7rem);
+  line-height: 1.08;
+}
+
+.admin-hero p,
+.admin-card p {
+  color: var(--suave);
+}
+
+.admin-kpis {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin-bottom: 18px;
+}
+
+.admin-kpis article,
+.admin-card {
+  border: 1px solid var(--borda);
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0 10px 28px rgba(17, 24, 39, 0.05);
+}
+
+.admin-kpis article {
+  padding: 18px;
+}
+
+.admin-kpis span {
+  color: var(--suave);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.admin-kpis strong {
+  display: block;
+  margin-top: 6px;
+  font-size: 2rem;
+}
+
+.admin-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 18px;
+}
+
+.admin-financeiro {
+  grid-column: 1 / -1;
+}
+
+.admin-card {
+  overflow: hidden;
+}
+
+.admin-card-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 18px;
+  border-bottom: 1px solid var(--borda);
+}
+
+.admin-card h2 {
+  font-size: 1.15rem;
+}
+
+.table-wrap {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.financeiro-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  padding: 18px;
+}
+
+.financeiro-grid div {
+  min-height: 118px;
+  padding: 16px;
+  border: 1px solid var(--borda);
+  border-radius: 10px;
+  background: #f9fafb;
+}
+
+.financeiro-grid span,
+.financeiro-grid small {
+  display: block;
+  color: var(--suave);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.financeiro-grid strong {
+  display: block;
+  margin: 8px 0 4px;
+  font-size: 1.55rem;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 13px 16px;
+  border-bottom: 1px solid var(--borda);
+  text-align: left;
+  font-size: 14px;
+}
+
+th {
+  color: var(--suave);
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.status-pill {
+  display: inline-flex;
+  padding: 5px 9px;
+  border-radius: 999px;
+  background: rgba(42, 157, 143, 0.12);
+  color: #247769;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.status-pill.inativo {
+  background: rgba(120, 120, 120, 0.12);
+  color: #666;
+}
+
+.acoes {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.btn-acao.perigo {
+  border-color: rgba(198, 40, 40, 0.24);
+  color: #c62828;
+}
+
+.empty-row {
+  color: var(--suave);
+  text-align: center;
+}
+
+.admin-toast {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  max-width: min(340px, calc(100vw - 36px));
+  padding: 13px 15px;
+  border-radius: 10px;
+  background: #222;
+  color: #fff;
+  font-weight: 800;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.2s, transform 0.2s;
+  pointer-events: none;
+}
+
+.admin-toast.ativo {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (max-width: 720px) {
+  .admin-topo,
+  .admin-hero {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .admin-kpis {
+    grid-template-columns: 1fr;
+  }
+
+  .financeiro-grid {
+    grid-template-columns: 1fr;
+  }
+}

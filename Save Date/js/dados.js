@@ -777,6 +777,152 @@ function ehPatrocinado(item) {
   }
 }
 
+/* =========================================================
+   ABERTO AGORA — interpreta o campo "horario" de cada lugar.
+   Retorna true (aberto), false (fechado) ou null (não aplicável,
+   ex.: "Sob reserva"). Entende formatos como "11h30 - 23h",
+   "17h - 02h" (vira a madrugada) e "24h".
+========================================================= */
+function _minutosAgora() {
+  const d = new Date();
+  return d.getHours() * 60 + d.getMinutes();
+}
+
+function estaAbertoAgora(horario) {
+  if (!horario) return null;
+  const txt = String(horario).toLowerCase();
+  if (txt.includes("24h")) return true;
+  if (txt.includes("reserva")) return null;
+
+  const m = String(horario).match(/(\d{1,2})h(\d{2})?\s*[-–]\s*(\d{1,2})h(\d{2})?/);
+  if (!m) return null;
+
+  const abre = parseInt(m[1], 10) * 60 + (m[2] ? parseInt(m[2], 10) : 0);
+  let fecha = parseInt(m[3], 10) * 60 + (m[4] ? parseInt(m[4], 10) : 0);
+  if (fecha === 0) fecha = 24 * 60; // "00h" = meia-noite (fim do dia)
+
+  const agora = _minutosAgora();
+  if (fecha > abre) return agora >= abre && agora < fecha;
+  return agora >= abre || agora < fecha; // cruza a meia-noite
+}
+
+function badgeAbertoHTML(horario) {
+  const aberto = estaAbertoAgora(horario);
+  if (aberto === null) return "";
+  return aberto
+    ? '<span class="badge-aberto aberto">● Aberto agora</span>'
+    : '<span class="badge-aberto fechado">● Fechado</span>';
+}
+
+/* =========================================================
+   DISTÂNCIA / PERTO DE MIM — usa lat/lon (fórmula de Haversine)
+   e a geolocalização do navegador.
+========================================================= */
+function distanciaKm(lat1, lon1, lat2, lon2) {
+  const R = 6371;
+  const toRad = (g) => (g * Math.PI) / 180;
+  const dLat = toRad(lat2 - lat1);
+  const dLon = toRad(lon2 - lon1);
+  const a =
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon / 2) ** 2;
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+}
+
+function formatarDistancia(km) {
+  if (km == null || Number.isNaN(km)) return "";
+  return km < 1 ? `${Math.round(km * 1000)} m` : `${km.toFixed(1)} km`;
+}
+
+const coordenadasPorBairro = {
+  "Alto da Boa Vista": { lat: -22.9657, lon: -43.2676 },
+  "Barra da Tijuca": { lat: -23.0004, lon: -43.3659 },
+  Botafogo: { lat: -22.9519, lon: -43.1822 },
+  Cachambi: { lat: -22.8872, lon: -43.2754 },
+  Centro: { lat: -22.9068, lon: -43.1729 },
+  Copacabana: { lat: -22.9711, lon: -43.1822 },
+  Flamengo: { lat: -22.9339, lon: -43.1743 },
+  Gávea: { lat: -22.9811, lon: -43.2367 },
+  Ipanema: { lat: -22.9846, lon: -43.2048 },
+  "Jardim Botânico": { lat: -22.9679, lon: -43.2246 },
+  Lagoa: { lat: -22.9714, lon: -43.2111 },
+  Lapa: { lat: -22.9137, lon: -43.1799 },
+  Laranjeiras: { lat: -22.9344, lon: -43.1878 },
+  Leblon: { lat: -22.9837, lon: -43.2241 },
+  "Praça da Bandeira": { lat: -22.9122, lon: -43.2125 },
+  "Santa Teresa": { lat: -22.9214, lon: -43.1882 },
+  "São Conrado": { lat: -22.9986, lon: -43.2673 },
+  "São Cristóvão": { lat: -22.8957, lon: -43.2227 },
+  Urca: { lat: -22.9486, lon: -43.1656 }
+};
+
+function bairroDeLugar(lugar) {
+  return (lugar && lugar.localizacao ? lugar.localizacao : "").split(",")[0].trim();
+}
+
+function coordenadasDeLugar(lugar) {
+  if (!lugar) return null;
+  if (lugar.lat != null && lugar.lon != null) return { lat: lugar.lat, lon: lugar.lon };
+  return coordenadasPorBairro[bairroDeLugar(lugar)] || null;
+}
+
+let posicaoUsuario = null; // { lat, lon } em cache durante a sessão
+function obterPosicaoUsuario() {
+  return new Promise((resolve, reject) => {
+    if (posicaoUsuario) return resolve(posicaoUsuario);
+    if (!navigator.geolocation) {
+      reject(new Error("Geolocalização não suportada neste navegador."));
+      return;
+    }
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        posicaoUsuario = { lat: pos.coords.latitude, lon: pos.coords.longitude };
+        resolve(posicaoUsuario);
+      },
+      (err) => reject(err),
+      { enableHighAccuracy: false, timeout: 10000, maximumAge: 300000 }
+    );
+  });
+}
+
+/* =========================================================
+   AVALIAÇÕES DE USUÁRIO — guardadas no navegador (localStorage),
+   por id de lugar. Cada item: { nota, comentario, autor, data }.
+========================================================= */
+function _lerAvaliacoes() {
+  try {
+    return JSON.parse(localStorage.getItem("avaliacoesUsuario") || "{}");
+  } catch (e) {
+    return {};
+  }
+}
+
+function getAvaliacoesUsuario(id) {
+  const todas = _lerAvaliacoes();
+  return todas[id] || [];
+}
+
+function addAvaliacaoUsuario(id, nota, comentario, autor) {
+  const todas = _lerAvaliacoes();
+  const lista = todas[id] || [];
+  lista.unshift({
+    nota: Number(nota),
+    comentario: (comentario || "").trim(),
+    autor: (autor && autor.trim()) || localStorage.getItem("nomeUsuario") || "Você",
+    data: new Date().toISOString()
+  });
+  todas[id] = lista;
+  localStorage.setItem("avaliacoesUsuario", JSON.stringify(todas));
+  return lista;
+}
+
+function mediaAvaliacaoUsuario(id) {
+  const lista = getAvaliacoesUsuario(id);
+  if (!lista.length) return null;
+  const soma = lista.reduce((s, a) => s + (Number(a.nota) || 0), 0);
+  return { media: soma / lista.length, total: lista.length };
+}
+
 /* Disponibiliza no escopo global (para páginas que não usam módulos). */
 if (typeof window !== "undefined") {
   window.lugaresData = lugaresData;
@@ -784,4 +930,14 @@ if (typeof window !== "undefined") {
   window.lugaresPorCategoriaSlug = lugaresPorCategoriaSlug;
   window.lugarPorId = lugarPorId;
   window.ehPatrocinado = ehPatrocinado;
+  window.estaAbertoAgora = estaAbertoAgora;
+  window.badgeAbertoHTML = badgeAbertoHTML;
+  window.distanciaKm = distanciaKm;
+  window.formatarDistancia = formatarDistancia;
+  window.bairroDeLugar = bairroDeLugar;
+  window.coordenadasDeLugar = coordenadasDeLugar;
+  window.obterPosicaoUsuario = obterPosicaoUsuario;
+  window.getAvaliacoesUsuario = getAvaliacoesUsuario;
+  window.addAvaliacaoUsuario = addAvaliacaoUsuario;
+  window.mediaAvaliacaoUsuario = mediaAvaliacaoUsuario;
 }
