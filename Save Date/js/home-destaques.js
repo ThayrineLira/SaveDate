@@ -42,6 +42,7 @@
       precoLabel: rotuloPreco(Number(l.preco) || 0),
       resumo: l.descricao || '',
       local: l.localizacao || '',
+      patrocinado: l.patrocinado === true,
       origem: 'catalogo'
     }));
   }
@@ -77,6 +78,7 @@
           telefone: it.telefone,
           email: it.email,
           horarios: it.horarios || [],
+          patrocinado: (typeof ehPatrocinado === 'function') ? ehPatrocinado(it) : false,
           origem: 'cadastro'
         };
       });
@@ -84,14 +86,20 @@
 
   function montarCard(item) {
     const card = document.createElement('div');
-    card.className = 'card-local';
+    card.className = 'card-local' + (item.patrocinado ? ' patrocinado' : '');
+    const seloPatrocinado = item.patrocinado
+      ? '<span class="selo-patrocinado">★ Patrocinado</span>'
+      : '';
     card.innerHTML = `
-      <img
-        class="foto-local"
-        src="${escaparAtributo(item.imagem)}"
-        alt="Foto de ${escaparAtributo(item.nome)}"
-        onerror="this.onerror=null;this.src='img/logo.png';"
-      />
+      <div class="foto-wrapper">
+        ${seloPatrocinado}
+        <img
+          class="foto-local"
+          src="${escaparAtributo(item.imagem)}"
+          alt="Foto de ${escaparAtributo(item.nome)}"
+          onerror="this.onerror=null;this.src='img/logo.png';"
+        />
+      </div>
       <div class="info-card">
         <h3 class="nome-local">${escaparAtributo(item.nome)}</h3>
         <p class="subtitulo-local">
@@ -147,6 +155,9 @@
       itens = itens.filter((i) =>
         normaliza(`${i.nome} ${i.tipo} ${i.local} ${i.resumo}`).includes(termo));
     }
+
+    // Patrocinados aparecem primeiro (mantém a ordem relativa do restante).
+    itens.sort((a, b) => (b.patrocinado === true) - (a.patrocinado === true));
 
     grade.innerHTML = '';
     if (!itens.length) {

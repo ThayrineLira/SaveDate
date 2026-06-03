@@ -4,212 +4,216 @@
    Todas as páginas (explorar, detalhes, salvos, conta e as
    páginas de categoria) usam este arquivo.
    Para adicionar/editar um lugar, edite SOMENTE aqui.
+
+   OBS: catálogo 100% Rio de Janeiro.
 ========================================================= */
 
 const lugaresData = [
   {
     id: 1,
-    nome: "Família Mancini",
+    nome: "Garota de Ipanema",
     categoria: "Restaurante",
+    patrocinado: true,
     emoji: "🍽️",
     imagem: "img/pagRestaurante.jpeg",
     preco: 95,
     avaliacoes: 4.8,
     countAvaliacao: 567,
-    localizacao: "Zona sul, São Paulo",
-    tags: ["Família", "Casal"],
-    descricao: "Restaurante italiano clássico com massas artesanais e ambiente acolhedor para toda a família.",
-    endereco: "Rua Exemplo, 123 - São Paulo, SP",
-    telefone: "(11) 3333-3333",
+    localizacao: "Ipanema, Rio de Janeiro",
+    tags: ["Família", "Casal", "Tradição"],
+    descricao: "Restaurante histórico onde nasceu a música 'Garota de Ipanema', com cozinha brasileira e chope gelado.",
+    endereco: "R. Vinícius de Moraes, 49 - Ipanema, Rio de Janeiro, RJ",
+    telefone: "(21) 2522-0340",
     horario: "11h30 - 23h",
-    diferenciais: ["Massas artesanais", "Ambiente acolhedor", "Ar condicionado", "Estacionamento", "Vinhos importados"]
+    diferenciais: ["Bossa nova", "Cozinha brasileira", "Casa histórica", "Chope gelado"]
   },
   {
     id: 2,
-    nome: "O Bar do Seu Zé",
+    nome: "Bar Lagoa",
     categoria: "Bar",
+    patrocinado: true,
     emoji: "🍺",
     imagem: "img/seuze.jpg",
     preco: 45,
     avaliacoes: 4.6,
     countAvaliacao: 324,
-    localizacao: "Vila Mariana",
+    localizacao: "Lagoa, Rio de Janeiro",
     tags: ["Amigos", "Casal"],
-    descricao: "Bar tradicional com cervejas artesanais, drinks clássicos e uma vibe descontraída.",
-    endereco: "Avenida Paulista, 456 - São Paulo, SP",
-    telefone: "(11) 2222-2222",
+    descricao: "Boteco art déco de 1934 com vista para a Lagoa, famoso pelo chope e pela cozinha alemã.",
+    endereco: "Av. Epitácio Pessoa, 1674 - Lagoa, Rio de Janeiro, RJ",
+    telefone: "(21) 2523-1135",
     horario: "17h - 02h",
-    diferenciais: ["Cervejas artesanais", "Happy hour diário", "Música ao vivo", "Petiscos"]
+    diferenciais: ["Casa art déco", "Vista da Lagoa", "Cozinha alemã", "Chope tradicional"]
   },
   {
     id: 3,
-    nome: "Gourmet Burguer",
+    nome: "Cervantes",
     categoria: "Lanchonete",
     emoji: "🍔",
-    imagem: "",
+    imagem: "img/restaurante.png",
     preco: 35,
     avaliacoes: 4.5,
     countAvaliacao: 412,
-    localizacao: "Pinheiros",
-    tags: ["Amigos", "Família"],
-    descricao: "Hamburgueria com carnes selecionadas, pães caseiros e combinações criativas.",
-    endereco: "Rua dos Pinheiros, 789 - São Paulo, SP",
-    telefone: "(11) 4444-4444",
-    horario: "11h - 22h",
-    diferenciais: ["Carnes selecionadas", "Pães caseiros", "Batatas artesanais", "Atendimento rápido"]
+    localizacao: "Copacabana, Rio de Janeiro",
+    tags: ["Amigos", "Madrugada"],
+    descricao: "Lanchonete clássica famosa pelos sanduíches de pernil com abacaxi, aberta madrugada adentro.",
+    endereco: "Av. Prado Júnior, 335 - Copacabana, Rio de Janeiro, RJ",
+    telefone: "(21) 2275-6147",
+    horario: "12h - 04h",
+    diferenciais: ["Sanduíche de pernil", "Aberto até tarde", "Tradicional", "Atendimento rápido"]
   },
   {
     id: 4,
-    nome: "Pizzaria do Bairro",
+    nome: "Pizzaria Guanabara",
     categoria: "Pizzaria",
     emoji: "🍕",
     imagem: "img/pizzariadobairro.jpg",
     preco: 60,
     avaliacoes: 4.7,
     countAvaliacao: 598,
-    localizacao: "Mooca",
+    localizacao: "Leblon, Rio de Janeiro",
     tags: ["Família", "Casal", "Amigos"],
-    descricao: "Pizzaria tradicional com forno a lenha, ingredientes frescos e clima informal.",
-    endereco: "Rua da Mooca, 321 - São Paulo, SP",
-    telefone: "(11) 5555-5555",
+    descricao: "Pizzaria e boteco point do Leblon, com clima animado e movimento até tarde da noite.",
+    endereco: "Av. Ataulfo de Paiva, 1228 - Leblon, Rio de Janeiro, RJ",
+    telefone: "(21) 2294-0797",
     horario: "12h - 23h",
-    diferenciais: ["Forno a lenha", "Ingredientes frescos", "Pizzas grandes", "Bom para grupos"]
+    diferenciais: ["Point do Leblon", "Clima animado", "Aberto até tarde", "Bom para grupos"]
   },
   {
     id: 5,
-    nome: "Café Aconchego",
+    nome: "Curto Café",
     categoria: "Café",
     emoji: "☕",
     imagem: "img/cafeaconchego2.jpg",
     preco: 25,
     avaliacoes: 4.9,
     countAvaliacao: 876,
-    localizacao: "Vila Madalena",
-    tags: ["Casal"],
-    descricao: "Café aconchegante com bebidas artesanais, doces caseiros e espaço tranquilo.",
-    endereco: "Rua Vila Madalena, 654 - São Paulo, SP",
-    telefone: "(11) 6666-6666",
+    localizacao: "Centro, Rio de Janeiro",
+    tags: ["Casal", "Café especial"],
+    descricao: "Cafeteria autoral no centro histórico, especializada em cafés especiais e método coado.",
+    endereco: "Travessa do Comércio, 17 - Centro, Rio de Janeiro, RJ",
+    telefone: "(21) 3553-0150",
     horario: "07h - 19h",
-    diferenciais: ["Café especial", "Doces caseiros", "Wi-Fi grátis", "Ambiente acolhedor"]
+    diferenciais: ["Cafés especiais", "Método coado", "Centro histórico", "Ambiente despojado"]
   },
   {
     id: 6,
-    nome: "Shopping Center VillaGe",
+    nome: "NorteShopping",
     categoria: "Shopping",
     emoji: "🛍️",
     imagem: "img/bangushopping.jpg",
     preco: 0,
     avaliacoes: 4.4,
     countAvaliacao: 1200,
-    localizacao: "Zona norte",
+    localizacao: "Cachambi, Rio de Janeiro",
     tags: ["Família", "Amigos"],
-    descricao: "Shopping completo com lojas, restaurantes e entretenimento para toda a família.",
-    endereco: "Rodovia Anhanguera, Km 25 - São Paulo, SP",
-    telefone: "(11) 7777-7777",
+    descricao: "Um dos maiores shoppings do Rio, com lojas, cinema, teatro e ampla praça de alimentação.",
+    endereco: "Av. Suburbana, 5474 - Cachambi, Rio de Janeiro, RJ",
+    telefone: "(21) 2596-1000",
     horario: "10h - 22h",
-    diferenciais: ["Múltiplas lojas", "Praça de alimentação", "Cinema", "Estacionamento"]
+    diferenciais: ["Múltiplas lojas", "Cinema", "Teatro", "Praça de alimentação"]
   },
   {
     id: 7,
-    nome: "Parque da Independência",
+    nome: "Quinta da Boa Vista",
     categoria: "Parque",
     emoji: "🌳",
     imagem: "img/parqueindependencia.jpg",
     preco: 0,
     avaliacoes: 4.6,
     countAvaliacao: 445,
-    localizacao: "Ipiranga",
+    localizacao: "São Cristóvão, Rio de Janeiro",
     tags: ["Família", "Casal"],
-    descricao: "Parque histórico com áreas verdes, caminhada e espaço para piquenique.",
-    endereco: "Avenida Nazaré, 1000 - São Paulo, SP",
-    telefone: "(11) 8888-8888",
-    horario: "06h - 22h",
-    diferenciais: ["Áreas verdes", "Piquenique", "Monumento histórico", "Caminhada"]
+    descricao: "Antigo parque imperial com amplos jardins, lago, museus e espaço para piquenique e caminhada.",
+    endereco: "Av. Pedro II - São Cristóvão, Rio de Janeiro, RJ",
+    telefone: "(21) 2589-4669",
+    horario: "06h - 18h",
+    diferenciais: ["Jardins imperiais", "Lago", "Museus", "Piquenique"]
   },
   {
     id: 8,
-    nome: "Sorveteria Gelato",
+    nome: "Mil Frutas",
     categoria: "Sorveteria",
     emoji: "🍨",
-    imagem: "",
+    imagem: "img/cafeaconchego2.jpg",
     preco: 20,
     avaliacoes: 4.8,
     countAvaliacao: 567,
-    localizacao: "Consolação",
+    localizacao: "Ipanema, Rio de Janeiro",
     tags: ["Amigos", "Família", "Casal"],
-    descricao: "Sorveteria artesanal com sabores variados e receitas italianas tradicionais.",
-    endereco: "Avenida Consolação, 111 - São Paulo, SP",
-    telefone: "(11) 9999-9999",
+    descricao: "Sorveteria carioca famosa pelos sabores de frutas brasileiras como açaí, cupuaçu e jabuticaba.",
+    endereco: "R. Garcia D'Ávila, 134 - Ipanema, Rio de Janeiro, RJ",
+    telefone: "(21) 2521-1384",
     horario: "12h - 22h",
-    diferenciais: ["Gelato artesanal", "Sabores sazonais", "Opções leves", "Bom custo-benefício"]
+    diferenciais: ["Frutas brasileiras", "Sabores exóticos", "Artesanal", "Tradicional do Rio"]
   },
   {
     id: 9,
-    nome: "Beer & Vibes",
+    nome: "Jobi",
     categoria: "Bar",
     emoji: "🍻",
     imagem: "img/beerevibe.jpg",
     preco: 50,
     avaliacoes: 4.5,
     countAvaliacao: 289,
-    localizacao: "Bom Retiro",
+    localizacao: "Leblon, Rio de Janeiro",
     tags: ["Amigos"],
-    descricao: "Bar moderno com cervejas artesanais, música e ambiente descontraído.",
-    endereco: "Rua Bom Retiro, 222 - São Paulo, SP",
-    telefone: "(11) 1010-1010",
+    descricao: "Boteco tradicional do Leblon desde 1956, famoso pelo chope cremoso e pelos petiscos clássicos.",
+    endereco: "Av. Ataulfo de Paiva, 1166 - Leblon, Rio de Janeiro, RJ",
+    telefone: "(21) 2274-0547",
     horario: "17h - 03h",
-    diferenciais: ["Cervejas artesanais", "DJ ao vivo", "Ambiente moderno", "Petiscos"]
+    diferenciais: ["Chope cremoso", "Boteco clássico", "Aberto até tarde", "Petiscos"]
   },
   {
     id: 10,
-    nome: "Lounge Central",
+    nome: "Bar Urca",
     categoria: "Bar",
     emoji: "🍸",
     imagem: "img/central.jpg",
     preco: 70,
     avaliacoes: 4.5,
     countAvaliacao: 156,
-    localizacao: "Centro",
-    tags: ["Casal", "Drinks", "Noite"],
-    descricao: "Drinks autorais e clima mais calmo para quem quer conversar sem pressa.",
-    endereco: "Rua Central, 50 - São Paulo, SP",
-    telefone: "(11) 1212-1212",
-    horario: "18h - 01h",
-    diferenciais: ["Drinks autorais", "Ambiente calmo", "Carta de vinhos", "Bom para conversar"]
+    localizacao: "Urca, Rio de Janeiro",
+    tags: ["Casal", "Vista", "Pôr do sol"],
+    descricao: "Bar à beira da mureta da Urca, point para tomar chope vendo o pôr do sol na Baía de Guanabara.",
+    endereco: "R. Cândido Gaffrée, 205 - Urca, Rio de Janeiro, RJ",
+    telefone: "(21) 2295-8744",
+    horario: "11h - 00h",
+    diferenciais: ["Vista da baía", "Mureta da Urca", "Pôr do sol", "Petiscos"]
   },
   {
     id: 11,
-    nome: "Piquenique no Parque",
+    nome: "Parque do Flamengo",
     categoria: "Parque",
     emoji: "🧺",
     imagem: "img/piquenique.jpg",
     preco: 30,
     avaliacoes: 4.7,
     countAvaliacao: 98,
-    localizacao: "Ibirapuera",
+    localizacao: "Flamengo, Rio de Janeiro",
     tags: ["Casal", "Econômico", "Ao ar livre"],
-    descricao: "Plano econômico: leve lanches, escolha um gramado e aproveite o fim de tarde.",
-    endereco: "Parque Ibirapuera - São Paulo, SP",
-    telefone: "(11) 0000-0000",
-    horario: "06h - 18h",
-    diferenciais: ["Ao ar livre", "Econômico", "Ideal para casais", "Fim de tarde"]
+    descricao: "Maior parque urbano à beira-mar do Rio, ideal para piquenique, corrida e fim de tarde.",
+    endereco: "Av. Infante Dom Henrique - Flamengo, Rio de Janeiro, RJ",
+    telefone: "(21) 2265-3000",
+    horario: "24h",
+    diferenciais: ["Beira-mar", "Piquenique", "Ciclovia", "Fim de tarde"]
   },
   {
     id: 12,
-    nome: "Trilha Leve",
+    nome: "Trilha da Pedra Bonita",
     categoria: "Parque",
     emoji: "🥾",
     imagem: "img/trilha.jpg",
     preco: 0,
     avaliacoes: 4.6,
     countAvaliacao: 74,
-    localizacao: "Cantareira",
+    localizacao: "São Conrado, Rio de Janeiro",
     tags: ["Amigos", "Natureza", "Grátis"],
-    descricao: "Caminhada curta para quem quer um programa ativo sem depender de reserva.",
-    endereco: "Parque da Cantareira - São Paulo, SP",
-    telefone: "(11) 0000-0000",
+    descricao: "Trilha leve com vista panorâmica da praia de São Conrado e rampa de voo livre no topo.",
+    endereco: "Estr. da Pedra Bonita - São Conrado, Rio de Janeiro, RJ",
+    telefone: "(21) 2491-0000",
     horario: "07h - 17h",
-    diferenciais: ["Natureza", "Programa ativo", "Grátis", "Sem reserva"]
+    diferenciais: ["Vista panorâmica", "Trilha leve", "Voo livre", "Grátis"]
   },
   {
     id: 13,
@@ -264,201 +268,201 @@ const lugaresData = [
   },
   {
     id: 16,
-    nome: "Casa de Eventos Aurora",
+    nome: "Casa de Festas Lapa",
     categoria: "Salão de festas",
     emoji: "🎉",
     imagem: "img/aurora.jpg",
     preco: 180,
     avaliacoes: 4.4,
     countAvaliacao: 64,
-    localizacao: "Zona oeste",
+    localizacao: "Lapa, Rio de Janeiro",
     tags: ["Grupo", "Evento", "Reserva"],
-    descricao: "Espaço compacto para aniversários, confraternizações e encontros com amigos.",
-    endereco: "Rua das Flores, 200 - São Paulo, SP",
-    telefone: "(11) 4545-4545",
+    descricao: "Espaço para aniversários e confraternizações no coração boêmio da Lapa, com som e bar.",
+    endereco: "R. do Lavradio, 100 - Lapa, Rio de Janeiro, RJ",
+    telefone: "(21) 2222-4545",
     horario: "Sob reserva",
-    diferenciais: ["Para grupos", "Som e iluminação", "Reserva flexível", "Espaço compacto"]
+    diferenciais: ["No coração da Lapa", "Som e iluminação", "Bar incluso", "Reserva flexível"]
   },
   {
     id: 17,
-    nome: "Salão Jardim",
+    nome: "Espaço Laranjeiras",
     categoria: "Salão de festas",
     emoji: "🎊",
     imagem: "img/jardim.jpeg",
     preco: 220,
     avaliacoes: 4.6,
     countAvaliacao: 51,
-    localizacao: "Zona sul",
+    localizacao: "Laranjeiras, Rio de Janeiro",
     tags: ["Aniversário", "Família", "Área externa"],
-    descricao: "Ambiente para festa pequena com área externa, mesas e espaço para decoração.",
-    endereco: "Av. dos Jardins, 800 - São Paulo, SP",
-    telefone: "(11) 4646-4646",
+    descricao: "Casarão com área externa e jardim para festas pequenas, aniversários e casamentos íntimos.",
+    endereco: "R. das Laranjeiras, 500 - Laranjeiras, Rio de Janeiro, RJ",
+    telefone: "(21) 2225-4646",
     horario: "Sob reserva",
-    diferenciais: ["Área externa", "Decoração", "Para família", "Festa pequena"]
+    diferenciais: ["Área externa", "Jardim", "Casarão", "Festa pequena"]
   },
   {
     id: 18,
-    nome: "Noite com DJ",
+    nome: "Rio Scenarium",
     categoria: "Salão de festas",
     emoji: "🎶",
     imagem: "img/dj.jpg",
     preco: 160,
     avaliacoes: 4.3,
     countAvaliacao: 88,
-    localizacao: "Centro",
+    localizacao: "Lapa, Rio de Janeiro",
     tags: ["Amigos", "Música", "Noite"],
-    descricao: "Opção para grupos que querem música, pista pequena e clima de comemoração.",
-    endereco: "Rua da Noite, 10 - São Paulo, SP",
-    telefone: "(11) 4747-4747",
-    horario: "22h - 04h",
-    diferenciais: ["DJ ao vivo", "Pista de dança", "Para grupos", "Clima de festa"]
+    descricao: "Casa de shows clássica da Lapa, com três andares de decoração antiga, samba e roda animada.",
+    endereco: "R. do Lavradio, 20 - Centro, Rio de Janeiro, RJ",
+    telefone: "(21) 3147-9000",
+    horario: "19h - 04h",
+    diferenciais: ["Samba ao vivo", "Decoração antiga", "Três andares", "Clima de festa"]
   },
 
-  /* ---------- LUGARES REAIS (São Paulo) ---------- */
+  /* ---------- LUGARES REAIS (Rio de Janeiro) — parte 1 ---------- */
   {
     id: 19,
-    nome: "Bar Brahma",
+    nome: "Adega Pérola",
     categoria: "Bar",
     emoji: "🍺",
-    imagem: "",
+    imagem: "img/bar.png",
     preco: 70,
     avaliacoes: 4.4,
     countAvaliacao: 18500,
-    localizacao: "Centro, São Paulo",
-    tags: ["Amigos", "Música ao vivo", "Tradição"],
-    descricao: "Bar histórico de 1948 no centro de SP, com samba, chorinho e gastronomia de boteco.",
-    endereco: "Av. São João, 677 - Centro, São Paulo, SP",
-    telefone: "(11) 3367-3000",
+    localizacao: "Copacabana, Rio de Janeiro",
+    tags: ["Amigos", "Petiscos", "Tradição"],
+    descricao: "Bar histórico de 1957 famoso pela enorme variedade de petiscos ibéricos expostos no balcão.",
+    endereco: "R. Siqueira Campos, 138 - Copacabana, Rio de Janeiro, RJ",
+    telefone: "(21) 2255-9425",
     horario: "11h30 - 00h",
-    diferenciais: ["Música ao vivo", "Casa histórica", "Cozinha de boteco", "No coração do centro"]
+    diferenciais: ["Petiscos ibéricos", "Casa histórica", "Balcão farto", "No coração de Copacabana"]
   },
   {
     id: 20,
-    nome: "Veloso Bar",
+    nome: "Bracarense",
     categoria: "Bar",
     emoji: "🍸",
-    imagem: "",
+    imagem: "img/bardoseuze.jpg",
     preco: 80,
     avaliacoes: 4.6,
     countAvaliacao: 5400,
-    localizacao: "Vila Mariana, São Paulo",
-    tags: ["Casal", "Caipirinha", "Coxinha"],
-    descricao: "Boteco premiado famoso pelas caipirinhas autorais e pela coxinha cremosa.",
-    endereco: "R. Conceição Veloso, 54 - Vila Mariana, São Paulo, SP",
-    telefone: "(11) 5572-0254",
+    localizacao: "Leblon, Rio de Janeiro",
+    tags: ["Casal", "Chope", "Boteco"],
+    descricao: "Boteco premiado do Leblon famoso pelo chope gelado e pelos bolinhos e empadas caseiras.",
+    endereco: "R. José Linhares, 85 - Leblon, Rio de Janeiro, RJ",
+    telefone: "(21) 2294-3549",
     horario: "17h30 - 00h",
-    diferenciais: ["Caipirinhas autorais", "Coxinha premiada", "Ambiente animado", "Premiado pela crítica"]
+    diferenciais: ["Chope gelado", "Bolinhos premiados", "Clima de boteco", "Tradicional"]
   },
   {
     id: 21,
-    nome: "Pizzaria Bráz",
+    nome: "Pizzaria Capricciosa",
     categoria: "Pizzaria",
     emoji: "🍕",
-    imagem: "",
+    imagem: "img/pizzariadobairro.jpg",
     preco: 90,
     avaliacoes: 4.5,
     countAvaliacao: 7200,
-    localizacao: "Pinheiros, São Paulo",
+    localizacao: "Ipanema, Rio de Janeiro",
     tags: ["Família", "Casal", "Forno a lenha"],
-    descricao: "Rede paulistana tradicional de pizzas no forno a lenha, com massa leve e clima acolhedor.",
-    endereco: "R. Sergipe, 406 - Higienópolis, São Paulo, SP",
-    telefone: "(11) 3214-3337",
+    descricao: "Pizzaria sofisticada de Ipanema com massa fina, ingredientes importados e ambiente charmoso.",
+    endereco: "R. Maria Quitéria, 37 - Ipanema, Rio de Janeiro, RJ",
+    telefone: "(21) 2523-3394",
     horario: "18h - 00h",
-    diferenciais: ["Forno a lenha", "Chopp gelado", "Tradicional", "Bom para grupos"]
+    diferenciais: ["Massa fina", "Ingredientes importados", "Ambiente charmoso", "Bom para grupos"]
   },
   {
     id: 22,
-    nome: "Bacio di Latte",
+    nome: "Vero Gelato",
     categoria: "Sorveteria",
     emoji: "🍨",
-    imagem: "",
+    imagem: "img/cafeaconchego2.jpg",
     preco: 30,
     avaliacoes: 4.7,
     countAvaliacao: 9100,
-    localizacao: "Jardins, São Paulo",
+    localizacao: "Ipanema, Rio de Janeiro",
     tags: ["Casal", "Família", "Gelato"],
-    descricao: "Gelateria italiana com gelato artesanal feito diariamente e dezenas de sabores.",
-    endereco: "R. Oscar Freire, 136 - Jardins, São Paulo, SP",
-    telefone: "(11) 3081-5024",
+    descricao: "Gelateria artesanal de Ipanema com gelato italiano cremoso feito diariamente.",
+    endereco: "R. Visconde de Pirajá, 260 - Ipanema, Rio de Janeiro, RJ",
+    telefone: "(21) 3497-8754",
     horario: "12h - 23h",
-    diferenciais: ["Gelato artesanal", "Sabores italianos", "Feito no dia", "Na Oscar Freire"]
+    diferenciais: ["Gelato artesanal", "Sabores italianos", "Feito no dia", "Em Ipanema"]
   },
   {
     id: 23,
-    nome: "Parque Ibirapuera",
+    nome: "Floresta da Tijuca",
     categoria: "Parque",
     emoji: "🌳",
-    imagem: "",
+    imagem: "img/parque.png",
     preco: 0,
     avaliacoes: 4.8,
     countAvaliacao: 25000,
-    localizacao: "Moema, São Paulo",
+    localizacao: "Alto da Boa Vista, Rio de Janeiro",
     tags: ["Família", "Ao ar livre", "Grátis"],
-    descricao: "O parque urbano mais famoso de SP: lagos, ciclovia, museus e amplas áreas verdes.",
-    endereco: "Av. Pedro Álvares Cabral - Vila Mariana, São Paulo, SP",
-    telefone: "(11) 5573-4180",
-    horario: "05h - 00h",
-    diferenciais: ["Ciclovia", "Museus", "Lagos", "Gratuito"]
+    descricao: "Maior floresta urbana do mundo, com trilhas, cachoeiras, mirantes e muita Mata Atlântica.",
+    endereco: "Estr. da Cascatinha, 850 - Alto da Boa Vista, Rio de Janeiro, RJ",
+    telefone: "(21) 2492-2253",
+    horario: "08h - 17h",
+    diferenciais: ["Floresta urbana", "Cachoeiras", "Trilhas", "Mirantes"]
   },
   {
     id: 24,
-    nome: "Parque Villa-Lobos",
+    nome: "Parque do Cantagalo",
     categoria: "Parque",
     emoji: "🚴",
-    imagem: "",
+    imagem: "img/trilha.jpg",
     preco: 0,
     avaliacoes: 4.7,
     countAvaliacao: 11000,
-    localizacao: "Alto de Pinheiros, São Paulo",
+    localizacao: "Lagoa, Rio de Janeiro",
     tags: ["Amigos", "Esporte", "Grátis"],
-    descricao: "Parque com quadras, pista de skate, ciclovia e gramados para esportes e piquenique.",
-    endereco: "Av. Prof. Fonseca Rodrigues, 2001 - Alto de Pinheiros, São Paulo, SP",
-    telefone: "(11) 2683-6302",
-    horario: "05h30 - 19h",
-    diferenciais: ["Quadras esportivas", "Pista de skate", "Ciclovia", "Gratuito"]
+    descricao: "Área de lazer na orla da Lagoa Rodrigo de Freitas, com ciclovia, pedalinhos e quadras esportivas.",
+    endereco: "Av. Epitácio Pessoa - Lagoa, Rio de Janeiro, RJ",
+    telefone: "(21) 2247-0000",
+    horario: "06h - 18h",
+    diferenciais: ["Ciclovia", "Pedalinhos", "Quadras", "Orla da Lagoa"]
   },
   {
     id: 25,
-    nome: "Shopping Iguatemi São Paulo",
+    nome: "Shopping Rio Sul",
     categoria: "Shopping",
     emoji: "🛍️",
-    imagem: "",
+    imagem: "img/shopping.png",
     preco: 0,
     avaliacoes: 4.6,
     countAvaliacao: 32000,
-    localizacao: "Jardim Paulistano, São Paulo",
+    localizacao: "Botafogo, Rio de Janeiro",
     tags: ["Compras", "Cinema", "Restaurantes"],
-    descricao: "O primeiro shopping do Brasil, com lojas premium, cinema e restaurantes na Faria Lima.",
-    endereco: "Av. Brigadeiro Faria Lima, 2232 - Jardim Paulistano, São Paulo, SP",
-    telefone: "(11) 3815-7766",
+    descricao: "Shopping tradicional de Botafogo com lojas, cinema e fácil acesso ao túnel para Copacabana.",
+    endereco: "R. Lauro Müller, 116 - Botafogo, Rio de Janeiro, RJ",
+    telefone: "(21) 2122-8070",
     horario: "10h - 22h",
-    diferenciais: ["Lojas premium", "Cinema", "Restaurantes", "Localização nobre"]
+    diferenciais: ["Lojas variadas", "Cinema", "Restaurantes", "Fácil acesso"]
   },
   {
     id: 26,
-    nome: "Shopping Eldorado",
+    nome: "Village Mall",
     categoria: "Shopping",
     emoji: "🛍️",
-    imagem: "",
+    imagem: "img/shoppingNovaA.jpg",
     preco: 0,
     avaliacoes: 4.5,
     countAvaliacao: 28000,
-    localizacao: "Pinheiros, São Paulo",
+    localizacao: "Barra da Tijuca, Rio de Janeiro",
     tags: ["Família", "Cinema", "Compras"],
-    descricao: "Shopping amplo com cinema, parque infantil, praça de alimentação e muitas lojas.",
-    endereco: "Av. Rebouças, 3970 - Pinheiros, São Paulo, SP",
-    telefone: "(11) 2197-7000",
+    descricao: "Shopping premium da Barra com grifes de luxo, teatro, cinema VIP e gastronomia.",
+    endereco: "Av. das Américas, 3900 - Barra da Tijuca, Rio de Janeiro, RJ",
+    telefone: "(21) 3252-2999",
     horario: "10h - 22h",
-    diferenciais: ["Cinema", "Espaço família", "Praça de alimentação", "Fácil acesso"]
+    diferenciais: ["Grifes de luxo", "Teatro", "Cinema VIP", "Gastronomia"]
   },
 
-  /* ---------- LUGARES REAIS (Rio de Janeiro) ---------- */
+  /* ---------- LUGARES REAIS (Rio de Janeiro) — parte 2 ---------- */
   {
     id: 27,
     nome: "Confeitaria Colombo",
     categoria: "Café",
     emoji: "☕",
-    imagem: "",
+    imagem: "img/cafeaconchego2.jpg",
     preco: 70,
     avaliacoes: 4.6,
     countAvaliacao: 21000,
@@ -475,7 +479,7 @@ const lugaresData = [
     nome: "Bar Astor",
     categoria: "Bar",
     emoji: "🍸",
-    imagem: "",
+    imagem: "img/central.jpg",
     preco: 90,
     avaliacoes: 4.5,
     countAvaliacao: 6800,
@@ -492,7 +496,7 @@ const lugaresData = [
     nome: "Bar do Mineiro",
     categoria: "Bar",
     emoji: "🍺",
-    imagem: "",
+    imagem: "img/seuze.jpg",
     preco: 55,
     avaliacoes: 4.5,
     countAvaliacao: 9300,
@@ -509,7 +513,7 @@ const lugaresData = [
     nome: "Aprazível",
     categoria: "Restaurante",
     emoji: "🍽️",
-    imagem: "",
+    imagem: "img/pagRestaurante.jpeg",
     preco: 180,
     avaliacoes: 4.6,
     countAvaliacao: 4200,
@@ -526,7 +530,7 @@ const lugaresData = [
     nome: "Parque Lage",
     categoria: "Parque",
     emoji: "🌳",
-    imagem: "",
+    imagem: "img/parqueindependencia.jpg",
     preco: 0,
     avaliacoes: 4.8,
     countAvaliacao: 19000,
@@ -543,7 +547,7 @@ const lugaresData = [
     nome: "Jardim Botânico do Rio",
     categoria: "Parque",
     emoji: "🌿",
-    imagem: "",
+    imagem: "img/piquenique.jpg",
     preco: 35,
     avaliacoes: 4.8,
     countAvaliacao: 33000,
@@ -560,17 +564,104 @@ const lugaresData = [
     nome: "Belmonte",
     categoria: "Bar",
     emoji: "🍻",
-    imagem: "",
+    imagem: "img/beerevibe.jpg",
     preco: 60,
     avaliacoes: 4.4,
     countAvaliacao: 8700,
     localizacao: "Flamengo, Rio de Janeiro",
     tags: ["Amigos", "Chopp", "Boteco"],
-    descricao: "Boteco carioca clássico famoso pelo chopp gelado, pastéis e empadões generosos.",
+    descricao: "Boteco carioca clássico famoso pelo chope gelado, pastéis e empadões generosos.",
     endereco: "Praia do Flamengo, 300 - Flamengo, Rio de Janeiro, RJ",
     telefone: "(21) 2552-3349",
     horario: "11h - 02h",
-    diferenciais: ["Chopp gelado", "Empadões", "Clima de boteco", "Aberto até tarde"]
+    diferenciais: ["Chope gelado", "Empadões", "Clima de boteco", "Aberto até tarde"]
+  },
+
+  /* ---------- EXEMPLOS — UM POR CATEGORIA (com imagem garantida) ---------- */
+  {
+    id: 34,
+    nome: "Aconchego Carioca",
+    categoria: "Restaurante",
+    emoji: "🍽️",
+    imagem: "img/restaurante.png",
+    preco: 90,
+    avaliacoes: 4.7,
+    countAvaliacao: 15800,
+    localizacao: "Praça da Bandeira, Rio de Janeiro",
+    tags: ["Família", "Amigos", "Comida brasileira"],
+    descricao: "Restaurante premiado de cozinha brasileira, famoso pelo bolinho de feijoada e pela carta de cervejas.",
+    endereco: "R. Barão de Iguatemi, 379 - Praça da Bandeira, Rio de Janeiro, RJ",
+    telefone: "(21) 2273-1035",
+    horario: "12h - 23h",
+    diferenciais: ["Bolinho de feijoada", "Cozinha brasileira", "Premiado pela crítica", "Carta de cervejas"]
+  },
+  {
+    id: 35,
+    nome: "Bar dos Descasados",
+    categoria: "Bar",
+    emoji: "🍸",
+    imagem: "img/bar.png",
+    preco: 110,
+    avaliacoes: 4.6,
+    countAvaliacao: 3900,
+    localizacao: "Santa Teresa, Rio de Janeiro",
+    tags: ["Casal", "Drinks", "Coquetelaria"],
+    descricao: "Bar de coquetelaria autoral no Hotel Santa Teresa, com terraço e vista para a cidade.",
+    endereco: "R. Almirante Alexandrino, 660 - Santa Teresa, Rio de Janeiro, RJ",
+    telefone: "(21) 3380-0200",
+    horario: "18h - 01h",
+    diferenciais: ["Coquetelaria autoral", "Terraço com vista", "Ambiente sofisticado", "Drinks premiados"]
+  },
+  {
+    id: 36,
+    nome: "Parque das Ruínas",
+    categoria: "Parque",
+    emoji: "🌳",
+    imagem: "img/parque.png",
+    preco: 0,
+    avaliacoes: 4.7,
+    countAvaliacao: 12400,
+    localizacao: "Santa Teresa, Rio de Janeiro",
+    tags: ["Família", "Ao ar livre", "Grátis"],
+    descricao: "Antigo casarão em ruínas transformado em centro cultural, com mirante e uma das melhores vistas do Rio.",
+    endereco: "R. Murtinho Nobre, 169 - Santa Teresa, Rio de Janeiro, RJ",
+    telefone: "(21) 2215-0621",
+    horario: "08h - 18h",
+    diferenciais: ["Mirante panorâmico", "Centro cultural", "Vista do Rio", "Gratuito"]
+  },
+  {
+    id: 37,
+    nome: "Shopping da Gávea",
+    categoria: "Shopping",
+    emoji: "🛍️",
+    imagem: "img/shoppingGavea.jpg",
+    preco: 0,
+    avaliacoes: 4.7,
+    countAvaliacao: 26500,
+    localizacao: "Gávea, Rio de Janeiro",
+    tags: ["Compras", "Teatro", "Restaurantes"],
+    descricao: "Shopping charmoso da Gávea, reduto de teatros, restaurantes e lojas de design.",
+    endereco: "R. Marquês de São Vicente, 52 - Gávea, Rio de Janeiro, RJ",
+    telefone: "(21) 2294-1096",
+    horario: "10h - 22h",
+    diferenciais: ["Teatros", "Restaurantes", "Lojas de design", "Ambiente boêmio"]
+  },
+  {
+    id: 38,
+    nome: "Casa Rosa",
+    categoria: "Salão de festas",
+    emoji: "🎉",
+    imagem: "img/festas.png",
+    preco: 200,
+    avaliacoes: 4.5,
+    countAvaliacao: 120,
+    localizacao: "Laranjeiras, Rio de Janeiro",
+    tags: ["Grupo", "Festa", "Reserva"],
+    descricao: "Casarão histórico em Laranjeiras com salões, jardim e palco para festas, samba e eventos.",
+    endereco: "R. Alice, 550 - Laranjeiras, Rio de Janeiro, RJ",
+    telefone: "(21) 2557-2562",
+    horario: "Sob reserva",
+    diferenciais: ["Casarão histórico", "Jardim", "Palco para samba", "Vários salões"]
   }
 ];
 
@@ -597,41 +688,47 @@ function lugaresPorCategoriaSlug(slug) {
 /* =========================================================
    COORDENADAS (lat/lon) — usadas na busca por proximidade.
    Mantidas separadas para não poluir cada objeto.
+   Todas no Rio de Janeiro.
 ========================================================= */
 const COORDS_LUGARES = {
-  1: [-23.610, -46.660],
-  2: [-23.589, -46.634],
-  3: [-23.564, -46.702],
-  4: [-23.557, -46.597],
-  5: [-23.546, -46.690],
-  6: [-23.480, -46.620],
-  7: [-23.585, -46.609],
-  8: [-23.554, -46.660],
-  9: [-23.526, -46.636],
-  10: [-23.547, -46.636],
-  11: [-23.587, -46.657],
-  12: [-23.452, -46.630],
+  1: [-22.9839, -43.2052],
+  2: [-22.9716, -43.2052],
+  3: [-22.9667, -43.1790],
+  4: [-22.9847, -43.2230],
+  5: [-22.9020, -43.1772],
+  6: [-22.8869, -43.2769],
+  7: [-22.9050, -43.2227],
+  8: [-22.9845, -43.2057],
+  9: [-22.9840, -43.2218],
+  10: [-22.9486, -43.1647],
+  11: [-22.9335, -43.1701],
+  12: [-22.9889, -43.2783],
   13: [-22.984, -43.222],
   14: [-23.000, -43.366],
   15: [-22.999, -43.260],
-  16: [-23.550, -46.750],
-  17: [-23.630, -46.670],
-  18: [-23.548, -46.638],
-  19: [-23.5432, -46.6418],
-  20: [-23.5876, -46.6358],
-  21: [-23.5512, -46.6588],
-  22: [-23.5618, -46.6700],
-  23: [-23.5874, -46.6576],
-  24: [-23.5462, -46.7253],
-  25: [-23.5775, -46.6925],
-  26: [-23.5713, -46.6960],
+  16: [-22.9118, -43.1796],
+  17: [-22.9335, -43.1880],
+  18: [-22.9100, -43.1810],
+  19: [-22.9690, -43.1880],
+  20: [-22.9837, -43.2247],
+  21: [-22.9838, -43.2010],
+  22: [-22.9839, -43.2030],
+  23: [-22.9577, -43.2770],
+  24: [-22.9728, -43.2010],
+  25: [-22.9560, -43.1790],
+  26: [-23.0030, -43.3210],
   27: [-22.9056, -43.1773],
   28: [-22.9876, -43.2008],
   29: [-22.9168, -43.1877],
   30: [-22.9215, -43.1925],
   31: [-22.9586, -43.2117],
   32: [-22.9676, -43.2227],
-  33: [-22.9355, -43.1760]
+  33: [-22.9355, -43.1760],
+  34: [-22.9118, -43.2150],
+  35: [-22.9165, -43.1860],
+  36: [-22.9168, -43.1845],
+  37: [-22.9778, -43.2330],
+  38: [-22.9300, -43.1880]
 };
 
 lugaresData.forEach((lugar) => {
@@ -642,9 +739,42 @@ lugaresData.forEach((lugar) => {
   }
 });
 
+/* =========================================================
+   FOTOS REAIS (Wikimedia Commons, licença livre)
+   Cada lugar usa a foto real correspondente em img/real/<id>.jpg.
+   São fotos do próprio local (pontos famosos) ou do bairro/ponto
+   próximo (bares e restaurantes privados sem foto livre).
+   Se a imagem falhar ao carregar, o onerror das páginas cai no emoji.
+========================================================= */
+lugaresData.forEach((lugar) => {
+  lugar.imagem = `img/real/${lugar.id}.jpg`;
+});
+
 /* Busca um lugar pelo id. */
 function lugarPorId(id) {
   return lugaresData.find((lugar) => lugar.id === Number(id));
+}
+
+/* =========================================================
+   PATROCÍNIO
+   Um lugar é "patrocinado" quando:
+   - tem o campo patrocinado: true no catálogo, OU
+   - é um estabelecimento cadastrado com Premium ativo
+     (chave estabelecimentoPremium_<email> no localStorage).
+   Usado para exibir o selo "Patrocinado" nas listagens.
+========================================================= */
+function ehPatrocinado(item) {
+  if (!item) return false;
+  if (item.patrocinado === true) return true;
+
+  const id = item.id;
+  if (id === undefined || id === null) return false;
+
+  try {
+    return localStorage.getItem("estabelecimentoPremium_" + id) === "true";
+  } catch (e) {
+    return false;
+  }
 }
 
 /* Disponibiliza no escopo global (para páginas que não usam módulos). */
@@ -653,4 +783,5 @@ if (typeof window !== "undefined") {
   window.MAPA_CATEGORIAS = MAPA_CATEGORIAS;
   window.lugaresPorCategoriaSlug = lugaresPorCategoriaSlug;
   window.lugarPorId = lugarPorId;
+  window.ehPatrocinado = ehPatrocinado;
 }

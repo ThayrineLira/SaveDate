@@ -1,0 +1,51 @@
+CRÉDITOS DAS IMAGENS — Save Date
+=================================
+
+Todas as fotos foram obtidas do Wikimedia Commons (https://commons.wikimedia.org),
+sob licenças livres (Creative Commons / Domínio Público). Cada arquivo abaixo
+corresponde ao "id" do lugar em js/dados.js. Para a atribuição completa (autor e
+licença), pesquise o título do arquivo em commons.wikimedia.org.
+
+Observação: pontos famosos usam foto do próprio local; bares/restaurantes
+privados usam foto real do bairro ou ponto próximo (não há foto livre da fachada).
+
+id  arquivo        lugar                         título no Wikimedia Commons
+--  -------------  ----------------------------  ---------------------------------------------------
+1   1.jpg          Garota de Ipanema             Praça General Osório (Ipanema)
+2   2.jpg          Bar Lagoa                     Avenida Vieira Souto - Lagoa Rodrigo de Freitas
+3   3.jpg          Cervantes                     Hotel Copacabana Palace
+4   4.jpg          Pizzaria Guanabara            1 leblon aerial 2014
+5   5.jpg          Curto Café                    Travessa do Comercio (2024-06-10)
+6   6.jpg          NorteShopping                 2013-09-29 - NorteShopping - 02
+7   7.jpg          Quinta da Boa Vista           Quinta da Boa Vista 03
+8   8.jpg          Mil Frutas                    Contrasts of Rio de Janeiro - Rocinha, Ipanema
+9   9.jpg          Jobi                          1 leblon aerial 2014
+10  10.jpg         Bar Urca                      Mureta da Urca, Rio de Janeiro
+11  11.jpg         Parque do Flamengo            Rio-Aterro-Flamengo-Gloria
+12  12.jpg         Trilha da Pedra Bonita        Pedra Bonita by diego Baravelli
+13  13.jpg         Shopping Leblon               Kinoplex Leblon
+14  14.jpg         Barra Shopping                BarraShopping
+15  15.jpg         Fashion Mall                  São Conrado, Rio de Janeiro - panoramio (20)
+16  16.jpg         Casa de Festas Lapa           Trams on Arcos da Lapa, Rio de Janeiro
+17  17.jpg         Espaço Laranjeiras            Grafite na fachada - Laranjeiras 2023
+18  18.jpg         Rio Scenarium                 Igreja N. Sra. do Carmo da Lapa do Desterro
+19  19.jpg         Adega Pérola                  Rio de Janeiro from Sugarloaf mountain, 2004
+20  20.jpg         Bracarense                    Rua General Urquiza - Rio de Janeiro
+21  21.jpg         Pizzaria Capricciosa          Rua Barão da Torre (Ipanema)
+22  22.jpg         Vero Gelato                   Banda de Ipanema
+23  23.jpg         Floresta da Tijuca            Floresta da Tijuca Rio de Janeiro 2
+24  24.jpg         Parque do Cantagalo           Lagoa Rodrigo de Freitas 14
+25  25.jpg         Shopping Rio Sul              Praia de Botafogo - Rio de Janeiro
+26  26.jpg         Village Mall                  Praia da Barra da Tijuca, Rio de Janeiro
+27  27.jpg         Confeitaria Colombo           Confeitaria Colombo - Rio de Janeiro
+28  28.jpg         Bar Astor                     Praia de Ipanema Rio de Janeiro
+29  29.jpg         Bar do Mineiro                Escultura Santa Teresa, Rio de Janeiro
+30  30.jpg         Aprazível                     Vista do centro a partir de Santa Teresa
+31  31.jpg         Parque Lage                   Parque Lage, Rio de Janeiro Project 2345 01
+32  32.jpg         Jardim Botânico do Rio        Alameda de Palmeiras - Jardim Botânico
+33  33.jpg         Belmonte                      Posto 1 (praia do Flamengo)
+34  34.jpg         Aconchego Carioca             Maracanã - Rio de Janeiro, Brasil
+35  35.jpg         Bar dos Descasados            Bonde de Santa Teresa Rio de Janeiro
+36  36.jpg         Parque das Ruínas             Vista desde el Parque das Ruinas de Santa Teresa
+37  37.jpg         Shopping da Gávea             Pedra da Gavea Rio de Janeiro
+38  38.jpg         Casa Rosa                     Imóvel à Rua das Laranjeiras, nº 265

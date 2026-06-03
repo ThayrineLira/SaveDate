@@ -39,7 +39,10 @@
   <script>
     function montarPlano(plano, ativo, ehDoMeuTipo) {
       const beneficios = plano.beneficios.map((b) => `<li>${b}</li>`).join("");
-      const fita = ehDoMeuTipo ? '<span class="fita">Recomendado</span>' : "";
+      const fita = plano.destaque ? '<span class="fita">Recomendado</span>' : "";
+      const etiquetaEconomia = plano.economia
+        ? '<span class="economia">Economize 2 meses</span>'
+        : "";
       const publicoLabel = plano.publico === "estabelecimento" ? "Para estabelecimentos" : "Para você";
 
       const botao = ativo
@@ -47,10 +50,11 @@
         : `<a class="btn-assinar" href="pagamento.html?plano=${plano.id}">Assinar ${plano.precoLabel}</a>`;
 
       return `
-        <article class="plano ${ehDoMeuTipo ? "destaque" : ""}">
+        <article class="plano ${plano.destaque ? "destaque" : ""} ${ehDoMeuTipo ? "do-meu-tipo" : ""}">
           ${fita}
           <span class="publico">${publicoLabel}</span>
           <h2>${plano.nome}</h2>
+          ${etiquetaEconomia}
           <p class="resumo">${plano.resumo}</p>
           <div class="preco">${plano.precoLabel}<span>${plano.periodo}</span></div>
           <ul>${beneficios}</ul>
@@ -64,15 +68,27 @@
       const statusEl = document.getElementById("status-premium");
       const logado = premiumEstaLogado();
       const tipo = premiumTipoConta();
+      const planoAtual = (localStorage.getItem("premiumPlanoAtual") || "").toLowerCase();
 
-      const planos = Object.values(PLANOS_PREMIUM);
+      // Mostra primeiro os planos do tipo de conta logado.
+      const planos = Object.values(PLANOS_PREMIUM).sort((a, b) => {
+        if (!logado) return 0;
+        const aMeu = a.publico === tipo ? 0 : 1;
+        const bMeu = b.publico === tipo ? 0 : 1;
+        if (aMeu !== bMeu) return aMeu - bMeu;
+        return (a.nivel || 0) - (b.nivel || 0);
+      });
 
       lista.innerHTML = planos
         .map((plano) => {
+          const premiumDoPublico =
+            (plano.publico === "estabelecimento" && estabelecimentoTemPremium()) ||
+            (plano.publico === "usuario" && usuarioTemPremium());
+          // Ativo só quando é exatamente o plano contratado (ou único do tipo, sem id salvo).
           const ativo =
             logado &&
-            ((plano.publico === "estabelecimento" && estabelecimentoTemPremium()) ||
-              (plano.publico === "usuario" && usuarioTemPremium()));
+            premiumDoPublico &&
+            (planoAtual === plano.id || planoAtual === "");
           const ehDoMeuTipo = logado && plano.publico === tipo;
           return montarPlano(plano, ativo, ehDoMeuTipo);
         })

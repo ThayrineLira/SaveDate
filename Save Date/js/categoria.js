@@ -20,9 +20,15 @@ function montarCardCategoria(lugar) {
 
   const emojiVisual = `<div class="card-emoji">${lugar.emoji || "📍"}</div>`;
 
+  const patrocinado = (typeof ehPatrocinado === "function") && ehPatrocinado(lugar);
+  const seloPatrocinado = patrocinado
+    ? '<span class="selo-patrocinado">★ Patrocinado</span>'
+    : "";
+
   const article = document.createElement("article");
-  article.className = "card-categoria";
+  article.className = "card-categoria" + (patrocinado ? " patrocinado" : "");
   article.innerHTML = `
+    ${seloPatrocinado}
     ${emojiVisual}
     <div class="card-corpo">
       <div class="card-topo">
@@ -79,7 +85,12 @@ function renderizarCategoria() {
     return;
   }
 
-  lugares.forEach((lugar) => grade.appendChild(montarCardCategoria(lugar)));
+  // Patrocinados primeiro, preservando a ordem do restante.
+  const ordenados = (typeof ehPatrocinado === "function")
+    ? [...lugares].sort((a, b) => ehPatrocinado(b) - ehPatrocinado(a))
+    : lugares;
+
+  ordenados.forEach((lugar) => grade.appendChild(montarCardCategoria(lugar)));
 }
 
 document.addEventListener("DOMContentLoaded", renderizarCategoria);

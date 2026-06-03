@@ -27,20 +27,79 @@ const PLANOS_PREMIUM = {
       "Selo Plus no seu perfil"
     ]
   },
+
+  /* ---------- PLANOS PARA ESTABELECIMENTOS (em níveis) ---------- */
+  essencial: {
+    id: "essencial",
+    nome: "Parceiro Essencial",
+    publico: "estabelecimento",
+    nivel: 1,
+    preco: 29.9,
+    precoLabel: "R$ 29,90",
+    periodo: "/mês",
+    resumo: "O começo ideal para colocar seu restaurante no mapa.",
+    beneficios: [
+      "Perfil completo com fotos do estabelecimento",
+      "Editar o cardápio completo",
+      "Aparecer nas buscas por categoria",
+      "Perfil verificado com selo de parceiro",
+      "Horário de funcionamento e contato em destaque"
+    ]
+  },
   parceiro: {
     id: "parceiro",
     nome: "Parceiro Premium",
     publico: "estabelecimento",
+    nivel: 2,
+    destaque: true,
     preco: 50,
     precoLabel: "R$ 50,00",
     periodo: "/mês",
-    resumo: "Para o seu estabelecimento aparecer mais e vender melhor.",
+    resumo: "Para o seu restaurante aparecer mais e vender melhor.",
     beneficios: [
-      "Adicionar fotos do estabelecimento",
-      "Editar o cardápio completo",
-      "Remover comentários indevidos (até 10)",
+      "Tudo do plano Essencial",
       "Destaque nas buscas da plataforma",
+      "Remover comentários indevidos (até 10)",
+      "Responder às avaliações dos clientes",
+      "Publicar eventos e promoções no perfil",
       "Estatísticas de visitas e salvamentos",
+      "Selo Premium no seu perfil"
+    ]
+  },
+  pro: {
+    id: "pro",
+    nome: "Parceiro Pro",
+    publico: "estabelecimento",
+    nivel: 3,
+    preco: 99.9,
+    precoLabel: "R$ 99,90",
+    periodo: "/mês",
+    resumo: "Máxima visibilidade para quem quer lotar o salão.",
+    beneficios: [
+      "Tudo do plano Premium",
+      "Topo dos resultados de busca da região",
+      "Banner em destaque na página inicial",
+      "Remoção ilimitada de comentários indevidos",
+      "Relatórios avançados de desempenho",
+      "Campanhas e anúncios patrocinados",
+      "Gerente de conta e suporte prioritário"
+    ]
+  },
+  parceiro_anual: {
+    id: "parceiro_anual",
+    nome: "Parceiro Premium Anual",
+    publico: "estabelecimento",
+    nivel: 2,
+    economia: true,
+    preco: 500,
+    precoLabel: "R$ 500,00",
+    periodo: "/ano",
+    resumo: "Todos os benefícios do Premium com 2 meses grátis.",
+    beneficios: [
+      "Tudo do plano Premium",
+      "Equivale a R$ 41,66/mês (2 meses grátis)",
+      "Cobrança única anual, sem reajuste no período",
+      "Prioridade em novos recursos para parceiros",
       "Selo Premium no seu perfil"
     ]
   }

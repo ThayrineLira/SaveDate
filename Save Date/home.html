@@ -8,7 +8,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
 
   <!-- CSS -->
-  <link rel="stylesheet" href="css/home.css?v=1.1" />
+  <link rel="stylesheet" href="css/home.css?v=1.3" />
 
   <!-- ÍCONE -->
   <link rel="icon" type="image/x-icon" href="img/logo.png" />
@@ -250,17 +250,48 @@
     </div>
 
     <section id="home-estabelecimento-panel" class="estabelecimento-panel container" style="display:none;">
-      <div class="cabecalho-secao compacto">
-        <h2 class="titulo-secao">Painel do seu estabelecimento</h2>
-        <div class="premium-status">
+
+      <!-- BOAS-VINDAS / CABEÇALHO DO DASHBOARD -->
+      <div class="dash-hero">
+        <div class="dash-hero-info">
+          <span class="dash-hero-saudacao">Painel do estabelecimento</span>
+          <h2 class="dash-hero-nome" id="dash-nome-estabelecimento">Seu estabelecimento</h2>
+          <p class="dash-hero-sub" id="dash-endereco-estabelecimento">Gerencie sua presença no Save Date.</p>
+          <span id="dash-status-badge" class="dash-status-badge ativo">● Ativo</span>
+        </div>
+        <div class="dash-hero-premium">
           <span id="premium-badge" class="premium-badge"></span>
           <a id="btn-premium" class="btn-principal" href="premium.html">Seja Premium</a>
         </div>
       </div>
 
+      <!-- KPIs -->
+      <div class="dash-kpis">
+        <article class="dash-kpi">
+          <span class="dash-kpi-icone">👁️</span>
+          <strong id="kpi-visualizacoes" class="dash-kpi-valor">0</strong>
+          <span class="dash-kpi-label">Visualizações</span>
+        </article>
+        <article class="dash-kpi">
+          <span class="dash-kpi-icone">❤️</span>
+          <strong id="kpi-favoritos" class="dash-kpi-valor">0</strong>
+          <span class="dash-kpi-label">Salvamentos</span>
+        </article>
+        <article class="dash-kpi">
+          <span class="dash-kpi-icone">⭐</span>
+          <strong id="kpi-avaliacao" class="dash-kpi-valor">0</strong>
+          <span class="dash-kpi-label">Avaliação média</span>
+        </article>
+        <article class="dash-kpi">
+          <span class="dash-kpi-icone">💬</span>
+          <strong id="kpi-comentarios" class="dash-kpi-valor">0</strong>
+          <span class="dash-kpi-label">Comentários</span>
+        </article>
+      </div>
+
       <div class="painel-cartoes-grid">
         <article class="card-local painel-card avaliacoes-card">
-          <h3>Avaliações</h3>
+          <h3>Reputação</h3>
           <div id="avaliacao-estrelas" class="avaliacao-estrelas"></div>
           <p id="avaliacao-midia" class="subtitulo-local">Avaliação do estabelecimento.</p>
           <p class="texto-pequeno">Mostre sua reputação para clientes e aumente a visibilidade do seu local.</p>
@@ -269,9 +300,9 @@
         <article class="card-local painel-card acoes-rapidas-card">
           <h3>Ações Rápidas</h3>
           <div class="dashboard-actions">
-            <a href="#" class="dashboard-action-link action-add-images">Adicionar imagens</a>
-            <a href="#" class="dashboard-action-link action-edit-cardapio">Editar cardápio</a>
-            <a href="#" class="dashboard-action-link action-remove-comments">Remover comentários</a>
+            <a href="#" class="dashboard-action-link action-add-images">📷 Adicionar imagens</a>
+            <a href="#" class="dashboard-action-link action-edit-cardapio">🍽️ Editar cardápio</a>
+            <a href="#" class="dashboard-action-link action-remove-comments">🧹 Remover comentários</a>
           </div>
           <p id="acoes-rapidas-texto" class="texto-pequeno">Assine Premium para desbloquear ações rápidas do estabelecimento.</p>
         </article>

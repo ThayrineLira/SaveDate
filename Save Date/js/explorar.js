@@ -118,6 +118,10 @@ function renderCards(lugares) {
 
   const salvos = obterSalvos();
 
+  if (typeof ehPatrocinado === "function") {
+    lugares = [...lugares].sort((a, b) => ehPatrocinado(b) - ehPatrocinado(a));
+  }
+
   lugares.forEach((lugar) => {
     const precoTexto = lugar.preco === 0 ? "Grátis" : `R$${lugar.preco}`;
     const isSaved = salvos.includes(lugar.id);
@@ -125,10 +129,16 @@ function renderCards(lugares) {
     const heartText = isSaved ? "♥" : "♡";
     const card = document.createElement("a");
 
+    const patrocinado = (typeof ehPatrocinado === "function") && ehPatrocinado(lugar);
+    const seloPatrocinado = patrocinado
+      ? '<span class="selo-patrocinado">★ Patrocinado</span>'
+      : "";
+
     card.href = `detalhes.html?id=${lugar.id}`;
-    card.className = "card";
+    card.className = "card" + (patrocinado ? " patrocinado" : "");
     card.innerHTML = `
       <div class="card-img">
+        ${seloPatrocinado}
         ${renderMidiaCard(lugar)}
         <div class="card-badge">${lugar.categoria}</div>
         <div class="card-price">${precoTexto}</div>

@@ -225,6 +225,7 @@ body {
 }
 
 .card-categoria {
+  position: relative;
   display: flex;
   flex-direction: column;
   min-height: 100%;
@@ -234,6 +235,31 @@ body {
   background: #fff;
   box-shadow: 0 14px 36px rgba(17, 24, 39, .08);
   transition: transform 0.22s, box-shadow 0.22s, border-color 0.22s;
+}
+
+.card-categoria.patrocinado {
+  border-color: rgba(244, 162, 97, .6);
+  box-shadow: 0 16px 38px rgba(231, 111, 81, .2);
+}
+
+/* ===== SELO PATROCINADO ===== */
+.selo-patrocinado {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 11px;
+  border-radius: 999px;
+  font-size: .74rem;
+  font-weight: 800;
+  letter-spacing: .02em;
+  text-transform: uppercase;
+  color: #7a4a00;
+  background: linear-gradient(135deg, #ffd86b, #f4a261);
+  box-shadow: 0 4px 12px rgba(231, 111, 81, .35);
 }
 
 .card-categoria:hover {

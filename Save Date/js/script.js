@@ -659,9 +659,57 @@ function calcularEstrelasMedias(comentarios) {
   return Number((soma / comentarios.length).toFixed(1));
 }
 
+function formatarNumeroDashboard(valor) {
+  const numero = Number(valor) || 0;
+  if (numero >= 1000) {
+    return (numero / 1000).toFixed(numero % 1000 === 0 ? 0 : 1).replace('.', ',') + 'k';
+  }
+  return String(numero);
+}
+
+function renderizarCabecalhoDashboard() {
+  const dados = carregarDadosEstabelecimento();
+  const comentarios = carregarComentariosEstabelecimento();
+  const media = calcularEstrelasMedias(comentarios);
+
+  const nomeEl = document.getElementById('dash-nome-estabelecimento');
+  if (nomeEl) {
+    nomeEl.textContent =
+      localStorage.getItem('nomeUsuario') || dados.nome || 'Seu estabelecimento';
+  }
+
+  const enderecoEl = document.getElementById('dash-endereco-estabelecimento');
+  if (enderecoEl) {
+    const endereco = dados.endereco || '';
+    enderecoEl.textContent = endereco || 'Gerencie sua presença no Save Date.';
+  }
+
+  const statusBadge = document.getElementById('dash-status-badge');
+  if (statusBadge) {
+    const ativo = (dados.status || 'Ativo') !== 'Inativo';
+    statusBadge.textContent = ativo ? '● Ativo' : '● Inativo';
+    statusBadge.classList.toggle('ativo', ativo);
+    statusBadge.classList.toggle('inativo', !ativo);
+  }
+
+  const kpiVisualizacoes = document.getElementById('kpi-visualizacoes');
+  if (kpiVisualizacoes) kpiVisualizacoes.textContent = formatarNumeroDashboard(dados.visualizacoes);
+
+  const kpiFavoritos = document.getElementById('kpi-favoritos');
+  if (kpiFavoritos) kpiFavoritos.textContent = formatarNumeroDashboard(dados.favoritos);
+
+  const kpiAvaliacao = document.getElementById('kpi-avaliacao');
+  if (kpiAvaliacao) kpiAvaliacao.textContent = media ? String(media).replace('.', ',') : '—';
+
+  const kpiComentarios = document.getElementById('kpi-comentarios');
+  if (kpiComentarios) kpiComentarios.textContent = formatarNumeroDashboard(comentarios.length);
+}
+
 function renderizarPainelEstabelecimentoHome() {
   const painel = document.getElementById('home-estabelecimento-panel');
   if (!painel) return;
+
+  renderizarCabecalhoDashboard();
 
   const comentarios = carregarComentariosEstabelecimento();
   const media = calcularEstrelasMedias(comentarios);

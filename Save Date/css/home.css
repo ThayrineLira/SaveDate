@@ -408,6 +408,115 @@ body{
   padding:40px 0;
 }
 
+/* ===== DASHBOARD: cabeçalho de boas-vindas ===== */
+.dash-hero{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+  padding:30px 34px;
+  border-radius:26px;
+  margin-bottom:24px;
+  color:#fff;
+  background:linear-gradient(135deg,var(--primaria),var(--primaria-hover));
+  box-shadow:0 16px 40px rgba(231,111,81,.28);
+}
+
+.dash-hero-saudacao{
+  display:inline-block;
+  font-size:.85rem;
+  font-weight:700;
+  letter-spacing:.04em;
+  text-transform:uppercase;
+  opacity:.9;
+}
+
+.dash-hero-nome{
+  margin:6px 0 4px;
+  font-size:2rem;
+  font-weight:800;
+}
+
+.dash-hero-sub{
+  margin:0 0 12px;
+  opacity:.92;
+}
+
+.dash-status-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding:6px 14px;
+  border-radius:999px;
+  font-size:.85rem;
+  font-weight:700;
+  background:rgba(255,255,255,.22);
+}
+
+.dash-status-badge.inativo{
+  background:rgba(0,0,0,.22);
+}
+
+.dash-hero-premium{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-end;
+  gap:10px;
+}
+
+/* ===== DASHBOARD: KPIs ===== */
+.dash-kpis{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:18px;
+  margin-bottom:24px;
+}
+
+.dash-kpi{
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+  padding:22px;
+  border-radius:22px;
+  background:#fff;
+  box-shadow:var(--sombra);
+  border:1px solid var(--borda);
+  transition:transform var(--transicao),box-shadow var(--transicao);
+}
+
+.dash-kpi:hover{
+  transform:translateY(-3px);
+  box-shadow:0 14px 30px rgba(0,0,0,.1);
+}
+
+.dash-kpi-icone{
+  font-size:1.5rem;
+}
+
+.dash-kpi-valor{
+  font-size:1.9rem;
+  font-weight:800;
+  color:var(--texto);
+  line-height:1.1;
+}
+
+.dash-kpi-label{
+  font-size:.9rem;
+  color:var(--texto-claro);
+}
+
+@media (max-width:780px){
+  .dash-kpis{grid-template-columns:repeat(2,1fr);}
+  .dash-hero{padding:24px;}
+  .dash-hero-nome{font-size:1.6rem;}
+  .dash-hero-premium{align-items:flex-start;}
+}
+
+@media (max-width:440px){
+  .dash-kpis{grid-template-columns:1fr;}
+}
+
 .painel-cartoes-grid{
   display:grid;
   grid-template-columns:repeat(2,minmax(220px,1fr));
@@ -1832,6 +1941,10 @@ body{
   transform:translateY(-5px);
 }
 
+.foto-wrapper{
+  position:relative;
+}
+
 .foto-local{
 
   width:100%;
@@ -1841,6 +1954,31 @@ body{
   display:block;
   background:#fffaf4;
   border-bottom:1px solid #eadfd4;
+}
+
+/* ===== SELO PATROCINADO ===== */
+.selo-patrocinado{
+  position:absolute;
+  top:12px;
+  left:12px;
+  z-index:2;
+  display:inline-flex;
+  align-items:center;
+  gap:4px;
+  padding:5px 11px;
+  border-radius:999px;
+  font-size:.74rem;
+  font-weight:800;
+  letter-spacing:.02em;
+  text-transform:uppercase;
+  color:#7a4a00;
+  background:linear-gradient(135deg,#ffd86b,#f4a261);
+  box-shadow:0 4px 12px rgba(231,111,81,.35);
+}
+
+.card-local.patrocinado{
+  border:1px solid rgba(244,162,97,.55);
+  box-shadow:0 10px 28px rgba(231,111,81,.18);
 }
 
 .info-card{
