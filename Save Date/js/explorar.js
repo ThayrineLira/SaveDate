@@ -264,6 +264,16 @@ function renderCards(lugares) {
 
     card.href = `detalhes.html?id=${lugar.id}`;
     card.className = "card" + (ehPatro ? " patrocinado" : "");
+    
+    // Adicionar proteção de login ao clicar no card
+    card.addEventListener('click', function(e) {
+      if (!estaLogado()) {
+        e.preventDefault();
+        protegerFuncionalidade();
+        return false;
+      }
+    });
+    
     card.innerHTML = `
       <div class="card-img">
         ${seloPatrocinado}
@@ -294,6 +304,12 @@ function renderCards(lugares) {
 function toggleSalvo(event, id) {
   event.preventDefault();
   event.stopPropagation();
+
+  // Verificar se está logado
+  if (!estaLogado()) {
+    protegerFuncionalidade();
+    return;
+  }
 
   const btn = event.currentTarget;
   const salvos = obterSalvos();

@@ -45,9 +45,15 @@
         : "";
       const publicoLabel = plano.publico === "estabelecimento" ? "Para estabelecimentos" : "Para você";
 
-      const botao = ativo
-        ? '<span class="btn-assinar ativo">Plano ativo ✓</span>'
-        : `<a class="btn-assinar" href="pagamento.html?plano=${plano.id}">Assinar ${plano.precoLabel}</a>`;
+      let botao;
+      if (ativo) {
+        botao = '<span class="btn-assinar ativo">Plano ativo ✓</span>';
+      } else if (ehDoMeuTipo) {
+        botao = `<a class="btn-assinar" href="pagamento.html?plano=${plano.id}">Assinar ${plano.precoLabel}</a>`;
+      } else {
+        // Plano não é do tipo do usuário
+        botao = `<span class="btn-assinar" onclick="avisarTipoIncorreto('${plano.publico}')" style="cursor: pointer; opacity: 0.6;">Não disponível para seu tipo</span>`;
+      }
 
       return `
         <article class="plano ${plano.destaque ? "destaque" : ""} ${ehDoMeuTipo ? "do-meu-tipo" : ""}">
@@ -61,6 +67,14 @@
           ${botao}
         </article>
       `;
+    }
+
+    function avisarTipoIncorreto(tipo) {
+      const mensagem = tipo === "estabelecimento"
+        ? "Este é um plano para estabelecimentos. Você é um usuário comum."
+        : "Este é um plano para usuários. Você é um estabelecimento.";
+      
+      alert(mensagem);
     }
 
     document.addEventListener("DOMContentLoaded", function () {

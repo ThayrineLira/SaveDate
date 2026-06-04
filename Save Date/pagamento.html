@@ -93,7 +93,52 @@
 
         const plano = obterPlanoDaUrl();
 
+        function verificarTipoPlano() {
+            // Verificar se está logado
+            if (!premiumEstaLogado()) {
+                document.querySelector(".payment-box").innerHTML =
+                    '<p class="card-desc">Você precisa estar logado para assinar um plano. <a href="login.html">Faça login</a>.</p>';
+                return false;
+            }
+
+            // Se não há plano, já foi tratado
+            if (!plano) {
+                document.querySelector(".payment-box").innerHTML =
+                    '<p class="card-desc">Plano não encontrado. <a href="premium.html">Voltar aos planos</a>.</p>';
+                return false;
+            }
+
+            // Verificar se o tipo de usuário corresponde ao plano
+            const tipoUsuario = premiumTipoConta();
+            
+            if (plano.publico !== tipoUsuario) {
+                const mensagem = plano.publico === "estabelecimento"
+                    ? "Este é um plano para estabelecimentos. Você é um usuário comum."
+                    : "Este é um plano para usuários. Você é um estabelecimento.";
+                
+                const planoCerto = plano.publico === "estabelecimento"
+                    ? "estabelecimento"
+                    : "usuário";
+                
+                document.querySelector(".payment-box").innerHTML =
+                    `<p class="card-desc" style="color: #dc2626;"><strong>❌ Acesso negado</strong></p>` +
+                    `<p class="card-desc">${mensagem}</p>` +
+                    `<p class="card-desc" style="margin-top: 20px;">` +
+                    `<a href="premium.html" class="card-link" style="background: #3b82f6; color: white; padding: 10px 20px; border-radius: 8px; display: inline-block;">` +
+                    `Voltar aos planos corretos` +
+                    `</a></p>`;
+                return false;
+            }
+
+            return true;
+        }
+
         function preencherResumo() {
+            // Verificar tipo de plano compatível com o usuário
+            if (!verificarTipoPlano()) {
+                return;
+            }
+
             if (!plano) {
                 document.querySelector(".payment-box").innerHTML =
                     '<p class="card-desc">Plano não encontrado. <a href="premium.html">Voltar aos planos</a>.</p>';

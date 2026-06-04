@@ -124,6 +124,31 @@ function fazerLogin(nomeUsuario = "Usuário") {
 
 
 /* =========================================
+   PROTEGER FUNCIONALIDADE (Requer Login)
+========================================= */
+
+function protegerFuncionalidade(callback = null) {
+  // Se NÃO estiver logado, mostra mensagem e redireciona
+  if (!estaLogado()) {
+    mostrarMensagem("Faça login para acessar essa funcionalidade.", "erro");
+    
+    setTimeout(() => {
+      window.location.href = "login.html";
+    }, 1500);
+    
+    return false;
+  }
+
+  // Se estiver logado e existe callback, executa
+  if (typeof callback === 'function') {
+    callback();
+  }
+
+  return true;
+}
+
+
+/* =========================================
    LOGOUT
 ========================================= */
 
