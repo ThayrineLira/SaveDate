@@ -1934,12 +1934,21 @@ function mostrarCards(lugares) {
           ${escaparAtributo(resumoLocal)}
         </p>
 
-        <button
-          type="button"
-          class="btn-principal btn-detalhes-local"
-        >
-          Ver detalhes
-        </button>
+        <div class="card-acoes-home" style="display:flex; gap:10px; flex-wrap:wrap;">
+          <button
+            type="button"
+            class="btn-principal btn-detalhes-local"
+          >
+            Ver detalhes
+          </button>
+          <button
+            type="button"
+            class="btn-claro btn-ver-opcoes"
+            data-acao="opcoes"
+          >
+            Ver opções
+          </button>
+        </div>
 
       </div>
 

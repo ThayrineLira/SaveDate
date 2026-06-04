@@ -1,4 +1,5 @@
-const lugaresMapa = [
+
+2const lugaresMapa = [
   {
     id: 1,
     nome: "Família Mancini",
@@ -64,6 +65,72 @@ const lugaresMapa = [
     endereco: "Pinheiros, São Paulo",
     lat: -23.5666,
     lon: -46.6864
+  },
+  {
+    id: 10,
+    nome: "Restaurante Rio Sabor",
+    categoria: "restaurantes",
+    tipo: "Restaurante",
+    emoji: "🍽️",
+    nota: 4.7,
+    endereco: "Zona Sul, Rio de Janeiro",
+    lat: -22.9656,
+    lon: -43.1822
+  },
+  {
+    id: 11,
+    nome: "Bar Recife em Boa",
+    categoria: "bares",
+    tipo: "Bar",
+    emoji: "🍺",
+    nota: 4.6,
+    endereco: "Boa Viagem, Recife",
+    lat: -8.1120,
+    lon: -34.8960
+  },
+  {
+    id: 12,
+    nome: "Parque das Laranjeiras",
+    categoria: "parques",
+    tipo: "Parque",
+    emoji: "🌳",
+    nota: 4.5,
+    endereco: "Centro, Salvador",
+    lat: -12.9777,
+    lon: -38.5016
+  },
+  {
+    id: 13,
+    nome: "Shopping da Bahia",
+    categoria: "shopping",
+    tipo: "Shopping",
+    emoji: "🛍️",
+    nota: 4.4,
+    endereco: "Salvador Shopping",
+    lat: -12.9292,
+    lon: -38.4369
+  },
+  {
+    id: 14,
+    nome: "Café Centro Histórico",
+    categoria: "restaurantes",
+    tipo: "Café",
+    emoji: "☕",
+    nota: 4.8,
+    endereco: "Centro Histórico, Fortaleza",
+    lat: -3.7305,
+    lon: -38.5266
+  },
+  {
+    id: 15,
+    nome: "Pizzaria Belém & Alegria",
+    categoria: "restaurantes",
+    tipo: "Pizzaria",
+    emoji: "🍕",
+    nota: 4.6,
+    endereco: "Belém, PA",
+    lat: -1.4558,
+    lon: -48.4902
   }
 ];
 

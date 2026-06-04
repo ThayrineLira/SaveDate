@@ -97,6 +97,72 @@ const lugaresData = [
     countAvaliacao: 289,
     localizacao: "Bom Retiro",
     tags: ["Amigos"]
+  },
+  {
+    id: 10,
+    nome: "Restaurante Rio Sabor",
+    categoria: "Restaurante",
+    emoji: "🍽️",
+    preco: 90,
+    avaliacoes: 4.7,
+    countAvaliacao: 210,
+    localizacao: "Zona Sul, Rio de Janeiro",
+    tags: ["Casal", "Família"]
+  },
+  {
+    id: 11,
+    nome: "Bar Recife em Boa",
+    categoria: "Bar",
+    emoji: "🍺",
+    preco: 55,
+    avaliacoes: 4.6,
+    countAvaliacao: 180,
+    localizacao: "Boa Viagem, Recife",
+    tags: ["Amigos"]
+  },
+  {
+    id: 12,
+    nome: "Parque das Laranjeiras",
+    categoria: "Parque",
+    emoji: "🌳",
+    preco: 0,
+    avaliacoes: 4.5,
+    countAvaliacao: 95,
+    localizacao: "Centro, Salvador",
+    tags: ["Família"]
+  },
+  {
+    id: 13,
+    nome: "Shopping da Bahia",
+    categoria: "Shopping",
+    emoji: "🛍️",
+    preco: 0,
+    avaliacoes: 4.4,
+    countAvaliacao: 760,
+    localizacao: "Salvador Shopping",
+    tags: ["Família", "Amigos"]
+  },
+  {
+    id: 14,
+    nome: "Café Centro Histórico",
+    categoria: "Café",
+    emoji: "☕",
+    preco: 30,
+    avaliacoes: 4.8,
+    countAvaliacao: 340,
+    localizacao: "Centro Histórico, Fortaleza",
+    tags: ["Casal"]
+  },
+  {
+    id: 15,
+    nome: "Pizzaria Belém & Alegria",
+    categoria: "Pizzaria",
+    emoji: "🍕",
+    preco: 70,
+    avaliacoes: 4.6,
+    countAvaliacao: 120,
+    localizacao: "Belém, PA",
+    tags: ["Amigos", "Casal"]
   }
 ];
 
