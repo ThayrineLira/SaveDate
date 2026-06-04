@@ -1,149 +1,4 @@
-const lugaresData = [
-  {
-    id: 1,
-    nome: "Família Mancini",
-    categoria: "Restaurante",
-    emoji: "🍽️",
-    preco: 95,
-    avaliacoes: 4.8,
-    countAvaliacao: 567,
-    localizacao: "Zona sul, São Paulo",
-    tags: ["Família", "Casal"],
-    descricao: "Restaurante italiano clássico com massas artesanais e ambiente acolhedor para toda a família.",
-    endereco: "Rua Exemplo, 123 - São Paulo, SP",
-    telefone: "(11) 3333-3333",
-    horario: "11h30 - 23h",
-    diferenciais: ["Massas artesanais", "Ambiente acolhedor", "Ar condicionado", "Estacionamento", "Vinhos importados"]
-  },
-  {
-    id: 2,
-    nome: "O Bar do Seu Zé",
-    categoria: "Bar",
-    emoji: "🍺",
-    preco: 45,
-    avaliacoes: 4.6,
-    countAvaliacao: 324,
-    localizacao: "Vila Mariana",
-    tags: ["Amigos", "Casal"],
-    descricao: "Bar tradicional com cervejas artesanais, drinks clássicos e uma vibe descontraída.",
-    endereco: "Avenida Paulista, 456 - São Paulo, SP",
-    telefone: "(11) 2222-2222",
-    horario: "17h - 02h",
-    diferenciais: ["Cervejas artesanais", "Happy hour diário", "Música ao vivo", "Petiscos"]
-  },
-  {
-    id: 3,
-    nome: "Gourmet Burguer",
-    categoria: "Lanchonete",
-    emoji: "🍔",
-    preco: 35,
-    avaliacoes: 4.5,
-    countAvaliacao: 412,
-    localizacao: "Pinheiros",
-    tags: ["Amigos", "Família"],
-    descricao: "Hamburgueria com carnes selecionadas, pães caseiros e combinações criativas.",
-    endereco: "Rua dos Pinheiros, 789 - São Paulo, SP",
-    telefone: "(11) 4444-4444",
-    horario: "11h - 22h",
-    diferenciais: ["Carnes selecionadas", "Pães caseiros", "Batatas artesanais", "Atendimento rápido"]
-  },
-  {
-    id: 4,
-    nome: "Pizzaria do Bairro",
-    categoria: "Pizzaria",
-    emoji: "🍕",
-    preco: 60,
-    avaliacoes: 4.7,
-    countAvaliacao: 598,
-    localizacao: "Mooca",
-    tags: ["Família", "Casal", "Amigos"],
-    descricao: "Pizzaria tradicional com forno a lenha, ingredientes frescos e clima informal.",
-    endereco: "Rua da Mooca, 321 - São Paulo, SP",
-    telefone: "(11) 5555-5555",
-    horario: "12h - 23h",
-    diferenciais: ["Forno a lenha", "Ingredientes frescos", "Pizzas grandes", "Bom para grupos"]
-  },
-  {
-    id: 5,
-    nome: "Café Aconchego",
-    categoria: "Café",
-    emoji: "☕",
-    preco: 25,
-    avaliacoes: 4.9,
-    countAvaliacao: 876,
-    localizacao: "Vila Madalena",
-    tags: ["Casal"],
-    descricao: "Café aconchegante com bebidas artesanais, doces caseiros e espaço tranquilo.",
-    endereco: "Rua Vila Madalena, 654 - São Paulo, SP",
-    telefone: "(11) 6666-6666",
-    horario: "07h - 19h",
-    diferenciais: ["Café especial", "Doces caseiros", "Wi-Fi grátis", "Ambiente acolhedor"]
-  },
-  {
-    id: 6,
-    nome: "Shopping Center VillaGe",
-    categoria: "Shopping",
-    emoji: "🛍️",
-    preco: 0,
-    avaliacoes: 4.4,
-    countAvaliacao: 1200,
-    localizacao: "Zona norte",
-    tags: ["Família", "Amigos"],
-    descricao: "Shopping completo com lojas, restaurantes e entretenimento para toda a família.",
-    endereco: "Rodovia Anhanguera, Km 25 - São Paulo, SP",
-    telefone: "(11) 7777-7777",
-    horario: "10h - 22h",
-    diferenciais: ["Múltiplas lojas", "Praça de alimentação", "Cinema", "Estacionamento"]
-  },
-  {
-    id: 7,
-    nome: "Parque da Independência",
-    categoria: "Parque",
-    emoji: "🌳",
-    preco: 0,
-    avaliacoes: 4.6,
-    countAvaliacao: 445,
-    localizacao: "Ipiranga",
-    tags: ["Família", "Casal"],
-    descricao: "Parque histórico com áreas verdes, caminhada e espaço para piquenique.",
-    endereco: "Avenida Nazaré, 1000 - São Paulo, SP",
-    telefone: "(11) 8888-8888",
-    horario: "06h - 22h",
-    diferenciais: ["Áreas verdes", "Piquenique", "Monumento histórico", "Caminhada"]
-  },
-  {
-    id: 8,
-    nome: "Sorveteria Gelato",
-    categoria: "Sorveteria",
-    emoji: "🍨",
-    preco: 20,
-    avaliacoes: 4.8,
-    countAvaliacao: 567,
-    localizacao: "Consolação",
-    tags: ["Amigos", "Família", "Casal"],
-    descricao: "Sorveteria artesanal com sabores variados e receitas italianas tradicionais.",
-    endereco: "Avenida Consolação, 111 - São Paulo, SP",
-    telefone: "(11) 9999-9999",
-    horario: "12h - 22h",
-    diferenciais: ["Gelato artesanal", "Sabores sazonais", "Opções leves", "Bom custo-benefício"]
-  },
-  {
-    id: 9,
-    nome: "Beer & Vibes",
-    categoria: "Bar",
-    emoji: "🍻",
-    preco: 50,
-    avaliacoes: 4.5,
-    countAvaliacao: 289,
-    localizacao: "Bom Retiro",
-    tags: ["Amigos"],
-    descricao: "Bar moderno com cervejas artesanais, música e ambiente descontraído.",
-    endereco: "Rua Bom Retiro, 222 - São Paulo, SP",
-    telefone: "(11) 1010-1010",
-    horario: "17h - 03h",
-    diferenciais: ["Cervejas artesanais", "DJ ao vivo", "Ambiente moderno", "Petiscos"]
-  }
-];
+/* Os dados dos lugares vêm de js/dados.js (lugaresData global). */
 
 function obterIdDaUrl() {
   return parseInt(new URLSearchParams(window.location.search).get("id"), 10);
@@ -161,6 +16,62 @@ function salvarSalvos(salvos) {
   localStorage.setItem("lugareSalvos", JSON.stringify(salvos));
 }
 
+function obterImagemLugar(lugar) {
+  return typeof lugar.imagem === "string" && lugar.imagem.trim()
+    ? lugar.imagem.trim()
+    : "";
+}
+
+function atualizarBanner(lugar) {
+  const banner = document.querySelector(".banner");
+  const emoji = document.getElementById("banner-emoji");
+  const imagem = obterImagemLugar(lugar);
+
+  if (emoji) {
+    emoji.textContent = lugar.emoji;
+  }
+
+  if (!banner) {
+    return;
+  }
+
+  if (imagem) {
+    banner.classList.add("banner-com-foto");
+    banner.style.backgroundImage = `linear-gradient(180deg, rgba(0,0,0,0.08), rgba(0,0,0,0.45)), url("${imagem}")`;
+  } else {
+    banner.classList.remove("banner-com-foto");
+    banner.style.backgroundImage = "";
+  }
+}
+
+function renderizarFotos(lugar) {
+  const grid = document.getElementById("fotos-grid");
+  const imagem = obterImagemLugar(lugar);
+
+  if (!grid) {
+    return;
+  }
+
+  if (!imagem) {
+    grid.innerHTML = `
+      <div class="foto-placeholder">
+        <span>${lugar.emoji}</span>
+        <strong>Fotos em breve</strong>
+        <small>Este lugar ainda não possui galeria cadastrada.</small>
+      </div>
+    `;
+    return;
+  }
+
+  grid.innerHTML = `
+    <img class="foto-real foto-principal" src="${imagem}" alt="Foto de ${lugar.nome}" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.classList.add('foto-placeholder-expandida');" />
+    <div class="foto-placeholder foto-mini">
+      <span>${lugar.emoji}</span>
+      <strong>Mais fotos em breve</strong>
+    </div>
+  `;
+}
+
 function carregarDetalhes() {
   const id = obterIdDaUrl();
   const lugar = lugaresData.find((item) => item.id === id);
@@ -171,7 +82,7 @@ function carregarDetalhes() {
     return;
   }
 
-  document.getElementById("banner-emoji").textContent = lugar.emoji;
+  atualizarBanner(lugar);
   document.title = `Save Date | ${lugar.nome}`;
   document.getElementById("nome-lugar").textContent = lugar.nome;
   document.getElementById("rating").textContent = `⭐ ${lugar.avaliacoes.toFixed(1)}`;
@@ -203,7 +114,141 @@ function carregarDetalhes() {
     diferenciaisList.appendChild(li);
   });
 
+  const badgeEl = document.getElementById("badge-aberto-detalhe");
+  if (badgeEl && typeof badgeAbertoHTML === "function") {
+    badgeEl.innerHTML = badgeAbertoHTML(lugar.horario);
+  }
+
+  renderizarFotos(lugar);
   verificarFavorito(lugar.id);
+
+  configurarEstrelas();
+  renderResumoAvaliacoes(lugar);
+  renderAvaliacoesUsuario(lugar.id);
+}
+
+/* =========================================================
+   AVALIAÇÕES DE USUÁRIO (guardadas no navegador via dados.js)
+========================================================= */
+let notaSelecionadaAval = 0;
+
+function escaparHtml(txt) {
+  return String(txt == null ? "" : txt)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+function formatarDataAval(iso) {
+  try {
+    return new Date(iso).toLocaleDateString("pt-BR", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric"
+    });
+  } catch (e) {
+    return "";
+  }
+}
+
+function estrelasTexto(nota) {
+  const n = Math.max(0, Math.min(5, Math.round(Number(nota) || 0)));
+  return "★★★★★".slice(0, n) + "☆☆☆☆☆".slice(0, 5 - n);
+}
+
+function configurarEstrelas() {
+  const grupo = document.getElementById("aval-estrelas");
+  if (!grupo) return;
+  const estrelas = Array.from(grupo.querySelectorAll(".estrela"));
+  const pintar = (n) => estrelas.forEach((e, i) => e.classList.toggle("ativa", i < n));
+
+  estrelas.forEach((e) => {
+    e.addEventListener("mouseenter", () => pintar(Number(e.dataset.valor)));
+    e.addEventListener("click", () => {
+      // Verificar se está logado
+      if (!estaLogado()) {
+        protegerFuncionalidade();
+        return;
+      }
+      notaSelecionadaAval = Number(e.dataset.valor);
+      pintar(notaSelecionadaAval);
+    });
+  });
+  grupo.addEventListener("mouseleave", () => pintar(notaSelecionadaAval));
+}
+
+function renderResumoAvaliacoes(lugar) {
+  const el = document.getElementById("aval-resumo");
+  if (!el) return;
+  const resumo = mediaAvaliacaoUsuario(lugar.id);
+
+  if (!resumo) {
+    el.innerHTML = `
+      <div class="aval-resumo-box">
+        <strong>Nota do guia: ⭐ ${lugar.avaliacoes.toFixed(1)}</strong>
+        <span>Seja o primeiro a avaliar este lugar!</span>
+      </div>`;
+    return;
+  }
+
+  el.innerHTML = `
+    <div class="aval-resumo-box">
+      <strong>⭐ ${resumo.media.toFixed(1)} <span class="aval-stars-mini">${estrelasTexto(resumo.media)}</span></strong>
+      <span>${resumo.total} avaliação(ões) de usuários · nota do guia ${lugar.avaliacoes.toFixed(1)}</span>
+    </div>`;
+}
+
+function renderAvaliacoesUsuario(id) {
+  const lista = document.getElementById("avaliacoes-list");
+  if (!lista) return;
+  const itens = getAvaliacoesUsuario(id);
+
+  if (!itens.length) {
+    lista.innerHTML =
+      '<p class="aval-vazio">Ainda não há avaliações de usuários. Que tal deixar a sua?</p>';
+    return;
+  }
+
+  lista.innerHTML = itens
+    .map(
+      (a) => `
+      <div class="avaliacao-item">
+        <div class="avaliacao-header">
+          <strong>${escaparHtml(a.autor)}</strong>
+          <span class="stars">${estrelasTexto(a.nota)}</span>
+        </div>
+        ${a.comentario ? `<p class="avaliacao-texto">${escaparHtml(a.comentario)}</p>` : ""}
+        <small class="avaliacao-data">${formatarDataAval(a.data)}</small>
+      </div>`
+    )
+    .join("");
+}
+
+function enviarAvaliacao(event) {
+  event.preventDefault();
+  const id = obterIdDaUrl();
+
+  if (!notaSelecionadaAval) {
+    alert("Escolha de 1 a 5 estrelas para avaliar.");
+    return;
+  }
+
+  const texto = document.getElementById("aval-texto").value;
+  const autor = document.getElementById("aval-autor").value;
+  addAvaliacaoUsuario(id, notaSelecionadaAval, texto, autor);
+
+  notaSelecionadaAval = 0;
+  document.getElementById("aval-texto").value = "";
+  document.getElementById("aval-autor").value = "";
+  document
+    .querySelectorAll("#aval-estrelas .estrela")
+    .forEach((e) => e.classList.remove("ativa"));
+
+  const lugar = lugaresData.find((l) => l.id === id);
+  if (lugar) renderResumoAvaliacoes(lugar);
+  renderAvaliacoesUsuario(id);
 }
 
 function verificarFavorito(id) {
@@ -213,6 +258,12 @@ function verificarFavorito(id) {
 }
 
 function toggleFavorito() {
+  // Verificar se está logado
+  if (!estaLogado()) {
+    protegerFuncionalidade();
+    return;
+  }
+
   const id = obterIdDaUrl();
   const salvos = obterSalvos();
   const index = salvos.indexOf(id);
@@ -220,6 +271,10 @@ function toggleFavorito() {
   if (index >= 0) {
     salvos.splice(index, 1);
   } else {
+    if (typeof podeAdicionarSalvo === "function" && !podeAdicionarSalvo(salvos.length)) {
+      premiumAvisoLimite();
+      return;
+    }
     salvos.push(id);
   }
 

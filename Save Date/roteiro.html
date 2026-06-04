@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Planejador de Rolê | Save Date</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/ferramentas.css" />
+  <link rel="icon" type="image/x-icon" href="img/logo.png" />
+  <script src="js/auth.js"></script>
+</head>
+<body>
+  <header class="topo">
+    <a href="home.html" class="logo-area">
+      <img src="img/logo.png" alt="Logo Save Date" />
+      <span>Save Date</span>
+    </a>
+    <nav class="nav-categorias" aria-label="Navegação principal">
+      <a href="home.html" class="nav-link">Início</a>
+      <a href="explorar.html" class="nav-link">Explorar</a>
+      <a href="racha.html" class="nav-link">Racha</a>
+      <a href="comparar.html" class="nav-link">Comparar</a>
+      <a href="premium.html" class="nav-link nav-premium">★ Premium</a>
+    </nav>
+  </header>
+
+  <section class="hero-ferramenta">
+    <span class="etiqueta">✦ Exclusivo Save Date</span>
+    <h1>Planejador de Rolê</h1>
+    <p>Diga seu orçamento e a ocasião — a gente monta um rolê completo combinando lugares que cabem no seu bolso.</p>
+  </section>
+
+  <main class="conteudo">
+    <section class="painel">
+      <h2>Monte seu rolê</h2>
+
+      <div class="campo">
+        <label>Orçamento total</label>
+        <div class="range-linha">
+          <input type="range" id="orcamento" min="30" max="400" step="10" value="150" />
+          <span class="range-valor" id="orcamento-valor">R$ 150</span>
+        </div>
+      </div>
+
+      <div class="campo">
+        <label>Ocasião</label>
+        <div class="opcoes-chip" id="ocasioes">
+          <button type="button" class="ativo" data-ocasiao="Qualquer">✦ Qualquer</button>
+          <button type="button" data-ocasiao="Casal">💕 Casal</button>
+          <button type="button" data-ocasiao="Amigos">👥 Amigos</button>
+          <button type="button" data-ocasiao="Família">👨‍👩‍👧 Família</button>
+        </div>
+      </div>
+
+      <div class="campo">
+        <label>Quantas paradas?</label>
+        <div class="opcoes-chip" id="paradas-opcao">
+          <button type="button" data-paradas="2" class="ativo">2 paradas</button>
+          <button type="button" data-paradas="3">3 paradas</button>
+        </div>
+      </div>
+
+      <div class="btn-linha">
+        <button type="button" class="btn" id="btn-gerar">Gerar roteiro</button>
+        <button type="button" class="btn secundario" id="btn-surpresa">🎲 Surpreenda-me</button>
+      </div>
+    </section>
+
+    <section class="painel" id="resultado-painel" style="display:none;">
+      <h2 id="resultado-titulo">Seu rolê</h2>
+      <div class="resultado-total">
+        <span>Custo estimado do rolê</span>
+        <strong id="resultado-custo">R$ 0</strong>
+      </div>
+      <div class="paradas" id="paradas"></div>
+      <div class="btn-linha">
+        <button type="button" class="btn secundario" id="btn-outro">Gerar outro</button>
+        <button type="button" class="btn" id="btn-salvar">Salvar roteiro</button>
+      </div>
+      <div id="upsell-salvar"></div>
+    </section>
+
+    <section class="painel" id="salvos-painel">
+      <h2>Meus roteiros salvos</h2>
+      <div id="lista-salvos"></div>
+    </section>
+  </main>
+
+  <script src="js/dados.js"></script>
+  <script src="js/premium.js"></script>
+  <script>
+    let ocasiao = "Qualquer";
+    let nParadas = 2;
+    let roteiroAtual = null;
+
+    const $ = (id) => document.getElementById(id);
+
+    function rotuloPreco(p) {
+      return p === 0 ? "Grátis" : "R$ " + p;
+    }
+
+    function poolDisponivel() {
+      const orc = parseInt($("orcamento").value, 10);
+      return lugaresData.filter((l) => {
+        const cabe = l.preco <= orc;
+        const ok = ocasiao === "Qualquer" || (l.tags || []).includes(ocasiao);
+        return cabe && ok;
+      });
+    }
+
+    function embaralhar(arr) {
+      return [...arr].sort(() => Math.random() - 0.5);
+    }
+
+    function gerarRoteiro() {
+      const orc = parseInt($("orcamento").value, 10);
+      const pool = poolDisponivel();
+
+      // 1ª tentativa: paradas com categorias diferentes que cabem no orçamento
+      for (let t = 0; t < 400; t++) {
+        const baralho = embaralhar(pool);
+        const escolhidos = [];
+        const cats = new Set();
+        let soma = 0;
+        for (const lugar of baralho) {
+          if (escolhidos.length >= nParadas) break;
+          if (cats.has(lugar.categoria)) continue;
+          if (soma + lugar.preco > orc) continue;
+          escolhidos.push(lugar);
+          cats.add(lugar.categoria);
+          soma += lugar.preco;
+        }
+        if (escolhidos.length === nParadas) {
+          return { paradas: escolhidos, total: soma };
+        }
+      }
+
+      // 2ª tentativa: relaxa a regra de categoria distinta
+      for (let t = 0; t < 200; t++) {
+        const baralho = embaralhar(pool);
+        const escolhidos = [];
+        let soma = 0;
+        for (const lugar of baralho) {
+          if (escolhidos.length >= nParadas) break;
+          if (soma + lugar.preco > orc) continue;
+          escolhidos.push(lugar);
+          soma += lugar.preco;
+        }
+        if (escolhidos.length === nParadas) {
+          return { paradas: escolhidos, total: soma };
+        }
+      }
+
+      // fallback: o que couber, do mais barato pro mais caro
+      const baratos = [...pool].sort((a, b) => a.preco - b.preco);
+      const escolhidos = [];
+      let soma = 0;
+      for (const lugar of baratos) {
+        if (escolhidos.length >= nParadas) break;
+        if (soma + lugar.preco > orc) continue;
+        escolhidos.push(lugar);
+        soma += lugar.preco;
+      }
+      return { paradas: escolhidos, total: soma };
+    }
+
+    function renderRoteiro(roteiro, titulo) {
+      roteiroAtual = roteiro;
+      $("resultado-painel").style.display = "block";
+      $("resultado-titulo").textContent = titulo || "Seu rolê";
+      $("resultado-custo").textContent = rotuloPreco(roteiro.total);
+
+      if (!roteiro.paradas.length) {
+        $("paradas").innerHTML =
+          '<p class="aviso-vazio">Não encontramos lugares para esse orçamento/ocasião. Aumente o orçamento ou escolha "Qualquer".</p>';
+        $("btn-salvar").style.display = "none";
+        return;
+      }
+      $("btn-salvar").style.display = "inline-flex";
+
+      $("paradas").innerHTML = roteiro.paradas
+        .map((l, i) => `
+          <div class="parada">
+            <div class="parada-num">${i + 1}</div>
+            <div class="parada-emoji">${l.emoji || "📍"}</div>
+            <div class="parada-info">
+              <h3>${l.nome}</h3>
+              <span>${l.categoria} · ${l.localizacao || ""}</span><br />
+              <a href="detalhes.html?id=${l.id}">Ver detalhes →</a>
+            </div>
+            <div class="parada-preco">${rotuloPreco(l.preco)}</div>
+          </div>
+        `).join("");
+
+      $("upsell-salvar").innerHTML = "";
+    }
+
+    function surpreender() {
+      const pool = poolDisponivel();
+      if (!pool.length) {
+        renderRoteiro({ paradas: [], total: 0 }, "Surpresa");
+        return;
+      }
+      const sorteado = pool[Math.floor(Math.random() * pool.length)];
+      renderRoteiro({ paradas: [sorteado], total: sorteado.preco }, "🎲 A sorte escolheu");
+    }
+
+    /* ---------- SALVAR ---------- */
+    function obterSalvos() {
+      try {
+        return JSON.parse(localStorage.getItem("roteirosSalvos") || "[]");
+      } catch (e) {
+        return [];
+      }
+    }
+
+    function gravarSalvos(lista) {
+      localStorage.setItem("roteirosSalvos", JSON.stringify(lista));
+    }
+
+    function limitePodeSalvar(qtd) {
+      if (typeof usuarioTemPremium === "function" && usuarioTemPremium()) return true;
+      return qtd < 1; // grátis: 1 roteiro salvo
+    }
+
+    function salvarRoteiro() {
+      if (!roteiroAtual || !roteiroAtual.paradas.length) return;
+      const lista = obterSalvos();
+
+      if (!limitePodeSalvar(lista.length)) {
+        $("upsell-salvar").innerHTML =
+          '<div class="upsell">No plano grátis você salva 1 roteiro. ' +
+          '<a href="premium.html">Seja Premium</a> para salvar quantos quiser.</div>';
+        return;
+      }
+
+      lista.unshift({
+        ids: roteiroAtual.paradas.map((l) => l.id),
+        total: roteiroAtual.total,
+        ocasiao: ocasiao,
+        data: new Date().toLocaleDateString("pt-BR")
+      });
+      gravarSalvos(lista);
+      renderSalvos();
+      $("upsell-salvar").innerHTML =
+        '<div class="upsell" style="background:#e8f5f1;color:#1d6a5e;">Roteiro salvo! 🎉</div>';
+    }
+
+    function removerSalvo(indice) {
+      const lista = obterSalvos();
+      lista.splice(indice, 1);
+      gravarSalvos(lista);
+      renderSalvos();
+    }
+
+    function renderSalvos() {
+      const lista = obterSalvos();
+      const alvo = $("lista-salvos");
+
+      if (!lista.length) {
+        alvo.innerHTML = '<p class="aviso-vazio">Você ainda não salvou nenhum roteiro.</p>';
+        return;
+      }
+
+      alvo.innerHTML = lista.map((r, idx) => {
+        const nomes = r.ids
+          .map((id) => (lugarPorId(id) || {}).nome)
+          .filter(Boolean)
+          .join(" → ");
+        return `
+          <div class="parada">
+            <div class="parada-info">
+              <h3>${nomes || "Roteiro"}</h3>
+              <span>${r.ocasiao} · ${r.data}</span>
+            </div>
+            <div class="parada-preco">${rotuloPreco(r.total)}</div>
+            <button type="button" class="btn secundario" data-remover="${idx}" style="min-height:38px;padding:8px 14px;">Remover</button>
+          </div>
+        `;
+      }).join("");
+
+      alvo.querySelectorAll("[data-remover]").forEach((btn) => {
+        btn.addEventListener("click", () => removerSalvo(parseInt(btn.dataset.remover, 10)));
+      });
+    }
+
+    /* ---------- EVENTOS ---------- */
+    document.addEventListener("DOMContentLoaded", function () {
+      $("orcamento").addEventListener("input", function () {
+        $("orcamento-valor").textContent = "R$ " + this.value;
+      });
+
+      $("ocasioes").addEventListener("click", function (e) {
+        const btn = e.target.closest("button");
+        if (!btn) return;
+        this.querySelectorAll("button").forEach((b) => b.classList.remove("ativo"));
+        btn.classList.add("ativo");
+        ocasiao = btn.dataset.ocasiao;
+      });
+
+      $("paradas-opcao").addEventListener("click", function (e) {
+        const btn = e.target.closest("button");
+        if (!btn) return;
+        this.querySelectorAll("button").forEach((b) => b.classList.remove("ativo"));
+        btn.classList.add("ativo");
+        nParadas = parseInt(btn.dataset.paradas, 10);
+      });
+
+      $("btn-gerar").addEventListener("click", () => renderRoteiro(gerarRoteiro()));
+      $("btn-outro").addEventListener("click", () => renderRoteiro(gerarRoteiro()));
+      $("btn-surpresa").addEventListener("click", surpreender);
+      $("btn-salvar").addEventListener("click", salvarRoteiro);
+
+      renderSalvos();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Match de Rolê | Save Date</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/ferramentas.css" />
+  <link rel="icon" type="image/x-icon" href="img/logo.png" />
+
+  <!-- SCRIPT DE PROTEÇÃO -->
+  <script src="js/auth.js"></script>
+</head>
+<body>
+  <header class="topo">
+    <a href="home.html" class="logo-area"><img src="img/logo.png" alt="Save Date" /><span>Save Date</span></a>
+    <nav class="nav-categorias">
+      <a href="home.html" class="nav-link">Início</a>
+      <a href="explorar.html" class="nav-link">Explorar</a>
+      <a href="premium.html" class="nav-link nav-premium">★ Premium</a>
+    </nav>
+  </header>
+
+  <section class="hero-ferramenta">
+    <span class="etiqueta">Ferramenta única</span>
+    <h1>Match de Rolê</h1>
+    <p>Escolha o clima do dia e receba uma sugestão rápida de lugar para começar.</p>
+  </section>
+
+  <main class="conteudo">
+    <section class="painel">
+      <h2>Qual é a vibe?</h2>
+      <div class="linha">
+        <div class="campo">
+          <label>Companhia</label>
+          <select id="companhia">
+            <option>Casal</option>
+            <option>Amigos</option>
+            <option>Família</option>
+            <option>Qualquer</option>
+          </select>
+        </div>
+        <div class="campo">
+          <label>Categoria</label>
+          <select id="categoria">
+            <option>Qualquer</option>
+            <option>Restaurante</option>
+            <option>Bar</option>
+            <option>Parque</option>
+            <option>Shopping</option>
+          </select>
+        </div>
+        <div class="campo">
+          <label>Até quanto por pessoa?</label>
+          <input id="preco" type="number" min="0" value="120" />
+        </div>
+      </div>
+      <button class="btn" type="button" id="gerar">Encontrar match</button>
+    </section>
+
+    <section class="painel" id="resultado" style="display:none;"></section>
+  </main>
+
+  <script src="js/dados.js"></script>
+  <script>
+    function sortear(lista) {
+      return lista[Math.floor(Math.random() * lista.length)];
+    }
+
+    document.getElementById("gerar").addEventListener("click", () => {
+      const companhia = document.getElementById("companhia").value;
+      const categoria = document.getElementById("categoria").value;
+      const preco = Number(document.getElementById("preco").value) || 0;
+      let lista = lugaresData.filter((l) => l.preco <= preco || l.preco === 0);
+
+      if (companhia !== "Qualquer") lista = lista.filter((l) => (l.tags || []).includes(companhia));
+      if (categoria !== "Qualquer") lista = lista.filter((l) => l.categoria === categoria);
+
+      const alvo = document.getElementById("resultado");
+      alvo.style.display = "block";
+
+      if (!lista.length) {
+        alvo.innerHTML = '<h2>Nenhum match encontrado</h2><p class="aviso-vazio">Aumente o orçamento ou escolha uma categoria mais aberta.</p>';
+        return;
+      }
+
+      const lugar = sortear(lista);
+      alvo.innerHTML = `
+        <h2>${lugar.emoji || "📍"} ${lugar.nome}</h2>
+        <p>${lugar.descricao}</p>
+        <div class="resultado-total"><span>Preço médio</span><strong>${lugar.preco === 0 ? "Grátis" : "R$ " + lugar.preco}</strong></div>
+        <div class="btn-linha">
+          <a class="btn" href="detalhes.html?id=${lugar.id}">Ver detalhes</a>
+          <button class="btn secundario" type="button" id="novo">Gerar outro</button>
+        </div>`;
+      document.getElementById("novo").addEventListener("click", () => document.getElementById("gerar").click());
+    });
+  </script>
+</body>
+</html>

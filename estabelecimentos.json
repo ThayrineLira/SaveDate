@@ -1,0 +1,62 @@
+[
+  {
+    "id": 1,
+    "nome": "Bar do João",
+    "categoria": "bares",
+    "endereco": "Av. Paulista, 1000",
+    "lat": -23.5629,
+    "lon": -46.6544,
+    "preco_medio": 80,
+    "imagem": "img/bar.png"
+  },
+  {
+    "id": 2,
+    "nome": "Restaurante Sabor Caseiro",
+    "categoria": "restaurantes",
+    "endereco": "Av. Santana, 500",
+    "lat": -23.5100,
+    "lon": -46.6300,
+    "preco_medio": 60,
+    "imagem": "img/restaurante.png"
+  },
+  {
+    "id": 3,
+    "nome": "Parque da Cidade",
+    "categoria": "parques",
+    "endereco": "Rua do Parque, 100",
+    "lat": -23.5812,
+    "lon": -46.6200,
+    "preco_medio": 0,
+    "imagem": "img/parque.png"
+  },
+  {
+    "id": 4,
+    "nome": "Shopping Center",
+    "categoria": "shopping",
+    "endereco": "Av. Centro, 2000",
+    "lat": -23.5500,
+    "lon": -46.6400,
+    "preco_medio": 150,
+    "imagem": "img/shopping.png"
+  },
+  {
+    "id": 5,
+    "nome": "Festas & Eventos",
+    "categoria": "salão de festas",
+    "endereco": "Av. Norte, 800",
+    "lat": -23.4900,
+    "lon": -46.6700,
+    "preco_medio": 200,
+    "imagem": "img/festas.png"
+  },
+  {
+    "id": 6,
+    "nome": "Bar Rock",
+    "categoria": "bares",
+    "endereco": "Av. Sul, 300",
+    "lat": -23.6200,
+    "lon": -46.6100,
+    "preco_medio": 100,
+    "imagem": "img/bar.png"
+  }
+]

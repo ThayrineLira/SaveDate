@@ -1,145 +1,277 @@
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --primaria: #f4a261;
+  --primaria-escura: #e76f51;
+  --texto: #222;
+  --texto-suave: #667085;
+  --borda: #eadfd4;
+  --fundo: #fffaf4;
+  --sombra-card: 0 24px 70px rgba(43, 32, 24, 0.2);
+}
 
 body {
-  background: linear-gradient(to bottom,#ffb464,#ed846d,#e56a7a,#6b5e55);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+  min-height: 100vh;
   margin: 0;
-  font-family: Arial, sans-serif;
+  padding: 28px 16px;
+  display: grid;
+  place-items: center;
+  font-family: Inter, Arial, sans-serif;
+  color: var(--texto);
+  background:
+    radial-gradient(circle at 18% 12%, rgba(255, 255, 255, 0.32), transparent 28%),
+    linear-gradient(135deg, #2b2018 0%, #a9543b 46%, #f4a261 100%);
 }
 
-/* CAIXA CENTRAL */
 .texto {
-  background: white;
-  padding: 28px;
-  border-radius: 14px;
-  box-shadow: 0px 10px 25px rgba(0,0,0,0.12);
-  width: 100%;
-  max-width: 760px;
-  max-height: 92vh;
+  width: min(100%, 860px);
+  max-height: calc(100vh - 48px);
   overflow: auto;
+  padding: clamp(22px, 4vw, 34px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: var(--sombra-card);
+  backdrop-filter: blur(14px);
 }
-.topo{
+
+.topo,
+.logo-area {
   text-align: center;
 }
 
-/* LOGO */
-.logo {
-  width: 70px;
-  margin-bottom: 5px;
-}
-.logo-area{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 15px;
-}
-
-/* TITULO */
-.titulo {
-  margin: 0;
-}
-
-.subtitulo {
-  margin: 0;
-  color: gray;
-}
-
-
-/* FORM */
-  .login-form {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    margin-top: 3px;
-    }
-    .cadastro{
+.logo-area {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 5px;
-  line-height: 2px;
-  }
-
-
-input{
-  height: 35px;
-  border-radius: 20px;
-  border: 1px solid #ccc;
-  padding-left: 15px;
-  outline: none;
+  margin-bottom: 14px;
 }
 
-/*BOTÃO*/
-.botao{
-  height: 35px;
-  border-radius: 20px;
-  border: none;
-  background: #e56a7a;
-  color: white;
+.logo {
+  width: 74px;
+  height: 74px;
+  object-fit: contain;
+  margin-bottom: 8px;
+}
+
+.titulo {
+  margin: 0;
+  color: var(--primaria-escura);
+  font-size: 1.55rem;
+  font-weight: 900;
+  letter-spacing: 0.03em;
+}
+
+.subtitulo {
+  margin: 2px 0 0;
+  color: var(--texto-suave);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.topo h3 {
+  margin: 14px 0 0;
+  font-size: clamp(1.28rem, 4vw, 1.8rem);
+  font-weight: 900;
+}
+
+.login-form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 13px;
+  margin-top: 24px;
+}
+
+.login-form label,
+.login-form textarea,
+#preview-fotos,
+#cardapio-controls,
+#lista-cardapio,
+#erroSenha,
+.login-form > div:not(#preview-fotos):not(#cardapio-controls):not(#lista-cardapio):not(#erroSenha) {
+  grid-column: 1 / -1;
+}
+
+label {
+  display: block;
+  margin: 4px 0 -4px;
+  color: #3d332c;
+  font-weight: 900;
+}
+
+input,
+textarea,
+select {
+  width: 100%;
+  min-height: 46px;
+  padding: 0 14px;
+  border: 1px solid var(--borda);
+  border-radius: 14px;
+  outline: none;
+  background: #fff;
+  color: var(--texto);
+  font: inherit;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+textarea {
+  min-height: 110px;
+  padding: 13px 14px;
+  resize: vertical;
+  line-height: 1.5;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: var(--primaria);
+  box-shadow: 0 0 0 4px rgba(244, 162, 97, 0.18);
+}
+
+input[readonly] {
+  background: #f7f3ef;
+  color: #6a5a4d;
+}
+
+input[type="file"] {
+  padding: 10px 12px;
+}
+
+#preview-fotos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  min-height: 48px;
+  margin: 0 0 4px !important;
+  padding: 10px;
+  border: 1px dashed var(--borda);
+  border-radius: 14px;
+  background: var(--fundo);
+}
+
+#preview-fotos img {
+  width: 112px !important;
+  height: 78px !important;
+  object-fit: cover;
+  border: 1px solid var(--borda) !important;
+  border-radius: 12px !important;
+}
+
+#cardapio-controls {
+  display: grid !important;
+  grid-template-columns: 150px minmax(180px, 1fr) 140px auto;
+  gap: 10px !important;
+  margin-bottom: 8px !important;
+}
+
+#cardapio-controls button,
+.login-form > div button {
+  min-height: 44px;
+  padding: 10px 14px;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  background: var(--primaria);
+  color: #fff;
   cursor: pointer;
-  transition: 0.3s;
+  font: inherit;
+  font-weight: 900;
+  transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+
+#cardapio-controls button:hover,
+.login-form > div button:hover {
+  background: var(--primaria-escura);
+  transform: translateY(-1px);
+  box-shadow: 0 10px 22px rgba(231, 111, 81, 0.18);
+}
+
+#lista-cardapio {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 8px !important;
+}
+
+#lista-cardapio h4 {
+  margin: 8px 0 0;
+  color: #2f4858;
+}
+
+#lista-cardapio > div {
+  padding: 10px 12px;
+  border: 1px solid var(--borda);
+  border-radius: 12px;
+  background: var(--fundo);
+}
+
+#lista-cardapio button {
+  border: 1px solid var(--borda);
+  background: #fff;
+  color: #2f4858;
+}
+
+#media-preco,
+#coordenadas {
+  color: #2f4858;
+  line-height: 1.4;
+}
+
+.erro-senha {
+  color: #c62828;
+  font-weight: 900;
+}
+
+.botao {
+  min-height: 48px;
+  border: 1px solid transparent;
+  border-radius: 14px;
+  background: linear-gradient(135deg, var(--primaria), var(--primaria-escura));
+  color: #fff;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 900;
+  transition: transform 0.2s, box-shadow 0.2s, filter 0.2s;
 }
 
 .botao:hover {
-  background: #d45565;
+  transform: translateY(-1px);
+  box-shadow: 0 14px 28px rgba(231, 111, 81, 0.25);
+  filter: brightness(1.02);
 }
 
-/* Celular */
-@media (max-width: 600px) {
-    .cards {
-        flex-direction: column;
-    }
-
-    h1 {
-        font-size: 20px;
-    }
+.botao[type="button"] {
+  background: #fff;
+  color: #2f4858;
+  border-color: var(--borda);
+  box-shadow: none;
 }
 
-/* Tablet */
-@media (max-width: 900px) {
-    .card {
-        flex: 1 1 45%;
-    }
+@media (max-width: 820px) {
+  body {
+    align-items: start;
+    padding-top: 18px;
+  }
+
+  .texto {
+    max-height: none;
+  }
+
+  .login-form,
+  #cardapio-controls {
+    grid-template-columns: 1fr;
+  }
 }
 
-/* Desktop */
-@media (min-width: 901px) {
-    .card {
-        flex: 1 1 30%;
-    }
-}
+@media (max-width: 520px) {
+  .texto {
+    padding: 20px;
+    border-radius: 18px;
+  }
 
-/* Campos adicionais do cadastro-estabelecimento */
-label{ display:block; margin-top:10px; margin-bottom:6px; font-weight:700; color:#333; }
-textarea{ min-height:80px; border-radius:12px; padding:10px; border:1px solid #e6e6e6; resize:vertical; }
-input[type="file"]{ padding:6px 0; }
-
-#preview-fotos{ margin-top:6px; }
-#preview-fotos img{ width:110px; height:80px; object-fit:cover; border-radius:8px; border:1px solid #eee; }
-
-#cardapio-controls select,
-#cardapio-controls input{ height:40px; border-radius:10px; border:1px solid #e6e6e6; padding:6px 10px }
-#cardapio-controls button{ height:40px; border-radius:10px; border:none; background:#f4a261; color:#fff; padding:8px 12px; cursor:pointer }
-#cardapio-controls button:hover{ background:#e76f51 }
-
-#lista-cardapio h4{ margin:8px 0 6px; font-size:1rem; color:#2f2f2f }
-#lista-cardapio > div{ padding:8px; background:#faf9f6; border-radius:8px; margin-bottom:8px; display:flex; align-items:center; justify-content:space-between }
-#lista-cardapio button{ background:#fff; border:1px solid #e2dfd7; color:#333; padding:6px 8px; border-radius:8px; cursor:pointer }
-#lista-cardapio button:hover{ background:#fff4e6 }
-
-#media-preco{ margin-left:6px; color:#2f4858 }
-#coordenadas{ margin-left:6px; color:#666; font-size:0.95rem }
-
-.erro-senha{ color:#d32f2f; font-weight:700; margin-top:8px; }
-
-.botao{ padding:10px 14px; border-radius:12px; font-weight:700 }
-
-/* responsividade: empilha campos em telas pequenas */
-@media (max-width:640px){
-  .texto{ padding:18px; margin:12px }
-  #cardapio-controls{ flex-direction:column; align-items:stretch }
-  #cardapio-controls input, #cardapio-controls select, #cardapio-controls button{ width:100% }
-  #preview-fotos img{ width:80px; height:56px }
+  .login-form > div[style] {
+    flex-direction: column;
+    align-items: stretch !important;
+  }
 }

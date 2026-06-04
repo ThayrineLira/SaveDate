@@ -1,136 +1,69 @@
-
-2const lugaresMapa = [
+const lugaresMapa = [
   {
     id: 1,
-    nome: "Família Mancini",
+    nome: "Garota de Ipanema",
     categoria: "restaurantes",
     tipo: "Restaurante",
     emoji: "🍽️",
     nota: 4.8,
-    endereco: "Zona Sul, São Paulo",
-    lat: -23.5596,
-    lon: -46.6562
+    endereco: "Ipanema, Rio de Janeiro",
+    lat: -22.9839,
+    lon: -43.2052
   },
   {
     id: 2,
-    nome: "O Bar do Seu Zé",
+    nome: "Bar Lagoa",
     categoria: "bares",
     tipo: "Bar",
     emoji: "🍺",
     nota: 4.6,
-    endereco: "Vila Mariana, São Paulo",
-    lat: -23.5897,
-    lon: -46.6346
+    endereco: "Lagoa, Rio de Janeiro",
+    lat: -22.9716,
+    lon: -43.2052
   },
   {
     id: 6,
-    nome: "Shopping Center VillaGe",
+    nome: "NorteShopping",
     categoria: "shopping",
     tipo: "Shopping",
     emoji: "🛍️",
     nota: 4.4,
-    endereco: "Zona Norte, São Paulo",
-    lat: -23.5039,
-    lon: -46.6247
+    endereco: "Cachambi, Rio de Janeiro",
+    lat: -22.8869,
+    lon: -43.2769
   },
   {
     id: 7,
-    nome: "Parque da Independência",
+    nome: "Quinta da Boa Vista",
     categoria: "parques",
     tipo: "Parque",
     emoji: "🌳",
     nota: 4.6,
-    endereco: "Ipiranga, São Paulo",
-    lat: -23.5856,
-    lon: -46.6096
+    endereco: "São Cristóvão, Rio de Janeiro",
+    lat: -22.9050,
+    lon: -43.2227
   },
   {
     id: 9,
-    nome: "Beer & Vibes",
+    nome: "Jobi",
     categoria: "bares",
     tipo: "Bar",
     emoji: "🍻",
     nota: 4.5,
-    endereco: "Bom Retiro, São Paulo",
-    lat: -23.5255,
-    lon: -46.6395
+    endereco: "Leblon, Rio de Janeiro",
+    lat: -22.9840,
+    lon: -43.2218
   },
   {
-    id: null,
-    nome: "Casa de Eventos Aurora",
+    id: 16,
+    nome: "Casa de Festas Lapa",
     categoria: "festas",
     tipo: "Salão de festas",
     emoji: "🎉",
-    nota: 4.7,
-    endereco: "Pinheiros, São Paulo",
-    lat: -23.5666,
-    lon: -46.6864
-  },
-  {
-    id: 10,
-    nome: "Restaurante Rio Sabor",
-    categoria: "restaurantes",
-    tipo: "Restaurante",
-    emoji: "🍽️",
-    nota: 4.7,
-    endereco: "Zona Sul, Rio de Janeiro",
-    lat: -22.9656,
-    lon: -43.1822
-  },
-  {
-    id: 11,
-    nome: "Bar Recife em Boa",
-    categoria: "bares",
-    tipo: "Bar",
-    emoji: "🍺",
-    nota: 4.6,
-    endereco: "Boa Viagem, Recife",
-    lat: -8.1120,
-    lon: -34.8960
-  },
-  {
-    id: 12,
-    nome: "Parque das Laranjeiras",
-    categoria: "parques",
-    tipo: "Parque",
-    emoji: "🌳",
-    nota: 4.5,
-    endereco: "Centro, Salvador",
-    lat: -12.9777,
-    lon: -38.5016
-  },
-  {
-    id: 13,
-    nome: "Shopping da Bahia",
-    categoria: "shopping",
-    tipo: "Shopping",
-    emoji: "🛍️",
     nota: 4.4,
-    endereco: "Salvador Shopping",
-    lat: -12.9292,
-    lon: -38.4369
-  },
-  {
-    id: 14,
-    nome: "Café Centro Histórico",
-    categoria: "restaurantes",
-    tipo: "Café",
-    emoji: "☕",
-    nota: 4.8,
-    endereco: "Centro Histórico, Fortaleza",
-    lat: -3.7305,
-    lon: -38.5266
-  },
-  {
-    id: 15,
-    nome: "Pizzaria Belém & Alegria",
-    categoria: "restaurantes",
-    tipo: "Pizzaria",
-    emoji: "🍕",
-    nota: 4.6,
-    endereco: "Belém, PA",
-    lat: -1.4558,
-    lon: -48.4902
+    endereco: "Lapa, Rio de Janeiro",
+    lat: -22.9118,
+    lon: -43.1796
   }
 ];
 
@@ -152,7 +85,7 @@ function criarMapa() {
 
   mapa = L.map("mapa", {
     zoomControl: true
-  }).setView([-23.5505, -46.6333], 12);
+  }).setView([-22.9711, -43.1822], 12);
 
   L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
     maxZoom: 19,
@@ -180,7 +113,7 @@ function popupLugar(lugar) {
       <strong>${lugar.emoji} ${lugar.nome}</strong>
       <p>${lugar.tipo} · ${lugar.endereco}</p>
       <p>⭐ ${lugar.nota.toFixed(1)}</p>
-      <a href="${link}">Ver detalhes</a>
+      <a href="${link}" onclick="if (!estaLogado()) { event.preventDefault(); protegerFuncionalidade(); }">Ver detalhes</a>
     </div>
   `;
 }
@@ -232,6 +165,12 @@ function renderizarMapa() {
     `;
 
     botao.addEventListener("click", () => {
+      // Verificar se está logado
+      if (!estaLogado()) {
+        protegerFuncionalidade();
+        return;
+      }
+      
       document.querySelectorAll(".card-lugar").forEach((card) => card.classList.remove("selecionado"));
       botao.classList.add("selecionado");
       marcadorSelecionado = marcador;

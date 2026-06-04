@@ -6,9 +6,8 @@
 }
 
 body {
-    /* Fundo escuro para clima de vida noturna/bar */
-    background-color: #121212; 
-    color: #e0e0e0;
+    background-color: #f4f7f6;
+    color: #000000;
     /* Espaço para o header fixo não cobrir o conteúdo */
     padding-top: 80px; 
 }
@@ -20,8 +19,8 @@ body {
     left: 0;
     width: 100%;
     height: 70px;
-    background-color: #1e1e1e; /* Cabeçalho escuro */
-    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.5);
+    background-color: #ffffff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -32,7 +31,7 @@ body {
 .user-name {
     font-weight: 600;
     font-size: 1.1rem;
-    color: #b3b3b3;
+    color: #555555;
     margin-left: auto; /* Empurra o nome para a direita */
     margin-right: 20px; /* Cria um espaço entre o nome e a logo */
 }
@@ -41,12 +40,12 @@ body {
     display: flex;
     align-items: center;
     text-decoration: none;
-    color: #ffffff;
+    color: #333333;
     gap: 10px;
 }
 
 .logo-container:hover .logo-text {
-    color: #e67e22; /* Tom de âmbar/cerveja no hover */
+    color: #e67e22; /* Tom de âmbar no hover */
 }
 
 .logo-text {
@@ -59,8 +58,6 @@ body {
     width: 40px;
     height: 40px;
     border-radius: 5px;
-    /* Fundo escuro enquanto não tem imagem */
-    background-color: #333;
     object-fit: cover;
 }
 
@@ -75,9 +72,7 @@ body {
     text-align: center;
     margin-bottom: 30px;
     font-size: 2.5rem;
-    color: #ffffff;
-    text-transform: uppercase;
-    letter-spacing: 2px;
+    color: #2c3e50;
 }
 
 /* --- CARDS DOS ESTABELECIMENTOS --- */
@@ -88,24 +83,24 @@ body {
 }
 
 .card {
-    background-color: #1e1e1e; /* Fundo do card escuro */
+    background-color: #ffffff;
     border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
     display: flex;
     overflow: hidden;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
-    border: 1px solid #333; /* Borda sutil para separar do fundo */
+    border: 1px solid #e0e0e0;
 }
 
 .card:hover {
     transform: translateY(-3px);
-    box-shadow: 0 6px 15px rgba(230, 126, 34, 0.2); /* Sombra alaranjada no hover */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
 }
 
 .card-img {
     width: 250px;
     min-height: 200px;
-    background-color: #2c2c2c;
+    background-color: #ccc;
     object-fit: cover;
 }
 
@@ -120,12 +115,12 @@ body {
 .card-title {
     font-size: 1.5rem;
     margin-bottom: 10px;
-    color: #ffffff;
+    color: #111111;
 }
 
 .card-desc {
     font-size: 1rem;
-    color: #a0a0a0; /* Cinza claro para leitura confortável */
+    color: #555555;
     line-height: 1.5;
     margin-bottom: 20px;
 }
@@ -133,17 +128,16 @@ body {
 .card-link {
     align-self: flex-start;
     padding: 10px 20px;
-    background-color: #e67e22; /* Laranja vibrante */
+    background-color: #e67e22; /* Mantém o botão em destaque */
     color: #ffffff;
     text-decoration: none;
     border-radius: 5px;
     font-weight: 600;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+    transition: background-color 0.3s ease;
 }
 
 .card-link:hover {
-    background-color: #d35400; /* Laranja mais escuro no hover corrigido */
-    transform: scale(1.05); /* Pequeno efeito de crescimento */
+    background-color: #d35400; /* Tom mais escuro no hover */
 }
 
 /* --- RESPONSIVIDADE (Celulares) --- */

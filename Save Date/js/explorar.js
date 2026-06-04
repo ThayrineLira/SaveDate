@@ -1,175 +1,47 @@
-const lugaresData = [
-  {
-    id: 1,
-    nome: "Família Mancini",
-    categoria: "Restaurante",
-    emoji: "🍽️",
-    preco: 95,
-    avaliacoes: 4.8,
-    countAvaliacao: 567,
-    localizacao: "Zona sul, São Paulo",
-    tags: ["Família", "Casal"]
-  },
-  {
-    id: 2,
-    nome: "O Bar do Seu Zé",
-    categoria: "Bar",
-    emoji: "🍺",
-    preco: 45,
-    avaliacoes: 4.6,
-    countAvaliacao: 324,
-    localizacao: "Vila Mariana",
-    tags: ["Amigos", "Casal"]
-  },
-  {
-    id: 3,
-    nome: "Gourmet Burguer",
-    categoria: "Lanchonete",
-    emoji: "🍔",
-    preco: 35,
-    avaliacoes: 4.5,
-    countAvaliacao: 412,
-    localizacao: "Pinheiros",
-    tags: ["Amigos", "Família"]
-  },
-  {
-    id: 4,
-    nome: "Pizzaria do Bairro",
-    categoria: "Pizzaria",
-    emoji: "🍕",
-    preco: 60,
-    avaliacoes: 4.7,
-    countAvaliacao: 598,
-    localizacao: "Mooca",
-    tags: ["Família", "Casal", "Amigos"]
-  },
-  {
-    id: 5,
-    nome: "Café Aconchego",
-    categoria: "Café",
-    emoji: "☕",
-    preco: 25,
-    avaliacoes: 4.9,
-    countAvaliacao: 876,
-    localizacao: "Vila Madalena",
-    tags: ["Casal"]
-  },
-  {
-    id: 6,
-    nome: "Shopping Center VillaGe",
-    categoria: "Shopping",
-    emoji: "🛍️",
-    preco: 0,
-    avaliacoes: 4.4,
-    countAvaliacao: 1200,
-    localizacao: "Zona norte",
-    tags: ["Família", "Amigos"]
-  },
-  {
-    id: 7,
-    nome: "Parque da Independência",
-    categoria: "Parque",
-    emoji: "🌳",
-    preco: 0,
-    avaliacoes: 4.6,
-    countAvaliacao: 445,
-    localizacao: "Ipiranga",
-    tags: ["Família", "Casal"]
-  },
-  {
-    id: 8,
-    nome: "Sorveteria Gelato",
-    categoria: "Sorveteria",
-    emoji: "🍨",
-    preco: 20,
-    avaliacoes: 4.8,
-    countAvaliacao: 567,
-    localizacao: "Consolação",
-    tags: ["Amigos", "Família", "Casal"]
-  },
-  {
-    id: 9,
-    nome: "Beer & Vibes",
-    categoria: "Bar",
-    emoji: "🍻",
-    preco: 50,
-    avaliacoes: 4.5,
-    countAvaliacao: 289,
-    localizacao: "Bom Retiro",
-    tags: ["Amigos"]
-  },
-  {
-    id: 10,
-    nome: "Restaurante Rio Sabor",
-    categoria: "Restaurante",
-    emoji: "🍽️",
-    preco: 90,
-    avaliacoes: 4.7,
-    countAvaliacao: 210,
-    localizacao: "Zona Sul, Rio de Janeiro",
-    tags: ["Casal", "Família"]
-  },
-  {
-    id: 11,
-    nome: "Bar Recife em Boa",
-    categoria: "Bar",
-    emoji: "🍺",
-    preco: 55,
-    avaliacoes: 4.6,
-    countAvaliacao: 180,
-    localizacao: "Boa Viagem, Recife",
-    tags: ["Amigos"]
-  },
-  {
-    id: 12,
-    nome: "Parque das Laranjeiras",
-    categoria: "Parque",
-    emoji: "🌳",
-    preco: 0,
-    avaliacoes: 4.5,
-    countAvaliacao: 95,
-    localizacao: "Centro, Salvador",
-    tags: ["Família"]
-  },
-  {
-    id: 13,
-    nome: "Shopping da Bahia",
-    categoria: "Shopping",
-    emoji: "🛍️",
-    preco: 0,
-    avaliacoes: 4.4,
-    countAvaliacao: 760,
-    localizacao: "Salvador Shopping",
-    tags: ["Família", "Amigos"]
-  },
-  {
-    id: 14,
-    nome: "Café Centro Histórico",
-    categoria: "Café",
-    emoji: "☕",
-    preco: 30,
-    avaliacoes: 4.8,
-    countAvaliacao: 340,
-    localizacao: "Centro Histórico, Fortaleza",
-    tags: ["Casal"]
-  },
-  {
-    id: 15,
-    nome: "Pizzaria Belém & Alegria",
-    categoria: "Pizzaria",
-    emoji: "🍕",
-    preco: 70,
-    avaliacoes: 4.6,
-    countAvaliacao: 120,
-    localizacao: "Belém, PA",
-    tags: ["Amigos", "Casal"]
-  }
-];
+/* Os dados dos lugares vêm de js/dados.js (lugaresData global). */
 
 let filtroAtivo = "Todos";
 let chipAtivo = "Todos";
 let orcamentoBuscado = 200;
 let termoBusca = "";
+let ordenarPor = "relevancia";
+let bairroAtivo = "Todos";
+let somenteAberto = false;
+
+function bairroDe(lugar) {
+  return typeof bairroDeLugar === "function"
+    ? bairroDeLugar(lugar)
+    : (lugar.localizacao || "").split(",")[0].trim();
+}
+
+function obterImagemLugar(lugar) {
+  return typeof lugar.imagem === "string" && lugar.imagem.trim()
+    ? lugar.imagem.trim()
+    : "";
+}
+
+function renderMidiaCard(lugar) {
+  const imagem = obterImagemLugar(lugar);
+  const alt = `Foto de ${lugar.nome}`;
+
+  if (imagem) {
+    return `
+      <img class="card-photo" src="${imagem}" alt="${alt}" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+      <div class="card-fallback card-fallback-backup" aria-label="${alt}">
+        <span class="card-emoji" aria-hidden="true">${lugar.emoji}</span>
+        <span class="card-fallback-text">Imagem em breve</span>
+      </div>
+      <span class="card-emoji card-emoji-overlay" aria-hidden="true">${lugar.emoji}</span>
+    `;
+  }
+
+  return `
+    <div class="card-fallback" aria-label="${alt}">
+      <span class="card-emoji" aria-hidden="true">${lugar.emoji}</span>
+      <span class="card-fallback-text">Imagem em breve</span>
+    </div>
+  `;
+}
 
 function obterSalvos() {
   try {
@@ -224,6 +96,14 @@ function filtrarCards() {
 
   resultados = resultados.filter((lugar) => lugar.preco === 0 || lugar.preco <= orcamentoBuscado);
 
+  if (bairroAtivo !== "Todos") {
+    resultados = resultados.filter((lugar) => bairroDe(lugar) === bairroAtivo);
+  }
+
+  if (somenteAberto) {
+    resultados = resultados.filter((lugar) => estaAbertoAgora(lugar.horario) === true);
+  }
+
   if (termoBusca) {
     const termo = termoBusca.toLowerCase();
     resultados = resultados.filter((lugar) => {
@@ -235,8 +115,115 @@ function filtrarCards() {
     });
   }
 
+  resultados = ordenarLugares(resultados);
+
   document.getElementById("count").textContent = resultados.length;
   renderCards(resultados);
+}
+
+function patrocinado(lugar) {
+  return typeof ehPatrocinado === "function" && ehPatrocinado(lugar);
+}
+
+function distanciaDoUsuario(lugar) {
+  const coords =
+    typeof coordenadasDeLugar === "function"
+      ? coordenadasDeLugar(lugar)
+      : lugar.lat != null && lugar.lon != null
+        ? { lat: lugar.lat, lon: lugar.lon }
+        : null;
+
+  if (!posicaoUsuario || !coords || typeof distanciaKm !== "function") return Infinity;
+  return distanciaKm(posicaoUsuario.lat, posicaoUsuario.lon, coords.lat, coords.lon);
+}
+
+function ordenarLugares(lista) {
+  const arr = [...lista];
+  switch (ordenarPor) {
+    case "preco-asc":
+      arr.sort((a, b) => a.preco - b.preco);
+      break;
+    case "preco-desc":
+      arr.sort((a, b) => b.preco - a.preco);
+      break;
+    case "nota":
+      arr.sort((a, b) => b.avaliacoes - a.avaliacoes);
+      break;
+    case "distancia":
+      arr.sort((a, b) => distanciaDoUsuario(a) - distanciaDoUsuario(b));
+      break;
+    default: // relevância: patrocinados primeiro, depois melhor avaliados
+      arr.sort((a, b) => {
+        const p = (patrocinado(b) ? 1 : 0) - (patrocinado(a) ? 1 : 0);
+        return p !== 0 ? p : b.avaliacoes - a.avaliacoes;
+      });
+  }
+  return arr;
+}
+
+function setOrdenar(valor) {
+  ordenarPor = valor;
+  if (valor === "distancia" && !posicaoUsuario) {
+    ativarPertoDeMim();
+    return;
+  }
+  filtrarCards();
+}
+
+function setBairro(valor) {
+  bairroAtivo = valor;
+  filtrarCards();
+}
+
+function toggleAberto() {
+  somenteAberto = !somenteAberto;
+  document.getElementById("toggle-aberto")?.classList.toggle("ativo", somenteAberto);
+  filtrarCards();
+}
+
+function ativarPertoDeMim() {
+  const btn = document.getElementById("btn-perto");
+  if (btn) {
+    btn.disabled = true;
+    btn.textContent = "📍 Localizando...";
+  }
+  obterPosicaoUsuario()
+    .then(() => {
+      ordenarPor = "distancia";
+      const sel = document.getElementById("ordenar");
+      if (sel) sel.value = "distancia";
+      if (btn) {
+        btn.disabled = false;
+        btn.textContent = "📍 Perto de mim ✓";
+        btn.classList.add("ativo");
+      }
+      filtrarCards();
+    })
+    .catch((err) => {
+      if (btn) {
+        btn.disabled = false;
+        btn.textContent = "📍 Perto de mim";
+      }
+      alert(
+        "Não consegui acessar sua localização (" +
+          (err && err.message ? err.message : "permissão negada") +
+          ").\nAtive a localização do navegador e tente novamente."
+      );
+    });
+}
+
+function popularBairros() {
+  const sel = document.getElementById("bairro");
+  if (!sel) return;
+  const bairros = [...new Set(lugaresData.map(bairroDe).filter(Boolean))].sort((a, b) =>
+    a.localeCompare(b, "pt")
+  );
+  bairros.forEach((b) => {
+    const opt = document.createElement("option");
+    opt.value = b;
+    opt.textContent = b;
+    sel.appendChild(opt);
+  });
 }
 
 function renderCards(lugares) {
@@ -262,11 +249,35 @@ function renderCards(lugares) {
     const heartText = isSaved ? "♥" : "♡";
     const card = document.createElement("a");
 
+    const ehPatro = patrocinado(lugar);
+    const seloPatrocinado = ehPatro
+      ? '<span class="selo-patrocinado">★ Patrocinado</span>'
+      : "";
+
+    const badgeAberto = typeof badgeAbertoHTML === "function" ? badgeAbertoHTML(lugar.horario) : "";
+    const dist = distanciaDoUsuario(lugar);
+    const distanciaFormatada =
+      typeof formatarDistancia === "function" ? formatarDistancia(dist) : `${dist.toFixed(1)} km`;
+    const distTexto = Number.isFinite(dist)
+      ? `<span class="card-dist">📍 ${distanciaFormatada}</span>`
+      : "";
+
     card.href = `detalhes.html?id=${lugar.id}`;
-    card.className = "card";
+    card.className = "card" + (ehPatro ? " patrocinado" : "");
+    
+    // Adicionar proteção de login ao clicar no card
+    card.addEventListener('click', function(e) {
+      if (!estaLogado()) {
+        e.preventDefault();
+        protegerFuncionalidade();
+        return false;
+      }
+    });
+    
     card.innerHTML = `
       <div class="card-img">
-        <span style="font-size: 60px;">${lugar.emoji}</span>
+        ${seloPatrocinado}
+        ${renderMidiaCard(lugar)}
         <div class="card-badge">${lugar.categoria}</div>
         <div class="card-price">${precoTexto}</div>
         <button class="card-heart ${heartClass}" type="button" onclick="toggleSalvo(event, ${lugar.id})">${heartText}</button>
@@ -279,6 +290,10 @@ function renderCards(lugares) {
           </div>
           <div class="card-rating">⭐ ${lugar.avaliacoes.toFixed(1)}</div>
         </div>
+        <div class="card-extra">
+          ${badgeAberto}
+          ${distTexto}
+        </div>
       </div>
     `;
 
@@ -290,6 +305,12 @@ function toggleSalvo(event, id) {
   event.preventDefault();
   event.stopPropagation();
 
+  // Verificar se está logado
+  if (!estaLogado()) {
+    protegerFuncionalidade();
+    return;
+  }
+
   const btn = event.currentTarget;
   const salvos = obterSalvos();
 
@@ -298,6 +319,10 @@ function toggleSalvo(event, id) {
     btn.classList.remove("saved");
     btn.textContent = "♡";
   } else {
+    if (typeof podeAdicionarSalvo === "function" && !podeAdicionarSalvo(salvos.length)) {
+      premiumAvisoLimite();
+      return;
+    }
     salvos.push(id);
     btn.classList.add("saved");
     btn.textContent = "♥";
@@ -329,6 +354,7 @@ function aplicarCategoriaDaUrl() {
 
 document.addEventListener("DOMContentLoaded", function () {
   document.getElementById("search-input")?.addEventListener("input", buscarLugar);
+  popularBairros();
   updateBudget(200);
   aplicarCategoriaDaUrl();
   filtrarCards();

@@ -8,6 +8,9 @@
   <link rel="stylesheet" href="css/explorar.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css" />
   <link rel="icon" type="image/x-icon" href="img/logo.png" />
+
+  <!-- SCRIPT DE PROTEÇÃO -->
+  <script src="js/auth.js"></script>
 </head>
 <body>
   <nav class="nav">
@@ -28,6 +31,9 @@
       </a>
       <a href="salvos.html" class="nav-link">
         <i class="ti ti-heart"></i> Salvos
+      </a>
+      <a href="premium.html" class="nav-link nav-premium">
+        ★ Premium
       </a>
     </div>
   </nav>
@@ -103,10 +109,33 @@
       </div>
     </section>
 
+    <div class="toolbar" aria-label="Ordenar e filtrar">
+      <label class="toolbar-item">
+        <span>Ordenar</span>
+        <select id="ordenar" onchange="setOrdenar(this.value)">
+          <option value="relevancia">Relevância</option>
+          <option value="preco-asc">Menor preço</option>
+          <option value="preco-desc">Maior preço</option>
+          <option value="nota">Melhor avaliados</option>
+          <option value="distancia">Mais perto de mim</option>
+        </select>
+      </label>
+      <label class="toolbar-item">
+        <span>Bairro</span>
+        <select id="bairro" onchange="setBairro(this.value)">
+          <option value="Todos">Todos</option>
+        </select>
+      </label>
+      <button type="button" class="toolbar-toggle" id="toggle-aberto" onclick="toggleAberto()">🕒 Aberto agora</button>
+      <button type="button" class="toolbar-btn" id="btn-perto" onclick="ativarPertoDeMim()">📍 Perto de mim</button>
+    </div>
+
     <p class="found"><span id="count">0</span> lugares encontrados</p>
     <section class="cards-grid" id="cards-grid"></section>
   </main>
 
+  <script src="js/dados.js"></script>
+  <script src="js/premium.js"></script>
   <script src="js/explorar.js"></script>
 </body>
 </html>

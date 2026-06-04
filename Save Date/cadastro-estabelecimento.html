@@ -2,6 +2,7 @@
 <html lang="pt-br">
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Cadastro Estabelecimento - Save Date</title>
     <link rel="stylesheet" href="css/cadastrao-estabelecimento.css" />
       <style>
@@ -295,10 +296,22 @@
             ) || "[]"
           );
 
-        const emailExistente = estabelecimentos.some(
+        const emailNormalizado = email.toLowerCase();
+        const usuarios =
+          JSON.parse(
+            localStorage.getItem(
+              "cadastrosUsuarios"
+            ) || "[]"
+          );
+
+        const emailExistente = emailNormalizado === "admin@savedate.com" || estabelecimentos.some(
           (item) =>
             item.email ===
-            email.toLowerCase()
+            emailNormalizado
+        ) || usuarios.some(
+          (item) =>
+            item.email ===
+            emailNormalizado
         );
 
         if (emailExistente) {
@@ -317,7 +330,7 @@
 
         estabelecimentos.push({
           nome,
-          email: email.toLowerCase(),
+          email: emailNormalizado,
           senha,
           tipo: "estabelecimento"
         });
@@ -329,7 +342,7 @@
 
         localStorage.setItem(
           "estabelecimentoCadastroEmail",
-          email.toLowerCase()
+          emailNormalizado
         );
 
         localStorage.setItem(
@@ -361,6 +374,18 @@
           "tipoCadastro",
           "estabelecimento"
         );
+        localStorage.setItem(
+          "usuarioLogado",
+          "true"
+        );
+        localStorage.setItem(
+          "usuarioTipo",
+          "estabelecimento"
+        );
+        localStorage.setItem(
+          "nomeUsuario",
+          nome
+        );
 
         const catalogoRaw =
           localStorage.getItem(
@@ -383,12 +408,12 @@
 
         const registro =
           {
-            id: email,
+            id: emailNormalizado,
             nome,
             endereco,
             complemento,
             telefone,
-            email,
+            email: emailNormalizado,
             descricao,
             categorias: ["restaurantes"],
             fotos: fotosArray.slice(),
@@ -401,7 +426,7 @@
           };
 
         const indiceExistente =
-          catalogo.findIndex(item => item.id === email);
+          catalogo.findIndex(item => String(item.id || "").toLowerCase() === emailNormalizado);
 
         if (indiceExistente >= 0) {
           catalogo[indiceExistente] =
@@ -424,7 +449,7 @@
         );
 
         setTimeout(() => {
-          window.location.href = "login.html";
+          window.location.href = "home.html";
         }, 1400);
 
         return false;

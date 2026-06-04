@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Checklist do Rolê | Save Date</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/ferramentas.css" />
+  <link rel="icon" type="image/x-icon" href="img/logo.png" />
+
+  <!-- SCRIPT DE PROTEÇÃO -->
+  <script src="js/auth.js"></script>
+</head>
+<body>
+  <header class="topo">
+    <a href="home.html" class="logo-area"><img src="img/logo.png" alt="Save Date" /><span>Save Date</span></a>
+    <nav class="nav-categorias">
+      <a href="home.html" class="nav-link">Início</a>
+      <a href="explorar.html" class="nav-link">Explorar</a>
+      <a href="premium.html" class="nav-link nav-premium">★ Premium</a>
+    </nav>
+  </header>
+
+  <section class="hero-ferramenta">
+    <span class="etiqueta">Ferramenta única</span>
+    <h1>Checklist do Rolê</h1>
+    <p>Organize o básico antes de sair e evite sustos com horário, transporte e orçamento.</p>
+  </section>
+
+  <main class="conteudo">
+    <section class="painel">
+      <h2>Gerar checklist</h2>
+      <div class="linha">
+        <div class="campo">
+          <label>Tipo de rolê</label>
+          <select id="tipo">
+            <option>Jantar</option>
+            <option>Bar com amigos</option>
+            <option>Passeio ao ar livre</option>
+            <option>Shopping/cinema</option>
+          </select>
+        </div>
+        <div class="campo">
+          <label>Orçamento total</label>
+          <input id="orcamento" type="number" min="0" value="150" />
+        </div>
+      </div>
+      <button class="btn" type="button" id="gerar">Criar lista</button>
+    </section>
+
+    <section class="painel" id="resultado" style="display:none;">
+      <h2>Sua lista</h2>
+      <div id="lista"></div>
+    </section>
+  </main>
+
+  <script>
+    const base = ["Confirmar endereço", "Ver horário de funcionamento", "Separar valor do transporte", "Checar previsão do tempo", "Reservar uma margem de 15 minutos"];
+    const extras = {
+      "Jantar": ["Fazer reserva", "Checar faixa de preço", "Ver opções de sobremesa"],
+      "Bar com amigos": ["Combinar ponto de encontro", "Definir limite individual", "Separar app de carona"],
+      "Passeio ao ar livre": ["Levar água", "Checar entrada grátis/paga", "Planejar rota de volta"],
+      "Shopping/cinema": ["Checar sessão", "Comprar ingresso antes", "Definir lugar para comer"]
+    };
+
+    document.getElementById("gerar").addEventListener("click", () => {
+      const tipo = document.getElementById("tipo").value;
+      const orc = Number(document.getElementById("orcamento").value) || 0;
+      const itens = [...base, ...(extras[tipo] || [])];
+      if (orc < 80) itens.push("Priorizar opções grátis ou econômicas");
+      if (orc >= 200) itens.push("Separar verba para experiência extra");
+
+      document.getElementById("resultado").style.display = "block";
+      document.getElementById("lista").innerHTML = itens
+        .map((item) => `<label class="check-item"><input type="checkbox" /> <span>${item}</span></label>`)
+        .join("");
+    });
+  </script>
+</body>
+</html>

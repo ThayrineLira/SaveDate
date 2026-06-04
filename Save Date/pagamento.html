@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Save Date | Pagamento</title>
+    <link rel="icon" type="image/x-icon" href="img/logo.png" />
+    <link rel="stylesheet" href="css/pagamento.css" />
+</head>
+<body>
+
+    <header class="main-header">
+      <div class="container header-content">
+        <a href="home.html" class="logo-container">
+          <img src="img/logo.png" alt="Save Date" class="logo-icon" />
+          <span class="logo-text">Save Date</span>
+        </a>
+        <a href="premium.html" class="header-action">Voltar aos planos</a>
+      </div>
+    </header>
+
+    <main class="container">
+
+        <h1 class="page-title">Finalizar Assinatura</h1>
+
+        <div class="payment-box">
+
+            <div class="plano-resumo" id="plano-resumo">
+                <strong id="plano-nome">Plano Premium</strong>
+                <span id="plano-publico" class="plano-publico"></span>
+            </div>
+
+            <div class="payment-amount">Valor a pagar: <strong id="plano-valor">R$ 0,00</strong></div>
+
+            <div class="metodo-tabs">
+                <button type="button" class="metodo-tab ativa" data-metodo="pix" onclick="trocarMetodo('pix')">PIX</button>
+                <button type="button" class="metodo-tab" data-metodo="cartao" onclick="trocarMetodo('cartao')">Cartão</button>
+            </div>
+
+            <!-- PIX -->
+            <div class="metodo-conteudo" id="metodo-pix">
+              <p class="card-desc">Abra o app do seu banco, escolha Pix e use a chave abaixo para pagar.</p>
+              <div class="payment-method">
+                <strong>Chave Pix (CPF)</strong>
+                <div class="pix-key-container" id="pixKey">19606550788</div>
+                <a href="#" class="card-link" id="copyBtn" onclick="copiarPix(event)">Copiar chave Pix</a>
+              </div>
+            </div>
+
+            <!-- CARTÃO -->
+            <div class="metodo-conteudo" id="metodo-cartao" style="display:none;">
+              <form class="form-cartao" onsubmit="return false;">
+                <label>Número do cartão
+                  <input type="text" id="card-numero" inputmode="numeric" maxlength="19" placeholder="0000 0000 0000 0000" />
+                </label>
+                <label>Nome impresso no cartão
+                  <input type="text" id="card-nome" placeholder="Como está no cartão" />
+                </label>
+                <div class="form-cartao-linha">
+                  <label>Validade
+                    <input type="text" id="card-validade" maxlength="5" placeholder="MM/AA" />
+                  </label>
+                  <label>CVV
+                    <input type="text" id="card-cvv" inputmode="numeric" maxlength="4" placeholder="123" />
+                  </label>
+                </div>
+              </form>
+            </div>
+
+            <button type="button" class="btn-confirmar" id="btn-confirmar" onclick="confirmarPagamento()">
+                Confirmar pagamento
+            </button>
+
+            <div class="status" id="statusMessage" style="display:none;"></div>
+        </div>
+
+    </main>
+
+    <footer class="rodape">
+      <div class="container rodape-conteudo">
+        <p class="texto-rodape">&copy; 2026 Save Date • Pagamento simulado para fins de demonstração</p>
+      </div>
+    </footer>
+
+    <script src="js/premium.js"></script>
+    <script>
+        let metodoAtual = "pix";
+
+        function obterPlanoDaUrl() {
+            const id = new URLSearchParams(window.location.search).get("plano");
+            return PLANOS_PREMIUM[id] || null;
+        }
+
+        const plano = obterPlanoDaUrl();
+
+        function verificarTipoPlano() {
+            // Verificar se está logado
+            if (!premiumEstaLogado()) {
+                document.querySelector(".payment-box").innerHTML =
+                    '<p class="card-desc">Você precisa estar logado para assinar um plano. <a href="login.html">Faça login</a>.</p>';
+                return false;
+            }
+
+            // Se não há plano, já foi tratado
+            if (!plano) {
+                document.querySelector(".payment-box").innerHTML =
+                    '<p class="card-desc">Plano não encontrado. <a href="premium.html">Voltar aos planos</a>.</p>';
+                return false;
+            }
+
+            // Verificar se o tipo de usuário corresponde ao plano
+            const tipoUsuario = premiumTipoConta();
+            
+            if (plano.publico !== tipoUsuario) {
+                const mensagem = plano.publico === "estabelecimento"
+                    ? "Este é um plano para estabelecimentos. Você é um usuário comum."
+                    : "Este é um plano para usuários. Você é um estabelecimento.";
+                
+                const planoCerto = plano.publico === "estabelecimento"
+                    ? "estabelecimento"
+                    : "usuário";
+                
+                document.querySelector(".payment-box").innerHTML =
+                    `<p class="card-desc" style="color: #dc2626;"><strong>❌ Acesso negado</strong></p>` +
+                    `<p class="card-desc">${mensagem}</p>` +
+                    `<p class="card-desc" style="margin-top: 20px;">` +
+                    `<a href="premium.html" class="card-link" style="background: #3b82f6; color: white; padding: 10px 20px; border-radius: 8px; display: inline-block;">` +
+                    `Voltar aos planos corretos` +
+                    `</a></p>`;
+                return false;
+            }
+
+            return true;
+        }
+
+        function preencherResumo() {
+            // Verificar tipo de plano compatível com o usuário
+            if (!verificarTipoPlano()) {
+                return;
+            }
+
+            if (!plano) {
+                document.querySelector(".payment-box").innerHTML =
+                    '<p class="card-desc">Plano não encontrado. <a href="premium.html">Voltar aos planos</a>.</p>';
+                return;
+            }
+            document.getElementById("plano-nome").textContent = plano.nome;
+            document.getElementById("plano-publico").textContent =
+                plano.publico === "estabelecimento" ? "Plano para estabelecimentos" : "Plano para você";
+            document.getElementById("plano-valor").textContent = `${plano.precoLabel} ${plano.periodo}`;
+        }
+
+        function trocarMetodo(metodo) {
+            metodoAtual = metodo;
+            document.getElementById("metodo-pix").style.display = metodo === "pix" ? "block" : "none";
+            document.getElementById("metodo-cartao").style.display = metodo === "cartao" ? "block" : "none";
+            document.querySelectorAll(".metodo-tab").forEach((tab) => {
+                tab.classList.toggle("ativa", tab.dataset.metodo === metodo);
+            });
+        }
+
+        function copiarPix(event) {
+            event.preventDefault();
+            const pixKey = document.getElementById("pixKey").innerText;
+            navigator.clipboard.writeText(pixKey).then(() => {
+                const btn = document.getElementById("copyBtn");
+                btn.innerText = "Chave copiada! ✓";
+                setTimeout(() => { btn.innerText = "Copiar chave Pix"; }, 3000);
+            }).catch(() => alert("Copie o texto manualmente."));
+        }
+
+        function validarCartao() {
+            const numero = document.getElementById("card-numero").value.replace(/\s/g, "");
+            const nome = document.getElementById("card-nome").value.trim();
+            const validade = document.getElementById("card-validade").value.trim();
+            const cvv = document.getElementById("card-cvv").value.trim();
+
+            if (numero.length < 13) return "Informe um número de cartão válido.";
+            if (!nome) return "Informe o nome impresso no cartão.";
+            if (!/^\d{2}\/\d{2}$/.test(validade)) return "Validade deve estar no formato MM/AA.";
+            if (cvv.length < 3) return "Informe um CVV válido.";
+            return null;
+        }
+
+        function mostrarStatus(texto, cor) {
+            const statusDiv = document.getElementById("statusMessage");
+            statusDiv.style.display = "flex";
+            statusDiv.style.color = cor;
+            statusDiv.innerHTML = texto;
+        }
+
+        function confirmarPagamento() {
+            if (!plano) return;
+
+            if (metodoAtual === "cartao") {
+                const erro = validarCartao();
+                if (erro) {
+                    mostrarStatus(`<strong>${erro}</strong>`, "#dc2626");
+                    return;
+                }
+            }
+
+            const btn = document.getElementById("btn-confirmar");
+            btn.disabled = true;
+            btn.textContent = "Processando...";
+            mostrarStatus('<div class="spinner"></div> Confirmando seu pagamento...', "#f59e0b");
+
+            // Simula o processamento do pagamento (2s) e confirma manualmente.
+            setTimeout(() => {
+                ativarPremium(plano.id);
+                mostrarStatus("<strong>Pagamento confirmado! Premium ativado 🎉</strong>", "#16a34a");
+                btn.textContent = "Concluído ✓";
+                setTimeout(() => { window.location.href = "home.html"; }, 1800);
+            }, 2000);
+        }
+
+        // Máscaras simples
+        document.addEventListener("DOMContentLoaded", function () {
+            preencherResumo();
+
+            const numero = document.getElementById("card-numero");
+            numero?.addEventListener("input", () => {
+                numero.value = numero.value.replace(/\D/g, "").replace(/(.{4})/g, "$1 ").trim();
+            });
+            const validade = document.getElementById("card-validade");
+            validade?.addEventListener("input", () => {
+                let v = validade.value.replace(/\D/g, "");
+                if (v.length >= 3) v = v.slice(0, 2) + "/" + v.slice(2, 4);
+                validade.value = v;
+            });
+        });
+    </script>
+</body>
+</html>

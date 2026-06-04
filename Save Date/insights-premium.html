@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Insights do Restaurante | Save Date</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/ferramentas.css" />
+  <link rel="icon" type="image/x-icon" href="img/logo.png" />
+
+  <!-- SCRIPT DE PROTEÇÃO -->
+  <script src="js/auth.js"></script>
+</head>
+<body>
+  <header class="topo">
+    <a href="home.html" class="logo-area"><img src="img/logo.png" alt="Save Date" /><span>Save Date</span></a>
+    <nav class="nav-categorias">
+      <a href="home.html" class="nav-link">Painel</a>
+      <a href="premium.html" class="nav-link nav-premium">★ Premium</a>
+    </nav>
+  </header>
+
+  <section class="hero-ferramenta">
+    <span class="etiqueta">Parceiro Premium</span>
+    <h1>Insights do Restaurante</h1>
+    <p>Veja uma leitura rápida de desempenho e próximos passos para melhorar sua presença.</p>
+  </section>
+
+  <main class="conteudo">
+    <div id="bloqueio"></div>
+    <section class="painel ferramenta-premium">
+      <h2>Resumo de performance</h2>
+      <div class="mini-grid">
+        <div class="mini-card"><span>Visualizações</span><strong id="visitas">0</strong></div>
+        <div class="mini-card"><span>Salvamentos</span><strong id="salvos">0</strong></div>
+        <div class="mini-card"><span>Taxa de interesse</span><strong id="taxa">0%</strong></div>
+        <div class="mini-card"><span>Campanhas</span><strong id="campanhas">0</strong></div>
+      </div>
+    </section>
+    <section class="painel ferramenta-premium">
+      <h2>Recomendação</h2>
+      <p id="recomendacao"></p>
+    </section>
+  </main>
+
+  <script src="js/premium.js"></script>
+  <script>
+    const email = (localStorage.getItem("usuarioLogadoEmail") || localStorage.getItem("estabelecimentoCadastroEmail") || "restaurante").toLowerCase();
+
+    function permitido() {
+      return localStorage.getItem("usuarioLogado") === "true" &&
+        (localStorage.getItem("usuarioTipo") || "").toLowerCase() === "estabelecimento" &&
+        typeof estabelecimentoTemPremium === "function" &&
+        estabelecimentoTemPremium();
+    }
+
+    function lerCampanhas() {
+      try { return JSON.parse(localStorage.getItem(`campanhas_${email}`) || "[]"); } catch (e) { return []; }
+    }
+
+    if (!permitido()) {
+      document.querySelectorAll(".ferramenta-premium").forEach((el) => el.style.display = "none");
+      document.getElementById("bloqueio").innerHTML =
+        '<div class="premium-lock">Insights são exclusivos para restaurantes parceiros Premium. <a href="premium.html">Ver planos</a></div>';
+    } else {
+      const base = Math.max(90, email.length * 37);
+      const visitas = base + Number(localStorage.getItem("insightVisitasExtra") || 0);
+      const salvos = Math.round(visitas * 0.11);
+      const taxa = Math.round((salvos / visitas) * 100);
+      const campanhas = lerCampanhas().length;
+
+      document.getElementById("visitas").textContent = visitas;
+      document.getElementById("salvos").textContent = salvos;
+      document.getElementById("taxa").textContent = taxa + "%";
+      document.getElementById("campanhas").textContent = campanhas;
+      document.getElementById("recomendacao").textContent =
+        campanhas
+          ? "Sua campanha já está ajudando a gerar intenção. Atualize fotos e destaque um benefício claro para aumentar salvamentos."
+          : "Crie uma campanha Premium com desconto, combo ou evento. Restaurantes com chamada ativa tendem a converter melhor.";
+    }
+  </script>
+</body>
+</html>

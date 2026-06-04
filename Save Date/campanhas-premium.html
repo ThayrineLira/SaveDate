@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Central de Campanhas | Save Date</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/ferramentas.css" />
+  <link rel="icon" type="image/x-icon" href="img/logo.png" />
+
+  <!-- SCRIPT DE PROTEÇÃO -->
+  <script src="js/auth.js"></script>
+</head>
+<body>
+  <header class="topo">
+    <a href="home.html" class="logo-area"><img src="img/logo.png" alt="Save Date" /><span>Save Date</span></a>
+    <nav class="nav-categorias">
+      <a href="home.html" class="nav-link">Painel</a>
+      <a href="premium.html" class="nav-link nav-premium">★ Premium</a>
+    </nav>
+  </header>
+
+  <section class="hero-ferramenta">
+    <span class="etiqueta">Parceiro Premium</span>
+    <h1>Central de Campanhas</h1>
+    <p>Monte chamadas promocionais para destacar seu restaurante na vitrine do Save Date.</p>
+  </section>
+
+  <main class="conteudo">
+    <div id="bloqueio"></div>
+    <section class="painel ferramenta-premium">
+      <h2>Criar campanha</h2>
+      <div class="linha">
+        <div class="campo">
+          <label>Título</label>
+          <input id="titulo" type="text" value="Combo para casal" />
+        </div>
+        <div class="campo">
+          <label>Desconto</label>
+          <input id="desconto" type="number" value="15" min="0" />
+        </div>
+      </div>
+      <div class="campo">
+        <label>Mensagem</label>
+        <input id="mensagem" type="text" value="Reserve hoje e ganhe uma sobremesa." />
+      </div>
+      <button class="btn" id="salvar" type="button">Salvar campanha</button>
+    </section>
+    <section class="painel ferramenta-premium">
+      <h2>Campanhas criadas</h2>
+      <div id="lista"></div>
+    </section>
+  </main>
+
+  <script src="js/premium.js"></script>
+  <script>
+    const email = (localStorage.getItem("usuarioLogadoEmail") || localStorage.getItem("estabelecimentoCadastroEmail") || "restaurante").toLowerCase();
+    const chave = `campanhas_${email}`;
+
+    function permitido() {
+      return localStorage.getItem("usuarioLogado") === "true" &&
+        (localStorage.getItem("usuarioTipo") || "").toLowerCase() === "estabelecimento" &&
+        typeof estabelecimentoTemPremium === "function" &&
+        estabelecimentoTemPremium();
+    }
+
+    function ler() {
+      try { return JSON.parse(localStorage.getItem(chave) || "[]"); } catch (e) { return []; }
+    }
+
+    function render() {
+      const lista = ler();
+      document.getElementById("lista").innerHTML = lista.length
+        ? `<div class="mini-grid">${lista.map((c) => `
+            <div class="mini-card"><span>${c.titulo}</span><strong>${c.desconto}% off</strong><p>${c.mensagem}</p></div>
+          `).join("")}</div>`
+        : '<p class="aviso-vazio">Nenhuma campanha criada ainda.</p>';
+    }
+
+    if (!permitido()) {
+      document.querySelectorAll(".ferramenta-premium").forEach((el) => el.style.display = "none");
+      document.getElementById("bloqueio").innerHTML =
+        '<div class="premium-lock">Ferramenta exclusiva para restaurantes parceiros Premium. <a href="premium.html">Ver planos</a></div>';
+    } else {
+      render();
+    }
+
+    document.getElementById("salvar")?.addEventListener("click", () => {
+      const lista = ler();
+      lista.unshift({
+        titulo: document.getElementById("titulo").value,
+        desconto: document.getElementById("desconto").value,
+        mensagem: document.getElementById("mensagem").value,
+        data: new Date().toISOString()
+      });
+      localStorage.setItem(chave, JSON.stringify(lista));
+      render();
+    });
+  </script>
+</body>
+</html>

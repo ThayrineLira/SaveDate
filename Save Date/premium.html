@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Premium | Save Date</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/premium.css" />
+  <link rel="icon" type="image/x-icon" href="img/logo.png" />
+  <script src="js/auth.js"></script>
+</head>
+<body>
+  <header class="topo">
+    <a href="home.html" class="logo-area">
+      <img src="img/logo.png" alt="Logo Save Date" />
+      <span>Save Date</span>
+    </a>
+    <nav class="nav-categorias" aria-label="Navegação principal">
+      <a href="home.html" class="nav-link">Início</a>
+      <a href="explorar.html" class="nav-link">Explorar</a>
+      <a href="conta.html" class="nav-link">Minha Conta</a>
+    </nav>
+  </header>
+
+  <section class="hero-premium">
+    <span class="etiqueta">★ Premium</span>
+    <h1>Aproveite o Save Date sem limites.</h1>
+    <p>Escolha o plano ideal para você ou para o seu estabelecimento. Cancele quando quiser.</p>
+    <div id="status-premium" class="status-premium" style="display:none;"></div>
+  </section>
+
+  <main class="planos" id="lista-planos"></main>
+
+  <footer class="rodape">
+    <p>&copy; 2026 Save Date • Feito com ❤️ para o seu bolso</p>
+  </footer>
+
+  <script src="js/premium.js"></script>
+  <script>
+    function montarPlano(plano, ativo, ehDoMeuTipo) {
+      const beneficios = plano.beneficios.map((b) => `<li>${b}</li>`).join("");
+      const fita = plano.destaque ? '<span class="fita">Recomendado</span>' : "";
+      const etiquetaEconomia = plano.economia
+        ? '<span class="economia">Economize 2 meses</span>'
+        : "";
+      const publicoLabel = plano.publico === "estabelecimento" ? "Para estabelecimentos" : "Para você";
+
+      let botao;
+      if (ativo) {
+        botao = '<span class="btn-assinar ativo">Plano ativo ✓</span>';
+      } else if (ehDoMeuTipo) {
+        botao = `<a class="btn-assinar" href="pagamento.html?plano=${plano.id}">Assinar ${plano.precoLabel}</a>`;
+      } else {
+        // Plano não é do tipo do usuário
+        botao = `<span class="btn-assinar" onclick="avisarTipoIncorreto('${plano.publico}')" style="cursor: pointer; opacity: 0.6;">Não disponível para seu tipo</span>`;
+      }
+
+      return `
+        <article class="plano ${plano.destaque ? "destaque" : ""} ${ehDoMeuTipo ? "do-meu-tipo" : ""}">
+          ${fita}
+          <span class="publico">${publicoLabel}</span>
+          <h2>${plano.nome}</h2>
+          ${etiquetaEconomia}
+          <p class="resumo">${plano.resumo}</p>
+          <div class="preco">${plano.precoLabel}<span>${plano.periodo}</span></div>
+          <ul>${beneficios}</ul>
+          ${botao}
+        </article>
+      `;
+    }
+
+    function avisarTipoIncorreto(tipo) {
+      const mensagem = tipo === "estabelecimento"
+        ? "Este é um plano para estabelecimentos. Você é um usuário comum."
+        : "Este é um plano para usuários. Você é um estabelecimento.";
+      
+      alert(mensagem);
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+      const lista = document.getElementById("lista-planos");
+      const statusEl = document.getElementById("status-premium");
+      const logado = premiumEstaLogado();
+      const tipo = premiumTipoConta();
+      const planoAtual = (localStorage.getItem("premiumPlanoAtual") || "").toLowerCase();
+
+      // Mostra primeiro os planos do tipo de conta logado.
+      const planos = Object.values(PLANOS_PREMIUM).sort((a, b) => {
+        if (!logado) return 0;
+        const aMeu = a.publico === tipo ? 0 : 1;
+        const bMeu = b.publico === tipo ? 0 : 1;
+        if (aMeu !== bMeu) return aMeu - bMeu;
+        return (a.nivel || 0) - (b.nivel || 0);
+      });
+
+      lista.innerHTML = planos
+        .map((plano) => {
+          const premiumDoPublico =
+            (plano.publico === "estabelecimento" && estabelecimentoTemPremium()) ||
+            (plano.publico === "usuario" && usuarioTemPremium());
+          // Ativo só quando é exatamente o plano contratado (ou único do tipo, sem id salvo).
+          const ativo =
+            logado &&
+            premiumDoPublico &&
+            (planoAtual === plano.id || planoAtual === "");
+          const ehDoMeuTipo = logado && plano.publico === tipo;
+          return montarPlano(plano, ativo, ehDoMeuTipo);
+        })
+        .join("");
+
+      if (!logado) {
+        statusEl.style.display = "block";
+        statusEl.style.background = "#fff3dd";
+        statusEl.style.color = "#a86a12";
+        statusEl.innerHTML =
+          'Você ainda não está logado. <a href="login.html" style="color:#e76f51;font-weight:900;">Entre na sua conta</a> para assinar.';
+      } else if (temPremiumAtivo()) {
+        statusEl.style.display = "block";
+        statusEl.textContent = "🎉 Você já é Premium! Aproveite todos os benefícios.";
+      }
+    });
+  </script>
+</body>
+</html>

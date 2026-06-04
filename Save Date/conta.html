@@ -7,6 +7,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/conta.css" />
   <link rel="icon" type="image/x-icon" href="img/logo.png" />
+
+  <!-- SCRIPT DE PROTEÇÃO -->
+  <script src="js/auth.js"></script>
 </head>
 <body>
   <header class="topo">
@@ -27,6 +30,7 @@
       <div id="avatar-conta" class="avatar-conta">U</div>
       <div>
         <span id="tipo-conta" class="badge-tipo">Usuário</span>
+        <span id="badge-premium" class="badge-premium" style="display:none;">★ Premium</span>
         <h1 id="nome-conta">Minha Conta</h1>
         <p>Gerencie seu perfil, veja seus favoritos e continue planejando seus próximos rolês.</p>
       </div>
@@ -73,6 +77,7 @@
         </div>
 
         <div class="acoes">
+          <a id="link-premium" href="premium.html" class="btn">Seja Premium ★</a>
           <a href="sugestoes.html" class="btn secundario">Ver sugestões</a>
           <button id="btn-limpar-salvos" class="btn secundario" type="button">Limpar favoritos</button>
           <button id="btn-sair-conta" class="btn perigo" type="button">Sair</button>
@@ -86,6 +91,8 @@
     </section>
   </main>
 
+  <script src="js/dados.js"></script>
+  <script src="js/premium.js"></script>
   <script src="js/conta.js"></script>
 </body>
 </html>

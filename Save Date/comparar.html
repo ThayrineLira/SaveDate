@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Comparar Lugares | Save Date</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/ferramentas.css" />
+  <link rel="icon" type="image/x-icon" href="img/logo.png" />
+  <script src="js/auth.js"></script>
+</head>
+<body>
+  <header class="topo">
+    <a href="home.html" class="logo-area">
+      <img src="img/logo.png" alt="Logo Save Date" />
+      <span>Save Date</span>
+    </a>
+    <nav class="nav-categorias" aria-label="Navegação principal">
+      <a href="home.html" class="nav-link">Início</a>
+      <a href="explorar.html" class="nav-link">Explorar</a>
+      <a href="roteiro.html" class="nav-link">Planejar rolê</a>
+      <a href="racha.html" class="nav-link">Racha</a>
+      <a href="premium.html" class="nav-link nav-premium">★ Premium</a>
+    </nav>
+  </header>
+
+  <section class="hero-ferramenta">
+    <span class="etiqueta">✦ Exclusivo Save Date</span>
+    <h1>Comparar Lugares</h1>
+    <p>Coloque até 3 lugares lado a lado e veja preço, nota e estilo para decidir sem dúvida.</p>
+  </section>
+
+  <main class="conteudo">
+    <section class="painel">
+      <h2>Escolha os lugares</h2>
+      <div class="linha">
+        <div class="campo">
+          <label>Lugar 1</label>
+          <select class="select-comparar" id="comp-0"></select>
+        </div>
+        <div class="campo">
+          <label>Lugar 2</label>
+          <select class="select-comparar" id="comp-1"></select>
+        </div>
+        <div class="campo">
+          <label>Lugar 3 (opcional)</label>
+          <select class="select-comparar" id="comp-2"></select>
+        </div>
+      </div>
+    </section>
+
+    <section class="painel" id="tabela-painel" style="display:none;">
+      <h2>Comparação</h2>
+      <div style="overflow-x:auto;">
+        <table class="tabela-comparar" id="tabela"></table>
+      </div>
+      <p class="aviso-vazio" style="padding-top:14px;">✓ destaca o melhor em cada linha (mais barato e melhor avaliado).</p>
+    </section>
+  </main>
+
+  <script src="js/dados.js"></script>
+  <script>
+    const $ = (id) => document.getElementById(id);
+
+    function rotuloPreco(p) {
+      return p === 0 ? "Grátis" : "R$ " + p;
+    }
+
+    function preencherSelects() {
+      const opcoesBase =
+        '<option value="">— Selecionar —</option>' +
+        lugaresData
+          .map((l) => `<option value="${l.id}">${l.nome} (${l.categoria})</option>`)
+          .join("");
+
+      ["comp-0", "comp-1", "comp-2"].forEach((id, i) => {
+        const sel = $(id);
+        sel.innerHTML = opcoesBase;
+        if (lugaresData[i]) sel.value = String(lugaresData[i].id);
+        sel.addEventListener("change", render);
+      });
+    }
+
+    function selecionados() {
+      return ["comp-0", "comp-1", "comp-2"]
+        .map((id) => parseInt($(id).value, 10))
+        .filter((v) => !Number.isNaN(v))
+        .map((v) => lugarPorId(v))
+        .filter(Boolean);
+    }
+
+    function render() {
+      const lugares = selecionados();
+      const painel = $("tabela-painel");
+
+      if (lugares.length < 2) {
+        painel.style.display = "none";
+        return;
+      }
+      painel.style.display = "block";
+
+      const menorPreco = Math.min(...lugares.map((l) => l.preco));
+      const maiorNota = Math.max(...lugares.map((l) => l.avaliacoes || 0));
+
+      const linhaCabecalho =
+        "<tr><td class='rotulo'></td>" +
+        lugares
+          .map((l) => `<th>${l.emoji || "📍"} ${l.nome}</th>`)
+          .join("") +
+        "</tr>";
+
+      function linha(rotulo, fn) {
+        return (
+          `<tr><td class="rotulo">${rotulo}</td>` +
+          lugares.map((l) => `<td>${fn(l)}</td>`).join("") +
+          "</tr>"
+        );
+      }
+
+      const corpo = [
+        linha("Categoria", (l) => l.categoria),
+        linha("Preço médio", (l) => {
+          const destaque = l.preco === menorPreco ? " class='melhor'" : "";
+          return `<span${destaque}>${rotuloPreco(l.preco)}${l.preco === menorPreco ? " ✓" : ""}</span>`;
+        }),
+        linha("Avaliação", (l) => {
+          const nota = (l.avaliacoes || 0).toFixed(1);
+          const destaque = (l.avaliacoes || 0) === maiorNota ? " class='melhor'" : "";
+          return `<span${destaque}>⭐ ${nota}${(l.avaliacoes || 0) === maiorNota ? " ✓" : ""}</span>`;
+        }),
+        linha("Localização", (l) => l.localizacao || "—"),
+        linha("Horário", (l) => l.horario || "—"),
+        linha("Estilo", (l) =>
+          (l.tags || []).map((t) => `<span class="tag-mini">${t}</span>`).join("") || "—"),
+        linha("", (l) => `<a class="btn" style="min-height:40px;padding:9px 14px;" href="detalhes.html?id=${l.id}">Ver detalhes</a>`)
+      ].join("");
+
+      $("tabela").innerHTML = linhaCabecalho + corpo;
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+      preencherSelects();
+      render();
+    });
+  </script>
+</body>
+</html>
