@@ -114,6 +114,36 @@ body{
 
 .busca-container{
   position:relative;
+  flex:1;
+}
+
+.seg-grupo {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px;
+  border: 1px solid #e7e3df;
+  border-radius: 999px;
+  background: #f5f5f5;
+  gap: 4px;
+}
+
+.seg-btn {
+  border: 0;
+  border-radius: 999px;
+  padding: 8px 12px;
+  background: transparent;
+  color: #999;
+  font: inherit;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background .2s, color .2s;
+}
+
+.seg-btn.ativo {
+  background: #fff;
+  color: #e76f51;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, .08);
 }
 
 .busca-pilula{

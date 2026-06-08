@@ -1,753 +1,1076 @@
 <!doctype html>
 <html lang="pt-br">
-<head>
-  <script src="js/tema.js"></script>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <head>
+    <script src="js/tema.js"></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>Save Date | Explore sem sustos</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
-
-  <!-- CSS -->
-  <link rel="stylesheet" href="css/home.css?v=1.3" />
-
-  <!-- ÍCONE -->
-  <link rel="icon" type="image/x-icon" href="img/optimized/logo.png" />
-
-  <!-- SCRIPT DE PROTEÇÃO -->
-  <script src="js/auth.js"></script>
-
-  <link rel="stylesheet" href="css/tema.css" />
-</head>
-<body>
-  <header id="cabecalho-principal" class="topo">
-
-    <nav class="container nav-wrapper">
-      <div id="logo-home" class="logo-area">
-
-        <img src="img/optimized/logo.png" class="logo" alt="Logotipo Save Date" />
-
-        <h1 class="logo-nome">
-          Save Date
-        </h1>
-
-      </div>
-     <div class="busca-container">
-
-  <div class="busca-pilula">
-
-    <input
-      type="text"
-      id="campo-busca"
-      placeholder="Pesquisar categorias"
+    <title>Save Date | Explore sem sustos</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap"
+      rel="stylesheet"
     />
 
-    <button id="btn-buscar" title="Buscar">
-      🔍
-    </button>
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/home.css?v=1.3" />
 
-  </div>
+    <!-- ÍCONE -->
+    <link rel="icon" type="image/x-icon" href="img/optimized/logo.png" />
 
-  <div id="sugestoes" class="sugestoes"></div>
+    <!-- SCRIPT DE PROTEÇÃO -->
+    <script src="js/auth.js"></script>
 
-</div>
-      <div id="menu-usuario" class="menu-perfil">
-        <span class="burger" role="button" tabindex="0" aria-label="Abrir menu" aria-controls="dropdown-menu" aria-expanded="false">☰</span>
-        <div class="usuario-dropdown">
-          <img src="img/optimized/login.jpg" alt="Foto de perfil" class="avatar" />
-          <span id="nome-usuario" class="nome-usuario">Entrar</span>
+    <link rel="stylesheet" href="css/tema.css" />
+  </head>
+  <body>
+    <header id="cabecalho-principal" class="topo">
+      <nav class="container nav-wrapper">
+        <div id="logo-home" class="logo-area">
+          <img
+            src="img/optimized/logo.png"
+            class="logo"
+            alt="Logotipo Save Date"
+          />
+
+          <h1 class="logo-nome">Save Date</h1>
         </div>
-      </div>
+        <div class="busca-container">
+          <div class="busca-pilula">
+            <input
+              type="text"
+              id="campo-busca"
+              placeholder="Pesquisar categorias"
+            />
 
-    </nav>
-
-  </header>
-
-  <main id="conteudo-principal">
-    <div id="home-normal">
-      <section id="hero-banner" class="hero">
-        <div class="slide-container">
-      <div id="slide-principal" class="container hero-conteudo slide-hero">
-        <h2 class="hero-titulo">Saia e divirta-se<br /><span class="texto-gradiente">sem sustos no bolso.</span></h2>
-        <p class="hero-subtitulo">Divirta-se mais, gaste menos</p>
-        <div class="botoes-hero">
-          <button class="btn-principal" onclick="acessarFuncionalidade('sugestoes.html')">Ver Sugestões</button>
-          <button class="btn-secundario" onclick="verificarLoginMapa()">Explorar Mapa</button>
-        </div>
-      </div>
-      <div id="hero-slide-2" class="container hero-conteudo slide-hero">
-        <h2 class="hero-titulo">Anuncie seu<span class="texto-gradiente"> restaurante aqui.</span></h2>
-        <p class="hero-subtitulo">Ofereça seus serviços e conquiste clientes.</p>
-        <div class="botoes-hero">
-          <button class="btn-principal" onclick="window.location.href='cadastro-estabelecimento.html'">Anuncie seu local</button>
-          <button class="btn-principal" onclick="acessarFuncionalidade('sugestoes.html')">Ver Sugestões</button>
-          <button class="btn-secundario" onclick="verificarLoginMapa()">Explorar Mapa</button>
-        </div>
-
-      </div>
-      <div id="hero-slide-3" class="container hero-conteudo slide-hero">
-        <h2 class="hero-titulo">Parceiros <span class="texto-gradiente">em destaque.</span></h2>
-        <p class="hero-subtitulo">Estabelecimentos com selo de parceiro do Save Date. Toque para conhecer.</p>
-        <div id="parceiros-destaque" class="parceiros-destaque" aria-label="Parceiros com selo"></div>
-      </div>
-
-      </div>
-    </section>
-
-    <section class="home-atalhos container" aria-label="Acessos principais">
-      <a href="#secao-destaques" class="home-atalho principal">
-        <span>Buscar lugares</span>
-        <strong>Por local e or&ccedil;amento</strong>
-      </a>
-      <a href="explorar.html" class="home-atalho">
-        <span>Explorar</span>
-        <strong>Filtros completos</strong>
-      </a>
-      <a href="sugestoes.html" class="home-atalho">
-        <span>Sugest&otilde;es</span>
-        <strong>Ideias prontas</strong>
-      </a>
-      <a href="premium.html" class="home-atalho">
-        <span>Premium</span>
-        <strong>Sem limites</strong>
-      </a>
-    </section>
-
-    <section class="cliente-primeira-visao" aria-label="O que voce encontra no Save Date">
-      <div class="container primeira-visao-grid">
-        <article class="primeira-visao-destaque">
-          <span class="etiqueta-secao">Antes de sair</span>
-          <h2>Escolha o rol&ecirc; certo para o seu bolso.</h2>
-          <p>Veja lugares por categoria, procure perto de voc&ecirc; e compare op&ccedil;&otilde;es antes de decidir onde ir.</p>
-          <div class="acoes-primeira-visao">
-            <button class="btn-principal" type="button" onclick="document.getElementById('secao-destaques')?.scrollIntoView({ behavior: 'smooth' }); document.getElementById('input-local')?.focus()">Buscar perto de mim</button>
-            <button class="btn-claro" type="button" onclick="acessarFuncionalidade('sugestoes.html')">Ver sugest&otilde;es</button>
+            <button id="btn-buscar" title="Buscar">🔍</button>
           </div>
-        </article>
 
-        <div class="beneficios-cliente">
-          <article class="beneficio-card">
-            <span class="beneficio-icone">R$</span>
-            <h3>Planeje o gasto</h3>
-            <p>Encontre op&ccedil;&otilde;es que combinam com o momento e evite surpresa no final.</p>
-          </article>
-
-          <article class="beneficio-card">
-            <span class="beneficio-icone">GPS</span>
-            <h3>Use sua regi&atilde;o</h3>
-            <p>Digite CEP ou endere&ccedil;o para carregar lugares mais pr&oacute;ximos.</p>
-          </article>
-
-          <article class="beneficio-card">
-            <span class="beneficio-icone">OK</span>
-            <h3>Compare r&aacute;pido</h3>
-            <p>Navegue por bares, restaurantes, parques, shoppings e festas.</p>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section class="como-funciona-home">
-      <div class="container">
-        <div class="cabecalho-secao compacto">
-          <h2 class="titulo-secao">Como usar em poucos segundos</h2>
-          <a href="#secao-destaques" class="link-ver-tudo">Come&ccedil;ar busca</a>
+          <div id="sugestoes" class="sugestoes"></div>
         </div>
 
-        <div class="passos-home">
-          <article class="passo-card">
-            <span class="passo-numero">1</span>
-            <h3>Informe onde voc&ecirc; est&aacute;</h3>
-            <p>Use o campo de CEP ou endere&ccedil;o para filtrar os destaques.</p>
-          </article>
-
-          <article class="passo-card">
-            <span class="passo-numero">2</span>
-            <h3>Escolha uma categoria</h3>
-            <p>Veja rapidamente o tipo de lugar ideal para o seu plano.</p>
-          </article>
-
-          <article class="passo-card">
-            <span class="passo-numero">3</span>
-            <h3>Decida sem pressa</h3>
-            <p>Compare op&ccedil;&otilde;es, abra sugest&otilde;es e planeje melhor a sa&iacute;da.</p>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section id="nav-categorias" class="categorias-nav">
-
-      <div class="container categorias-wrapper">
-        <a href="bares.html" class="item-cat" data-categoria="bares">
-          <img class="icone-categoria" src="img/optimized/bar.png" alt="Ícone de bar" />
-
-          <span class="label-categoria">
-            Bares
-          </span>
-
-        </a>
-        <a href="restaurantes.html" class="item-cat" data-categoria="restaurantes">
-          <img class="icone-categoria" src="img/optimized/restaurante.png" alt="Ícone restaurante" />
-
-          <span class="label-categoria">
-            Restaurantes
-          </span>
-
-        </a>
-        <a href="parques.html" class="item-cat" data-categoria="parques">
-          <img class="icone-categoria" src="img/optimized/parque.png" alt="Ícone parque" />
-
-          <span class="label-categoria">
-            Parques
-          </span>
-
-        </a>
-        <a href="shoppings.html" class="item-cat" data-categoria="shopping">
-          <img class="icone-categoria" src="img/optimized/shopping.png" alt="Ícone shopping" />
-
-          <span class="label-categoria">
-            Shopping
-          </span>
-
-        </a>
-        <a href="festas.html" class="item-cat" data-categoria="salão de festas">
-          <img class="icone-categoria" src="img/optimized/festas.png" alt="Ícone festas" />
-
-          <span class="label-categoria">
-            Salão de festas
-          </span>
-
-        </a>
-
-      </div>
-
-    </section>
-
-    <section class="ferramentas-home container" aria-label="Ferramentas exclusivas">
-      <div class="cabecalho-secao compacto">
-        <h2 class="titulo-secao">Ferramentas exclusivas</h2>
-        <span class="link-ver-tudo" style="cursor:default;">Só no Save Date</span>
-      </div>
-      <div class="ferramentas-grid">
-        <a href="roteiro.html" class="ferramenta-card">
-          <span class="ferramenta-icone">🗺️</span>
-          <h3>Planejador de Rolê</h3>
-          <p>Diga seu orçamento e a gente monta um rolê completo com lugares que cabem no bolso.</p>
-          <span class="ferramenta-link">Montar meu rolê →</span>
-        </a>
-        <a href="match-role.html" class="ferramenta-card">
-          <span class="ferramenta-icone">🎯</span>
-          <h3>Match de Rolê</h3>
-          <p>Responda clima, tempo e bolso para receber uma sugestão rápida de lugar.</p>
-          <span class="ferramenta-link">Descobrir match →</span>
-        </a>
-        <a href="racha.html" class="ferramenta-card">
-          <span class="ferramenta-icone">🧾</span>
-          <h3>Racha da Conta</h3>
-          <p>Divida a conta entre amigos, com gorjeta opcional, sem briga no fim.</p>
-          <span class="ferramenta-link">Dividir agora →</span>
-        </a>
-        <a href="comparar.html" class="ferramenta-card">
-          <span class="ferramenta-icone">⚖️</span>
-          <h3>Comparar Lugares</h3>
-          <p>Coloque até 3 lugares lado a lado e decida por preço, nota e estilo.</p>
-          <span class="ferramenta-link">Comparar →</span>
-        </a>
-        <a href="checklist-role.html" class="ferramenta-card">
-          <span class="ferramenta-icone">✅</span>
-          <h3>Checklist do Rolê</h3>
-          <p>Monte uma lista rápida para não esquecer reserva, transporte, horário e orçamento.</p>
-          <span class="ferramenta-link">Criar checklist →</span>
-        </a>
-      </div>
-    </section>
-
-    <section class="ferramentas-home ferramentas-premium container" aria-label="Ferramentas premium">
-      <div class="cabecalho-secao compacto">
-        <h2 class="titulo-secao">Ferramentas Premium</h2>
-        <a href="premium.html" class="link-ver-tudo">Ver planos</a>
-      </div>
-      <div class="ferramentas-grid">
-        <a href="radar-vantagens.html" class="ferramenta-card premium-tool" data-premium-tipo="usuario">
-          <span class="premium-selo">Plus</span>
-          <span class="ferramenta-icone">💎</span>
-          <h3>Radar de Vantagens</h3>
-          <p>Simule descontos e vantagens para escolher o melhor custo-benefício do rolê.</p>
-          <span class="ferramenta-link">Abrir radar →</span>
-        </a>
-        <a href="date-lab.html" class="ferramenta-card premium-tool" data-premium-tipo="usuario">
-          <span class="premium-selo">Plus</span>
-          <span class="ferramenta-icone">✨</span>
-          <h3>Date Lab</h3>
-          <p>Gere ideias de encontro por humor, orçamento e tempo disponível.</p>
-          <span class="ferramenta-link">Gerar ideia →</span>
-        </a>
-        <a href="campanhas-premium.html" class="ferramenta-card premium-tool" data-premium-tipo="estabelecimento">
-          <span class="premium-selo parceiro">Parceiro</span>
-          <span class="ferramenta-icone">📣</span>
-          <h3>Central de Campanhas</h3>
-          <p>Crie promoções, eventos e chamadas para destacar seu restaurante.</p>
-          <span class="ferramenta-link">Criar campanha →</span>
-        </a>
-        <a href="insights-premium.html" class="ferramenta-card premium-tool" data-premium-tipo="estabelecimento">
-          <span class="premium-selo parceiro">Parceiro</span>
-          <span class="ferramenta-icone">📊</span>
-          <h3>Insights do Restaurante</h3>
-          <p>Veja métricas simuladas de visualizações, salvamentos e reputação.</p>
-          <span class="ferramenta-link">Ver insights →</span>
-        </a>
-      </div>
-    </section>
-
-    <section class="premium-cta container" aria-label="Convite para o Premium">
-      <div class="premium-cta-conteudo">
-        <span class="premium-cta-etiqueta">★ Save Date Premium</span>
-        <h2>Salve lugares sem limite e planeje rolês completos.</h2>
-        <p>Filtros avançados, roteiro de date, recomendações e navegação sem anúncios. Cancele quando quiser.</p>
-      </div>
-      <div class="premium-cta-acoes">
-        <a href="premium.html" class="btn-principal">Venha ser Premium</a>
-        <a href="premium.html" class="btn-claro">Ver planos</a>
-      </div>
-    </section>
-    </div>
-
-    <section id="home-estabelecimento-panel" class="estabelecimento-panel container" style="display:none;">
-
-      <!-- BOAS-VINDAS / CABEÇALHO DO DASHBOARD -->
-      <div class="dash-hero">
-        <div class="dash-hero-info">
-          <span class="dash-hero-saudacao">Painel do estabelecimento</span>
-          <h2 class="dash-hero-nome" id="dash-nome-estabelecimento">Seu estabelecimento</h2>
-          <p class="dash-hero-sub" id="dash-endereco-estabelecimento">Gerencie sua presença no Save Date.</p>
-          <span id="dash-status-badge" class="dash-status-badge ativo">● Ativo</span>
-        </div>
-        <div class="dash-hero-premium">
-          <span id="premium-badge" class="premium-badge"></span>
-          <a id="btn-premium" class="btn-principal" href="premium.html">Seja Premium</a>
-        </div>
-      </div>
-
-      <!-- KPIs -->
-      <div class="dash-kpis">
-        <article class="dash-kpi">
-          <span class="dash-kpi-icone">👁️</span>
-          <strong id="kpi-visualizacoes" class="dash-kpi-valor">0</strong>
-          <span class="dash-kpi-label">Visualizações</span>
-        </article>
-        <article class="dash-kpi">
-          <span class="dash-kpi-icone">❤️</span>
-          <strong id="kpi-favoritos" class="dash-kpi-valor">0</strong>
-          <span class="dash-kpi-label">Salvamentos</span>
-        </article>
-        <article class="dash-kpi">
-          <span class="dash-kpi-icone">⭐</span>
-          <strong id="kpi-avaliacao" class="dash-kpi-valor">0</strong>
-          <span class="dash-kpi-label">Avaliação média</span>
-        </article>
-        <article class="dash-kpi">
-          <span class="dash-kpi-icone">💬</span>
-          <strong id="kpi-comentarios" class="dash-kpi-valor">0</strong>
-          <span class="dash-kpi-label">Comentários</span>
-        </article>
-      </div>
-
-      <div class="painel-cartoes-grid">
-        <article class="card-local painel-card avaliacoes-card">
-          <h3>Reputação</h3>
-          <div id="avaliacao-estrelas" class="avaliacao-estrelas"></div>
-          <p id="avaliacao-midia" class="subtitulo-local">Avaliação do estabelecimento.</p>
-          <p class="texto-pequeno">Mostre sua reputação para clientes e aumente a visibilidade do seu local.</p>
-        </article>
-
-        <article class="card-local painel-card acoes-rapidas-card">
-          <h3>Ações Rápidas</h3>
-          <div class="dashboard-actions">
-            <a href="#" class="dashboard-action-link action-add-images">📷 Adicionar imagens</a>
-            <a href="#" class="dashboard-action-link action-edit-cardapio">🍽️ Editar cardápio</a>
-            <a href="#" class="dashboard-action-link action-remove-comments">🧹 Remover comentários</a>
-            <a href="campanhas-premium.html" class="dashboard-action-link">📣 Campanhas Premium</a>
-            <a href="insights-premium.html" class="dashboard-action-link">📊 Insights Premium</a>
-          </div>
-          <p id="acoes-rapidas-texto" class="texto-pequeno">Assine Premium para desbloquear ações rápidas do estabelecimento.</p>
-        </article>
-      </div>
-
-      <article class="card-local painel-card comentarios-card">
-        <h3>Comentários dos clientes</h3>
-        <ul id="lista-comentarios" class="comentarios-lista"></ul>
-        <p id="comentarios-limite" class="texto-pequeno"></p>
-      </article>
-    </section>
-
-       <section id="secao-destaques" class="destaques container">
-
-      <!-- CEP -->
-            <!-- CEP -->
-      <div class="cep-wrapper">
-
-        <div class="cep-box">
-
-          <input type="text" id="input-local" class="cep-input" placeholder="Digite um CEP ou endereço"
-            autocomplete="off" />
-
-          <button id="btn-minha-local" class="btn-minha-local" title="Usar minha localização">
-            📍
+        <div class="seg-grupo" role="group" aria-label="Tema">
+          <button type="button" class="seg-btn" data-tema="claro">
+            ☀️ Claro
           </button>
-
-          <button id="btn-buscar-local" class="btn-buscar-cep">
-            Buscar
+          <button type="button" class="seg-btn" data-tema="escuro">
+            🌙 Escuro
           </button>
-
+          <button type="button" class="seg-btn" data-tema="auto">
+            🖥️ Auto
+          </button>
         </div>
 
-      </div>
-
-      <!-- TÍTULO -->
-      <div class="area-busca-wrapper">
-        <div>
-          <span class="etiqueta-secao">&Aacute;rea de busca</span>
-          <h3>Buscar em qual dist&acirc;ncia?</h3>
-          <p>Escolha o raio para encontrar lugares pr&oacute;ximos do CEP ou endere&ccedil;o informado.</p>
-        </div>
-
-        <div class="area-busca-controle">
-          <span>2 km</span>
-          <input id="range-area-busca" type="range" min="2" max="15" step="1" value="5" />
-          <strong id="valor-area-busca">5 km</strong>
-        </div>
-      </div>
-
-      <div class="orcamento-wrapper">
-        <div class="orcamento-header">
-          <div>
-            <span class="etiqueta-secao">Filtro inteligente</span>
-            <h3>Quanto voc&ecirc; pode gastar?</h3>
-            <p>Arraste a barra para ver lugares que combinam com o seu or&ccedil;amento.</p>
+        <div id="menu-usuario" class="menu-perfil">
+          <span
+            class="burger"
+            role="button"
+            tabindex="0"
+            aria-label="Abrir menu"
+            aria-controls="dropdown-menu"
+            aria-expanded="false"
+            >☰</span
+          >
+          <div class="usuario-dropdown">
+            <img
+              src="img/optimized/login.jpg"
+              alt="Foto de perfil"
+              class="avatar"
+            />
+            <span id="nome-usuario" class="nome-usuario">Entrar</span>
           </div>
-
-          <strong id="valor-orcamento" class="valor-orcamento">At&eacute; R$ 120</strong>
         </div>
-
-        <div class="orcamento-controle">
-          <span>R$ 0</span>
-          <input id="range-orcamento" type="range" min="0" max="250" step="10" value="120" />
-          <span>R$ 250+</span>
-        </div>
-
-        <div class="atalhos-orcamento" aria-label="Atalhos de orcamento">
-          <button type="button" class="chip-orcamento" data-orcamento="40">Econ&ocirc;mico</button>
-          <button type="button" class="chip-orcamento ativo" data-orcamento="120">Equilibrado</button>
-          <button type="button" class="chip-orcamento" data-orcamento="220">Experiencia completa</button>
-        </div>
-
-        <p id="resultado-orcamento" class="resultado-orcamento">
-          Digite um CEP ou endere&ccedil;o para encontrar lugares dentro dessa faixa.
-        </p>
-      </div>
-
-      <div class="cabecalho-secao">
-
-        <h2 id="titulo-destaques" class="titulo-secao">
-          Picos em destaque
-        </h2>
-
-        <a href="explorar.html" class="link-ver-tudo">
-          Ver todos →
-        </a>
-
-      </div>
-
-      <!-- CARDS -->
-      <div id="grade-destaques" class="grade-moderna"></div>
-
-      <!-- MENSAGEM -->
-      <p id="mensagem-destaque"></p>
-
-    </section>
-  </main>
-
-  <!-- ===== MENU LATERAL (DRAWER) ===== -->
-  <div id="menu-overlay" class="menu-overlay"></div>
-
-  <aside id="dropdown-menu" class="menu-lateral" aria-hidden="true" aria-label="Menu de navegação">
-    <div class="menu-lateral-topo">
-      <span id="label-nome-dropdown" class="dropdown-nome">Menu</span>
-      <button id="fechar-menu" class="menu-fechar" type="button" aria-label="Fechar menu">×</button>
-    </div>
-    <nav class="menu-lateral-itens">
-      <a href="explorar.html" class="dropdown-item">Explorar 🧭</a>
-      <a href="cadastro-estabelecimento.html" class="dropdown-item">Cadastrar restaurante</a>
-      <a href="roteiro.html" class="dropdown-item">Planejar rolê 🗺️</a>
-      <a href="checklist-role.html" class="dropdown-item">Checklist do rolê ✅</a>
-      <a href="match-role.html" class="dropdown-item">Match do rolê 💞</a>
-      <a href="racha.html" class="dropdown-item">Racha da conta 🧾</a>
-      <a href="comparar.html" class="dropdown-item">Comparar lugares ⚖️</a>
-      <a href="premium.html" class="dropdown-item">Premium ★</a>
-      <a href="conta.html" class="dropdown-item">Minha Conta</a>
-      <a href="configuracoes.html" class="dropdown-item">Configurações ⚙️</a>
-      <a href="suporte.html" class="dropdown-item">Suporte e contato</a>
-      <a href="privacidade.html" class="dropdown-item">Privacidade</a>
-      <a href="admin.html" id="link-admin" class="dropdown-item" style="display:none;">Gerenciador</a>
-      <a href="javascript:void(0)" id="btn-sair" class="dropdown-item sair">Sair</a>
-    </nav>
-  </aside>
-
-  <div id="fotos-modal-overlay" class="modal-overlay" style="display:none;">
-    <div class="modal-card">
-      <button class="action-close" data-action="fotos">×</button>
-      <h3>Adicionar imagem</h3>
-      <form id="form-fotos">
-        <label for="foto-arquivo">Escolha um arquivo</label>
-        <input type="file" id="foto-arquivo" accept="image/*" required />
-        <button type="submit" class="btn-principal">Enviar imagem</button>
-      </form>
-    </div>
-  </div>
-
-  <div id="cardapio-modal-overlay" class="modal-overlay" style="display:none;">
-    <div class="modal-card">
-      <button class="action-close" data-action="cardapio">×</button>
-      <h3 id="cardapio-modal-titulo">Adicionar item</h3>
-      <form id="form-cardapio" data-tipo="prato">
-        <label for="cardapio-nome">Nome do item</label>
-        <input type="text" id="cardapio-nome" required />
-        <label for="cardapio-descricao">Descrição</label>
-        <textarea id="cardapio-descricao" rows="3"></textarea>
-        <label for="cardapio-preco">Preço</label>
-        <input type="text" id="cardapio-preco" placeholder="R$ 0,00" />
-        <button type="submit" class="btn-principal">Salvar item</button>
-      </form>
-    </div>
-  </div>
-
-  <footer id="rodape-principal" class="rodape">
-
-    <div class="container rodape-conteudo">
-
-      <p class="texto-rodape">
-        &copy; 2026 Save Date &bull; Explore sem sustos
-      </p>
-
-      <nav class="rodape-links" aria-label="Links de confianca">
-        <a href="termos.html">Termos</a>
-        <a href="privacidade.html">Privacidade</a>
-        <a href="suporte.html">Suporte</a>
       </nav>
+    </header>
 
+    <main id="conteudo-principal">
+      <div id="home-normal">
+        <section id="hero-banner" class="hero">
+          <div class="slide-container">
+            <div
+              id="slide-principal"
+              class="container hero-conteudo slide-hero"
+            >
+              <h2 class="hero-titulo">
+                Saia e divirta-se<br /><span class="texto-gradiente"
+                  >sem sustos no bolso.</span
+                >
+              </h2>
+              <p class="hero-subtitulo">Divirta-se mais, gaste menos</p>
+              <div class="botoes-hero">
+                <button
+                  class="btn-principal"
+                  onclick="acessarFuncionalidade('sugestoes.html')"
+                >
+                  Ver Sugestões
+                </button>
+                <button class="btn-secundario" onclick="verificarLoginMapa()">
+                  Explorar Mapa
+                </button>
+              </div>
+            </div>
+            <div id="hero-slide-2" class="container hero-conteudo slide-hero">
+              <h2 class="hero-titulo">
+                Anuncie seu<span class="texto-gradiente">
+                  restaurante aqui.</span
+                >
+              </h2>
+              <p class="hero-subtitulo">
+                Ofereça seus serviços e conquiste clientes.
+              </p>
+              <div class="botoes-hero">
+                <button
+                  class="btn-principal"
+                  onclick="
+                    window.location.href = 'cadastro-estabelecimento.html'
+                  "
+                >
+                  Anuncie seu local
+                </button>
+                <button
+                  class="btn-principal"
+                  onclick="acessarFuncionalidade('sugestoes.html')"
+                >
+                  Ver Sugestões
+                </button>
+                <button class="btn-secundario" onclick="verificarLoginMapa()">
+                  Explorar Mapa
+                </button>
+              </div>
+            </div>
+            <div id="hero-slide-3" class="container hero-conteudo slide-hero">
+              <h2 class="hero-titulo">
+                Parceiros <span class="texto-gradiente">em destaque.</span>
+              </h2>
+              <p class="hero-subtitulo">
+                Estabelecimentos com selo de parceiro do Save Date. Toque para
+                conhecer.
+              </p>
+              <div
+                id="parceiros-destaque"
+                class="parceiros-destaque"
+                aria-label="Parceiros com selo"
+              ></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="home-atalhos container" aria-label="Acessos principais">
+          <a href="#secao-destaques" class="home-atalho principal">
+            <span>Buscar lugares</span>
+            <strong>Por local e or&ccedil;amento</strong>
+          </a>
+          <a href="explorar.html" class="home-atalho">
+            <span>Explorar</span>
+            <strong>Filtros completos</strong>
+          </a>
+          <a href="sugestoes.html" class="home-atalho">
+            <span>Sugest&otilde;es</span>
+            <strong>Ideias prontas</strong>
+          </a>
+          <a href="premium.html" class="home-atalho">
+            <span>Premium</span>
+            <strong>Sem limites</strong>
+          </a>
+        </section>
+
+        <section
+          class="cliente-primeira-visao"
+          aria-label="O que voce encontra no Save Date"
+        >
+          <div class="container primeira-visao-grid">
+            <article class="primeira-visao-destaque">
+              <span class="etiqueta-secao">Antes de sair</span>
+              <h2>Escolha o rol&ecirc; certo para o seu bolso.</h2>
+              <p>
+                Veja lugares por categoria, procure perto de voc&ecirc; e
+                compare op&ccedil;&otilde;es antes de decidir onde ir.
+              </p>
+              <div class="acoes-primeira-visao">
+                <button
+                  class="btn-principal"
+                  type="button"
+                  onclick="
+                    document
+                      .getElementById('secao-destaques')
+                      ?.scrollIntoView({ behavior: 'smooth' });
+                    document.getElementById('input-local')?.focus();
+                  "
+                >
+                  Buscar perto de mim
+                </button>
+                <button
+                  class="btn-claro"
+                  type="button"
+                  onclick="acessarFuncionalidade('sugestoes.html')"
+                >
+                  Ver sugest&otilde;es
+                </button>
+              </div>
+            </article>
+
+            <div class="beneficios-cliente">
+              <article class="beneficio-card">
+                <span class="beneficio-icone">R$</span>
+                <h3>Planeje o gasto</h3>
+                <p>
+                  Encontre op&ccedil;&otilde;es que combinam com o momento e
+                  evite surpresa no final.
+                </p>
+              </article>
+
+              <article class="beneficio-card">
+                <span class="beneficio-icone">GPS</span>
+                <h3>Use sua regi&atilde;o</h3>
+                <p>
+                  Digite CEP ou endere&ccedil;o para carregar lugares mais
+                  pr&oacute;ximos.
+                </p>
+              </article>
+
+              <article class="beneficio-card">
+                <span class="beneficio-icone">OK</span>
+                <h3>Compare r&aacute;pido</h3>
+                <p>
+                  Navegue por bares, restaurantes, parques, shoppings e festas.
+                </p>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section class="como-funciona-home">
+          <div class="container">
+            <div class="cabecalho-secao compacto">
+              <h2 class="titulo-secao">Como usar em poucos segundos</h2>
+              <a href="#secao-destaques" class="link-ver-tudo"
+                >Come&ccedil;ar busca</a
+              >
+            </div>
+
+            <div class="passos-home">
+              <article class="passo-card">
+                <span class="passo-numero">1</span>
+                <h3>Informe onde voc&ecirc; est&aacute;</h3>
+                <p>
+                  Use o campo de CEP ou endere&ccedil;o para filtrar os
+                  destaques.
+                </p>
+              </article>
+
+              <article class="passo-card">
+                <span class="passo-numero">2</span>
+                <h3>Escolha uma categoria</h3>
+                <p>Veja rapidamente o tipo de lugar ideal para o seu plano.</p>
+              </article>
+
+              <article class="passo-card">
+                <span class="passo-numero">3</span>
+                <h3>Decida sem pressa</h3>
+                <p>
+                  Compare op&ccedil;&otilde;es, abra sugest&otilde;es e planeje
+                  melhor a sa&iacute;da.
+                </p>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section id="nav-categorias" class="categorias-nav">
+          <div class="container categorias-wrapper">
+            <a href="bares.html" class="item-cat" data-categoria="bares">
+              <img
+                class="icone-categoria"
+                src="img/optimized/bar.png"
+                alt="Ícone de bar"
+              />
+
+              <span class="label-categoria"> Bares </span>
+            </a>
+            <a
+              href="restaurantes.html"
+              class="item-cat"
+              data-categoria="restaurantes"
+            >
+              <img
+                class="icone-categoria"
+                src="img/optimized/restaurante.png"
+                alt="Ícone restaurante"
+              />
+
+              <span class="label-categoria"> Restaurantes </span>
+            </a>
+            <a href="parques.html" class="item-cat" data-categoria="parques">
+              <img
+                class="icone-categoria"
+                src="img/optimized/parque.png"
+                alt="Ícone parque"
+              />
+
+              <span class="label-categoria"> Parques </span>
+            </a>
+            <a href="shoppings.html" class="item-cat" data-categoria="shopping">
+              <img
+                class="icone-categoria"
+                src="img/optimized/shopping.png"
+                alt="Ícone shopping"
+              />
+
+              <span class="label-categoria"> Shopping </span>
+            </a>
+            <a
+              href="festas.html"
+              class="item-cat"
+              data-categoria="salão de festas"
+            >
+              <img
+                class="icone-categoria"
+                src="img/optimized/festas.png"
+                alt="Ícone festas"
+              />
+
+              <span class="label-categoria"> Salão de festas </span>
+            </a>
+          </div>
+        </section>
+
+        <section
+          class="ferramentas-home container"
+          aria-label="Ferramentas exclusivas"
+        >
+          <div class="cabecalho-secao compacto">
+            <h2 class="titulo-secao">Ferramentas exclusivas</h2>
+            <span class="link-ver-tudo" style="cursor: default"
+              >Só no Save Date</span
+            >
+          </div>
+          <div class="ferramentas-grid">
+            <a href="roteiro.html" class="ferramenta-card">
+              <span class="ferramenta-icone">🗺️</span>
+              <h3>Planejador de Rolê</h3>
+              <p>
+                Diga seu orçamento e a gente monta um rolê completo com lugares
+                que cabem no bolso.
+              </p>
+              <span class="ferramenta-link">Montar meu rolê →</span>
+            </a>
+            <a href="match-role.html" class="ferramenta-card">
+              <span class="ferramenta-icone">🎯</span>
+              <h3>Match de Rolê</h3>
+              <p>
+                Responda clima, tempo e bolso para receber uma sugestão rápida
+                de lugar.
+              </p>
+              <span class="ferramenta-link">Descobrir match →</span>
+            </a>
+            <a href="racha.html" class="ferramenta-card">
+              <span class="ferramenta-icone">🧾</span>
+              <h3>Racha da Conta</h3>
+              <p>
+                Divida a conta entre amigos, com gorjeta opcional, sem briga no
+                fim.
+              </p>
+              <span class="ferramenta-link">Dividir agora →</span>
+            </a>
+            <a href="comparar.html" class="ferramenta-card">
+              <span class="ferramenta-icone">⚖️</span>
+              <h3>Comparar Lugares</h3>
+              <p>
+                Coloque até 3 lugares lado a lado e decida por preço, nota e
+                estilo.
+              </p>
+              <span class="ferramenta-link">Comparar →</span>
+            </a>
+            <a href="checklist-role.html" class="ferramenta-card">
+              <span class="ferramenta-icone">✅</span>
+              <h3>Checklist do Rolê</h3>
+              <p>
+                Monte uma lista rápida para não esquecer reserva, transporte,
+                horário e orçamento.
+              </p>
+              <span class="ferramenta-link">Criar checklist →</span>
+            </a>
+          </div>
+        </section>
+
+        <section
+          class="ferramentas-home ferramentas-premium container"
+          aria-label="Ferramentas premium"
+        >
+          <div class="cabecalho-secao compacto">
+            <h2 class="titulo-secao">Ferramentas Premium</h2>
+            <a href="premium.html" class="link-ver-tudo">Ver planos</a>
+          </div>
+          <div class="ferramentas-grid">
+            <a
+              href="radar-vantagens.html"
+              class="ferramenta-card premium-tool"
+              data-premium-tipo="usuario"
+            >
+              <span class="premium-selo">Plus</span>
+              <span class="ferramenta-icone">💎</span>
+              <h3>Radar de Vantagens</h3>
+              <p>
+                Simule descontos e vantagens para escolher o melhor
+                custo-benefício do rolê.
+              </p>
+              <span class="ferramenta-link">Abrir radar →</span>
+            </a>
+            <a
+              href="date-lab.html"
+              class="ferramenta-card premium-tool"
+              data-premium-tipo="usuario"
+            >
+              <span class="premium-selo">Plus</span>
+              <span class="ferramenta-icone">✨</span>
+              <h3>Date Lab</h3>
+              <p>
+                Gere ideias de encontro por humor, orçamento e tempo disponível.
+              </p>
+              <span class="ferramenta-link">Gerar ideia →</span>
+            </a>
+            <a
+              href="campanhas-premium.html"
+              class="ferramenta-card premium-tool"
+              data-premium-tipo="estabelecimento"
+            >
+              <span class="premium-selo parceiro">Parceiro</span>
+              <span class="ferramenta-icone">📣</span>
+              <h3>Central de Campanhas</h3>
+              <p>
+                Crie promoções, eventos e chamadas para destacar seu
+                restaurante.
+              </p>
+              <span class="ferramenta-link">Criar campanha →</span>
+            </a>
+            <a
+              href="insights-premium.html"
+              class="ferramenta-card premium-tool"
+              data-premium-tipo="estabelecimento"
+            >
+              <span class="premium-selo parceiro">Parceiro</span>
+              <span class="ferramenta-icone">📊</span>
+              <h3>Insights do Restaurante</h3>
+              <p>
+                Veja métricas simuladas de visualizações, salvamentos e
+                reputação.
+              </p>
+              <span class="ferramenta-link">Ver insights →</span>
+            </a>
+          </div>
+        </section>
+
+        <section
+          class="premium-cta container"
+          aria-label="Convite para o Premium"
+        >
+          <div class="premium-cta-conteudo">
+            <span class="premium-cta-etiqueta">★ Save Date Premium</span>
+            <h2>Salve lugares sem limite e planeje rolês completos.</h2>
+            <p>
+              Filtros avançados, roteiro de date, recomendações e navegação sem
+              anúncios. Cancele quando quiser.
+            </p>
+          </div>
+          <div class="premium-cta-acoes">
+            <a href="premium.html" class="btn-principal">Venha ser Premium</a>
+            <a href="premium.html" class="btn-claro">Ver planos</a>
+          </div>
+        </section>
+      </div>
+
+      <section
+        id="home-estabelecimento-panel"
+        class="estabelecimento-panel container"
+        style="display: none"
+      >
+        <!-- BOAS-VINDAS / CABEÇALHO DO DASHBOARD -->
+        <div class="dash-hero">
+          <div class="dash-hero-info">
+            <span class="dash-hero-saudacao">Painel do estabelecimento</span>
+            <h2 class="dash-hero-nome" id="dash-nome-estabelecimento">
+              Seu estabelecimento
+            </h2>
+            <p class="dash-hero-sub" id="dash-endereco-estabelecimento">
+              Gerencie sua presença no Save Date.
+            </p>
+            <span id="dash-status-badge" class="dash-status-badge ativo"
+              >● Ativo</span
+            >
+          </div>
+          <div class="dash-hero-premium">
+            <span id="premium-badge" class="premium-badge"></span>
+            <a id="btn-premium" class="btn-principal" href="premium.html"
+              >Seja Premium</a
+            >
+          </div>
+        </div>
+
+        <!-- KPIs -->
+        <div class="dash-kpis">
+          <article class="dash-kpi">
+            <span class="dash-kpi-icone">👁️</span>
+            <strong id="kpi-visualizacoes" class="dash-kpi-valor">0</strong>
+            <span class="dash-kpi-label">Visualizações</span>
+          </article>
+          <article class="dash-kpi">
+            <span class="dash-kpi-icone">❤️</span>
+            <strong id="kpi-favoritos" class="dash-kpi-valor">0</strong>
+            <span class="dash-kpi-label">Salvamentos</span>
+          </article>
+          <article class="dash-kpi">
+            <span class="dash-kpi-icone">⭐</span>
+            <strong id="kpi-avaliacao" class="dash-kpi-valor">0</strong>
+            <span class="dash-kpi-label">Avaliação média</span>
+          </article>
+          <article class="dash-kpi">
+            <span class="dash-kpi-icone">💬</span>
+            <strong id="kpi-comentarios" class="dash-kpi-valor">0</strong>
+            <span class="dash-kpi-label">Comentários</span>
+          </article>
+        </div>
+
+        <div class="painel-cartoes-grid">
+          <article class="card-local painel-card avaliacoes-card">
+            <h3>Reputação</h3>
+            <div id="avaliacao-estrelas" class="avaliacao-estrelas"></div>
+            <p id="avaliacao-midia" class="subtitulo-local">
+              Avaliação do estabelecimento.
+            </p>
+            <p class="texto-pequeno">
+              Mostre sua reputação para clientes e aumente a visibilidade do seu
+              local.
+            </p>
+          </article>
+
+          <article class="card-local painel-card acoes-rapidas-card">
+            <h3>Ações Rápidas</h3>
+            <div class="dashboard-actions">
+              <a href="#" class="dashboard-action-link action-add-images"
+                >📷 Adicionar imagens</a
+              >
+              <a href="#" class="dashboard-action-link action-edit-cardapio"
+                >🍽️ Editar cardápio</a
+              >
+              <a href="#" class="dashboard-action-link action-remove-comments"
+                >🧹 Remover comentários</a
+              >
+              <a href="campanhas-premium.html" class="dashboard-action-link"
+                >📣 Campanhas Premium</a
+              >
+              <a href="insights-premium.html" class="dashboard-action-link"
+                >📊 Insights Premium</a
+              >
+            </div>
+            <p id="acoes-rapidas-texto" class="texto-pequeno">
+              Assine Premium para desbloquear ações rápidas do estabelecimento.
+            </p>
+          </article>
+        </div>
+
+        <article class="card-local painel-card comentarios-card">
+          <h3>Comentários dos clientes</h3>
+          <ul id="lista-comentarios" class="comentarios-lista"></ul>
+          <p id="comentarios-limite" class="texto-pequeno"></p>
+        </article>
+      </section>
+
+      <section id="secao-destaques" class="destaques container">
+        <!-- CEP -->
+        <!-- CEP -->
+        <div class="cep-wrapper">
+          <div class="cep-box">
+            <input
+              type="text"
+              id="input-local"
+              class="cep-input"
+              placeholder="Digite um CEP ou endereço"
+              autocomplete="off"
+            />
+
+            <button
+              id="btn-minha-local"
+              class="btn-minha-local"
+              title="Usar minha localização"
+            >
+              📍
+            </button>
+
+            <button id="btn-buscar-local" class="btn-buscar-cep">Buscar</button>
+          </div>
+        </div>
+
+        <!-- TÍTULO -->
+        <div class="area-busca-wrapper">
+          <div>
+            <span class="etiqueta-secao">&Aacute;rea de busca</span>
+            <h3>Buscar em qual dist&acirc;ncia?</h3>
+            <p>
+              Escolha o raio para encontrar lugares pr&oacute;ximos do CEP ou
+              endere&ccedil;o informado.
+            </p>
+          </div>
+
+          <div class="area-busca-controle">
+            <span>2 km</span>
+            <input
+              id="range-area-busca"
+              type="range"
+              min="2"
+              max="15"
+              step="1"
+              value="5"
+            />
+            <strong id="valor-area-busca">5 km</strong>
+          </div>
+        </div>
+
+        <div class="orcamento-wrapper">
+          <div class="orcamento-header">
+            <div>
+              <span class="etiqueta-secao">Filtro inteligente</span>
+              <h3>Quanto voc&ecirc; pode gastar?</h3>
+              <p>
+                Arraste a barra para ver lugares que combinam com o seu
+                or&ccedil;amento.
+              </p>
+            </div>
+
+            <strong id="valor-orcamento" class="valor-orcamento"
+              >At&eacute; R$ 120</strong
+            >
+          </div>
+
+          <div class="orcamento-controle">
+            <span>R$ 0</span>
+            <input
+              id="range-orcamento"
+              type="range"
+              min="0"
+              max="250"
+              step="10"
+              value="120"
+            />
+            <span>R$ 250+</span>
+          </div>
+
+          <div class="atalhos-orcamento" aria-label="Atalhos de orcamento">
+            <button type="button" class="chip-orcamento" data-orcamento="40">
+              Econ&ocirc;mico
+            </button>
+            <button
+              type="button"
+              class="chip-orcamento ativo"
+              data-orcamento="120"
+            >
+              Equilibrado
+            </button>
+            <button type="button" class="chip-orcamento" data-orcamento="220">
+              Experiencia completa
+            </button>
+          </div>
+
+          <p id="resultado-orcamento" class="resultado-orcamento">
+            Digite um CEP ou endere&ccedil;o para encontrar lugares dentro dessa
+            faixa.
+          </p>
+        </div>
+
+        <div class="cabecalho-secao">
+          <h2 id="titulo-destaques" class="titulo-secao">Picos em destaque</h2>
+
+          <a href="explorar.html" class="link-ver-tudo"> Ver todos → </a>
+        </div>
+
+        <!-- CARDS -->
+        <div id="grade-destaques" class="grade-moderna"></div>
+
+        <!-- MENSAGEM -->
+        <p id="mensagem-destaque"></p>
+      </section>
+    </main>
+
+    <!-- ===== MENU LATERAL (DRAWER) ===== -->
+    <div id="menu-overlay" class="menu-overlay"></div>
+
+    <aside
+      id="dropdown-menu"
+      class="menu-lateral"
+      aria-hidden="true"
+      aria-label="Menu de navegação"
+    >
+      <div class="menu-lateral-topo">
+        <span id="label-nome-dropdown" class="dropdown-nome">Menu</span>
+        <button
+          id="fechar-menu"
+          class="menu-fechar"
+          type="button"
+          aria-label="Fechar menu"
+        >
+          ×
+        </button>
+      </div>
+      <nav class="menu-lateral-itens">
+        <a href="explorar.html" class="dropdown-item">Explorar 🧭</a>
+        <a href="cadastro-estabelecimento.html" class="dropdown-item"
+          >Cadastrar restaurante</a
+        >
+        <a href="roteiro.html" class="dropdown-item">Planejar rolê 🗺️</a>
+        <a href="checklist-role.html" class="dropdown-item"
+          >Checklist do rolê ✅</a
+        >
+        <a href="match-role.html" class="dropdown-item">Match do rolê 💞</a>
+        <a href="racha.html" class="dropdown-item">Racha da conta 🧾</a>
+        <a href="comparar.html" class="dropdown-item">Comparar lugares ⚖️</a>
+        <a href="premium.html" class="dropdown-item">Premium ★</a>
+        <a href="conta.html" class="dropdown-item">Minha Conta</a>
+        <a href="configuracoes.html" class="dropdown-item">Configurações ⚙️</a>
+        <a href="suporte.html" class="dropdown-item">Suporte e contato</a>
+        <a href="privacidade.html" class="dropdown-item">Privacidade</a>
+        <a
+          href="admin.html"
+          id="link-admin"
+          class="dropdown-item"
+          style="display: none"
+          >Gerenciador</a
+        >
+        <a href="javascript:void(0)" id="btn-sair" class="dropdown-item sair"
+          >Sair</a
+        >
+      </nav>
+    </aside>
+
+    <div id="fotos-modal-overlay" class="modal-overlay" style="display: none">
+      <div class="modal-card">
+        <button class="action-close" data-action="fotos">×</button>
+        <h3>Adicionar imagem</h3>
+        <form id="form-fotos">
+          <label for="foto-arquivo">Escolha um arquivo</label>
+          <input type="file" id="foto-arquivo" accept="image/*" required />
+          <button type="submit" class="btn-principal">Enviar imagem</button>
+        </form>
+      </div>
     </div>
 
-  </footer>
+    <div
+      id="cardapio-modal-overlay"
+      class="modal-overlay"
+      style="display: none"
+    >
+      <div class="modal-card">
+        <button class="action-close" data-action="cardapio">×</button>
+        <h3 id="cardapio-modal-titulo">Adicionar item</h3>
+        <form id="form-cardapio" data-tipo="prato">
+          <label for="cardapio-nome">Nome do item</label>
+          <input type="text" id="cardapio-nome" required />
+          <label for="cardapio-descricao">Descrição</label>
+          <textarea id="cardapio-descricao" rows="3"></textarea>
+          <label for="cardapio-preco">Preço</label>
+          <input type="text" id="cardapio-preco" placeholder="R$ 0,00" />
+          <button type="submit" class="btn-principal">Salvar item</button>
+        </form>
+      </div>
+    </div>
 
-  <div id="toast-container"></div>
+    <footer id="rodape-principal" class="rodape">
+      <div class="container rodape-conteudo">
+        <p class="texto-rodape">
+          &copy; 2026 Save Date &bull; Explore sem sustos
+        </p>
 
-  <script>
-    function mostrarToast(mensagem, tipo = "info", duracao = 3500) {
-      const container = document.getElementById("toast-container");
-      const toast = document.createElement("div");
-      toast.className = `toast toast-${tipo}`;
-      const icones = { erro: "⚠️", info: "💡", sucesso: "✅" };
-      toast.innerHTML = `
+        <nav class="rodape-links" aria-label="Links de confianca">
+          <a href="termos.html">Termos</a>
+          <a href="privacidade.html">Privacidade</a>
+          <a href="suporte.html">Suporte</a>
+        </nav>
+      </div>
+    </footer>
+
+    <div id="toast-container"></div>
+    <script src="js/configuracoes.js"></script>
+
+    <script>
+      function mostrarToast(mensagem, tipo = "info", duracao = 3500) {
+        const container = document.getElementById("toast-container");
+        const toast = document.createElement("div");
+        toast.className = `toast toast-${tipo}`;
+        const icones = { erro: "⚠️", info: "💡", sucesso: "✅" };
+        toast.innerHTML = `
         <span class="toast-icone">${icones[tipo] ?? "ℹ️"}</span>
         <span>${mensagem}</span>
       `;
-      container.appendChild(toast);
-      requestAnimationFrame(() => requestAnimationFrame(() => toast.classList.add("show")));
-      setTimeout(() => {
-        toast.classList.remove("show");
-        setTimeout(() => toast.remove(), 380);
-      }, duracao);
-    }
-
-    const usuarioLogado = localStorage.getItem("usuarioLogado");
-    const nomeUsuario = localStorage.getItem("nomeUsuario");
-    const elementoNome = document.getElementById("nome-usuario");
-    const labelDropdown = document.getElementById("label-nome-dropdown");
-
-    if (usuarioLogado && nomeUsuario) {
-      if (elementoNome) elementoNome.innerText = nomeUsuario;
-      if (labelDropdown) labelDropdown.innerText = nomeUsuario;
-    }
-
-    function acessarFuncionalidade(pagina) {
-      if (localStorage.getItem("usuarioLogado") !== "true") {
-        mostrarToast("Faça login primeiro para continuar.", "erro");
-        setTimeout(() => window.location.href = "login.html", 1800);
-        return;
+        container.appendChild(toast);
+        requestAnimationFrame(() =>
+          requestAnimationFrame(() => toast.classList.add("show")),
+        );
+        setTimeout(() => {
+          toast.classList.remove("show");
+          setTimeout(() => toast.remove(), 380);
+        }, duracao);
       }
-      window.location.href = pagina;
-    }
 
-    function verificarLoginMapa() {
-      if (localStorage.getItem("usuarioLogado") !== "true") {
-        mostrarToast("Faça login para explorar o mapa.", "erro");
-        setTimeout(() => window.location.href = "login.html", 1400);
-        return;
+      const usuarioLogado = localStorage.getItem("usuarioLogado");
+      const nomeUsuario = localStorage.getItem("nomeUsuario");
+      const elementoNome = document.getElementById("nome-usuario");
+      const labelDropdown = document.getElementById("label-nome-dropdown");
+
+      if (usuarioLogado && nomeUsuario) {
+        if (elementoNome) elementoNome.innerText = nomeUsuario;
+        if (labelDropdown) labelDropdown.innerText = nomeUsuario;
       }
-      mostrarToast("Abrindo o mapa...", "sucesso");
-      setTimeout(() => window.location.href = "mapa.html", 450);
-    }
 
-    const categorias = ["bares", "restaurantes", "parques", "shopping", "salão de festas"];
-    const campoBusca = document.getElementById("campo-busca");
-    const sugestoes = document.getElementById("sugestoes");
+      function acessarFuncionalidade(pagina) {
+        if (localStorage.getItem("usuarioLogado") !== "true") {
+          mostrarToast("Faça login primeiro para continuar.", "erro");
+          setTimeout(() => (window.location.href = "login.html"), 1800);
+          return;
+        }
+        window.location.href = pagina;
+      }
 
-    if (campoBusca && sugestoes) {
-      campoBusca.addEventListener("input", function () {
-        sugestoes.innerHTML = "";
-        const valor = this.value.toLowerCase();
-        if (valor === "") return;
-        categorias.forEach(categoria => {
-          if (categoria.includes(valor)) {
-            const item = document.createElement("div");
-            item.innerText = categoria.charAt(0).toUpperCase() + categoria.slice(1);
-            item.onclick = () => {
-              const link = document.querySelector(`[data-categoria="${categoria}"]`);
-              if (link) link.click();
-              campoBusca.value = item.innerText;
-              sugestoes.innerHTML = "";
-            };
-            sugestoes.appendChild(item);
+      function verificarLoginMapa() {
+        if (localStorage.getItem("usuarioLogado") !== "true") {
+          mostrarToast("Faça login para explorar o mapa.", "erro");
+          setTimeout(() => (window.location.href = "login.html"), 1400);
+          return;
+        }
+        mostrarToast("Abrindo o mapa...", "sucesso");
+        setTimeout(() => (window.location.href = "mapa.html"), 450);
+      }
+
+      const categorias = [
+        "bares",
+        "restaurantes",
+        "parques",
+        "shopping",
+        "salão de festas",
+      ];
+      const campoBusca = document.getElementById("campo-busca");
+      const sugestoes = document.getElementById("sugestoes");
+
+      if (campoBusca && sugestoes) {
+        campoBusca.addEventListener("input", function () {
+          sugestoes.innerHTML = "";
+          const valor = this.value.toLowerCase();
+          if (valor === "") return;
+          categorias.forEach((categoria) => {
+            if (categoria.includes(valor)) {
+              const item = document.createElement("div");
+              item.innerText =
+                categoria.charAt(0).toUpperCase() + categoria.slice(1);
+              item.onclick = () => {
+                const link = document.querySelector(
+                  `[data-categoria="${categoria}"]`,
+                );
+                if (link) link.click();
+                campoBusca.value = item.innerText;
+                sugestoes.innerHTML = "";
+              };
+              sugestoes.appendChild(item);
+            }
+          });
+        });
+      }
+
+      const mensagem = document.getElementById("mensagem-destaque");
+      if (mensagem) {
+        mensagem.innerText =
+          "Digite um CEP ou endereço para carregar os destaques.";
+      }
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="js/dados.js"></script>
+    <script src="js/premium.js"></script>
+    <script src="js/script.js"></script>
+    <script src="js/home-destaques.js"></script>
+    <script src="js/localizacao.js"></script>
+    <script>
+      // Botão "usar minha localização" (📍)
+      document
+        .getElementById("btn-minha-local")
+        ?.addEventListener("click", async function () {
+          const botao = this;
+          botao.textContent = "⏳";
+          botao.disabled = true;
+          try {
+            await buscarProximos();
+          } catch (erro) {
+            mostrarToast(erro, "erro");
+          } finally {
+            botao.textContent = "📍";
+            botao.disabled = false;
+          }
+        });
+
+      // Atualizar os rótulos dos ranges enquanto arrasta
+      document
+        .getElementById("range-area-busca")
+        ?.addEventListener("input", function () {
+          document.getElementById("valor-area-busca").textContent =
+            this.value + " km";
+        });
+      document
+        .getElementById("range-orcamento")
+        ?.addEventListener("input", function () {
+          document.getElementById("valor-orcamento").textContent =
+            "Até R$ " + this.value;
+        });
+
+      // Aplica os padrões salvos em Configurações (orçamento e distância)
+      (function aplicarPadroesConfig() {
+        const orcSalvo = localStorage.getItem("configOrcamentoPadrao");
+        const distSalvo = localStorage.getItem("configDistanciaPadrao");
+        const rangeOrc = document.getElementById("range-orcamento");
+        const rangeArea = document.getElementById("range-area-busca");
+
+        if (rangeOrc && orcSalvo !== null) {
+          rangeOrc.value = orcSalvo;
+          document.getElementById("valor-orcamento").textContent =
+            "Até R$ " + orcSalvo;
+          document
+            .querySelectorAll(".chip-orcamento")
+            .forEach((c) =>
+              c.classList.toggle("ativo", c.dataset.orcamento === orcSalvo),
+            );
+        }
+        if (rangeArea && distSalvo !== null) {
+          rangeArea.value = distSalvo;
+          document.getElementById("valor-area-busca").textContent =
+            distSalvo + " km";
+        }
+      })();
+
+      // Chips de orçamento
+      document.querySelectorAll(".chip-orcamento").forEach((chip) => {
+        chip.addEventListener("click", function () {
+          document
+            .querySelectorAll(".chip-orcamento")
+            .forEach((c) => c.classList.remove("ativo"));
+          this.classList.add("ativo");
+          const valor = this.dataset.orcamento;
+          const range = document.getElementById("range-orcamento");
+          range.value = valor;
+          document.getElementById("valor-orcamento").textContent =
+            "Até R$ " + valor;
+          range.dispatchEvent(new Event("input"));
+        });
+      });
+
+      // Busca por categoria (lupa do topo)
+      document
+        .getElementById("btn-buscar")
+        ?.addEventListener("click", function () {
+          const termo = document
+            .getElementById("campo-busca")
+            .value.toLowerCase()
+            .trim();
+          if (termo.length < 2) {
+            mostrarToast("Digite pelo menos 2 letras", "info");
+            return;
+          }
+          const mapaCategorias = {
+            bares: "bares.html",
+            restaurantes: "restaurantes.html",
+            parques: "parques.html",
+            shopping: "shoppings.html",
+            shoppings: "shoppings.html",
+            festas: "festas.html",
+            "salão de festas": "festas.html",
+          };
+          const chave = Object.keys(mapaCategorias).find((c) =>
+            c.includes(termo),
+          );
+          if (chave) {
+            window.location.href = mapaCategorias[chave];
+          } else {
+            mostrarToast("Categoria não encontrada: " + termo, "erro");
+          }
+        });
+      document.querySelectorAll(".premium-tool").forEach((link) => {
+        link.addEventListener("click", function (event) {
+          const tipoNecessario = this.dataset.premiumTipo;
+          const tipoAtual =
+            typeof premiumTipoConta === "function"
+              ? premiumTipoConta()
+              : (
+                  localStorage.getItem("usuarioTipo") || "usuario"
+                ).toLowerCase();
+          const logado = localStorage.getItem("usuarioLogado") === "true";
+          const premiumAtivo =
+            tipoNecessario === "estabelecimento"
+              ? typeof estabelecimentoTemPremium === "function" &&
+                estabelecimentoTemPremium()
+              : typeof usuarioTemPremium === "function" && usuarioTemPremium();
+
+          if (!logado) {
+            event.preventDefault();
+            mostrarToast(
+              "Faça login para acessar ferramentas Premium.",
+              "erro",
+            );
+            setTimeout(() => (window.location.href = "login.html"), 1200);
+            return;
+          }
+
+          const ehAdmin =
+            typeof premiumEhAdmin === "function" && premiumEhAdmin();
+
+          if (!ehAdmin && tipoNecessario && tipoAtual !== tipoNecessario) {
+            event.preventDefault();
+            mostrarToast(
+              tipoNecessario === "estabelecimento"
+                ? "Essa ferramenta é para restaurantes parceiros."
+                : "Essa ferramenta é para usuários Plus.",
+              "info",
+            );
+            return;
+          }
+
+          if (!premiumAtivo) {
+            event.preventDefault();
+            mostrarToast(
+              "Essa ferramenta é Premium. Escolha um plano para liberar.",
+              "info",
+            );
+            setTimeout(() => (window.location.href = "premium.html"), 1400);
           }
         });
       });
-    }
 
-    const mensagem = document.getElementById("mensagem-destaque");
-    if (mensagem) {
-      mensagem.innerText = "Digite um CEP ou endereço para carregar os destaques.";
-    }
-  </script>
+      // Gerenciar botões de tema no cabeçalho
+      function iniciarGerenciadorTema() {
+        const temaAtual = localStorage.getItem("configTema") || "auto";
+        
+        // Atualizar botão ativo
+        document.querySelectorAll(".seg-btn[data-tema]").forEach((btn) => {
+          btn.classList.toggle("ativo", btn.dataset.tema === temaAtual);
+        });
 
-  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-  <script src="js/dados.js"></script>
-  <script src="js/premium.js"></script>
-  <script src="js/script.js"></script>
-  <script src="js/home-destaques.js"></script>
-  <script src="js/localizacao.js"></script>
-  <script>
-    // Botão "usar minha localização" (📍)
-    document.getElementById('btn-minha-local')?.addEventListener('click', async function () {
-      const botao = this;
-      botao.textContent = '⏳';
-      botao.disabled = true;
-      try {
-        await buscarProximos();
-      } catch (erro) {
-        mostrarToast(erro, 'erro');
-      } finally {
-        botao.textContent = '📍';
-        botao.disabled = false;
+        // Ligar eventos aos botões de tema
+        document.querySelectorAll(".seg-btn[data-tema]").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const tema = btn.dataset.tema;
+            localStorage.setItem("configTema", tema);
+            
+            // Atualizar todos os botões
+            document.querySelectorAll(".seg-btn[data-tema]").forEach((b) => {
+              b.classList.toggle("ativo", b.dataset.tema === tema);
+            });
+            
+            // Aplicar tema
+            if (window.SaveDateTema && window.SaveDateTema.aplicar) {
+              window.SaveDateTema.aplicar(tema);
+            }
+          });
+        });
       }
-    });
-
-    // Atualizar os rótulos dos ranges enquanto arrasta
-    document.getElementById('range-area-busca')?.addEventListener('input', function () {
-      document.getElementById('valor-area-busca').textContent = this.value + ' km';
-    });
-    document.getElementById('range-orcamento')?.addEventListener('input', function () {
-      document.getElementById('valor-orcamento').textContent = 'Até R$ ' + this.value;
-    });
-
-    // Aplica os padrões salvos em Configurações (orçamento e distância)
-    (function aplicarPadroesConfig() {
-      const orcSalvo = localStorage.getItem('configOrcamentoPadrao');
-      const distSalvo = localStorage.getItem('configDistanciaPadrao');
-      const rangeOrc = document.getElementById('range-orcamento');
-      const rangeArea = document.getElementById('range-area-busca');
-
-      if (rangeOrc && orcSalvo !== null) {
-        rangeOrc.value = orcSalvo;
-        document.getElementById('valor-orcamento').textContent = 'Até R$ ' + orcSalvo;
-        document.querySelectorAll('.chip-orcamento').forEach(c =>
-          c.classList.toggle('ativo', c.dataset.orcamento === orcSalvo)
-        );
-      }
-      if (rangeArea && distSalvo !== null) {
-        rangeArea.value = distSalvo;
-        document.getElementById('valor-area-busca').textContent = distSalvo + ' km';
-      }
-    })();
-
-    // Chips de orçamento
-    document.querySelectorAll('.chip-orcamento').forEach(chip => {
-      chip.addEventListener('click', function () {
-        document.querySelectorAll('.chip-orcamento').forEach(c => c.classList.remove('ativo'));
-        this.classList.add('ativo');
-        const valor = this.dataset.orcamento;
-        const range = document.getElementById('range-orcamento');
-        range.value = valor;
-        document.getElementById('valor-orcamento').textContent = 'Até R$ ' + valor;
-        range.dispatchEvent(new Event('input'));
-      });
-    });
-
-    // Busca por categoria (lupa do topo)
-    document.getElementById('btn-buscar')?.addEventListener('click', function () {
-      const termo = document.getElementById('campo-busca').value.toLowerCase().trim();
-      if (termo.length < 2) {
-        mostrarToast('Digite pelo menos 2 letras', 'info');
-        return;
-      }
-      const mapaCategorias = {
-        bares: 'bares.html',
-        restaurantes: 'restaurantes.html',
-        parques: 'parques.html',
-        shopping: 'shoppings.html',
-        shoppings: 'shoppings.html',
-        festas: 'festas.html',
-        'salão de festas': 'festas.html'
-      };
-      const chave = Object.keys(mapaCategorias).find(c => c.includes(termo));
-      if (chave) {
-        window.location.href = mapaCategorias[chave];
+      
+      // Chamar quando o DOM estiver pronto
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", iniciarGerenciadorTema);
       } else {
-        mostrarToast('Categoria não encontrada: ' + termo, 'erro');
+        iniciarGerenciadorTema();
       }
-    });
-    document.querySelectorAll('.premium-tool').forEach(link => {
-      link.addEventListener('click', function (event) {
-        const tipoNecessario = this.dataset.premiumTipo;
-        const tipoAtual =
-          typeof premiumTipoConta === 'function'
-            ? premiumTipoConta()
-            : (localStorage.getItem('usuarioTipo') || 'usuario').toLowerCase();
-        const logado = localStorage.getItem('usuarioLogado') === 'true';
-        const premiumAtivo =
-          tipoNecessario === 'estabelecimento'
-            ? (typeof estabelecimentoTemPremium === 'function' && estabelecimentoTemPremium())
-            : (typeof usuarioTemPremium === 'function' && usuarioTemPremium());
-
-        if (!logado) {
-          event.preventDefault();
-          mostrarToast('Faça login para acessar ferramentas Premium.', 'erro');
-          setTimeout(() => window.location.href = 'login.html', 1200);
-          return;
-        }
-
-        const ehAdmin = typeof premiumEhAdmin === 'function' && premiumEhAdmin();
-
-        if (!ehAdmin && tipoNecessario && tipoAtual !== tipoNecessario) {
-          event.preventDefault();
-          mostrarToast(
-            tipoNecessario === 'estabelecimento'
-              ? 'Essa ferramenta é para restaurantes parceiros.'
-              : 'Essa ferramenta é para usuários Plus.',
-            'info'
-          );
-          return;
-        }
-
-        if (!premiumAtivo) {
-          event.preventDefault();
-          mostrarToast('Essa ferramenta é Premium. Escolha um plano para liberar.', 'info');
-          setTimeout(() => window.location.href = 'premium.html', 1400);
-        }
-      });
-    });
-  </script>
-
-</body>
-
+    </script>
+  </body>
 </html>

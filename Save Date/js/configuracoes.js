@@ -57,10 +57,13 @@ function preencherPerfil() {
     localStorage.getItem("email") ||
     "E-mail não informado";
 
-  document.getElementById("config-nome").textContent = nome;
-  document.getElementById("config-email").textContent = email;
-  document.getElementById("config-avatar").textContent =
-    (nome.trim().charAt(0) || "U").toUpperCase();
+  const nomeEl = document.getElementById("config-nome");
+  const emailEl = document.getElementById("config-email");
+  const avatarEl = document.getElementById("config-avatar");
+
+  if (nomeEl) nomeEl.textContent = nome;
+  if (emailEl) emailEl.textContent = email;
+  if (avatarEl) avatarEl.textContent = (nome.trim().charAt(0) || "U").toUpperCase();
 }
 
 /* ----- Tema ----- */

@@ -129,6 +129,22 @@ html[data-tema="escuro"] .secundario {
   color: #f1f1f6;
 }
 
+/* Botões segmentados (tema) */
+html[data-tema="escuro"] .seg-grupo {
+  background: #262633;
+  border-color: #393947;
+}
+
+html[data-tema="escuro"] .seg-btn {
+  color: #a4a4b4;
+}
+
+html[data-tema="escuro"] .seg-btn.ativo {
+  background: #20202b;
+  color: #f4a261;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, .3);
+}
+
 html[data-tema="escuro"] hr {
   border-color: #2e2e3b;
 }
