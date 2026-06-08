@@ -2,6 +2,7 @@
 <html lang="pt-br">
 
 <head>
+  <script src="js/tema.js"></script>
 
   <!-- ==========================================
        CONFIGURAÇÕES DA PÁGINA
@@ -18,6 +19,7 @@
     Save Date
   </title>
 
+  <link rel="stylesheet" href="css/tema.css" />
 </head>
 
 <body>
@@ -74,11 +76,11 @@
 
       <!-- EMAIL -->
 
-      <input type="email" id="email" name="email" placeholder="Email cadastrado" required />
+      <input type="email" id="email" name="email" placeholder="Email cadastrado" autocomplete="email" required />
 
       <!-- SENHA -->
 
-      <input type="password" id="senha" name="senha" placeholder="Senha" required />
+      <input type="password" id="senha" name="senha" placeholder="Senha" autocomplete="current-password" required />
 
       <!-- ==========================================
            OPÇÕES LOGIN
@@ -138,6 +140,12 @@
       </a>
 
     </div>
+
+    <nav class="auth-trust-links" aria-label="Links de confianca">
+      <a href="privacidade.html">Privacidade</a>
+      <a href="termos.html">Termos</a>
+      <a href="suporte.html">Suporte</a>
+    </nav>
 
   </div>
 

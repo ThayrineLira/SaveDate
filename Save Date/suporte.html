@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <script src="js/tema.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Suporte e Contato | Save Date</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/institucional.css" />
+  <link rel="stylesheet" href="css/tema.css" />
+  <link rel="icon" type="image/x-icon" href="img/optimized/logo.png" />
+</head>
+<body>
+  <header class="site-topo">
+    <a class="site-logo" href="home.html">
+      <img src="img/optimized/logo.png" alt="Logo Save Date" />
+      <span>Save Date</span>
+    </a>
+    <nav class="site-nav" aria-label="Navegacao principal">
+      <a href="home.html">Inicio</a>
+      <a href="explorar.html">Explorar</a>
+      <a href="privacidade.html">Privacidade</a>
+      <a href="suporte.html" aria-current="page">Suporte</a>
+    </nav>
+  </header>
+
+  <section class="institucional-hero">
+    <span class="kicker">Suporte</span>
+    <h1>Um canal claro quando algo nao sair como esperado.</h1>
+    <p>Reporte problemas, envie duvidas sobre conta ou avise sobre informacoes de lugares que precisam de revisao.</p>
+  </section>
+
+  <main class="institucional-conteudo">
+    <div class="suporte-grid">
+      <aside class="suporte-card">
+        <h2>Fale com o Save Date</h2>
+        <p>Para uma versao real, estes canais devem ter atendimento, prazo de resposta e historico de chamados. Neste prototipo, o formulario registra uma simulacao no navegador.</p>
+
+        <div class="suporte-lista">
+          <div class="suporte-item">
+            <strong>E-mail</strong>
+            <a href="mailto:suporte@savedate.app">suporte@savedate.app</a>
+            <span>Duvidas, conta e privacidade.</span>
+          </div>
+          <div class="suporte-item">
+            <strong>Estabelecimentos</strong>
+            <a href="mailto:parceiros@savedate.app">parceiros@savedate.app</a>
+            <span>Cadastro, destaque e dados do local.</span>
+          </div>
+          <div class="suporte-item">
+            <strong>Resposta esperada</strong>
+            <span>Ate 2 dias uteis em uma operacao real.</span>
+          </div>
+        </div>
+      </aside>
+
+      <section class="form-card">
+        <h2>Abrir chamado</h2>
+        <form class="suporte-form" id="form-suporte" novalidate>
+          <div class="campo">
+            <label for="nome">Nome</label>
+            <input id="nome" name="nome" type="text" autocomplete="name" />
+            <span class="erro-campo" id="nome-erro"></span>
+          </div>
+
+          <div class="campo">
+            <label for="email">E-mail</label>
+            <input id="email" name="email" type="email" autocomplete="email" />
+            <span class="erro-campo" id="email-erro"></span>
+          </div>
+
+          <div class="campo">
+            <label for="tipo">Assunto</label>
+            <select id="tipo" name="tipo">
+              <option value="">Selecione</option>
+              <option value="conta">Conta e login</option>
+              <option value="lugar">Dados de um lugar</option>
+              <option value="premium">Premium e pagamento</option>
+              <option value="privacidade">Privacidade</option>
+              <option value="bug">Erro no app</option>
+            </select>
+            <span class="erro-campo" id="tipo-erro"></span>
+          </div>
+
+          <div class="campo">
+            <label for="mensagem">Mensagem</label>
+            <textarea id="mensagem" name="mensagem" placeholder="Conte o que aconteceu e em qual pagina voce estava."></textarea>
+            <span class="erro-campo" id="mensagem-erro"></span>
+          </div>
+
+          <button class="btn-form" type="submit">Enviar chamado</button>
+          <div id="status-suporte" class="status-inline" aria-live="polite"></div>
+        </form>
+      </section>
+    </div>
+
+    <section class="faq-section">
+      <h2>Perguntas frequentes</h2>
+      <div class="faq-lista">
+        <details>
+          <summary>O Save Date cobra de verdade?</summary>
+          <p>Nesta versao, nao. Planos e pagamento sao simulados para demonstrar a jornada premium.</p>
+        </details>
+        <details>
+          <summary>Meus favoritos ficam salvos onde?</summary>
+          <p>No prototipo, ficam no armazenamento local do navegador. Ao limpar os dados do site, os favoritos podem desaparecer.</p>
+        </details>
+        <details>
+          <summary>Como corrijo informacoes de um estabelecimento?</summary>
+          <p>Use o formulario acima com o assunto "Dados de um lugar" e informe nome, endereco e o que precisa ser ajustado.</p>
+        </details>
+      </div>
+    </section>
+  </main>
+
+  <footer class="rodape-institucional">
+    <div class="rodape-institucional-inner">
+      <p>&copy; 2026 Save Date &bull; Explore sem sustos</p>
+      <nav class="rodape-institucional-links" aria-label="Links institucionais">
+        <a href="termos.html">Termos</a>
+        <a href="privacidade.html">Privacidade</a>
+        <a href="suporte.html">Suporte</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script src="js/ui-feedback.js"></script>
+  <script src="js/suporte.js"></script>
+</body>
+</html>

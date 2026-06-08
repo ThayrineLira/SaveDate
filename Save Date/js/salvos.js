@@ -5,13 +5,25 @@ function renderCardsSalvos(lugares) {
   grid.innerHTML = "";
 
   if (!lugares.length) {
+    const logado = typeof estaLogado === "function" && estaLogado();
+    const titulo = logado
+      ? "Voc\u00ea ainda n\u00e3o salvou nenhum lugar"
+      : "Entre para guardar seus favoritos";
+    const texto = logado
+      ? "Use o cora\u00e7\u00e3o nos cards para montar sua lista antes de sair."
+      : "Com uma conta, voc\u00ea consegue salvar lugares e retomar seu planejamento depois.";
+
     grid.innerHTML = `
       <div class="empty">
         <i class="ti ti-heart"></i>
-        <p>Voc&ecirc; ainda n&atilde;o salvou nenhum lugar</p>
-        <p class="empty-hint">
-          V&aacute; para <a href="explorar.html">Explorar</a> e adicione seus favoritos
-        </p>
+        <h2 class="empty-title">${titulo}</h2>
+        <p class="empty-hint">${texto}</p>
+        <div class="empty-actions">
+          <a class="empty-btn primary" href="${logado ? "explorar.html" : "login.html"}">
+            ${logado ? "Explorar lugares" : "Entrar na conta"}
+          </a>
+          <a class="empty-btn" href="suporte.html">Preciso de ajuda</a>
+        </div>
       </div>
     `;
     return;

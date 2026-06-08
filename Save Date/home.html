@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="pt-br">
 <head>
+  <script src="js/tema.js"></script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
@@ -16,6 +17,7 @@
   <!-- SCRIPT DE PROTEÇÃO -->
   <script src="js/auth.js"></script>
 
+  <link rel="stylesheet" href="css/tema.css" />
 </head>
 <body>
   <header id="cabecalho-principal" class="topo">
@@ -50,25 +52,10 @@
 
 </div>
       <div id="menu-usuario" class="menu-perfil">
-        <span class="burger">☰</span>
+        <span class="burger" role="button" tabindex="0" aria-label="Abrir menu" aria-controls="dropdown-menu" aria-expanded="false">☰</span>
         <div class="usuario-dropdown">
           <img src="img/optimized/login.jpg" alt="Foto de perfil" class="avatar" />
           <span id="nome-usuario" class="nome-usuario">Entrar</span>
-          <div id="dropdown-menu" class="dropdown-menu" style="display:none;">
-            <span id="label-nome-dropdown" class="dropdown-nome"></span>
-            <hr />
-            <a href="explorar.html" class="dropdown-item">Explorar 🧭</a>
-            <a href="cadastro-estabelecimento.html" class="dropdown-item">Cadastrar restaurante</a>
-            <a href="roteiro.html" class="dropdown-item">Planejar rolê 🗺️</a>
-            <a href="checklist-role.html" class="dropdown-item">Checklist do rolê ✅</a>
-            <a href="match-role.html" class="dropdown-item">Match do rolê 💞</a>
-            <a href="racha.html" class="dropdown-item">Racha da conta 🧾</a>
-            <a href="comparar.html" class="dropdown-item">Comparar lugares ⚖️</a>
-            <a href="premium.html" class="dropdown-item">Premium ★</a>
-            <a href="conta.html" class="dropdown-item">Minha Conta</a>
-            <a href="admin.html" id="link-admin" class="dropdown-item" style="display:none;">Gerenciador</a>
-            <a href="javascript:void(0)" id="btn-sair" class="dropdown-item sair">Sair</a>
-          </div>
         </div>
       </div>
 
@@ -481,6 +468,32 @@
     </section>
   </main>
 
+  <!-- ===== MENU LATERAL (DRAWER) ===== -->
+  <div id="menu-overlay" class="menu-overlay"></div>
+
+  <aside id="dropdown-menu" class="menu-lateral" aria-hidden="true" aria-label="Menu de navegação">
+    <div class="menu-lateral-topo">
+      <span id="label-nome-dropdown" class="dropdown-nome">Menu</span>
+      <button id="fechar-menu" class="menu-fechar" type="button" aria-label="Fechar menu">×</button>
+    </div>
+    <nav class="menu-lateral-itens">
+      <a href="explorar.html" class="dropdown-item">Explorar 🧭</a>
+      <a href="cadastro-estabelecimento.html" class="dropdown-item">Cadastrar restaurante</a>
+      <a href="roteiro.html" class="dropdown-item">Planejar rolê 🗺️</a>
+      <a href="checklist-role.html" class="dropdown-item">Checklist do rolê ✅</a>
+      <a href="match-role.html" class="dropdown-item">Match do rolê 💞</a>
+      <a href="racha.html" class="dropdown-item">Racha da conta 🧾</a>
+      <a href="comparar.html" class="dropdown-item">Comparar lugares ⚖️</a>
+      <a href="premium.html" class="dropdown-item">Premium ★</a>
+      <a href="conta.html" class="dropdown-item">Minha Conta</a>
+      <a href="configuracoes.html" class="dropdown-item">Configurações ⚙️</a>
+      <a href="suporte.html" class="dropdown-item">Suporte e contato</a>
+      <a href="privacidade.html" class="dropdown-item">Privacidade</a>
+      <a href="admin.html" id="link-admin" class="dropdown-item" style="display:none;">Gerenciador</a>
+      <a href="javascript:void(0)" id="btn-sair" class="dropdown-item sair">Sair</a>
+    </nav>
+  </aside>
+
   <div id="fotos-modal-overlay" class="modal-overlay" style="display:none;">
     <div class="modal-card">
       <button class="action-close" data-action="fotos">×</button>
@@ -514,9 +527,14 @@
     <div class="container rodape-conteudo">
 
       <p class="texto-rodape">
-        &copy; 2026 Save Date •
-        Feito com ❤️ para o seu bolso
+        &copy; 2026 Save Date &bull; Explore sem sustos
       </p>
+
+      <nav class="rodape-links" aria-label="Links de confianca">
+        <a href="termos.html">Termos</a>
+        <a href="privacidade.html">Privacidade</a>
+        <a href="suporte.html">Suporte</a>
+      </nav>
 
     </div>
 
@@ -631,6 +649,26 @@
     document.getElementById('range-orcamento')?.addEventListener('input', function () {
       document.getElementById('valor-orcamento').textContent = 'Até R$ ' + this.value;
     });
+
+    // Aplica os padrões salvos em Configurações (orçamento e distância)
+    (function aplicarPadroesConfig() {
+      const orcSalvo = localStorage.getItem('configOrcamentoPadrao');
+      const distSalvo = localStorage.getItem('configDistanciaPadrao');
+      const rangeOrc = document.getElementById('range-orcamento');
+      const rangeArea = document.getElementById('range-area-busca');
+
+      if (rangeOrc && orcSalvo !== null) {
+        rangeOrc.value = orcSalvo;
+        document.getElementById('valor-orcamento').textContent = 'Até R$ ' + orcSalvo;
+        document.querySelectorAll('.chip-orcamento').forEach(c =>
+          c.classList.toggle('ativo', c.dataset.orcamento === orcSalvo)
+        );
+      }
+      if (rangeArea && distSalvo !== null) {
+        rangeArea.value = distSalvo;
+        document.getElementById('valor-area-busca').textContent = distSalvo + ' km';
+      }
+    })();
 
     // Chips de orçamento
     document.querySelectorAll('.chip-orcamento').forEach(chip => {

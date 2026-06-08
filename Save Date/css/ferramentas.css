@@ -458,9 +458,80 @@ body {
   .topo {
     flex-direction: column;
     align-items: flex-start;
+    gap: 12px;
+  }
+
+  .nav-categorias {
+    width: 100%;
+  }
+
+  .nav-link {
+    flex: 1 1 auto;
+    justify-content: center;
+    padding-inline: 12px;
+  }
+
+  .hero-ferramenta {
+    padding-top: 32px;
+  }
+
+  .painel {
+    padding: 20px 16px;
+    border-radius: 14px;
+  }
+
+  .btn-linha {
+    flex-direction: column;
+  }
+
+  .btn-linha .btn {
+    width: 100%;
   }
 
   .parada {
     flex-wrap: wrap;
+  }
+
+  .parada-info {
+    flex: 1 1 100%;
+    order: 3;
+  }
+}
+
+@media (max-width: 520px) {
+  .painel {
+    padding: 16px 13px;
+  }
+
+  .painel h2 {
+    font-size: 1.15rem;
+  }
+
+  .resultado-total strong {
+    font-size: 1.5rem;
+  }
+
+  .mini-card strong {
+    font-size: 1.15rem;
+  }
+
+  /* tabela de comparação compacta para caber em telas estreitas */
+  .tabela-comparar th,
+  .tabela-comparar td {
+    padding: 9px 8px;
+    font-size: .85rem;
+  }
+
+  .tabela-comparar .rotulo {
+    width: 92px;
+  }
+
+  .tabela-comparar thead th {
+    font-size: .9rem;
+  }
+
+  .opcoes-chip button,
+  .nav-link {
+    font-size: .9rem;
   }
 }

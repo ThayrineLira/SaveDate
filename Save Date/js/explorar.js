@@ -8,6 +8,45 @@ let ordenarPor = "relevancia";
 let bairroAtivo = "Todos";
 let somenteAberto = false;
 
+function limparFiltrosExplorar() {
+  filtroAtivo = "Todos";
+  chipAtivo = "Todos";
+  termoBusca = "";
+  ordenarPor = "relevancia";
+  bairroAtivo = "Todos";
+  somenteAberto = false;
+
+  const busca = document.getElementById("search-input");
+  const ordenar = document.getElementById("ordenar");
+  const bairro = document.getElementById("bairro");
+  const rangeOrcamento = document.getElementById("budget-range");
+
+  if (busca) busca.value = "";
+  if (ordenar) ordenar.value = "relevancia";
+  if (bairro) bairro.value = "Todos";
+  if (rangeOrcamento) rangeOrcamento.value = "200";
+
+  document.getElementById("toggle-aberto")?.classList.remove("ativo");
+
+  const btnPerto = document.getElementById("btn-perto");
+  if (btnPerto) {
+    btnPerto.classList.remove("ativo");
+    btnPerto.textContent = "Perto de mim";
+  }
+
+  document.querySelectorAll(".chip").forEach((chip) => {
+    chip.classList.toggle("active", chip.dataset.chip === "Todos");
+  });
+
+  document.querySelectorAll(".cat").forEach((cat) => {
+    const label = cat.querySelector(".cat-label")?.textContent.trim();
+    cat.classList.toggle("active", label === "Todos");
+  });
+
+  updateBudget(200);
+  window.SaveDateUI?.toast("Filtros limpos.", "sucesso");
+}
+
 function bairroDe(lugar) {
   return typeof bairroDeLugar === "function"
     ? bairroDeLugar(lugar)
@@ -143,8 +182,12 @@ function toggleAberto() {
 function ativarPertoDeMim() {
   const btn = document.getElementById("btn-perto");
   if (btn) {
-    btn.disabled = true;
-    btn.textContent = "📍 Localizando...";
+    if (window.SaveDateUI?.botaoCarregando) {
+      window.SaveDateUI.botaoCarregando(btn, true, "Localizando...");
+    } else {
+      btn.disabled = true;
+      btn.textContent = "Localizando...";
+    }
   }
   obterPosicaoUsuario()
     .then(() => {
@@ -152,21 +195,31 @@ function ativarPertoDeMim() {
       const sel = document.getElementById("ordenar");
       if (sel) sel.value = "distancia";
       if (btn) {
-        btn.disabled = false;
-        btn.textContent = "📍 Perto de mim ✓";
+        if (window.SaveDateUI?.botaoCarregando) {
+          window.SaveDateUI.botaoCarregando(btn, false);
+        } else {
+          btn.disabled = false;
+        }
+        btn.textContent = "Perto de mim OK";
         btn.classList.add("ativo");
       }
+      window.SaveDateUI?.toast("Lugares ordenados por distancia.", "sucesso");
       filtrarCards();
     })
     .catch((err) => {
       if (btn) {
-        btn.disabled = false;
-        btn.textContent = "📍 Perto de mim";
+        if (window.SaveDateUI?.botaoCarregando) {
+          window.SaveDateUI.botaoCarregando(btn, false);
+        } else {
+          btn.disabled = false;
+        }
+        btn.textContent = "Perto de mim";
       }
-      alert(
-        "Não consegui acessar sua localização (" +
-          (err && err.message ? err.message : "permissão negada") +
-          ").\nAtive a localização do navegador e tente novamente."
+      const motivo = err && err.message ? err.message : "permiss\u00e3o negada";
+      window.SaveDateUI?.toast(
+        `N\u00e3o consegui acessar sua localiza\u00e7\u00e3o (${motivo}). Use o filtro de bairro ou tente novamente.`,
+        "erro",
+        5200
       );
     });
 }
@@ -193,9 +246,18 @@ function renderCards(lugares) {
     grid.innerHTML = `
       <div class="empty">
         <i class="ti ti-search"></i>
-        <p>Nenhum lugar encontrado</p>
+        <h2 class="empty-title">Nenhum lugar encontrado</h2>
+        <p class="empty-hint">
+          Ajuste or&ccedil;amento, bairro, categoria ou texto da busca para ampliar os resultados.
+        </p>
+        <div class="empty-actions">
+          <button type="button" class="empty-btn primary" data-empty-action="limpar-filtros">Limpar filtros</button>
+          <a class="empty-btn" href="suporte.html">Avisar um problema</a>
+        </div>
       </div>
     `;
+    grid.querySelector("[data-empty-action='limpar-filtros']")
+      ?.addEventListener("click", limparFiltrosExplorar);
     return;
   }
 

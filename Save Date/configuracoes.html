@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Configurações | Save Date</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet" />
+
+  <!-- Aplica o tema salvo antes de pintar a tela (evita flash) -->
+  <script>
+    (function () {
+      try {
+        var tema = localStorage.getItem("configTema") || "auto";
+        var escuroSistema = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+        var usarEscuro = tema === "escuro" || (tema === "auto" && escuroSistema);
+        document.documentElement.setAttribute("data-tema", usarEscuro ? "escuro" : "claro");
+        if (localStorage.getItem("configReduzirAnimacoes") === "1") {
+          document.documentElement.setAttribute("data-anim", "reduzido");
+        }
+      } catch (e) {}
+    })();
+  </script>
+
+  <link rel="stylesheet" href="css/configuracoes.css" />
+  <link rel="icon" type="image/x-icon" href="img/optimized/logo.png" />
+
+  <!-- SCRIPT DE PROTEÇÃO -->
+  <script src="js/auth.js"></script>
+</head>
+<body>
+  <header class="topo">
+    <a href="home.html" class="logo-area">
+      <img src="img/optimized/logo.png" alt="Logo Save Date" />
+      <span>Save Date</span>
+    </a>
+
+    <nav class="nav-conta" aria-label="Navegação principal">
+      <a href="home.html" class="nav-link">Início</a>
+      <a href="conta.html" class="nav-link">Minha Conta</a>
+      <a href="configuracoes.html" class="nav-link ativo">Configurações</a>
+    </nav>
+  </header>
+
+  <main class="config-wrapper">
+    <h1 class="config-titulo">Configurações</h1>
+    <p class="config-sub">Ajuste sua experiência no Save Date. As mudanças são salvas automaticamente neste dispositivo.</p>
+
+    <!-- PERFIL RÁPIDO -->
+    <section class="perfil-mini">
+      <div id="config-avatar" class="perfil-mini-avatar">U</div>
+      <div class="perfil-mini-info">
+        <strong id="config-nome">Usuário</strong>
+        <span id="config-email">E-mail não informado</span>
+      </div>
+      <a href="conta.html" class="btn secundario">Editar perfil</a>
+    </section>
+
+    <!-- APARÊNCIA -->
+    <section class="config-secao">
+      <h2 class="config-secao-titulo"><span class="ico">🎨</span> Aparência</h2>
+
+      <div class="config-item">
+        <div class="config-item-texto">
+          <strong>Tema</strong>
+          <span>Escolha entre claro, escuro ou acompanhar o sistema.</span>
+        </div>
+        <div class="config-item-controle">
+          <div class="seg-grupo" role="group" aria-label="Tema">
+            <button type="button" class="seg-btn" data-tema="claro">☀️ Claro</button>
+            <button type="button" class="seg-btn" data-tema="escuro">🌙 Escuro</button>
+            <button type="button" class="seg-btn" data-tema="auto">🖥️ Auto</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="config-item">
+        <div class="config-item-texto">
+          <strong>Reduzir animações</strong>
+          <span>Diminui transições e efeitos de movimento na navegação.</span>
+        </div>
+        <div class="config-item-controle">
+          <label class="config-toggle">
+            <input type="checkbox" id="cfg-animacoes" />
+            <span class="config-slider"></span>
+          </label>
+        </div>
+      </div>
+    </section>
+
+    <!-- NOTIFICAÇÕES -->
+    <section class="config-secao">
+      <h2 class="config-secao-titulo"><span class="ico">🔔</span> Notificações</h2>
+
+      <div class="config-item">
+        <div class="config-item-texto">
+          <strong>Novidades e promoções</strong>
+          <span>Receba alertas de ofertas e lugares novos por perto.</span>
+        </div>
+        <div class="config-item-controle">
+          <label class="config-toggle">
+            <input type="checkbox" id="cfg-novidades" />
+            <span class="config-slider"></span>
+          </label>
+        </div>
+      </div>
+
+      <div class="config-item">
+        <div class="config-item-texto">
+          <strong>Lembretes de rolê</strong>
+          <span>Avisos sobre roteiros e checklists que você criou.</span>
+        </div>
+        <div class="config-item-controle">
+          <label class="config-toggle">
+            <input type="checkbox" id="cfg-lembretes" />
+            <span class="config-slider"></span>
+          </label>
+        </div>
+      </div>
+
+      <div class="config-item">
+        <div class="config-item-texto">
+          <strong>Resumo semanal por e-mail</strong>
+          <span>Um resumo dos melhores lugares dentro do seu orçamento.</span>
+        </div>
+        <div class="config-item-controle">
+          <label class="config-toggle">
+            <input type="checkbox" id="cfg-resumo" />
+            <span class="config-slider"></span>
+          </label>
+        </div>
+      </div>
+    </section>
+
+    <!-- BUSCA E LOCALIZAÇÃO -->
+    <section class="config-secao">
+      <h2 class="config-secao-titulo"><span class="ico">📍</span> Busca e localização</h2>
+
+      <div class="config-item">
+        <div class="config-item-texto">
+          <strong>Usar minha localização automaticamente</strong>
+          <span>Carrega lugares próximos assim que a home abre.</span>
+        </div>
+        <div class="config-item-controle">
+          <label class="config-toggle">
+            <input type="checkbox" id="cfg-localizacao" />
+            <span class="config-slider"></span>
+          </label>
+        </div>
+      </div>
+
+      <div class="config-range-bloco">
+        <div class="config-range-topo">
+          <strong>Orçamento padrão</strong>
+          <span id="cfg-orcamento-valor" class="config-range-valor">Até R$ 120</span>
+        </div>
+        <input type="range" id="cfg-orcamento" min="0" max="250" step="10" value="120" />
+        <small>Valor inicial da barra de orçamento nas buscas.</small>
+      </div>
+
+      <div class="config-range-bloco">
+        <div class="config-range-topo">
+          <strong>Distância padrão</strong>
+          <span id="cfg-distancia-valor" class="config-range-valor">5 km</span>
+        </div>
+        <input type="range" id="cfg-distancia" min="2" max="15" step="1" value="5" />
+        <small>Raio inicial usado para encontrar lugares perto de você.</small>
+      </div>
+    </section>
+
+    <!-- PRIVACIDADE E DADOS -->
+    <section class="config-secao">
+      <h2 class="config-secao-titulo"><span class="ico">🔒</span> Privacidade e dados</h2>
+
+      <div class="config-item">
+        <div class="config-item-texto">
+          <strong>Favoritos salvos</strong>
+          <span><b id="cfg-total-favoritos">0</b> lugares guardados neste dispositivo.</span>
+        </div>
+        <div class="config-item-controle">
+          <button type="button" id="cfg-limpar-favoritos" class="btn secundario">Limpar favoritos</button>
+        </div>
+      </div>
+
+      <div class="config-item">
+        <div class="config-item-texto">
+          <strong>Redefinir configurações</strong>
+          <span>Volta todas as opções desta página para o padrão.</span>
+        </div>
+        <div class="config-item-controle">
+          <button type="button" id="cfg-redefinir" class="btn secundario">Redefinir</button>
+        </div>
+      </div>
+
+      <div class="config-item">
+        <div class="config-item-texto">
+          <strong>Apagar dados locais</strong>
+          <span>Remove favoritos, preferências e encerra a sessão neste navegador.</span>
+        </div>
+        <div class="config-item-controle">
+          <button type="button" id="cfg-apagar-tudo" class="btn perigo">Apagar e sair</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- SOBRE -->
+    <section class="config-secao">
+      <h2 class="config-secao-titulo"><span class="ico">ℹ️</span> Sobre</h2>
+      <div class="config-sobre">
+        <b>Save Date</b> • versão 1.0<br />
+        Explore sem sustos no bolso. Feito com ❤️ para o seu rolê.
+      </div>
+      <div class="config-acoes">
+        <a href="premium.html" class="btn">Conhecer o Premium ★</a>
+        <button type="button" id="cfg-sair" class="btn perigo">Sair da conta</button>
+      </div>
+    </section>
+  </main>
+
+  <div id="toast-container"></div>
+
+  <script src="js/dados.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/configuracoes.js"></script>
+</body>
+</html>

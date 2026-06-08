@@ -1,0 +1,624 @@
+/* =========================================================
+   TEMA ESCURO GLOBAL — Save Date
+   Carregado por ÚLTIMO em cada página, então vence as cores
+   fixas (#fff/#222) das outras folhas de estilo.
+
+   Paleta em camadas (dá profundidade ao escuro):
+     fundo da página ....... #14141b
+     superfície (cards) .... #20202b
+     superfície 2 (inputs).. #262633
+     borda suave ........... #2e2e3b
+     borda visível ......... #393947
+     texto ................. #f1f1f6
+     texto suave ........... #a4a4b4
+   O laranja da marca (#f4a261/#e76f51) é mantido como destaque.
+========================================================= */
+
+/* ===== REDUZIR ANIMAÇÕES (global) ===== */
+html[data-anim="reduzido"] * {
+  transition: none !important;
+  animation: none !important;
+  scroll-behavior: auto !important;
+}
+
+/* ===== 1) VARIÁVEIS ===== */
+html[data-tema="escuro"] {
+  /* sistema "português" */
+  --texto: #f1f1f6;
+  --texto-suave: #a4a4b4;
+  --texto-claro: #a4a4b4;
+  --suave: #a4a4b4;
+  --borda: #2e2e3b;
+  --fundo: #1a1a23;
+  --card: #20202b;
+  --painel: #20202b;
+  --pagina: #14141b;
+  --tinta-escura: #14141b;
+  --sombra: 0 14px 34px rgba(0, 0, 0, .45);
+
+  /* sistema base.css (--sd-*) */
+  --sd-text: #f1f1f6;
+  --sd-muted: #a4a4b4;
+  --sd-soft: #a4a4b4;
+  --sd-border: #2e2e3b;
+  --sd-bg: #14141b;
+  --sd-card: #20202b;
+
+  color-scheme: dark;
+}
+
+/* ===== 2) SUPERFÍCIES ESTRUTURAIS ===== */
+html[data-tema="escuro"] body {
+  background: #14141b;
+  color: #f1f1f6;
+}
+
+/* Barras de navegação / cabeçalhos / rodapés */
+html[data-tema="escuro"] .nav,
+html[data-tema="escuro"] .topo,
+html[data-tema="escuro"] header.topo,
+html[data-tema="escuro"] .navbar,
+html[data-tema="escuro"] .header,
+html[data-tema="escuro"] .rodape,
+html[data-tema="escuro"] footer {
+  background: #1a1a23;
+  border-color: #2e2e3b;
+  color: #f1f1f6;
+}
+
+/* Cartões, painéis e blocos */
+html[data-tema="escuro"] .card,
+html[data-tema="escuro"] .cartao,
+html[data-tema="escuro"] .painel,
+html[data-tema="escuro"] .secao,
+html[data-tema="escuro"] .bloco,
+html[data-tema="escuro"] .box,
+html[data-tema="escuro"] .caixa,
+html[data-tema="escuro"] .modal,
+html[data-tema="escuro"] .popup,
+html[data-tema="escuro"] .dropdown,
+html[data-tema="escuro"] .menu,
+html[data-tema="escuro"] .tooltip {
+  background: #20202b;
+  border-color: #2e2e3b;
+  color: #f1f1f6;
+}
+
+/* Realce de borda ao passar o mouse nos cartões */
+html[data-tema="escuro"] .card:hover {
+  border-color: rgba(244, 162, 97, .55);
+}
+
+/* Campos de formulário (exceto range/checkbox/radio, que têm
+   estilo próprio — pintá-los quebra os sliders e mostra o azul padrão) */
+html[data-tema="escuro"] input:not([type="range"]):not([type="checkbox"]):not([type="radio"]),
+html[data-tema="escuro"] textarea,
+html[data-tema="escuro"] select {
+  background: #262633;
+  border-color: #393947;
+  color: #f1f1f6;
+}
+
+/* Sliders mantêm o laranja da marca */
+html[data-tema="escuro"] input[type="range"] {
+  accent-color: #f4a261;
+}
+
+/* Links de texto soltos (sem classe) não ficam no azul do navegador */
+html[data-tema="escuro"] a:not([class]) {
+  color: #f4a261;
+}
+
+html[data-tema="escuro"] input::placeholder,
+html[data-tema="escuro"] textarea::placeholder {
+  color: #74748a;
+}
+
+html[data-tema="escuro"] input:focus,
+html[data-tema="escuro"] textarea:focus,
+html[data-tema="escuro"] select:focus {
+  border-color: #f4a261;
+}
+
+/* Botões secundários / claros (ficavam brancos e estouravam) */
+html[data-tema="escuro"] .btn.secundario,
+html[data-tema="escuro"] .btn-secundario,
+html[data-tema="escuro"] .secundario {
+  background: #262633;
+  border-color: #393947;
+  color: #f1f1f6;
+}
+
+html[data-tema="escuro"] hr {
+  border-color: #2e2e3b;
+}
+
+/* =========================================================
+   3) CONTA — cabeçalho do perfil (era branco com texto claro)
+========================================================= */
+html[data-tema="escuro"] .perfil-header {
+  background: #20202b;
+  border-color: #2e2e3b;
+}
+
+/* =========================================================
+   4) HOME — superfícies específicas (home.css crava branco
+   em dezenas de componentes). Escurecemos seções e cartões;
+   hero, gradientes e botões coloridos ficam intactos.
+========================================================= */
+
+/* Fundos de seção -> cor da página */
+html[data-tema="escuro"] .cliente-primeira-visao,
+html[data-tema="escuro"] .como-funciona-home,
+html[data-tema="escuro"] .categorias-nav,
+html[data-tema="escuro"] #estabelecimento-dashboard {
+  background: #14141b;
+  color: #f1f1f6;
+}
+
+/* Superfícies principais (cartões) */
+html[data-tema="escuro"] .busca-pilula,
+html[data-tema="escuro"] .sugestoes,
+html[data-tema="escuro"] .card-local,
+html[data-tema="escuro"] .dash-kpi,
+html[data-tema="escuro"] .painel-card,
+html[data-tema="escuro"] .dropdown-menu,
+html[data-tema="escuro"] .modal-card,
+html[data-tema="escuro"] .modal,
+html[data-tema="escuro"] .dashboard-status-card,
+html[data-tema="escuro"] .dashboard-card,
+html[data-tema="escuro"] .primeira-visao-destaque,
+html[data-tema="escuro"] .beneficio-card,
+html[data-tema="escuro"] .passo-card,
+html[data-tema="escuro"] .item-cat,
+html[data-tema="escuro"] .cep-box,
+html[data-tema="escuro"] .area-busca-wrapper,
+html[data-tema="escuro"] .orcamento-wrapper,
+html[data-tema="escuro"] .ferramenta-card,
+html[data-tema="escuro"] .home-atalho {
+  background: #20202b;
+  border-color: #2e2e3b;
+  color: #f1f1f6;
+}
+
+/* mantém o atalho principal (slate) intacto */
+html[data-tema="escuro"] .home-atalho.principal {
+  background: #2f4858;
+  border-color: #2f4858;
+  color: #fff;
+}
+
+/* Superfícies secundárias (off-whites e tints) */
+html[data-tema="escuro"] .btn-ver-opcoes,
+html[data-tema="escuro"] .dashboard-action-link,
+html[data-tema="escuro"] .comentarios-lista li,
+html[data-tema="escuro"] .events-list li,
+html[data-tema="escuro"] .action-close,
+html[data-tema="escuro"] .aviso-vazio,
+html[data-tema="escuro"] .modal-card input,
+html[data-tema="escuro"] .modal-card textarea,
+html[data-tema="escuro"] .modal-label input,
+html[data-tema="escuro"] .modal-label textarea,
+html[data-tema="escuro"] .modal .btn-secundario,
+html[data-tema="escuro"] .evento-acoes .btn-editar,
+html[data-tema="escuro"] .chip-orcamento,
+html[data-tema="escuro"] .preco-local,
+html[data-tema="escuro"] .item-cat img {
+  background: #262633;
+  border-color: #393947;
+  color: #f1f1f6;
+}
+
+html[data-tema="escuro"] .dashboard-action-link.disabled {
+  background: #1c1c25;
+  color: #74748a;
+}
+
+/* Etiquetas/realces verdes -> versão translúcida no escuro */
+html[data-tema="escuro"] .etiqueta-secao,
+html[data-tema="escuro"] .area-busca-controle strong {
+  background: rgba(42, 157, 143, .16);
+  color: #5fd0bf;
+}
+
+/* Texto fixo escuro -> claro */
+html[data-tema="escuro"] .nome-local,
+html[data-tema="escuro"] .dropdown-item,
+html[data-tema="escuro"] .modal-label,
+html[data-tema="escuro"] .modal-close,
+html[data-tema="escuro"] .profile-metric strong,
+html[data-tema="escuro"] .item-cat,
+html[data-tema="escuro"] .primeira-visao-destaque h2,
+html[data-tema="escuro"] .beneficio-card h3,
+html[data-tema="escuro"] .passo-card h3,
+html[data-tema="escuro"] .area-busca-wrapper h3,
+html[data-tema="escuro"] .orcamento-header h3,
+html[data-tema="escuro"] .label-categoria {
+  color: #f1f1f6;
+}
+
+html[data-tema="escuro"] .comentario-texto,
+html[data-tema="escuro"] .subtitulo-local,
+html[data-tema="escuro"] .comentarios-card .texto-pequeno,
+html[data-tema="escuro"] .dashboard-text,
+html[data-tema="escuro"] .painel-estabelecimento p,
+html[data-tema="escuro"] .confirm-modal p,
+html[data-tema="escuro"] .primeira-visao-destaque p,
+html[data-tema="escuro"] .beneficio-card p,
+html[data-tema="escuro"] .passo-card p,
+html[data-tema="escuro"] .area-busca-wrapper p,
+html[data-tema="escuro"] .orcamento-header p,
+html[data-tema="escuro"] .area-busca-controle,
+html[data-tema="escuro"] .orcamento-controle,
+html[data-tema="escuro"] .resultado-orcamento,
+html[data-tema="escuro"] .descricao-local-card,
+html[data-tema="escuro"] .ferramenta-card p {
+  color: #a4a4b4;
+}
+
+/* Hovers que voltavam ao branco */
+html[data-tema="escuro"] .sugestoes div:hover,
+html[data-tema="escuro"] .dropdown-item:hover,
+html[data-tema="escuro"] .dashboard-action-link:hover {
+  background: #2c2c3a;
+}
+
+/* Divisores internos */
+html[data-tema="escuro"] .dropdown-nome,
+html[data-tema="escuro"] .dashboard-card .summary-item,
+html[data-tema="escuro"] .profile-metric {
+  border-color: #2e2e3b;
+}
+
+/* =========================================================
+   5) PÁGINAS DE CATEGORIA (bares, restaurantes, parques...)
+   categoria.css usa .card-categoria com fundo branco.
+========================================================= */
+html[data-tema="escuro"] .card-categoria {
+  background: #20202b;
+  border-color: #2e2e3b;
+}
+
+html[data-tema="escuro"] .card-link.secundario {
+  background: #262633;
+  border-color: #393947;
+  color: #f1f1f6;
+}
+
+html[data-tema="escuro"] .meta-card span {
+  color: #c9b8a6;
+}
+
+/* =========================================================
+   6) PREMIUM — hero claro deixava o texto invisível
+========================================================= */
+html[data-tema="escuro"] .hero-premium {
+  background: linear-gradient(135deg, rgba(244, 162, 97, .12), rgba(42, 157, 143, .10)), #14141b;
+}
+
+html[data-tema="escuro"] .plano {
+  background: #20202b;
+  border-color: #2e2e3b;
+}
+
+html[data-tema="escuro"] .status-premium {
+  background: rgba(42, 157, 143, .16);
+  color: #5fd0bf;
+}
+
+html[data-tema="escuro"] .btn-assinar.indisponivel {
+  background: #262633;
+  color: #74748a;
+}
+
+/* =========================================================
+   7) LOGIN / CADASTRO / RECUPERAÇÃO — cartão ".texto"
+   usava --fundo-card claro; o cabeçalho interno (.topo) era
+   escurecido pela regra global, criando aquele visual torto.
+========================================================= */
+html[data-tema="escuro"] {
+  --fundo-card: rgba(32, 32, 43, 0.96);
+  --sombra-card: 0 24px 70px rgba(0, 0, 0, 0.5);
+}
+
+html[data-tema="escuro"] .texto {
+  border-color: #2e2e3b;
+}
+
+/* botão "Voltar" (branco) */
+html[data-tema="escuro"] .login-form .botao[type="button"] {
+  background: #262633;
+  border-color: #393947;
+  color: #f1f1f6;
+}
+
+/* =========================================================
+   8) FERRAMENTAS (date-lab, comparar, racha, checklist...)
+========================================================= */
+html[data-tema="escuro"] .hero-ferramenta {
+  background: linear-gradient(135deg, rgba(244, 162, 97, .12), rgba(42, 157, 143, .10)), #14141b;
+}
+
+/* inputs/selects têm seletor mais específico que a regra geral */
+html[data-tema="escuro"] .campo input[type="text"],
+html[data-tema="escuro"] .campo input[type="number"],
+html[data-tema="escuro"] .campo select,
+html[data-tema="escuro"] .form-cartao input {
+  background: #262633;
+  border-color: #393947;
+  color: #f1f1f6;
+}
+
+html[data-tema="escuro"] .opcoes-chip button,
+html[data-tema="escuro"] .mini-card {
+  background: #262633;
+  border-color: #393947;
+  color: #f1f1f6;
+}
+
+/* aviso "exclusivo para Plus" / locks -> alerta âmbar no escuro */
+html[data-tema="escuro"] .premium-lock {
+  background: rgba(231, 111, 81, .14);
+  border-color: rgba(231, 111, 81, .35);
+  color: #f0b890;
+}
+
+/* tabela do Comparar: coluna de rótulos era branca (#fcfcfc) */
+html[data-tema="escuro"] .tabela-comparar td.rotulo {
+  background: #1c1c25;
+  color: #a4a4b4;
+}
+
+/* =========================================================
+   10) EXPLORAR — busca, chips, categorias, orçamento, toolbar
+========================================================= */
+html[data-tema="escuro"] .search,
+html[data-tema="escuro"] .budget,
+html[data-tema="escuro"] .toolbar {
+  background: #20202b;
+  border-color: #2e2e3b;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, .35);
+}
+
+html[data-tema="escuro"] .search input {
+  color: #f1f1f6;
+}
+
+html[data-tema="escuro"] .chip,
+html[data-tema="escuro"] .cat-icon,
+html[data-tema="escuro"] .toolbar select,
+html[data-tema="escuro"] .toolbar-btn,
+html[data-tema="escuro"] .toolbar-toggle {
+  background: #262633;
+  border-color: #393947;
+  color: #f1f1f6;
+}
+
+html[data-tema="escuro"] .cat-icon {
+  color: #f1f1f6;
+}
+
+html[data-tema="escuro"] .budget-header,
+html[data-tema="escuro"] .toolbar-item span,
+html[data-tema="escuro"] .cat-label,
+html[data-tema="escuro"] .range-labels {
+  color: #a4a4b4;
+}
+
+/* mantém estados ativos em laranja */
+html[data-tema="escuro"] .chip.active,
+html[data-tema="escuro"] .cat.active .cat-icon {
+  background: #ff6b35;
+  border-color: #ff6b35;
+  color: #fff;
+}
+
+/* =========================================================
+   11) HEROES — laranja berrante -> pôr do sol profundo
+   (integra com o escuro em vez de "vazar" do tema claro)
+========================================================= */
+html[data-tema="escuro"] .hero {
+  background: linear-gradient(135deg, #241712 0%, #7a3f2c 55%, #aa5235 100%);
+}
+
+html[data-tema="escuro"] .dash-hero {
+  background: linear-gradient(135deg, #2b1a14 0%, #8a4a30 100%);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, .4);
+}
+
+/* =========================================================
+   12) CORREÇÕES DE CONTRASTE (auditoria automática)
+   "preto no preto" e superfícies brancas que sobraram.
+========================================================= */
+
+/* Links da navbar com cor fixa #444 -> claros (em todas as páginas) */
+html[data-tema="escuro"] .nav-link {
+  color: #a4a4b4;
+}
+
+/* HOME: títulos de seção ("Escolha o rolê", "Como usar"...) eram
+   quase pretos sobre o fundo escuro */
+html[data-tema="escuro"] .titulo-secao {
+  color: #f1f1f6;
+}
+
+/* HOME: menu lateral (mobile) e pílula de perfil estavam brancos */
+html[data-tema="escuro"] .menu-perfil,
+html[data-tema="escuro"] .menu-lateral,
+html[data-tema="escuro"] .menu-lateral-topo {
+  background: #20202b;
+  border-color: #2e2e3b;
+  color: #f1f1f6;
+}
+
+html[data-tema="escuro"] .menu-fechar {
+  background: #262633;
+  color: #f1f1f6;
+}
+
+/* CONTA: rótulos de formulário (#444) e textos fortes (#2f4858) escuros */
+html[data-tema="escuro"] .form-conta label,
+html[data-tema="escuro"] .campo strong {
+  color: #cfcfd8;
+}
+
+/* Badges/etiquetas teal claras -> versão translúcida (o badge gold
+   do Premium é mais específico e se mantém) */
+html[data-tema="escuro"] .etiqueta,
+html[data-tema="escuro"] .badge-tipo {
+  background: rgba(42, 157, 143, .16);
+  color: #5fd0bf;
+}
+
+/* =========================================================
+   13) DETALHES DO LUGAR — vários cards brancos com texto #222
+   (só aparecem com um lugar carregado, por isso passaram batido)
+========================================================= */
+html[data-tema="escuro"] .header {
+  background: transparent;
+  border-color: #2e2e3b;
+}
+
+html[data-tema="escuro"] .description-card,
+html[data-tema="escuro"] .tabs-section,
+html[data-tema="escuro"] .aval-form,
+html[data-tema="escuro"] .avaliacao-item {
+  background: #20202b;
+  border-color: #2e2e3b;
+}
+
+html[data-tema="escuro"] .tag,
+html[data-tema="escuro"] .aval-input,
+html[data-tema="escuro"] .estrela {
+  background: #262633;
+  border-color: #393947;
+  color: #f1f1f6;
+}
+
+/* títulos/valores escuros -> claros */
+html[data-tema="escuro"] .title-section h1,
+html[data-tema="escuro"] .info-item p,
+html[data-tema="escuro"] .content-section h3,
+html[data-tema="escuro"] .aval-resumo-box strong,
+html[data-tema="escuro"] .avaliacao-header strong {
+  color: #f1f1f6;
+}
+
+/* textos auxiliares escuros -> suaves */
+html[data-tema="escuro"] .description-card p,
+html[data-tema="escuro"] .content-section p,
+html[data-tema="escuro"] .diferenciais-list li,
+html[data-tema="escuro"] .avaliacao-texto {
+  color: #a4a4b4;
+}
+
+/* divisores internos */
+html[data-tema="escuro"] .description-card,
+html[data-tema="escuro"] .tabs .tab,
+html[data-tema="escuro"] .avaliacao-item {
+  border-color: #2e2e3b;
+}
+
+/* =========================================================
+   14) MAPA (Leaflet / OpenStreetMap)
+   Os tiles são claros e estouram contra o escuro. Aplicamos
+   o filtro clássico de "mapa escuro" e escurecemos controles,
+   popups e os estados ativos rosa-claros.
+========================================================= */
+html[data-tema="escuro"] .leaflet-tile {
+  filter: invert(1) hue-rotate(180deg) brightness(.9) contrast(.9) saturate(.85);
+}
+
+/* controles de zoom / busca do mapa */
+html[data-tema="escuro"] .leaflet-bar a,
+html[data-tema="escuro"] .leaflet-control-zoom a {
+  background: #20202b;
+  color: #f1f1f6;
+  border-color: #2e2e3b;
+}
+
+html[data-tema="escuro"] .leaflet-bar a:hover {
+  background: #262633;
+}
+
+/* atribuição (© OpenStreetMap) */
+html[data-tema="escuro"] .leaflet-control-attribution {
+  background: rgba(20, 20, 27, .8);
+  color: #9a9aa6;
+}
+
+html[data-tema="escuro"] .leaflet-control-attribution a {
+  color: #a4a4b4;
+}
+
+/* popups */
+html[data-tema="escuro"] .leaflet-popup-content-wrapper,
+html[data-tema="escuro"] .leaflet-popup-tip {
+  background: #20202b;
+  color: #f1f1f6;
+}
+
+html[data-tema="escuro"] .popup-save p {
+  color: #a4a4b4;
+}
+
+/* header do mapa: barra de busca e botão Voltar estavam claros */
+html[data-tema="escuro"] .busca-mapa {
+  background: #262633;
+  border-color: #393947;
+}
+
+html[data-tema="escuro"] .busca-mapa input {
+  color: #f1f1f6;
+}
+
+html[data-tema="escuro"] .busca-mapa input::placeholder {
+  color: #74748a;
+}
+
+html[data-tema="escuro"] .btn-voltar {
+  background: #262633;
+  color: #f1f1f6;
+}
+
+/* chips de categoria (não-ativos) eram cinza-claro com texto #555 */
+html[data-tema="escuro"] .cat-btn:not(.ativo) {
+  background: #262633;
+  color: #cfcfd8;
+}
+
+/* estados ativos/hover rosa-claros -> tom laranja translúcido */
+html[data-tema="escuro"] .cat-btn.ativo,
+html[data-tema="escuro"] .card-lugar:hover,
+html[data-tema="escuro"] .card-lugar.selecionado {
+  background: rgba(244, 162, 97, .14);
+}
+
+/* =========================================================
+   9) PAGAMENTO — header branco, título e cards invisíveis
+========================================================= */
+html[data-tema="escuro"] .main-header {
+  background: #1a1a23;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, .4);
+}
+
+html[data-tema="escuro"] .logo-container,
+html[data-tema="escuro"] .page-title,
+html[data-tema="escuro"] .payment-amount,
+html[data-tema="escuro"] .plano-resumo {
+  color: #f1f1f6;
+}
+
+html[data-tema="escuro"] .payment-box,
+html[data-tema="escuro"] .rodape {
+  background: #20202b;
+  border-color: #2e2e3b;
+}
+
+html[data-tema="escuro"] .payment-method,
+html[data-tema="escuro"] .payment-code,
+html[data-tema="escuro"] .metodo-tab.ativo {
+  background: #262633;
+  border-color: #393947;
+  color: #f1f1f6;
+}

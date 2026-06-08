@@ -166,6 +166,27 @@ input:focus {
   color: var(--texto-suave);
 }
 
+.auth-trust-links {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px solid var(--borda);
+}
+
+.auth-trust-links a {
+  color: #475467;
+  font-size: 0.86rem;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.auth-trust-links a:hover {
+  color: var(--primaria-escura);
+}
+
 #toast-container {
   position: fixed;
   top: 20px;

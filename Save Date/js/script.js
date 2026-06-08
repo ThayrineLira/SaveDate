@@ -320,70 +320,81 @@ function iniciarFiltroOrcamento() {
 
 
 /* =========================================================
-   MENU DROPDOWN
+   MENU LATERAL (DRAWER)
 ========================================================= */
 
 function iniciarMenuPerfil() {
 
-  const $burger =
-    $(".burger");
+  const $burger = $(".burger");
+  const $nomeUsuario = $("#nome-usuario");
+  const $drawer = $("#dropdown-menu");
+  const $overlay = $("#menu-overlay");
+  const $fechar = $("#fechar-menu");
 
-  const $nomeUsuario =
-    $("#nome-usuario");
-
-  const $dropdown =
-    $("#dropdown-menu");
-
-  if (!$burger.length || !$dropdown.length) {
+  if (!$burger.length || !$drawer.length) {
     return;
   }
 
-  $burger.on(
-    "click",
-
-    function (e) {
-
-      e.stopPropagation();
-
-      $dropdown.fadeToggle(150);
-    }
-  );
-
-  if ($nomeUsuario.length) {
-    $nomeUsuario.on(
-      "click",
-      function (e) {
-        e.stopPropagation();
-
-        if (
-          $nomeUsuario.text() ===
-            "Entrar"
-        ) {
-          window.location.href =
-            "login.html";
-          return;
-        }
-
-        $dropdown.fadeToggle(150);
-      }
-    );
+  function abrirMenu() {
+    $drawer.addClass("aberto").attr("aria-hidden", "false");
+    $overlay.addClass("aberto");
+    $("body").addClass("menu-aberto");
+    $burger.attr("aria-expanded", "true");
   }
 
-  $dropdown.on(
-    "click",
-    function (e) {
+  function fecharMenu() {
+    $drawer.removeClass("aberto").attr("aria-hidden", "true");
+    $overlay.removeClass("aberto");
+    $("body").removeClass("menu-aberto");
+    $burger.attr("aria-expanded", "false");
+  }
+
+  function alternarMenu() {
+    if ($drawer.hasClass("aberto")) {
+      fecharMenu();
+    } else {
+      abrirMenu();
+    }
+  }
+
+  $burger.on("click", function (e) {
+    e.stopPropagation();
+    alternarMenu();
+  });
+
+  $burger.on("keydown", function (e) {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      alternarMenu();
+    }
+  });
+
+  if ($nomeUsuario.length) {
+    $nomeUsuario.on("click", function (e) {
       e.stopPropagation();
+
+      if ($nomeUsuario.text().trim() === "Entrar") {
+        window.location.href = "login.html";
+        return;
+      }
+
+      alternarMenu();
+    });
+  }
+
+  // Fechar: overlay, botão (×), tecla Esc e ao escolher um item
+  $overlay.on("click", fecharMenu);
+  $fechar.on("click", fecharMenu);
+
+  $drawer.on("click", ".dropdown-item", function () {
+    fecharMenu();
+  });
+
+  $(document).on("keydown", function (e) {
+    if (e.key === "Escape") {
+      fecharMenu();
     }
-  );
-
-  $(document).on(
-    "click",
-
-    function () {
-
-      $dropdown.fadeOut(150);
-    }
-  );
+  });
 }
 
 

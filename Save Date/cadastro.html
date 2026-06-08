@@ -2,6 +2,7 @@
 <html lang="pt-br">
 
 <head>
+  <script src="js/tema.js"></script>
 
   <!-- ==========================================
        CONFIGURAÇÕES DA PÁGINA
@@ -24,6 +25,7 @@
     href="css/cadastro.css"
   >
 
+  <link rel="stylesheet" href="css/tema.css" />
 </head>
 
 
@@ -88,7 +90,10 @@
       <input
         type="text"
         id="nome"
+        name="nome"
         placeholder="Nome/Usuário"
+        autocomplete="name"
+        minlength="2"
         required
       >
 
@@ -97,7 +102,9 @@
       <input
         type="email"
         id="email"
+        name="email"
         placeholder="Email"
+        autocomplete="email"
         required
       >
 
@@ -106,7 +113,11 @@
       <input
         type="password"
         id="senha"
+        name="senha"
         placeholder="Senha"
+        autocomplete="new-password"
+        minlength="6"
+        aria-describedby="erroSenha"
         required
       >
 
@@ -147,6 +158,12 @@
       </button>
 
     </form>
+
+    <nav class="auth-trust-links" aria-label="Links de confianca">
+      <a href="privacidade.html">Privacidade</a>
+      <a href="termos.html">Termos</a>
+      <a href="suporte.html">Suporte</a>
+    </nav>
 
   </div>
 
