@@ -38,6 +38,12 @@ function toggleSalvo(event, id) {
   event.preventDefault();
   event.stopPropagation();
 
+  // Verificar se está logado
+  if (!estaLogado()) {
+    protegerFuncionalidade();
+    return;
+  }
+
   const resultado = SaveDateStorage.alternarSalvo(id, {
     podeAdicionar: typeof podeAdicionarSalvo === "function" ? podeAdicionarSalvo : null,
     onLimite: typeof premiumAvisoLimite === "function" ? premiumAvisoLimite : null

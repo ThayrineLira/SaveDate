@@ -74,6 +74,14 @@
     const card = criarElemento("a", `card${patrocinado ? " patrocinado" : ""}`);
     card.href = `detalhes.html?id=${lugar.id}`;
 
+    // Proteção de login ao clicar no card
+    card.addEventListener("click", (event) => {
+      if (typeof estaLogado === "function" && !estaLogado()) {
+        event.preventDefault();
+        if (typeof protegerFuncionalidade === "function") protegerFuncionalidade();
+      }
+    });
+
     const imagem = criarElemento("div", "card-img");
 
     if (patrocinado) {

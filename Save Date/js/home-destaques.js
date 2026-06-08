@@ -115,6 +115,12 @@
     `;
 
     card.querySelector('.btn-detalhes-local').addEventListener('click', function () {
+      // Verificar se está logado
+      if (!estaLogado()) {
+        protegerFuncionalidade();
+        return;
+      }
+      
       if (item.origem === 'catalogo') {
         window.location.href = 'detalhes.html?id=' + item.id;
         return;

@@ -40,8 +40,8 @@ function montarCardCategoria(lugar) {
       ${badgeAberto ? `<div class="card-extra-cat">${badgeAberto}</div>` : ""}
       <div class="meta-card">${metas}</div>
       <div class="card-acoes">
-        <a href="detalhes.html?id=${lugar.id}" class="card-link">Ver detalhes</a>
-        <a href="mapa.html" class="card-link secundario">Mapa</a>
+        <a href="detalhes.html?id=${lugar.id}" class="card-link" onclick="if (!estaLogado()) { event.preventDefault(); protegerFuncionalidade(); }">Ver detalhes</a>
+        <a href="mapa.html" class="card-link secundario" onclick="if (!estaLogado()) { event.preventDefault(); protegerFuncionalidade(); }">Mapa</a>
       </div>
     </div>
   `;

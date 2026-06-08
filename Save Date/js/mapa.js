@@ -113,7 +113,7 @@ function popupLugar(lugar) {
       <strong>${lugar.emoji} ${lugar.nome}</strong>
       <p>${lugar.tipo} · ${lugar.endereco}</p>
       <p>⭐ ${lugar.nota.toFixed(1)}</p>
-      <a href="${link}">Ver detalhes</a>
+      <a href="${link}" onclick="if (!estaLogado()) { event.preventDefault(); protegerFuncionalidade(); }">Ver detalhes</a>
     </div>
   `;
 }
@@ -165,6 +165,12 @@ function renderizarMapa() {
     `;
 
     botao.addEventListener("click", () => {
+      // Verificar se está logado
+      if (!estaLogado()) {
+        protegerFuncionalidade();
+        return;
+      }
+      
       document.querySelectorAll(".card-lugar").forEach((card) => card.classList.remove("selecionado"));
       botao.classList.add("selecionado");
       marcadorSelecionado = marcador;

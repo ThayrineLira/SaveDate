@@ -395,6 +395,23 @@ body{
     translateY(-5px);
 }
 
+.card-acoes-home{
+  margin-top:8px;
+}
+
+.btn-ver-opcoes{
+  background:#fff;
+  border:1px solid #e1d5c8;
+  color:#2f4858;
+  box-shadow:0 10px 20px rgba(0,0,0,.05);
+}
+
+.btn-ver-opcoes:hover{
+  background:#f4a261;
+  border-color:#f4a261;
+  color:#fff;
+}
+
 .nome-local{
 
   font-size:1.2rem;

@@ -153,6 +153,11 @@ function configurarEstrelas() {
   estrelas.forEach((e) => {
     e.addEventListener("mouseenter", () => pintar(Number(e.dataset.valor)));
     e.addEventListener("click", () => {
+      // Verificar se está logado
+      if (!estaLogado()) {
+        protegerFuncionalidade();
+        return;
+      }
       notaSelecionadaAval = Number(e.dataset.valor);
       pintar(notaSelecionadaAval);
     });
@@ -239,6 +244,12 @@ function verificarFavorito(id) {
 }
 
 function toggleFavorito() {
+  // Verificar se está logado
+  if (!estaLogado()) {
+    protegerFuncionalidade();
+    return;
+  }
+
   const id = obterIdDaUrl();
   SaveDateStorage.alternarSalvo(id, {
     podeAdicionar: typeof podeAdicionarSalvo === "function" ? podeAdicionarSalvo : null,

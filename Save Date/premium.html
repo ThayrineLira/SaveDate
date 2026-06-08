@@ -48,11 +48,11 @@
       let botao = "";
 
       if (ativo) {
-        botao = '<span class="btn-assinar ativo">Plano ativo</span>';
+        botao = '<span class="btn-assinar ativo">Plano ativo ✓</span>';
       } else if (!logado) {
         botao = '<a class="btn-assinar" href="login.html">Entrar para assinar</a>';
       } else if (!ehDoMeuTipo) {
-        botao = `<span class="btn-assinar indisponivel">${publicoLabel}</span>`;
+        botao = `<span class="btn-assinar" onclick="avisarTipoIncorreto('${plano.publico}')" style="cursor: pointer; opacity: 0.6;">Não disponível para seu tipo</span>`;
       } else {
         botao = `<a class="btn-assinar" href="pagamento.html?plano=${plano.id}">Assinar ${plano.precoLabel}</a>`;
       }
@@ -69,6 +69,14 @@
           ${botao}
         </article>
       `;
+    }
+
+    function avisarTipoIncorreto(tipo) {
+      const mensagem = tipo === "estabelecimento"
+        ? "Este é um plano para estabelecimentos. Você é um usuário comum."
+        : "Este é um plano para usuários. Você é um estabelecimento.";
+      
+      alert(mensagem);
     }
 
     document.addEventListener("DOMContentLoaded", function () {
