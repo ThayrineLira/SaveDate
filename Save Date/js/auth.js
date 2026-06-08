@@ -173,10 +173,6 @@ function sairLogin() {
     "estabelecimentoDados"
   );
 
-  localStorage.removeItem(
-    "usuarioPremium"
-  );
-
   window.location.href = "home.html";
 
 }

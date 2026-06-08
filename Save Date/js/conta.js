@@ -2,7 +2,10 @@
 const lugaresConta = (typeof lugaresData !== "undefined") ? lugaresData : [];
 
 function obterDadosConta() {
-  const tipo = localStorage.getItem("usuarioTipo") || "usuario";
+  const tipo =
+    typeof premiumTipoConta === "function"
+      ? premiumTipoConta()
+      : (localStorage.getItem("usuarioTipo") || "usuario");
   const nome =
     localStorage.getItem("nomeUsuario") ||
     localStorage.getItem("usuarioCadastroNome") ||
@@ -10,20 +13,13 @@ function obterDadosConta() {
     "Usuário";
 
   const email =
+    localStorage.getItem("usuarioLogadoEmail") ||
     localStorage.getItem("usuarioCadastroEmail") ||
     localStorage.getItem("estabelecimentoCadastroEmail") ||
     localStorage.getItem("email") ||
     "E-mail não informado";
 
   return { tipo, nome, email };
-}
-
-function obterSalvos() {
-  try {
-    return JSON.parse(localStorage.getItem("lugareSalvos") || "[]");
-  } catch (erro) {
-    return [];
-  }
 }
 
 function atualizarMensagem(texto) {
@@ -69,16 +65,25 @@ function renderizarConta() {
     return;
   }
 
+  const fragmento = document.createDocumentFragment();
+
   lugaresSalvos.forEach((lugar) => {
     const item = document.createElement("a");
     item.className = "salvo-item";
     item.href = `detalhes.html?id=${lugar.id}`;
-    item.innerHTML = `
-      <span>${lugar.nome}</span>
-      <strong>${lugar.categoria}</strong>
-    `;
-    lista.appendChild(item);
+
+    const nome = document.createElement("span");
+    nome.textContent = lugar.nome;
+
+    const categoria = document.createElement("strong");
+    categoria.textContent = lugar.categoria;
+
+    item.appendChild(nome);
+    item.appendChild(categoria);
+    fragmento.appendChild(item);
   });
+
+  lista.appendChild(fragmento);
 }
 
 function atualizarPremiumConta() {
@@ -118,7 +123,7 @@ function salvarNome(event) {
 }
 
 function limparFavoritos() {
-  localStorage.removeItem("lugareSalvos");
+  SaveDateStorage.limparSalvos();
   renderizarConta();
   atualizarMensagem("Favoritos removidos.");
 }
@@ -134,7 +139,6 @@ function sairConta() {
   localStorage.removeItem("estabelecimentoCadastroEndereco");
   localStorage.removeItem("estabelecimentoCadastroComplemento");
   localStorage.removeItem("estabelecimentoCadastroTelefone");
-  localStorage.removeItem("usuarioPremium");
   window.location.href = "home.html";
 }
 

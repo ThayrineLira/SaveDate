@@ -108,54 +108,150 @@ const PLANOS_PREMIUM = {
 /* ---------------------------------------------------------
    ESTADO DO USUÁRIO
 --------------------------------------------------------- */
+function normalizarPremiumTexto(valor) {
+  return String(valor || "").trim().toLowerCase();
+}
+
 function premiumEmailLogado() {
-  return (
+  const tipo = premiumTipoConta();
+  const email =
     localStorage.getItem("usuarioLogadoEmail") ||
+    (tipo === "estabelecimento"
+      ? localStorage.getItem("estabelecimentoCadastroEmail")
+      : localStorage.getItem("usuarioCadastroEmail")) ||
     localStorage.getItem("estabelecimentoCadastroEmail") ||
+    localStorage.getItem("usuarioCadastroEmail") ||
     localStorage.getItem("email") ||
-    ""
-  ).toLowerCase();
+    "";
+
+  return normalizarPremiumTexto(email);
 }
 
 function premiumTipoConta() {
-  return (localStorage.getItem("usuarioTipo") || "usuario").toLowerCase();
+  const tipo = normalizarPremiumTexto(localStorage.getItem("usuarioTipo") || "usuario");
+  return tipo === "cliente" ? "usuario" : tipo;
 }
 
 function premiumEstaLogado() {
   return localStorage.getItem("usuarioLogado") === "true";
 }
 
+/* O admin tem acesso liberado a todos os recursos premium (para testes/gestão). */
+function premiumEhAdmin() {
+  return premiumEstaLogado() && premiumTipoConta() === "admin";
+}
+
 /* Chave de armazenamento por público + e-mail. */
 function premiumChave(publico, email) {
-  const alvo = email || premiumEmailLogado() || "anonimo";
+  const alvo = normalizarPremiumTexto(email || premiumEmailLogado() || "anonimo");
   return publico === "estabelecimento"
     ? `estabelecimentoPremium_${alvo}`
     : `clientePremium_${alvo}`;
 }
 
-/* O estabelecimento logado tem premium ativo? */
-function estabelecimentoTemPremium() {
-  const email = premiumEmailLogado();
-  return (
-    localStorage.getItem("usuarioPremium") === "true" ||
-    (email && localStorage.getItem(`estabelecimentoPremium_${email}`) === "true")
-  );
+function premiumPublicoDoPlano(planoId) {
+  const plano = PLANOS_PREMIUM[planoId];
+  return plano ? plano.publico : "";
 }
 
-/* O usuário comum logado tem premium ativo? */
-function usuarioTemPremium() {
+function premiumPublicoAtual() {
+  const tipo = premiumTipoConta();
+  if (tipo === "estabelecimento") return "estabelecimento";
+  if (tipo === "usuario") return "usuario";
+  return "";
+}
+
+function premiumPlanoCombinaComConta(planoId) {
+  const publicoPlano = premiumPublicoDoPlano(planoId);
+  return Boolean(publicoPlano && publicoPlano === premiumPublicoAtual());
+}
+
+function planoPremiumAtualDoPublico(publico) {
+  const planoId = localStorage.getItem("premiumPlanoAtual") || "";
+  const plano = PLANOS_PREMIUM[planoId];
+  return !planoId || !plano || plano.publico === publico;
+}
+
+function migrarPremiumAnonimo(publico, email) {
+  if (!premiumEstaLogado() || !email || !planoPremiumAtualDoPublico(publico)) return false;
+
+  const chaveAnonima = premiumChave(publico, "anonimo");
+  if (localStorage.getItem(chaveAnonima) !== "true") return false;
+
+  localStorage.setItem(premiumChave(publico, email), "true");
+  localStorage.removeItem(chaveAnonima);
+  localStorage.setItem("premiumEmailAtivacao", email);
+  localStorage.setItem("premiumPublicoAtual", publico);
+  return true;
+}
+
+function premiumAtivoPorPublico(publico) {
   const email = premiumEmailLogado();
-  return (
-    localStorage.getItem("clientePremiumAtivo") === "true" ||
-    (email && localStorage.getItem(`clientePremium_${email}`) === "true")
-  );
+
+  if (email && localStorage.getItem(premiumChave(publico, email)) === "true") {
+    return true;
+  }
+
+  if (migrarPremiumAnonimo(publico, email)) {
+    return true;
+  }
+
+  if (planoPremiumAtualDoPublico(publico)) {
+    const chaveLegada =
+      publico === "estabelecimento" ? "usuarioPremium" : "clientePremiumAtivo";
+
+    if (localStorage.getItem(chaveLegada) === "true") {
+      if (premiumEstaLogado() && email) {
+        localStorage.setItem(premiumChave(publico, email), "true");
+        localStorage.setItem("premiumEmailAtivacao", email);
+        localStorage.setItem("premiumPublicoAtual", publico);
+      }
+      return true;
+    }
+  }
+
+  return false;
+}
+
+function sincronizarPremiumContaAtual() {
+  const publico = premiumPublicoAtual();
+  return publico ? premiumAtivoPorPublico(publico) : false;
+}
+
+/* O estabelecimento logado tem premium ativo? (admin sempre tem) */
+function estabelecimentoTemPremium() {
+  return premiumEhAdmin() || premiumAtivoPorPublico("estabelecimento");
+}
+
+/* O usuário comum logado tem premium ativo? (admin sempre tem) */
+function usuarioTemPremium() {
+  return premiumEhAdmin() || premiumAtivoPorPublico("usuario");
 }
 
 /* Tem premium considerando o tipo de conta atual. */
 function temPremiumAtivo() {
-  return premiumTipoConta() === "estabelecimento"
-    ? estabelecimentoTemPremium()
-    : usuarioTemPremium();
+  if (premiumEhAdmin()) return true;
+  const publico = premiumPublicoAtual();
+  if (publico === "estabelecimento") return estabelecimentoTemPremium();
+  if (publico === "usuario") return usuarioTemPremium();
+  return false;
+}
+
+/* ---------------------------------------------------------
+   ACESSO A RECURSOS PREMIUM POR PÁGINA
+   Centraliza a regra usada nas páginas: precisa estar logado
+   e ser do público certo com premium ativo — ou ser admin.
+--------------------------------------------------------- */
+function podeAcessarRecursoUsuario() {
+  if (!premiumEstaLogado()) return false;
+  if (premiumEhAdmin()) return true;
+  return premiumPublicoAtual() === "usuario" && usuarioTemPremium();
+}
+
+function podeAcessarRecursoEstabelecimento() {
+  if (!premiumEstaLogado()) return false;
+  if (premiumEhAdmin()) return true;
+  return premiumPublicoAtual() === "estabelecimento" && estabelecimentoTemPremium();
 }
 
 /* ---------------------------------------------------------
@@ -164,6 +260,7 @@ function temPremiumAtivo() {
 function ativarPremium(planoId) {
   const plano = PLANOS_PREMIUM[planoId];
   if (!plano) return false;
+  if (!premiumEstaLogado() || !premiumPlanoCombinaComConta(planoId)) return false;
 
   const email = premiumEmailLogado();
   localStorage.setItem(premiumChave(plano.publico, email), "true");
@@ -175,6 +272,8 @@ function ativarPremium(planoId) {
   }
 
   localStorage.setItem("premiumPlanoAtual", plano.id);
+  localStorage.setItem("premiumPublicoAtual", plano.publico);
+  localStorage.setItem("premiumEmailAtivacao", email);
   localStorage.setItem("premiumDataAtivacao", new Date().toISOString());
   return true;
 }
@@ -190,6 +289,8 @@ function cancelarPremium(publico) {
     localStorage.removeItem("clientePremiumAtivo");
   }
   localStorage.removeItem("premiumPlanoAtual");
+  localStorage.removeItem("premiumPublicoAtual");
+  localStorage.removeItem("premiumEmailAtivacao");
   localStorage.removeItem("premiumDataAtivacao");
 }
 
@@ -231,9 +332,15 @@ if (typeof window !== "undefined") {
   window.premiumEmailLogado = premiumEmailLogado;
   window.premiumTipoConta = premiumTipoConta;
   window.premiumEstaLogado = premiumEstaLogado;
+  window.premiumEhAdmin = premiumEhAdmin;
+  window.premiumPublicoAtual = premiumPublicoAtual;
+  window.premiumPlanoCombinaComConta = premiumPlanoCombinaComConta;
+  window.sincronizarPremiumContaAtual = sincronizarPremiumContaAtual;
   window.estabelecimentoTemPremium = estabelecimentoTemPremium;
   window.usuarioTemPremium = usuarioTemPremium;
   window.temPremiumAtivo = temPremiumAtivo;
+  window.podeAcessarRecursoUsuario = podeAcessarRecursoUsuario;
+  window.podeAcessarRecursoEstabelecimento = podeAcessarRecursoEstabelecimento;
   window.ativarPremium = ativarPremium;
   window.cancelarPremium = cancelarPremium;
   window.podeAdicionarSalvo = podeAdicionarSalvo;

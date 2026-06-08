@@ -251,6 +251,13 @@ body {
   pointer-events: none;
 }
 
+.btn-assinar.indisponivel {
+  background: #e5e7eb;
+  color: #6b7280;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
 .rodape {
   padding: 28px 0;
   border-top: 1px solid #eee;

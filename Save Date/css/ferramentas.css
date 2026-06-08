@@ -148,6 +148,8 @@ body {
 .campo input[type="text"],
 .campo input[type="number"],
 .campo select {
+  width: 100%;
+  box-sizing: border-box;
   padding: 13px 14px;
   border: 1px solid var(--borda);
   border-radius: 12px;
@@ -362,6 +364,13 @@ body {
   font-size: .9rem;
 }
 
+.parada-info .parada-meta {
+  display: block;
+  color: var(--texto-suave);
+  font-size: .82rem;
+  margin-top: 2px;
+}
+
 .parada-preco {
   font-weight: 900;
   color: var(--verde);
@@ -382,6 +391,7 @@ body {
   overflow: hidden;
   border-radius: 14px;
   border: 1px solid var(--borda);
+  table-layout: fixed;
 }
 
 .tabela-comparar th,
@@ -390,6 +400,8 @@ body {
   text-align: left;
   border-bottom: 1px solid var(--borda);
   vertical-align: top;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .tabela-comparar thead th {
@@ -397,11 +409,14 @@ body {
   font-size: 1.05rem;
 }
 
+.tabela-comparar .rotulo {
+  width: 150px;
+}
+
 .tabela-comparar td.rotulo {
   font-weight: 800;
   color: var(--texto-suave);
   background: #fcfcfc;
-  width: 150px;
 }
 
 .tabela-comparar .melhor {

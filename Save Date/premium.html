@@ -6,13 +6,13 @@
   <title>Premium | Save Date</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/premium.css" />
-  <link rel="icon" type="image/x-icon" href="img/logo.png" />
+  <link rel="icon" type="image/x-icon" href="img/optimized/logo.png" />
   <script src="js/auth.js"></script>
 </head>
 <body>
   <header class="topo">
     <a href="home.html" class="logo-area">
-      <img src="img/logo.png" alt="Logo Save Date" />
+      <img src="img/optimized/logo.png" alt="Logo Save Date" />
       <span>Save Date</span>
     </a>
     <nav class="nav-categorias" aria-label="Navegação principal">
@@ -37,7 +37,7 @@
 
   <script src="js/premium.js"></script>
   <script>
-    function montarPlano(plano, ativo, ehDoMeuTipo) {
+    function montarPlano(plano, ativo, ehDoMeuTipo, logado) {
       const beneficios = plano.beneficios.map((b) => `<li>${b}</li>`).join("");
       const fita = plano.destaque ? '<span class="fita">Recomendado</span>' : "";
       const etiquetaEconomia = plano.economia
@@ -45,9 +45,17 @@
         : "";
       const publicoLabel = plano.publico === "estabelecimento" ? "Para estabelecimentos" : "Para você";
 
-      const botao = ativo
-        ? '<span class="btn-assinar ativo">Plano ativo ✓</span>'
-        : `<a class="btn-assinar" href="pagamento.html?plano=${plano.id}">Assinar ${plano.precoLabel}</a>`;
+      let botao = "";
+
+      if (ativo) {
+        botao = '<span class="btn-assinar ativo">Plano ativo</span>';
+      } else if (!logado) {
+        botao = '<a class="btn-assinar" href="login.html">Entrar para assinar</a>';
+      } else if (!ehDoMeuTipo) {
+        botao = `<span class="btn-assinar indisponivel">${publicoLabel}</span>`;
+      } else {
+        botao = `<a class="btn-assinar" href="pagamento.html?plano=${plano.id}">Assinar ${plano.precoLabel}</a>`;
+      }
 
       return `
         <article class="plano ${plano.destaque ? "destaque" : ""} ${ehDoMeuTipo ? "do-meu-tipo" : ""}">
@@ -84,13 +92,14 @@
           const premiumDoPublico =
             (plano.publico === "estabelecimento" && estabelecimentoTemPremium()) ||
             (plano.publico === "usuario" && usuarioTemPremium());
+          const ehDoMeuTipo = logado && plano.publico === tipo;
           // Ativo só quando é exatamente o plano contratado (ou único do tipo, sem id salvo).
           const ativo =
             logado &&
+            ehDoMeuTipo &&
             premiumDoPublico &&
             (planoAtual === plano.id || planoAtual === "");
-          const ehDoMeuTipo = logado && plano.publico === tipo;
-          return montarPlano(plano, ativo, ehDoMeuTipo);
+          return montarPlano(plano, ativo, ehDoMeuTipo, logado);
         })
         .join("");
 

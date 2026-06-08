@@ -1,16 +1,4 @@
-/* Os dados dos lugares vêm de js/dados.js (lugaresData global). */
-
-function obterSalvos() {
-  try {
-    return JSON.parse(localStorage.getItem("lugareSalvos") || "[]");
-  } catch (erro) {
-    return [];
-  }
-}
-
-function salvarSalvos(salvos) {
-  localStorage.setItem("lugareSalvos", JSON.stringify(salvos));
-}
+/* Os dados dos lugares vem de js/dados.js (lugaresData global). */
 
 function renderCardsSalvos(lugares) {
   const grid = document.getElementById("cards-grid");
@@ -20,9 +8,9 @@ function renderCardsSalvos(lugares) {
     grid.innerHTML = `
       <div class="empty">
         <i class="ti ti-heart"></i>
-        <p>Você ainda não salvou nenhum lugar</p>
-        <p style="font-size: 12px; color: #888; margin-top: 8px;">
-          Vá para <a href="explorar.html" style="color: #ff6b35; text-decoration: underline;">Explorar</a> e adicione seus favoritos
+        <p>Voc&ecirc; ainda n&atilde;o salvou nenhum lugar</p>
+        <p class="empty-hint">
+          V&aacute; para <a href="explorar.html">Explorar</a> e adicione seus favoritos
         </p>
       </div>
     `;
@@ -30,56 +18,34 @@ function renderCardsSalvos(lugares) {
   }
 
   const salvos = obterSalvos();
+  const fragmento = document.createDocumentFragment();
 
   lugares.forEach((lugar) => {
-    const precoTexto = lugar.preco === 0 ? "Grátis" : `R$${lugar.preco}`;
-    const isSaved = salvos.includes(lugar.id);
-    const heartClass = isSaved ? "saved" : "";
-    const heartText = isSaved ? "♥" : "♡";
-    const card = document.createElement("a");
-
-    card.href = `detalhes.html?id=${lugar.id}`;
-    card.className = "card";
-    card.innerHTML = `
-      <div class="card-img">
-        <span style="font-size: 60px;">${lugar.emoji}</span>
-        <div class="card-badge">${lugar.categoria}</div>
-        <div class="card-price">${precoTexto}</div>
-        <button class="card-heart ${heartClass}" type="button" onclick="toggleSalvo(event, ${lugar.id})">${heartText}</button>
-      </div>
-      <div class="card-body">
-        <div class="card-name">${lugar.nome}</div>
-        <div class="card-row">
-          <div class="card-loc">
-            <i class="ti ti-map-pin"></i> ${lugar.localizacao}
-          </div>
-          <div class="card-rating">⭐ ${lugar.avaliacoes.toFixed(1)}</div>
-        </div>
-      </div>
-    `;
-
-    grid.appendChild(card);
+    fragmento.appendChild(
+      SaveDateCards.criarCardLugar(lugar, {
+        salvos,
+        patrocinado: typeof ehPatrocinado === "function" && ehPatrocinado(lugar),
+        badgeAberto: typeof badgeAbertoHTML === "function" ? badgeAbertoHTML(lugar.horario) : "",
+        onToggleSalvo: toggleSalvo
+      })
+    );
   });
+
+  grid.appendChild(fragmento);
 }
 
 function toggleSalvo(event, id) {
   event.preventDefault();
   event.stopPropagation();
 
-  const salvos = obterSalvos();
+  const resultado = SaveDateStorage.alternarSalvo(id, {
+    podeAdicionar: typeof podeAdicionarSalvo === "function" ? podeAdicionarSalvo : null,
+    onLimite: typeof premiumAvisoLimite === "function" ? premiumAvisoLimite : null
+  });
 
-  if (salvos.includes(id)) {
-    salvos.splice(salvos.indexOf(id), 1);
-  } else {
-    if (typeof podeAdicionarSalvo === "function" && !podeAdicionarSalvo(salvos.length)) {
-      premiumAvisoLimite();
-      return;
-    }
-    salvos.push(id);
+  if (resultado.alterado) {
+    renderSalvos();
   }
-
-  salvarSalvos(salvos);
-  renderSalvos();
 }
 
 function renderSalvos() {

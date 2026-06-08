@@ -4,22 +4,8 @@ function obterIdDaUrl() {
   return parseInt(new URLSearchParams(window.location.search).get("id"), 10);
 }
 
-function obterSalvos() {
-  try {
-    return JSON.parse(localStorage.getItem("lugareSalvos") || "[]");
-  } catch (erro) {
-    return [];
-  }
-}
-
-function salvarSalvos(salvos) {
-  localStorage.setItem("lugareSalvos", JSON.stringify(salvos));
-}
-
 function obterImagemLugar(lugar) {
-  return typeof lugar.imagem === "string" && lugar.imagem.trim()
-    ? lugar.imagem.trim()
-    : "";
+  return window.SaveDateCards?.obterImagemLugar(lugar) || "";
 }
 
 function atualizarBanner(lugar) {
@@ -254,20 +240,10 @@ function verificarFavorito(id) {
 
 function toggleFavorito() {
   const id = obterIdDaUrl();
-  const salvos = obterSalvos();
-  const index = salvos.indexOf(id);
-
-  if (index >= 0) {
-    salvos.splice(index, 1);
-  } else {
-    if (typeof podeAdicionarSalvo === "function" && !podeAdicionarSalvo(salvos.length)) {
-      premiumAvisoLimite();
-      return;
-    }
-    salvos.push(id);
-  }
-
-  salvarSalvos(salvos);
+  SaveDateStorage.alternarSalvo(id, {
+    podeAdicionar: typeof podeAdicionarSalvo === "function" ? podeAdicionarSalvo : null,
+    onLimite: typeof premiumAvisoLimite === "function" ? premiumAvisoLimite : null
+  });
   verificarFavorito(id);
 }
 

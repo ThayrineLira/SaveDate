@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Save Date | Pagamento</title>
-    <link rel="icon" type="image/x-icon" href="img/logo.png" />
+    <link rel="icon" type="image/x-icon" href="img/optimized/logo.png" />
     <link rel="stylesheet" href="css/pagamento.css" />
 </head>
 <body>
@@ -12,7 +12,7 @@
     <header class="main-header">
       <div class="container header-content">
         <a href="home.html" class="logo-container">
-          <img src="img/logo.png" alt="Save Date" class="logo-icon" />
+          <img src="img/optimized/logo.png" alt="Save Date" class="logo-icon" />
           <span class="logo-text">Save Date</span>
         </a>
         <a href="premium.html" class="header-action">Voltar aos planos</a>
@@ -92,6 +92,7 @@
         }
 
         const plano = obterPlanoDaUrl();
+        let pagamentoPermitido = false;
 
         function preencherResumo() {
             if (!plano) {
@@ -103,6 +104,48 @@
             document.getElementById("plano-publico").textContent =
                 plano.publico === "estabelecimento" ? "Plano para estabelecimentos" : "Plano para você";
             document.getElementById("plano-valor").textContent = `${plano.precoLabel} ${plano.periodo}`;
+            validarAcessoAoPagamento();
+        }
+
+        function bloquearPagamento(mensagem, destino, textoLink) {
+            pagamentoPermitido = false;
+            const btn = document.getElementById("btn-confirmar");
+            btn.disabled = true;
+            btn.textContent = "Pagamento indisponivel";
+            mostrarStatus(
+                `<strong>${mensagem}</strong> <a href="${destino}" style="color:inherit;font-weight:900;">${textoLink}</a>`,
+                "#dc2626"
+            );
+        }
+
+        function validarAcessoAoPagamento() {
+            if (!plano) return false;
+
+            if (!premiumEstaLogado()) {
+                bloquearPagamento(
+                    "Entre na sua conta antes de assinar.",
+                    "login.html",
+                    "Fazer login"
+                );
+                return false;
+            }
+
+            if (!premiumPlanoCombinaComConta(plano.id)) {
+                const destino =
+                    plano.publico === "estabelecimento"
+                        ? "cadastro-estabelecimento.html"
+                        : "cadastro.html";
+                const tipoConta = premiumTipoConta() === "estabelecimento" ? "estabelecimento" : "usuario";
+                bloquearPagamento(
+                    `Este plano e para ${plano.publico}, mas sua conta atual e de ${tipoConta}.`,
+                    destino,
+                    "Trocar tipo de conta"
+                );
+                return false;
+            }
+
+            pagamentoPermitido = true;
+            return true;
         }
 
         function trocarMetodo(metodo) {
@@ -146,6 +189,7 @@
 
         function confirmarPagamento() {
             if (!plano) return;
+            if (!pagamentoPermitido && !validarAcessoAoPagamento()) return;
 
             if (metodoAtual === "cartao") {
                 const erro = validarCartao();
@@ -162,7 +206,13 @@
 
             // Simula o processamento do pagamento (2s) e confirma manualmente.
             setTimeout(() => {
-                ativarPremium(plano.id);
+                const ativou = ativarPremium(plano.id);
+                if (!ativou) {
+                    btn.disabled = false;
+                    btn.textContent = "Confirmar pagamento";
+                    mostrarStatus("<strong>Nao foi possivel ativar este plano para a conta atual.</strong>", "#dc2626");
+                    return;
+                }
                 mostrarStatus("<strong>Pagamento confirmado! Premium ativado 🎉</strong>", "#16a34a");
                 btn.textContent = "Concluído ✓";
                 setTimeout(() => { window.location.href = "home.html"; }, 1800);

@@ -14,47 +14,6 @@ function bairroDe(lugar) {
     : (lugar.localizacao || "").split(",")[0].trim();
 }
 
-function obterImagemLugar(lugar) {
-  return typeof lugar.imagem === "string" && lugar.imagem.trim()
-    ? lugar.imagem.trim()
-    : "";
-}
-
-function renderMidiaCard(lugar) {
-  const imagem = obterImagemLugar(lugar);
-  const alt = `Foto de ${lugar.nome}`;
-
-  if (imagem) {
-    return `
-      <img class="card-photo" src="${imagem}" alt="${alt}" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
-      <div class="card-fallback card-fallback-backup" aria-label="${alt}">
-        <span class="card-emoji" aria-hidden="true">${lugar.emoji}</span>
-        <span class="card-fallback-text">Imagem em breve</span>
-      </div>
-      <span class="card-emoji card-emoji-overlay" aria-hidden="true">${lugar.emoji}</span>
-    `;
-  }
-
-  return `
-    <div class="card-fallback" aria-label="${alt}">
-      <span class="card-emoji" aria-hidden="true">${lugar.emoji}</span>
-      <span class="card-fallback-text">Imagem em breve</span>
-    </div>
-  `;
-}
-
-function obterSalvos() {
-  try {
-    return JSON.parse(localStorage.getItem("lugareSalvos") || "[]");
-  } catch (erro) {
-    return [];
-  }
-}
-
-function salvarSalvos(salvos) {
-  localStorage.setItem("lugareSalvos", JSON.stringify(salvos));
-}
-
 function selectChip(element) {
   document.querySelectorAll(".chip").forEach((chip) => chip.classList.remove("active"));
   element.classList.add("active");
@@ -241,78 +200,39 @@ function renderCards(lugares) {
   }
 
   const salvos = obterSalvos();
+  const fragmento = document.createDocumentFragment();
 
   lugares.forEach((lugar) => {
-    const precoTexto = lugar.preco === 0 ? "Grátis" : `R$${lugar.preco}`;
-    const isSaved = salvos.includes(lugar.id);
-    const heartClass = isSaved ? "saved" : "";
-    const heartText = isSaved ? "♥" : "♡";
-    const card = document.createElement("a");
-
-    const ehPatro = patrocinado(lugar);
-    const seloPatrocinado = ehPatro
-      ? '<span class="selo-patrocinado">★ Patrocinado</span>'
-      : "";
-
-    const badgeAberto = typeof badgeAbertoHTML === "function" ? badgeAbertoHTML(lugar.horario) : "";
     const dist = distanciaDoUsuario(lugar);
     const distanciaFormatada =
       typeof formatarDistancia === "function" ? formatarDistancia(dist) : `${dist.toFixed(1)} km`;
-    const distTexto = Number.isFinite(dist)
-      ? `<span class="card-dist">📍 ${distanciaFormatada}</span>`
-      : "";
 
-    card.href = `detalhes.html?id=${lugar.id}`;
-    card.className = "card" + (ehPatro ? " patrocinado" : "");
-    card.innerHTML = `
-      <div class="card-img">
-        ${seloPatrocinado}
-        ${renderMidiaCard(lugar)}
-        <div class="card-badge">${lugar.categoria}</div>
-        <div class="card-price">${precoTexto}</div>
-        <button class="card-heart ${heartClass}" type="button" onclick="toggleSalvo(event, ${lugar.id})">${heartText}</button>
-      </div>
-      <div class="card-body">
-        <div class="card-name">${lugar.nome}</div>
-        <div class="card-row">
-          <div class="card-loc">
-            <i class="ti ti-map-pin"></i> ${lugar.localizacao}
-          </div>
-          <div class="card-rating">⭐ ${lugar.avaliacoes.toFixed(1)}</div>
-        </div>
-        <div class="card-extra">
-          ${badgeAberto}
-          ${distTexto}
-        </div>
-      </div>
-    `;
-
-    grid.appendChild(card);
+    fragmento.appendChild(
+      SaveDateCards.criarCardLugar(lugar, {
+        salvos,
+        patrocinado: patrocinado(lugar),
+        badgeAberto: typeof badgeAbertoHTML === "function" ? badgeAbertoHTML(lugar.horario) : "",
+        distanciaTexto: Number.isFinite(dist) ? distanciaFormatada : "",
+        onToggleSalvo: toggleSalvo
+      })
+    );
   });
+
+  grid.appendChild(fragmento);
 }
 
 function toggleSalvo(event, id) {
   event.preventDefault();
   event.stopPropagation();
 
-  const btn = event.currentTarget;
-  const salvos = obterSalvos();
+  const resultado = SaveDateStorage.alternarSalvo(id, {
+    podeAdicionar: typeof podeAdicionarSalvo === "function" ? podeAdicionarSalvo : null,
+    onLimite: typeof premiumAvisoLimite === "function" ? premiumAvisoLimite : null
+  });
 
-  if (salvos.includes(id)) {
-    salvos.splice(salvos.indexOf(id), 1);
-    btn.classList.remove("saved");
-    btn.textContent = "♡";
-  } else {
-    if (typeof podeAdicionarSalvo === "function" && !podeAdicionarSalvo(salvos.length)) {
-      premiumAvisoLimite();
-      return;
-    }
-    salvos.push(id);
-    btn.classList.add("saved");
-    btn.textContent = "♥";
+  if (resultado.alterado) {
+    SaveDateCards.atualizarBotaoFavorito(event.currentTarget, resultado.salvo);
   }
-
-  salvarSalvos(salvos);
 }
 
 function buscarLugar() {

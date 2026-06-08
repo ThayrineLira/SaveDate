@@ -61,7 +61,7 @@
     <div class="texto">
       <header class="topo">
         <div class="logo-area">
-          <img src="img/logo.png" alt="logo da loja" class="logo" />
+          <img src="img/optimized/logo.png" alt="logo da loja" class="logo" />
           <h1 class="titulo">SAVE DATE</h1>
           <p class="subtitulo"><small>SALVA ENCONTROS</small></p>
         </div>
@@ -385,6 +385,10 @@
         localStorage.setItem(
           "nomeUsuario",
           nome
+        );
+        localStorage.setItem(
+          "usuarioLogadoEmail",
+          emailNormalizado
         );
 
         const catalogoRaw =

@@ -38,7 +38,7 @@
 
         <!-- LOGO -->
 
-        <img src="img/logo.png" alt="Logo Save Date" class="logo" />
+        <img src="img/optimized/logo.png" alt="Logo Save Date" class="logo" />
 
         <!-- TÍTULO -->
 
@@ -145,6 +145,7 @@
        JAVASCRIPT
   =========================================== -->
 
+  <script src="js/premium.js"></script>
   <script>
 
     /* ==========================================
@@ -475,8 +476,6 @@
             emailNormalizado
           );
 
-          localStorage.removeItem("usuarioPremium");
-
           if (tipoCadastro === "estabelecimento") {
             localStorage.setItem(
               "estabelecimentoCadastroEmail",
@@ -494,7 +493,10 @@
             localStorage.removeItem("estabelecimentoCadastroComplemento");
             localStorage.removeItem("estabelecimentoCadastroTelefone");
             localStorage.removeItem("estabelecimentoDados");
-            localStorage.removeItem("usuarioPremium");
+          }
+
+          if (typeof sincronizarPremiumContaAtual === "function") {
+            sincronizarPremiumContaAtual();
           }
 
           if (

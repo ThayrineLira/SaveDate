@@ -6,13 +6,13 @@
   <title>Planejador de Rolê | Save Date</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/ferramentas.css" />
-  <link rel="icon" type="image/x-icon" href="img/logo.png" />
+  <link rel="icon" type="image/x-icon" href="img/optimized/logo.png" />
   <script src="js/auth.js"></script>
 </head>
 <body>
   <header class="topo">
     <a href="home.html" class="logo-area">
-      <img src="img/logo.png" alt="Logo Save Date" />
+      <img src="img/optimized/logo.png" alt="Logo Save Date" />
       <span>Save Date</span>
     </a>
     <nav class="nav-categorias" aria-label="Navegação principal">
@@ -185,7 +185,9 @@
             <div class="parada-emoji">${l.emoji || "📍"}</div>
             <div class="parada-info">
               <h3>${l.nome}</h3>
-              <span>${l.categoria} · ${l.localizacao || ""}</span><br />
+              <span>${l.categoria} · ${l.localizacao || ""}</span>
+              ${l.endereco ? `<small class="parada-meta">📍 ${l.endereco}</small>` : ""}
+              ${l.horario ? `<small class="parada-meta">🕒 ${l.horario}</small>` : ""}
               <a href="detalhes.html?id=${l.id}">Ver detalhes →</a>
             </div>
             <div class="parada-preco">${rotuloPreco(l.preco)}</div>

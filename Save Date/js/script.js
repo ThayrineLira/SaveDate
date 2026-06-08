@@ -451,10 +451,6 @@ function iniciarLogout() {
         "estabelecimentoDados"
       );
 
-      localStorage.removeItem(
-        "usuarioPremium"
-      );
-
       mostrarToast(
         "Você saiu da conta.",
         "aviso"
@@ -471,20 +467,95 @@ function iniciarLogout() {
 
 
 /* =========================================================
-   HIDE BANNER FOR LOGGED USER
+   PARCEIROS EM DESTAQUE (fotos clicáveis dos que têm selo)
 ========================================================= */
 
-function ocultarSegundoBannerSeLogado() {
+function montarParceirosDestaque() {
 
-  if (!usuarioEstaLogado()) {
+  const alvo = document.getElementById("parceiros-destaque");
+  if (!alvo || typeof lugaresData === "undefined") return;
+
+  // Todos os lugares com selo de parceiro (patrocinado).
+  const parceiros = lugaresData.filter((l) => l.patrocinado === true);
+
+  if (!parceiros.length) {
+    alvo.style.display = "none";
     return;
   }
 
-  $("#hero-slide-2").hide();
+  alvo.innerHTML = parceiros
+    .map((l) => {
+      const nome = escaparAtributo(l.nome);
+      const img = escaparAtributo(l.imagem || "img/optimized/logo.png");
+      return `
+        <a class="parceiro-item" href="detalhes.html?id=${l.id}" title="${nome}">
+          <span class="parceiro-foto">
+            <img src="${img}" alt="Foto de ${nome}"
+              onerror="this.onerror=null;this.src='img/optimized/logo.png';" />
+            <span class="parceiro-selo">★</span>
+          </span>
+          <span class="parceiro-nome">${nome}</span>
+        </a>`;
+    })
+    .join("");
+}
 
-  $(".slide-container").addClass(
-    "slide-static"
-  );
+
+/* =========================================================
+   CARROSSEL DE BANNERS DA HOME (rotativo, para todos)
+========================================================= */
+
+function iniciarCarrosselHero() {
+
+  const container = document.querySelector("#hero-banner .slide-container");
+  if (!container) return;
+
+  const slides = Array.from(container.querySelectorAll(".slide-hero"));
+  if (slides.length < 2) return;
+
+  // Garante rotação JS mesmo para quem está logado.
+  container.classList.remove("slide-static");
+  container.classList.add("carrossel-js");
+  // Força a exibição inline (vence os display:none das media queries antigas).
+  slides.forEach((slide) => { slide.style.display = "flex"; });
+
+  // Indicadores (dots).
+  let dots = document.getElementById("hero-dots");
+  if (!dots) {
+    dots = document.createElement("div");
+    dots.id = "hero-dots";
+    dots.className = "hero-dots";
+    container.parentElement.appendChild(dots);
+  }
+  dots.innerHTML = slides
+    .map((_, i) => `<button type="button" class="hero-dot" data-slide="${i}" aria-label="Banner ${i + 1}"></button>`)
+    .join("");
+
+  let atual = 0;
+  let timer = null;
+
+  function ir(indice) {
+    atual = (indice + slides.length) % slides.length;
+    container.style.transform = `translateX(-${atual * 100}%)`;
+    dots.querySelectorAll(".hero-dot").forEach((dot, i) => {
+      dot.classList.toggle("ativo", i === atual);
+    });
+  }
+
+  function reiniciarTimer() {
+    if (timer) clearInterval(timer);
+    timer = setInterval(() => ir(atual + 1), 6000);
+  }
+
+  dots.querySelectorAll(".hero-dot").forEach((dot) => {
+    dot.addEventListener("click", () => {
+      ir(parseInt(dot.dataset.slide, 10));
+      reiniciarTimer();
+    });
+  });
+
+  ir(0);
+  reiniciarTimer();
 }
 
 
@@ -518,9 +589,11 @@ function mostrarPainelEstabelecimento() {
     tipoUsuario === "estabelecimento"
   ) {
 
+    // Estabelecimentos também têm acesso à área home normal,
+    // além do painel e do dashboard do parceiro.
     if (homeNormal) {
       homeNormal.style.display =
-        "none";
+        "block";
     }
 
     if (painelEstabelecimento) {
@@ -655,7 +728,10 @@ function registrarRemocaoComentario() {
 }
 
 function isEstabelecimentoLogado() {
-  const tipoUsuario = (localStorage.getItem('usuarioTipo') || '').toLowerCase();
+  const tipoUsuario =
+    typeof premiumTipoConta === 'function'
+      ? premiumTipoConta()
+      : (localStorage.getItem('usuarioTipo') || '').toLowerCase();
   return (
     localStorage.getItem('usuarioLogado') === 'true' &&
     tipoUsuario === 'estabelecimento'
@@ -727,10 +803,16 @@ function renderizarPainelEstabelecimentoHome() {
   const listaComentarios = document.getElementById('lista-comentarios');
   const premiumBadge = document.getElementById('premium-badge');
   const btnPremium = document.getElementById('btn-premium');
-  const estabelecimentoEmail = localStorage.getItem('estabelecimentoCadastroEmail');
+  const estabelecimentoEmail =
+    localStorage.getItem('usuarioLogadoEmail') ||
+    localStorage.getItem('estabelecimentoCadastroEmail');
   const premiumAtivo =
-    localStorage.getItem('usuarioPremium') === 'true' ||
-    (estabelecimentoEmail && localStorage.getItem(`estabelecimentoPremium_${estabelecimentoEmail}`) === 'true');
+    typeof estabelecimentoTemPremium === 'function'
+      ? estabelecimentoTemPremium()
+      : Boolean(
+          localStorage.getItem('usuarioPremium') === 'true' ||
+          (estabelecimentoEmail && localStorage.getItem(`estabelecimentoPremium_${estabelecimentoEmail}`) === 'true')
+        );
 
   if (avaliacaoEstrelas) {
     avaliacaoEstrelas.innerHTML = Array.from({ length: 5 }, (_, i) => {
@@ -1798,26 +1880,26 @@ function obterImagemFallback(local) {
     local.tags || {};
 
   if (tags.leisure === "park") {
-    return "img/parque.png";
+    return "img/optimized/parque.png";
   }
 
   if (tags.shop === "mall") {
-    return "img/shopping.png";
+    return "img/optimized/shopping.png";
   }
 
   if (tags.amenity === "bar") {
-    return "img/bar.png";
+    return "img/optimized/bar.png";
   }
 
   if (tags.amenity === "restaurant") {
-    return "img/restaurante.png";
+    return "img/optimized/restaurante.png";
   }
 
   if (tags.amenity === "nightclub") {
-    return "img/festas.png";
+    return "img/optimized/festas.png";
   }
 
-  return "img/logo.png";
+  return "img/optimized/logo.png";
 }
 
 function obterImagemLocal(local) {
@@ -2375,8 +2457,8 @@ function mostrarCardsCatalogo(restaurantes, totalCatalogo = restaurantes.length)
 
   restaurantesFiltrados.forEach(local => {
     const nome = local.nome || 'Restaurante';
-    const imagemLocal = (local.fotos || [])[0] || 'img/restaurante.png';
-    const imagemFallback = 'img/restaurante.png';
+    const imagemLocal = (local.fotos || [])[0] || 'img/optimized/restaurante.png';
+    const imagemFallback = 'img/optimized/restaurante.png';
     const faixaPreco = estimarFaixaPreco(local);
     const enderecoCompleto = [local.endereco, local.complemento].filter(Boolean).join(', ');
     const resumoLocal = (((local.cardapio || {}).pratos) || [])[0]?.descricao ||
@@ -2577,14 +2659,18 @@ $(function () {
 
     mostrarPainelEstabelecimento();
 
-    ocultarSegundoBannerSeLogado();
+    montarParceirosDestaque();
+    iniciarCarrosselHero();
     iniciarDashboardActions();
     iniciarAcoesRapidas();
     iniciarModalAcoes();
     iniciarEventosDashboard();
     iniciarFiltroOrcamento();
 
-    let tipoUsuario = (localStorage.getItem('usuarioTipo') || '').toLowerCase();
+    let tipoUsuario =
+      typeof premiumTipoConta === 'function'
+        ? premiumTipoConta()
+        : (localStorage.getItem('usuarioTipo') || '').toLowerCase();
 
     if (tipoUsuario === 'estabelecimento' || isEstabelecimentoLogado()) {
       sincronizarCatalogoEstabelecimento(

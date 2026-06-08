@@ -6,11 +6,11 @@
   <title>Date Lab | Save Date</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/ferramentas.css" />
-  <link rel="icon" type="image/x-icon" href="img/logo.png" />
+  <link rel="icon" type="image/x-icon" href="img/optimized/logo.png" />
 </head>
 <body>
   <header class="topo">
-    <a href="home.html" class="logo-area"><img src="img/logo.png" alt="Save Date" /><span>Save Date</span></a>
+    <a href="home.html" class="logo-area"><img src="img/optimized/logo.png" alt="Save Date" /><span>Save Date</span></a>
     <nav class="nav-categorias">
       <a href="home.html" class="nav-link">Início</a>
       <a href="roteiro.html" class="nav-link">Planejador</a>
@@ -56,10 +56,7 @@
   <script src="js/premium.js"></script>
   <script>
     function permitido() {
-      return localStorage.getItem("usuarioLogado") === "true" &&
-        (localStorage.getItem("usuarioTipo") || "usuario") === "usuario" &&
-        typeof usuarioTemPremium === "function" &&
-        usuarioTemPremium();
+      return typeof podeAcessarRecursoUsuario === "function" && podeAcessarRecursoUsuario();
     }
 
     if (!permitido()) {
