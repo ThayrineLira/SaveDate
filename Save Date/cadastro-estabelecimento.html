@@ -60,6 +60,9 @@
 </head>
 
   <body>
+    <div class="auth-shell">
+
+    <main class="auth-form-side">
     <div class="texto">
       <header class="topo">
         <div class="logo-area">
@@ -109,6 +112,42 @@
         <button onclick="window.location.href = 'tipo-de-conta.html'"
           class="botao" type="button">Voltar</button>
       </form>
+    </div>
+    </main>
+
+    <!-- LADO ILUSTRADO -->
+    <aside class="auth-visual-side" aria-hidden="true">
+      <div class="visual-formas">
+        <span class="forma forma-pontos"></span>
+        <span class="forma forma-circulo"></span>
+        <span class="forma forma-anel"></span>
+        <span class="forma forma-pilula"></span>
+        <span class="forma forma-triangulo"></span>
+        <span class="forma forma-quadrado"></span>
+      </div>
+      <div class="visual-conteudo">
+        <div class="visual-slides">
+          <div class="visual-slide ativo">
+            <h2>Anuncie seu negócio.</h2>
+            <p>Alcance quem está procurando onde ir e o que fazer perto de você.</p>
+          </div>
+          <div class="visual-slide">
+            <h2>Apareça nos destaques.</h2>
+            <p>Mostre fotos, cardápio e horários e atraia novos clientes.</p>
+          </div>
+          <div class="visual-slide">
+            <h2>Cresça com o Save Date.</h2>
+            <p>Acompanhe visualizações e salvamentos no painel do parceiro.</p>
+          </div>
+        </div>
+        <div class="visual-dots">
+          <span class="ativo"></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+    </aside>
+
     </div>
 
     <script>
@@ -468,5 +507,7 @@
     </script>
 
     <div id="toast-container"></div>
+
+    <script src="js/auth-visual.js"></script>
   </body>
 </html>

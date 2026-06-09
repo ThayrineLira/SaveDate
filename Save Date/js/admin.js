@@ -69,16 +69,9 @@ function contarPremiumAtivos() {
     }
   }
 
-  const tipoAtual = (localStorage.getItem("usuarioTipo") || "").toLowerCase();
-  const emailAtual = (localStorage.getItem("usuarioLogadoEmail") || "").toLowerCase();
-
-  if (localStorage.getItem("clientePremiumAtivo") === "true") {
-    clientes.add(emailAtual || "cliente-atual");
-  }
-
-  if (localStorage.getItem("usuarioPremium") === "true" && tipoAtual === "estabelecimento") {
-    estabelecimentos.add(emailAtual || localStorage.getItem("estabelecimentoCadastroEmail") || "estabelecimento-atual");
-  }
+  // O premium é contado pelas chaves por e-mail (clientePremium_<email> /
+  // estabelecimentoPremium_<email>) já varridas acima. As chaves globais
+  // legadas não são mais usadas para não contar uma conta sem premium.
 
   const clientesQtd = clientes.size;
   const estabelecimentosQtd = estabelecimentos.size;

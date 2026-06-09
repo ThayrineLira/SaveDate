@@ -49,8 +49,10 @@
             </p>
 
             <h3>
-                Criar nova senha:
+                Criar nova senha
             </h3>
+
+            <p class="ajuda">Use ao menos 6 caracteres, com 1 letra e 1 símbolo.</p>
 
         </header>
 
@@ -63,22 +65,28 @@
         <form id="form-redefinir">
 
             <!-- NOVA SENHA -->
-            <input
-                type="password"
-                id="novaSenha"
-                placeholder="Digite sua nova senha"
-                required
-            >
-
+            <div class="campo">
+                <label for="novaSenha">Nova senha</label>
+                <input
+                    type="password"
+                    id="novaSenha"
+                    placeholder="Digite sua nova senha"
+                    autocomplete="new-password"
+                    required
+                >
+            </div>
 
             <!-- CONFIRMAR -->
-            <input
-                type="password"
-                id="confirmarSenha"
-                placeholder="Confirme sua nova senha"
-                required
-            >
-
+            <div class="campo">
+                <label for="confirmarSenha">Confirmar senha</label>
+                <input
+                    type="password"
+                    id="confirmarSenha"
+                    placeholder="Repita a nova senha"
+                    autocomplete="new-password"
+                    required
+                >
+            </div>
 
             <!-- BOTÃO -->
             <button
@@ -88,9 +96,8 @@
                 Salvar senha
             </button>
 
-
             <!-- MENSAGEM -->
-            <p id="mensagem"></p>
+            <p id="mensagem" aria-live="polite"></p>
 
         </form>
 
@@ -120,8 +127,8 @@
 
         if (emailParaRedefinir) {
             mensagem.innerText =
-                `Enviamos as instruções para ${emailParaRedefinir}. Insira sua nova senha abaixo.`;
-            mensagem.style.color = "#222";
+                `Conta ${emailParaRedefinir} verificada. Crie sua nova senha abaixo.`;
+            mensagem.style.color = "#667085";
         } else {
             mensagem.innerText =
                 "Solicite a recuperação de senha primeiro.";

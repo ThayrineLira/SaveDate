@@ -4,300 +4,111 @@
 <head>
   <script src="js/tema.js"></script>
 
-    <!-- ==========================================
-         CONFIGURAÇÕES
-    =========================================== -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta charset="UTF-8">
+  <title>Recuperar senha | Save Date</title>
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>
-        Recuperar senha
-    </title>
-
-    <!-- CSS -->
-    <link rel="stylesheet" href="css/esqueci.css">
-
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/esqueci.css">
   <link rel="stylesheet" href="css/tema.css" />
+  <link rel="icon" type="image/x-icon" href="img/optimized/logo.png" />
 </head>
 
 <body>
 
-    <!-- ==========================================
-         CONTAINER PRINCIPAL
-    =========================================== -->
-
-    <div class="texto">
-
-
-        <!-- ==========================================
-             TOPO
-        =========================================== -->
-
-        <header class="topo">
-
-            <!-- LOGO -->
-            <img src="img/optimized/logo.png" alt="Logo Save Date" class="logo">
-
-            <!-- TÍTULO -->
-            <h1 class="titulo">
-                SAVE DATE
-            </h1>
-
-            <!-- SUBTÍTULO -->
-            <p class="subtitulo">
-
-                <small>
-                    SALVA ENCONTROS
-                </small>
-
-            </p>
-
-            <!-- TÍTULO -->
-            <h3>
-                Recuperar senha:
-            </h3>
-
-        </header>
-
-
-
-
-
-
-        <!-- ==========================================
-             FORMULÁRIO
-        =========================================== -->
-
-        <form id="form-recuperar">
-
-            <!-- EMAIL -->
-            <input type="email" id="email" placeholder="Digite seu email" required>
-
-
-            <!-- BOTÃO -->
-            <button type="submit" class="botao">
-                Enviar link </button>
-
-        </form>
-
-
-
-
-
-        <!-- ==========================================
-             MENSAGEM
-        =========================================== -->
-
-        <p id="mensagem"></p>
-
-    </div>
-
-
-
-
-
-
-
-
-
-    <!-- ==========================================
-         JAVASCRIPT
-    =========================================== -->
-    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-
-    <script>
-
-        // ==========================================
-        // INICIA EMAILJS
-        // ==========================================
-
-        emailjs.init("2HZZBhBu3DyZErlD2");
-
-
-
-        // ==========================================
-        // FORMULÁRIO
-        // ==========================================
-
-        const formulario =
-            document.getElementById("form-recuperar");
-
-        const mensagem =
-            document.getElementById("mensagem");
-
-
-
-        // ==========================================
-        // RECUPERAR SENHA
-        // ==========================================
-
-        formulario.addEventListener("submit", function (event) {
-
-            // Impede recarregar página
-            event.preventDefault();
-
-
-
-            // ==========================================
-            // EMAIL DIGITADO
-            // ==========================================
-
-            const emailDigitado =
-                document.getElementById("email").value;
-
-            const emailNormalizado =
-                emailDigitado.toLowerCase();
-
-
-
-            // ==========================================
-            // BUSCA DADOS NO LOCALSTORAGE
-            // ==========================================
-
-            const usuarios = JSON.parse(
-                localStorage.getItem("cadastrosUsuarios") || "[]"
-            );
-
-            const estabelecimentos = JSON.parse(
-                localStorage.getItem("cadastrosEstabelecimentos") || "[]"
-            );
-
-
-
-            // ==========================================
-            // VERIFICA EMAIL USUÁRIO
-            // ==========================================
-
-            const emailUsuario =
-                usuarios.find(
-                    (item) => item.email === emailNormalizado
-                )?.email ||
-                localStorage.getItem("usuarioCadastroEmail") ||
-                localStorage.getItem("usuarioCadastro");
-
-
-
-            // ==========================================
-            // VERIFICA EMAIL ESTABELECIMENTO
-            // ==========================================
-
-            const emailEstabelecimento =
-                estabelecimentos.find(
-                    (item) => item.email === emailNormalizado
-                )?.email ||
-                localStorage.getItem("estabelecimentoCadastroEmail");
-
-
-
-            // ==========================================
-            // DEFINE TIPO
-            // ==========================================
-
-            const tipoRecuperacao =
-                emailNormalizado === emailEstabelecimento
-                    ? "estabelecimento"
-                    : emailNormalizado === emailUsuario
-                        ? "usuario"
-                        : null;
-
-
-
-            // ==========================================
-            // EMAIL ENCONTRADO
-            // ==========================================
-
-            if (tipoRecuperacao) {
-
-                // SALVA DADOS
-                localStorage.setItem(
-                    "redefinirEmail",
-                    emailNormalizado
-                );
-
-                localStorage.setItem(
-                    "redefinirTipo",
-                    tipoRecuperacao
-                );
-
-
-
-                // ==========================================
-                // VARIÁVEIS DO TEMPLATE
-                // ==========================================
-
-                const parametros = {
-                    email_usuario: emailDigitado
-                };
-
-
-
-                // ==========================================
-                // ENVIA EMAIL
-                // ==========================================
-
-                emailjs.send(
-                    "service_qymafzy",
-                    "template_zi7asg8",
-                    parametros
-                )
-
-                    .then(() => {
-
-                        mensagem.innerText =
-                            "E-mail de recuperação enviado com sucesso.";
-
-                        mensagem.style.color =
-                            "green";
-
-                        formulario.reset();
-
-
-
-                        // REDIRECIONA
-                        setTimeout(() => {
-
-                            window.location.href =
-                                "redefinir.html";
-
-                        }, 2500);
-
-                    })
-
-                    .catch((erro) => {
-
-                        console.log(erro);
-
-                        mensagem.innerText =
-                            "Erro ao enviar e-mail.";
-
-                        mensagem.style.color =
-                            "red";
-
-                    });
-
-            }
-
-
-
-            // ==========================================
-            // EMAIL NÃO ENCONTRADO
-            // ==========================================
-
-            else {
-
-                mensagem.innerText =
-                    "Email não encontrado.";
-
-                mensagem.style.color =
-                    "red";
-
-            }
-
-        });
-
-    </script>
+  <div class="texto">
+
+    <!-- TOPO -->
+    <header class="topo">
+      <img src="img/optimized/logo.png" alt="Logo Save Date" class="logo">
+      <h1 class="titulo">SAVE DATE</h1>
+      <p class="subtitulo"><small>SALVA ENCONTROS</small></p>
+      <h3>Recuperar senha</h3>
+      <p class="ajuda">Informe o e-mail da sua conta para criar uma nova senha.</p>
+    </header>
+
+    <!-- FORMULÁRIO -->
+    <form id="form-recuperar">
+      <div class="campo">
+        <label for="email">E-mail da conta</label>
+        <input type="email" id="email" placeholder="seu@email.com" autocomplete="email" required>
+      </div>
+
+      <button type="submit" class="botao">Continuar</button>
+
+      <button type="button" class="botao secundario" onclick="window.location.href='login.html'">
+        Voltar ao login
+      </button>
+    </form>
+
+    <!-- MENSAGEM -->
+    <p id="mensagem" aria-live="polite"></p>
+
+  </div>
+
+  <script>
+    const formulario = document.getElementById("form-recuperar");
+    const mensagem = document.getElementById("mensagem");
+
+    function lerLista(chave) {
+      try {
+        return JSON.parse(localStorage.getItem(chave) || "[]") || [];
+      } catch (erro) {
+        return [];
+      }
+    }
+
+    formulario.addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      const emailDigitado = document.getElementById("email").value.trim();
+      const emailNormalizado = emailDigitado.toLowerCase();
+
+      if (!emailNormalizado) {
+        mensagem.innerText = "Digite o e-mail da sua conta.";
+        mensagem.style.color = "#c62828";
+        return;
+      }
+
+      const usuarios = lerLista("cadastrosUsuarios");
+      const estabelecimentos = lerLista("cadastrosEstabelecimentos");
+
+      const ehUsuario =
+        usuarios.some((item) => String(item.email).toLowerCase() === emailNormalizado) ||
+        (localStorage.getItem("usuarioCadastroEmail") || "").toLowerCase() === emailNormalizado ||
+        emailNormalizado === "admin@savedate.com";
+
+      const ehEstabelecimento =
+        estabelecimentos.some((item) => String(item.email).toLowerCase() === emailNormalizado) ||
+        (localStorage.getItem("estabelecimentoCadastroEmail") || "").toLowerCase() === emailNormalizado;
+
+      // Estabelecimento tem prioridade só quando o e-mail não é também de usuário.
+      const tipoRecuperacao = ehUsuario
+        ? "usuario"
+        : ehEstabelecimento
+          ? "estabelecimento"
+          : null;
+
+      if (!tipoRecuperacao) {
+        mensagem.innerText = "Não encontramos uma conta com esse e-mail.";
+        mensagem.style.color = "#c62828";
+        return;
+      }
+
+      // Guarda os dados para a etapa de criar a nova senha.
+      localStorage.setItem("redefinirEmail", emailNormalizado);
+      localStorage.setItem("redefinirTipo", tipoRecuperacao);
+
+      mensagem.innerText = "Conta verificada! Redirecionando para criar uma nova senha…";
+      mensagem.style.color = "#2e7d32";
+      formulario.reset();
+
+      setTimeout(() => {
+        window.location.href = "redefinir.html";
+      }, 1400);
+    });
+  </script>
 
 </body>
 

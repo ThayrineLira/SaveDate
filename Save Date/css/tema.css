@@ -638,3 +638,213 @@ html[data-tema="escuro"] .metodo-tab.ativo {
   border-color: #393947;
   color: #f1f1f6;
 }
+
+/* =========================================================
+   15) AUDITORIA DE COBERTURA (jun/2026)
+   Varredura classe a classe das folhas que cada página
+   realmente carrega: superfícies brancas e textos escuros
+   que ainda escapavam do tema.
+========================================================= */
+
+/* ---- ADMIN (admin.css) — painel quase todo branco ---- */
+html[data-tema="escuro"] .admin-topo,
+html[data-tema="escuro"] .admin-card {
+  background: #20202b;
+  border-color: #2e2e3b;
+  color: #f1f1f6;
+}
+
+html[data-tema="escuro"] .btn-acao {
+  background: #262633;
+  border-color: #393947;
+  color: #cfcfd8;
+}
+
+html[data-tema="escuro"] .status-pill.inativo {
+  color: #a4a4b4;
+}
+
+/* ---- INSTITUCIONAL (termos / privacidade / suporte) ----
+   A folha usa var(--sd-*) na maioria (já redefinidos acima);
+   aqui só os valores fixos que sobraram. */
+html[data-tema="escuro"] .site-topo {
+  background: rgba(26, 26, 35, .96);
+  border-color: #2e2e3b;
+}
+
+html[data-tema="escuro"] .site-nav a {
+  color: #a4a4b4;
+}
+
+html[data-tema="escuro"] .site-nav a[aria-current="page"] {
+  background: #262633;
+  color: #f1f1f6;
+}
+
+html[data-tema="escuro"] .institucional-hero {
+  background: linear-gradient(135deg, rgba(244, 162, 97, .12), rgba(42, 157, 143, .10)), #14141b;
+}
+
+html[data-tema="escuro"] .kicker {
+  background: rgba(244, 162, 97, .16);
+  color: #f0b890;
+}
+
+html[data-tema="escuro"] .suporte-item,
+html[data-tema="escuro"] .faq-lista details {
+  background: #20202b;
+  border-color: #2e2e3b;
+}
+
+html[data-tema="escuro"] .callout {
+  background: rgba(42, 157, 143, .12);
+  color: #5fd0bf;
+}
+
+html[data-tema="escuro"] .rodape-institucional {
+  background: #1a1a23;
+  border-color: #2e2e3b;
+}
+
+/* Links de rodapé/confiança cinza-escuros em várias páginas */
+html[data-tema="escuro"] .rodape-institucional-links a,
+html[data-tema="escuro"] .rodape-links a,
+html[data-tema="escuro"] .trust-footer-links a,
+html[data-tema="escuro"] .auth-trust-links a {
+  color: #a4a4b4;
+}
+
+/* Rótulos de formulário escuros (catch-all — todo label fica claro) */
+html[data-tema="escuro"] label {
+  color: #cfcfd8;
+}
+
+/* ---- BASE (explorar / salvos): estado vazio + rodapé ---- */
+html[data-tema="escuro"] .empty,
+html[data-tema="escuro"] .trust-footer {
+  background: #20202b;
+  border-color: #2e2e3b;
+  color: #f1f1f6;
+}
+
+html[data-tema="escuro"] .empty-btn {
+  background: #262633;
+  border-color: #393947;
+  color: #f1f1f6;
+}
+
+html[data-tema="escuro"] .card-dist,
+html[data-tema="escuro"] .badge-aberto.fechado {
+  color: #a4a4b4;
+}
+
+/* ---- HOME — modal de local, cards e atalhos restantes ---- */
+html[data-tema="escuro"] .card-moderno,
+html[data-tema="escuro"] .link-ver-tudo,
+html[data-tema="escuro"] .event-empty,
+html[data-tema="escuro"] .premium-tool {
+  background: #20202b;
+  border-color: #2e2e3b;
+  color: #f1f1f6;
+}
+
+html[data-tema="escuro"] .foto-local,
+html[data-tema="escuro"] .local-modal-img,
+html[data-tema="escuro"] .local-modal-info div,
+html[data-tema="escuro"] .item-cat:hover img {
+  background: #262633;
+}
+
+html[data-tema="escuro"] .local-modal .modal-close {
+  background: rgba(38, 38, 51, .92);
+  color: #f1f1f6;
+}
+
+html[data-tema="escuro"] .menu-lateral .dropdown-item:hover {
+  background: #2c2c3a;
+}
+
+html[data-tema="escuro"] .link-ver-tudo,
+html[data-tema="escuro"] .local-modal-info strong,
+html[data-tema="escuro"] .local-modal-body h2 {
+  color: #f1f1f6;
+}
+
+html[data-tema="escuro"] .local-modal-descricao,
+html[data-tema="escuro"] .info-card p,
+html[data-tema="escuro"] .modal-card label,
+html[data-tema="escuro"] .dashboard-status-card strong {
+  color: #a4a4b4;
+}
+
+/* ---- PAGAMENTO — aba ativa (a folha escreve ".ativa", não
+   ".ativo") + textos "strong" quase pretos ---- */
+html[data-tema="escuro"] .metodo-tab.ativa {
+  background: #262633;
+  border-color: #393947;
+  color: #f1f1f6;
+}
+
+html[data-tema="escuro"] .card-desc,
+html[data-tema="escuro"] .form-cartao label {
+  color: #a4a4b4;
+}
+
+html[data-tema="escuro"] .payment-amount strong,
+html[data-tema="escuro"] .payment-method strong,
+html[data-tema="escuro"] .plano-resumo strong {
+  color: #f1f1f6;
+}
+
+/* ---- CADASTRO / CADASTRO-ESTAB. / TIPO DE CONTA ---- */
+html[data-tema="escuro"] .botao[type="button"] {
+  background: #262633;
+  border-color: #393947;
+  color: #f1f1f6;
+}
+
+html[data-tema="escuro"] .card-lo {
+  background: #20202b;
+  border-color: #2e2e3b;
+  color: #f1f1f6;
+}
+
+html[data-tema="escuro"] #lista-cardapio h4,
+html[data-tema="escuro"] #coordenadas {
+  color: #f1f1f6;
+}
+
+html[data-tema="escuro"] #lista-cardapio button {
+  background: #262633;
+  border-color: #393947;
+  color: #f1f1f6;
+}
+
+/* ---- FERRAMENTAS — banner de upsell (era creme) ---- */
+html[data-tema="escuro"] .upsell {
+  background: rgba(244, 162, 97, .12);
+  border-color: rgba(244, 162, 97, .30);
+  color: #f0b890;
+}
+
+/* ---- MAPA — ícone do card e hover de categoria ---- */
+html[data-tema="escuro"] .card-lugar-icone {
+  background: linear-gradient(135deg, rgba(231, 111, 81, .28), rgba(244, 162, 97, .20));
+}
+
+html[data-tema="escuro"] .cat-btn:hover {
+  background: #2c2c3a;
+}
+
+/* ---- AUTH (login/cadastro) layout dividido ---- */
+html[data-tema="escuro"] .auth-shell {
+  background: #20202b;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, .5);
+}
+
+html[data-tema="escuro"] .cadastro,
+html[data-tema="escuro"] .auth-trust-links {
+  border-color: #2e2e3b;
+}
+
+/* o lado ilustrado mantém o gradiente colorido; o lado do form fica escuro */

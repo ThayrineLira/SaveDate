@@ -821,8 +821,7 @@ function renderizarPainelEstabelecimentoHome() {
     typeof estabelecimentoTemPremium === 'function'
       ? estabelecimentoTemPremium()
       : Boolean(
-          localStorage.getItem('usuarioPremium') === 'true' ||
-          (estabelecimentoEmail && localStorage.getItem(`estabelecimentoPremium_${estabelecimentoEmail}`) === 'true')
+          estabelecimentoEmail && localStorage.getItem(`estabelecimentoPremium_${estabelecimentoEmail}`) === 'true'
         );
 
   if (avaliacaoEstrelas) {
@@ -949,24 +948,38 @@ function salvarCatalogoEstabelecimentos(catalogo) {
 }
 
 function removerUsuariosDoCatalogoEstabelecimentos() {
-  const usuarios = (() => {
-    try {
-      return JSON.parse(localStorage.getItem('cadastrosUsuarios') || '[]') || [];
-    } catch (erro) {
-      return [];
-    }
-  })();
-
-  if (!usuarios.length) return;
+  let usuarios;
+  let estabelecimentos;
+  try {
+    usuarios = JSON.parse(localStorage.getItem('cadastrosUsuarios') || '[]') || [];
+  } catch (erro) {
+    usuarios = [];
+  }
+  try {
+    estabelecimentos = JSON.parse(localStorage.getItem('cadastrosEstabelecimentos') || '[]') || [];
+  } catch (erro) {
+    estabelecimentos = [];
+  }
 
   const emailsUsuarios = new Set(
     usuarios.map((usuario) => String(usuario.email || '').toLowerCase()).filter(Boolean)
   );
+  const emailsEstabelecimentos = new Set(
+    estabelecimentos.map((item) => String(item.email || '').toLowerCase()).filter(Boolean)
+  );
+
   const catalogo = carregarCatalogoEstabelecimentos();
   const filtrado = catalogo.filter((item) => {
     const email = String(item.email || '').toLowerCase();
     const id = String(item.id || '').toLowerCase();
-    return !emailsUsuarios.has(email) && !emailsUsuarios.has(id);
+
+    // Entrada-fantasma (sem e-mail real, ex.: id "estabelecimento"): remove.
+    if (!email || email === 'estabelecimento') return false;
+    // Usuário comum que vazou para o catálogo: remove.
+    if (emailsUsuarios.has(email) || emailsUsuarios.has(id)) return false;
+    // Havendo lista de estabelecimentos, mantém apenas quem está nela.
+    if (emailsEstabelecimentos.size && !emailsEstabelecimentos.has(email)) return false;
+    return true;
   });
 
   if (filtrado.length !== catalogo.length) {
@@ -976,6 +989,24 @@ function removerUsuariosDoCatalogoEstabelecimentos() {
 
 function sincronizarCatalogoEstabelecimento(dados) {
   const id = dados.email || localStorage.getItem('estabelecimentoCadastroEmail') || 'estabelecimento';
+
+  // Só cataloga contas que são estabelecimentos cadastrados de verdade.
+  // Sem isto, um usuário comum (ou uma conta sem e-mail real) era inserido
+  // no catálogo e aparecia na home como "Restaurante cadastrado".
+  const emailReal = String(
+    dados.email || localStorage.getItem('estabelecimentoCadastroEmail') || ''
+  ).toLowerCase();
+  let estabelecimentosCadastrados;
+  try {
+    estabelecimentosCadastrados = JSON.parse(localStorage.getItem('cadastrosEstabelecimentos') || '[]') || [];
+  } catch (erro) {
+    estabelecimentosCadastrados = [];
+  }
+  const ehEstabelecimentoReal =
+    !!emailReal &&
+    estabelecimentosCadastrados.some((e) => String(e.email || '').toLowerCase() === emailReal);
+  if (!ehEstabelecimentoReal) return;
+
   const catalogo = carregarCatalogoEstabelecimentos();
 
   const registro = {
@@ -2692,13 +2723,16 @@ $(function () {
         ? premiumTipoConta()
         : (localStorage.getItem('usuarioTipo') || '').toLowerCase();
 
+    // Sempre limpa do catálogo quem não é estabelecimento real (usuários e
+    // entradas-fantasma), para que deixem de aparecer como "Restaurante cadastrado".
+    removerUsuariosDoCatalogoEstabelecimentos();
+
     if (tipoUsuario === 'estabelecimento' || isEstabelecimentoLogado()) {
       sincronizarCatalogoEstabelecimento(
         carregarDadosEstabelecimento()
       );
       setupHomeEstabelecimentoView();
     } else {
-      removerUsuariosDoCatalogoEstabelecimentos();
       carregarCatalogoHome();
 
       /* =========================================

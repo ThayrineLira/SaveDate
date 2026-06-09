@@ -14,6 +14,8 @@ const PLANOS_PREMIUM = {
     id: "plus",
     nome: "Save Date Plus",
     publico: "usuario",
+    nivel: 1,
+    destaque: true,
     preco: 9.9,
     precoLabel: "R$ 9,90",
     periodo: "/mês",
@@ -24,6 +26,41 @@ const PLANOS_PREMIUM = {
       "Roteiro de date: monte um rolê completo",
       "Recomendações personalizadas",
       "Navegação sem anúncios",
+      "Selo Plus no seu perfil"
+    ]
+  },
+  duo: {
+    id: "duo",
+    nome: "Save Date Duo",
+    publico: "usuario",
+    nivel: 2,
+    preco: 14.9,
+    precoLabel: "R$ 14,90",
+    periodo: "/mês",
+    resumo: "O Plus para o casal: planejem os rolês juntos, numa conta só.",
+    beneficios: [
+      "Tudo do plano Plus",
+      "Até 2 perfis vinculados na mesma assinatura",
+      "Lista de favoritos e roteiros compartilhados",
+      "Sugestões de date a dois personalizadas",
+      "Selo Duo no perfil do casal"
+    ]
+  },
+  plus_anual: {
+    id: "plus_anual",
+    nome: "Save Date Plus Anual",
+    publico: "usuario",
+    nivel: 3,
+    economia: true,
+    preco: 99,
+    precoLabel: "R$ 99,00",
+    periodo: "/ano",
+    resumo: "Todos os benefícios do Plus com 2 meses grátis.",
+    beneficios: [
+      "Tudo do plano Plus",
+      "Equivale a R$ 8,25/mês (2 meses grátis)",
+      "Cobrança única anual, sem reajuste no período",
+      "Prioridade em novos recursos para usuários",
       "Selo Plus no seu perfil"
     ]
   },
@@ -166,51 +203,22 @@ function premiumPlanoCombinaComConta(planoId) {
   return Boolean(publicoPlano && publicoPlano === premiumPublicoAtual());
 }
 
-function planoPremiumAtualDoPublico(publico) {
-  const planoId = localStorage.getItem("premiumPlanoAtual") || "";
-  const plano = PLANOS_PREMIUM[planoId];
-  return !planoId || !plano || plano.publico === publico;
-}
-
-function migrarPremiumAnonimo(publico, email) {
-  if (!premiumEstaLogado() || !email || !planoPremiumAtualDoPublico(publico)) return false;
-
-  const chaveAnonima = premiumChave(publico, "anonimo");
-  if (localStorage.getItem(chaveAnonima) !== "true") return false;
-
-  localStorage.setItem(premiumChave(publico, email), "true");
-  localStorage.removeItem(chaveAnonima);
-  localStorage.setItem("premiumEmailAtivacao", email);
-  localStorage.setItem("premiumPublicoAtual", publico);
-  return true;
-}
-
+/*
+   O premium é estritamente POR E-MAIL LOGADO.
+   Antes existia um atalho por chaves globais (clientePremiumAtivo /
+   usuarioPremium) e por migração anônima — mas elas não eram vinculadas
+   ao e-mail e sobreviviam ao logout, então um usuário sem premium herdava
+   o premium de quem havia logado antes nesse navegador. A única fonte de
+   verdade agora é a chave por e-mail (clientePremium_<email> /
+   estabelecimentoPremium_<email>).
+*/
 function premiumAtivoPorPublico(publico) {
+  if (!premiumEstaLogado()) return false;
+
   const email = premiumEmailLogado();
+  if (!email) return false;
 
-  if (email && localStorage.getItem(premiumChave(publico, email)) === "true") {
-    return true;
-  }
-
-  if (migrarPremiumAnonimo(publico, email)) {
-    return true;
-  }
-
-  if (planoPremiumAtualDoPublico(publico)) {
-    const chaveLegada =
-      publico === "estabelecimento" ? "usuarioPremium" : "clientePremiumAtivo";
-
-    if (localStorage.getItem(chaveLegada) === "true") {
-      if (premiumEstaLogado() && email) {
-        localStorage.setItem(premiumChave(publico, email), "true");
-        localStorage.setItem("premiumEmailAtivacao", email);
-        localStorage.setItem("premiumPublicoAtual", publico);
-      }
-      return true;
-    }
-  }
-
-  return false;
+  return localStorage.getItem(premiumChave(publico, email)) === "true";
 }
 
 function sincronizarPremiumContaAtual() {
@@ -263,13 +271,8 @@ function ativarPremium(planoId) {
   if (!premiumEstaLogado() || !premiumPlanoCombinaComConta(planoId)) return false;
 
   const email = premiumEmailLogado();
+  if (!email) return false;
   localStorage.setItem(premiumChave(plano.publico, email), "true");
-
-  if (plano.publico === "estabelecimento") {
-    localStorage.setItem("usuarioPremium", "true");
-  } else {
-    localStorage.setItem("clientePremiumAtivo", "true");
-  }
 
   localStorage.setItem("premiumPlanoAtual", plano.id);
   localStorage.setItem("premiumPublicoAtual", plano.publico);
@@ -283,11 +286,9 @@ function cancelarPremium(publico) {
   const email = premiumEmailLogado();
   localStorage.removeItem(premiumChave(alvo, email));
 
-  if (alvo === "estabelecimento") {
-    localStorage.removeItem("usuarioPremium");
-  } else {
-    localStorage.removeItem("clientePremiumAtivo");
-  }
+  // Limpa também as chaves globais legadas, caso tenham ficado de versões antigas.
+  localStorage.removeItem("usuarioPremium");
+  localStorage.removeItem("clientePremiumAtivo");
   localStorage.removeItem("premiumPlanoAtual");
   localStorage.removeItem("premiumPublicoAtual");
   localStorage.removeItem("premiumEmailAtivacao");

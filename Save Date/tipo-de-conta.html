@@ -1,38 +1,87 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-br">
 
 <head>
   <script src="js/tema.js"></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="css/tipo-conta.css">
-    <title>Escolha de cadastro:</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Escolha de cadastro - Save Date</title>
+  <link rel="stylesheet" href="css/tipo-conta.css" />
   <link rel="stylesheet" href="css/tema.css" />
 </head>
 
 <body>
-    
-    <div class="texto">
-                <header class="topo">
-                    <img src="img/optimized/logo.png" alt="logo da loja" class="logo">                       
-                    <h1 class="titulo">SAVE DATE</h1>
-                    <p class="subtitulo"><small>SALVA ENCONTROS</small></p>                         
-                    <h3>Escolha o tipo do cadastro:</h3>
-                </header>
-                   <div class="cards">
+  <div class="auth-shell">
+    <main class="auth-form-side">
+      <div class="texto">
+        <header class="topo">
+          <div class="logo-area">
+            <img src="img/optimized/logo.png" alt="Logo Save Date" class="logo" />
+            <h1 class="titulo">SAVE DATE</h1>
+            <p class="subtitulo"><small>SALVA ENCONTROS</small></p>
+          </div>
+          <h3>Como você quer usar o Save Date?</h3>
+          <p class="ajuda">Escolha o tipo de conta para começar o cadastro.</p>
+        </header>
 
-                        <a href="cadastro.html" class="card">
-                            <h3>👤 Usuário</h3>
-                        </a>
+        <div class="cards" aria-label="Tipos de conta">
+          <a href="cadastro.html" class="card">
+            <span class="card-icone" aria-hidden="true">👤</span>
+            <span class="card-info">
+              <strong>Usuário</strong>
+              <small>Descubra, compare e salve lugares para os seus rolês.</small>
+            </span>
+          </a>
 
-                        <a href="cadastro-estabelecimento.html" class="card">
-                            <h3>🏢 Estabelecimento</h3>
-                        </a>
-                        <a href="login.html" class="card-lo">
-                            <h3>Voltar</h3>
-                        </a>
-                    </div>
-    </div>
+          <a href="cadastro-estabelecimento.html" class="card">
+            <span class="card-icone" aria-hidden="true">🏢</span>
+            <span class="card-info">
+              <strong>Estabelecimento</strong>
+              <small>Anuncie seu negócio e alcance novos clientes.</small>
+            </span>
+          </a>
+
+          <a href="login.html" class="card-lo">
+            <span>Voltar ao login</span>
+          </a>
+        </div>
+      </div>
+    </main>
+
+    <aside class="auth-visual-side" aria-hidden="true">
+      <div class="visual-formas">
+        <span class="forma forma-pontos"></span>
+        <span class="forma forma-circulo"></span>
+        <span class="forma forma-anel"></span>
+        <span class="forma forma-pilula"></span>
+        <span class="forma forma-triangulo"></span>
+        <span class="forma forma-quadrado"></span>
+      </div>
+      <div class="visual-conteudo">
+        <div class="visual-slides">
+          <div class="visual-slide ativo">
+            <h2>Escolha seu caminho.</h2>
+            <p>Entre como usuário para descobrir lugares ou como parceiro para aparecer no Save Date.</p>
+          </div>
+          <div class="visual-slide">
+            <h2>Para quem sai.</h2>
+            <p>Compare opções, salve favoritos e organize seus próximos encontros com mais facilidade.</p>
+          </div>
+          <div class="visual-slide">
+            <h2>Para quem recebe.</h2>
+            <p>Cadastre seu estabelecimento, publique fotos e mostre seu cardápio para novos clientes.</p>
+          </div>
+        </div>
+        <div class="visual-dots">
+          <span class="ativo"></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <script src="js/auth-visual.js"></script>
 </body>
 
 </html>

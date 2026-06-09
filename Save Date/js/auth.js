@@ -198,6 +198,14 @@ function sairLogin() {
     "estabelecimentoDados"
   );
 
+  /* Remove as chaves globais legadas de premium. Elas não eram vinculadas
+     ao e-mail e vazavam o premium de uma conta para a próxima que logasse
+     neste navegador. As assinaturas reais ficam por e-mail
+     (clientePremium_<email> / estabelecimentoPremium_<email>) e são
+     reconhecidas normalmente no próximo login. */
+  localStorage.removeItem("clientePremiumAtivo");
+  localStorage.removeItem("usuarioPremium");
+
   window.location.href = "home.html";
 
 }

@@ -12,6 +12,122 @@
   <!-- SCRIPT DE PROTEÇÃO -->
   <script src="js/auth.js"></script>
   <link rel="stylesheet" href="css/tema.css" />
+
+  <style>
+    .cancel-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.55);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 9999;
+      animation: cancelFade 0.18s ease-out;
+    }
+    @keyframes cancelFade {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .cancel-modal {
+      background: #fff;
+      color: #1f2937;
+      width: 100%;
+      max-width: 420px;
+      border-radius: 18px;
+      padding: 28px 26px;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.3);
+      font-family: Inter, Arial, sans-serif;
+      text-align: center;
+    }
+    .cancel-tag {
+      display: inline-block;
+      background: #fff3dd;
+      color: #a86a12;
+      font-weight: 800;
+      font-size: 0.78rem;
+      padding: 5px 12px;
+      border-radius: 999px;
+      margin-bottom: 12px;
+    }
+    .cancel-modal h2 {
+      margin: 0 0 10px;
+      font-size: 1.32rem;
+      font-weight: 900;
+    }
+    .cancel-sub {
+      margin: 0 0 14px;
+      font-size: 0.95rem;
+      color: #4b5563;
+      line-height: 1.5;
+    }
+    .cancel-perdas {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 18px;
+      text-align: left;
+    }
+    .cancel-perdas li {
+      position: relative;
+      padding: 7px 0 7px 28px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      border-bottom: 1px solid #f1f5f9;
+    }
+    .cancel-perdas li::before {
+      content: "✕";
+      position: absolute;
+      left: 4px;
+      color: #dc2626;
+      font-weight: 900;
+    }
+    .cancel-acoes {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 6px;
+    }
+    .cancel-manter {
+      background: #f4a261;
+      color: #fff;
+      font-weight: 900;
+      border: none;
+      padding: 13px 16px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+    .cancel-manter:hover { filter: brightness(0.96); }
+    .cancel-link {
+      background: none;
+      border: none;
+      color: #9ca3af;
+      font-size: 0.85rem;
+      text-decoration: underline;
+      cursor: pointer;
+      padding: 4px;
+    }
+    .cancel-link:hover { color: #6b7280; }
+    .cancel-check {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      text-align: left;
+      font-size: 0.9rem;
+      color: #374151;
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 12px 14px;
+      margin-bottom: 16px;
+      cursor: pointer;
+    }
+    .cancel-check input { margin-top: 3px; }
+    .cancel-modal .btn.perigo[disabled] {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  </style>
 </head>
 <body>
   <header class="topo">
@@ -80,6 +196,7 @@
 
         <div class="acoes">
           <a id="link-premium" href="premium.html" class="btn">Seja Premium ★</a>
+          <button id="btn-cancelar-premium" class="btn secundario" type="button" style="display:none;">Cancelar assinatura</button>
           <a href="configuracoes.html" class="btn secundario">Configurações ⚙️</a>
           <a href="sugestoes.html" class="btn secundario">Ver sugestões</a>
           <button id="btn-limpar-salvos" class="btn secundario" type="button">Limpar favoritos</button>
