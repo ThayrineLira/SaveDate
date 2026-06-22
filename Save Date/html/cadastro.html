@@ -118,20 +118,36 @@
         >
       </div>
 
+      <!-- DATA DE NASCIMENTO -->
+      <div class="campo">
+        <label for="nascimento">Data de nascimento</label>
+        <input
+          type="date"
+          id="nascimento"
+          name="nascimento"
+          autocomplete="bday"
+          required
+        >
+      </div>
 
       <!-- SENHA -->
       <div class="campo">
         <label for="senha">Senha</label>
-        <input
-          type="password"
-          id="senha"
-          name="senha"
-          placeholder="Mínimo 6 caracteres, 1 letra e 1 símbolo"
-          autocomplete="new-password"
-          minlength="6"
-          aria-describedby="erroSenha"
-          required
-        >
+        <div class="campo-senha">
+          <input
+            type="password"
+            id="senha"
+            name="senha"
+            placeholder="Mínimo 6 caracteres, 1 letra e 1 símbolo"
+            autocomplete="new-password"
+            minlength="6"
+            aria-describedby="erroSenha"
+            required
+          >
+          <button type="button" class="alternar-senha" id="alternar-senha" aria-label="Mostrar senha" aria-pressed="false">
+            <span class="olho-icone" aria-hidden="true">👁️</span>
+          </button>
+        </div>
       </div>
 
 
@@ -243,8 +259,26 @@
       }, 3200);
     }
 
-    /* ==========================================
-       BUSCAR CEP
+    /* ==========================================       MOSTRAR / OCULTAR SENHA
+    ========================================== */
+
+    const alternarSenha = document.getElementById('alternar-senha');
+    const senhaInput = document.getElementById('senha');
+
+    if (alternarSenha && senhaInput) {
+      alternarSenha.addEventListener('click', function () {
+        const mostrando = senhaInput.type === 'text';
+        senhaInput.type = mostrando ? 'password' : 'text';
+        alternarSenha.setAttribute('aria-pressed', String(!mostrando));
+        alternarSenha.setAttribute(
+          'aria-label',
+          mostrando ? 'Mostrar senha' : 'Ocultar senha'
+        );
+        alternarSenha.classList.toggle('ativo', !mostrando);
+      });
+    }
+
+    /* ==========================================       BUSCAR CEP
     =========================================== */
 
     function buscarCEP() {
@@ -344,11 +378,22 @@
         const email =
           document.getElementById("email").value;
 
+        const nascimento =
+          document.getElementById("nascimento").value;
+
         const senha =
           document.getElementById("senha").value;
 
         const erro =
           document.getElementById("erroSenha");
+
+        if (!nascimento) {
+          mostrarMensagemCadastro(
+            "Informe sua data de nascimento.",
+            "erro"
+          );
+          return;
+        }
 
 
 
@@ -436,6 +481,7 @@
         usuarios.push({
           nome,
           email: emailNormalizado,
+          nascimento,
           senha,
           tipo: "usuario"
         });
@@ -448,6 +494,11 @@
         localStorage.setItem(
           "usuarioCadastroEmail",
           emailNormalizado
+        );
+
+        localStorage.setItem(
+          "usuarioCadastroNascimento",
+          nascimento
         );
 
         localStorage.setItem(
