@@ -74,6 +74,7 @@
       </header>
       <form class="login-form" onsubmit="return cadastrarEstabelecimento();">
         <input id="nome" type="text" placeholder="Nome do estabelecimento" required />
+        <input id="cnpj" type="text" placeholder="CNPJ" required />
         <input type="text" id="cep" placeholder="CEP" required onblur="buscarCEP()" />
         <input type="text" id="endereco" placeholder="Endereço" readonly required />
         <input id="complemento" type="text" placeholder="Número / Complemento" required />
@@ -314,6 +315,7 @@
       // 🔐 CADASTRAR ESTABELECIMENTO
       function cadastrarEstabelecimento() {
         const nome = document.getElementById("nome").value;
+        const cnpj = document.getElementById("cnpj").value;
         const endereco = document.getElementById("endereco").value;
         const complemento = document.getElementById("complemento").value;
         const email = document.getElementById("email").value;
@@ -322,6 +324,11 @@
         const erro = document.getElementById("erroSenha");
 
         const regex = /^(?=.*[A-Za-z])(?=.*[@$!%*#?&]).{6,}$/;
+
+        if (!cnpj) {
+          mostrarToast("Informe o CNPJ do estabelecimento.", "erro");
+          return false;
+        }
 
         if (!regex.test(senha)) {
           erro.innerText = "Mínimo 6 caracteres, 1 letra e 1 símbolo.";
@@ -371,6 +378,7 @@
 
         estabelecimentos.push({
           nome,
+          cnpj,
           email: emailNormalizado,
           senha,
           tipo: "estabelecimento"
@@ -394,6 +402,11 @@
         localStorage.setItem(
           "estabelecimentoCadastroNome",
           nome
+        );
+
+        localStorage.setItem(
+          "estabelecimentoCadastroCNPJ",
+          cnpj
         );
 
         localStorage.setItem(

@@ -104,6 +104,19 @@
         >
       </div>
 
+      <!-- CPF -->
+      <div class="campo">
+        <label for="cpf">CPF</label>
+        <input
+          type="text"
+          id="cpf"
+          name="cpf"
+          placeholder="000.000.000-00"
+          autocomplete="off"
+          required
+        >
+      </div>
+
 
       <!-- EMAIL -->
       <div class="campo">
@@ -375,6 +388,9 @@
         const nome =
           document.getElementById("nome").value;
 
+        const cpf =
+          document.getElementById("cpf").value;
+
         const email =
           document.getElementById("email").value;
 
@@ -386,6 +402,14 @@
 
         const erro =
           document.getElementById("erroSenha");
+
+        if (!cpf) {
+          mostrarMensagemCadastro(
+            "Informe seu CPF.",
+            "erro"
+          );
+          return;
+        }
 
         if (!nascimento) {
           mostrarMensagemCadastro(
@@ -480,6 +504,7 @@
 
         usuarios.push({
           nome,
+          cpf,
           email: emailNormalizado,
           nascimento,
           senha,
@@ -494,6 +519,11 @@
         localStorage.setItem(
           "usuarioCadastroEmail",
           emailNormalizado
+        );
+
+        localStorage.setItem(
+          "usuarioCadastroCPF",
+          cpf
         );
 
         localStorage.setItem(
