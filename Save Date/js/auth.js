@@ -19,14 +19,9 @@ function estaLogado() {
 ========================================= */
 
 function protegerRotaAtual() {
-  const paginaAtual = window.location.pathname
-    .split("/")
-    .pop()
-    .toLowerCase();
-
-  // A home e publica. As paginas de autenticacao e institucionais nao
-  // carregam este arquivo; as demais que o carregam exigem uma conta.
-  if (paginaAtual === "home.html" || estaLogado()) {
+  // Toda pagina que importa auth.js e uma area restrita. A home nao importa
+  // este arquivo, portanto continua publica mesmo sem cadastro ou login.
+  if (estaLogado()) {
     return true;
   }
 
