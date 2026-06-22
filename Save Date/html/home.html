@@ -786,8 +786,6 @@
     </footer>
 
     <div id="toast-container"></div>
-    <script src="../js/configuracoes.js"></script>
-
     <script>
       function mostrarToast(mensagem, tipo = "info", duracao = 3500) {
         const container = document.getElementById("toast-container");
@@ -836,6 +834,49 @@
         mostrarToast("Abrindo o mapa...", "sucesso");
         setTimeout(() => (window.location.href = "mapa.html"), 450);
       }
+
+      function exigirLoginParaLink(event) {
+        if (localStorage.getItem("usuarioLogado") === "true") return;
+
+        const link = event.target.closest("a[href]");
+        if (!link) return;
+
+        const paginasProtegidas = [
+          "admin.html",
+          "bares.html",
+          "campanhas-premium.html",
+          "checklist-role.html",
+          "comparar.html",
+          "configuracoes.html",
+          "conta.html",
+          "date-lab.html",
+          "detalhes.html",
+          "explorar.html",
+          "festas.html",
+          "insights-premium.html",
+          "mapa.html",
+          "match-role.html",
+          "pagamento.html",
+          "parques.html",
+          "racha.html",
+          "radar-vantagens.html",
+          "restaurantes.html",
+          "roteiro.html",
+          "salvos.html",
+          "shoppings.html",
+          "sugestoes.html",
+          "testes.html"
+        ];
+        const pagina = link.getAttribute("href").split(/[?#]/)[0];
+
+        if (!paginasProtegidas.includes(pagina)) return;
+
+        event.preventDefault();
+        mostrarToast("Faça login para acessar essa parte.", "erro");
+        setTimeout(() => (window.location.href = "login.html"), 1400);
+      }
+
+      document.addEventListener("click", exigirLoginParaLink);
 
       const categorias = [
         "bares",
