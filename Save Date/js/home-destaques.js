@@ -37,7 +37,7 @@
       id: l.id,
       nome: l.nome,
       tipo: l.categoria,
-      imagem: l.imagem || 'img/optimized/logo.png',
+      imagem: l.imagem || '../img/optimized/logo.png',
       preco: Number(l.preco) || 0,
       precoLabel: rotuloPreco(Number(l.preco) || 0),
       resumo: l.descricao || '',
@@ -69,7 +69,7 @@
           id: it.id,
           nome: it.nome || 'Restaurante',
           tipo: 'Restaurante cadastrado',
-          imagem: (it.fotos || [])[0] || 'img/optimized/restaurante.png',
+          imagem: (it.fotos || [])[0] || '../img/optimized/restaurante.png',
           preco: faixa.media || 0,
           precoLabel: faixa.label || rotuloPreco(faixa.media || 0),
           resumo: resumo,
@@ -97,7 +97,7 @@
           class="foto-local"
           src="${escaparAtributo(item.imagem)}"
           alt="Foto de ${escaparAtributo(item.nome)}"
-          onerror="this.onerror=null;this.src='img/optimized/logo.png';"
+          onerror="this.onerror=null;this.src='../img/optimized/logo.png';"
         />
       </div>
       <div class="info-card">
@@ -130,7 +130,7 @@
         nome: item.nome,
         tipo: item.tipo,
         imagem: item.imagem,
-        fallback: 'img/optimized/restaurante.png',
+        fallback: '../img/optimized/restaurante.png',
         resumo: item.resumo,
         preco: item.precoLabel,
         endereco: item.endereco,

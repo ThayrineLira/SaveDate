@@ -2,7 +2,7 @@
 <html lang="pt-br">
 
 <head>
-  <script src="js/tema.js"></script>
+  <script src="../js/tema.js"></script>
 
   <!-- ==========================================
        CONFIGURAÇÕES DA PÁGINA
@@ -13,13 +13,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <!-- CSS -->
-  <link rel="stylesheet" href="css/login.css" />
+  <link rel="stylesheet" href="../css/login.css" />
 
   <title>
     Save Date
   </title>
 
-  <link rel="stylesheet" href="css/tema.css" />
+  <link rel="stylesheet" href="../css/tema.css" />
 </head>
 
 <body>
@@ -41,7 +41,7 @@
 
         <!-- LOGO -->
 
-        <img src="img/optimized/logo.png" alt="Logo Save Date" class="logo" />
+        <img src="../img/optimized/logo.png" alt="Logo Save Date" class="logo" />
 
         <!-- TÍTULO -->
 
@@ -88,7 +88,12 @@
 
       <div class="campo">
         <label for="senha">Senha</label>
-        <input type="password" id="senha" name="senha" placeholder="Sua senha" autocomplete="current-password" required />
+        <div class="campo-senha">
+          <input type="password" id="senha" name="senha" placeholder="Sua senha" autocomplete="current-password" required />
+          <button type="button" class="alternar-senha" id="alternar-senha" aria-label="Mostrar senha" aria-pressed="false">
+            <span class="olho-icone" aria-hidden="true">👁️</span>
+          </button>
+        </div>
       </div>
 
       <!-- ==========================================
@@ -199,7 +204,7 @@
        JAVASCRIPT
   =========================================== -->
 
-  <script src="js/premium.js"></script>
+  <script src="../js/premium.js"></script>
   <script>
 
     /* ==========================================
@@ -225,6 +230,29 @@
       document.getElementById(
         "remember"
       );
+
+    /* ==========================================
+         MOSTRAR / OCULTAR SENHA
+    =========================================== */
+
+    const alternarSenha =
+      document.getElementById(
+        "alternar-senha"
+      );
+
+    if (alternarSenha) {
+      alternarSenha.addEventListener("click", function () {
+        const mostrando = senhaInput.type === "text";
+        senhaInput.type = mostrando ? "password" : "text";
+        alternarSenha.setAttribute("aria-pressed", String(!mostrando));
+        alternarSenha.setAttribute(
+          "aria-label",
+          mostrando ? "Mostrar senha" : "Ocultar senha"
+        );
+        alternarSenha.classList.toggle("ativo", !mostrando);
+      });
+    }
+
     function pegarCadastrosUsuarios() {
       return JSON.parse(
         localStorage.getItem("cadastrosUsuarios") || "[]"
@@ -599,7 +627,7 @@
   <!-- TOAST -->
   <div id="toast-container"></div>
 
-  <script src="js/auth-visual.js"></script>
+  <script src="../js/auth-visual.js"></script>
 
 </body>
 

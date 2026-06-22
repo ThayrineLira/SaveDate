@@ -133,6 +133,54 @@ input:focus {
   box-shadow: 0 0 0 4px rgba(244, 162, 97, 0.18);
 }
 
+/* ===== CAMPO DE SENHA (mostrar/ocultar) ===== */
+.campo-senha {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.campo-senha input {
+  padding-right: 48px;
+}
+
+.alternar-senha {
+  position: absolute;
+  right: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  border-radius: 10px;
+  padding: 0;
+  opacity: 0.55;
+  transition: opacity 0.2s, background 0.2s;
+}
+
+.alternar-senha:hover {
+  opacity: 0.9;
+  background: rgba(244, 162, 97, 0.12);
+}
+
+.alternar-senha.ativo {
+  opacity: 1;
+}
+
+.alternar-senha:focus-visible {
+  outline: 2px solid var(--primaria);
+  outline-offset: 2px;
+}
+
+.alternar-senha .olho-icone {
+  font-size: 18px;
+  line-height: 1;
+}
+
 .opcao-login {
   display: flex;
   align-items: center;

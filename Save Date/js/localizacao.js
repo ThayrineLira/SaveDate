@@ -121,10 +121,10 @@ function renderizarCards(estabelecimentos) {
       ? Math.round(est.distancia * 1000) + ' m'
       : est.distancia.toFixed(1) + ' km';
 
-    const imagem = est.imagem || 'img/optimized/logo.png';
+    const imagem = est.imagem || '../img/optimized/logo.png';
 
     card.innerHTML = `
-      <img src="${imagem}" alt="${est.nome}" style="width: 100%; height: 150px; object-fit: cover;" onerror="this.onerror=null;this.src='img/optimized/logo.png';" />
+      <img src="${imagem}" alt="${est.nome}" style="width: 100%; height: 150px; object-fit: cover;" onerror="this.onerror=null;this.src='../img/optimized/logo.png';" />
       <div style="padding: 15px;">
         <span style="background: #e3f2fd; color: #1976d2; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 600;">${est.categoria}</span>
         <h3 style="font-size: 16px; margin: 10px 0 5px;">${est.nome}</h3>

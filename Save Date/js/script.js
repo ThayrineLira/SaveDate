@@ -497,12 +497,12 @@ function montarParceirosDestaque() {
   alvo.innerHTML = parceiros
     .map((l) => {
       const nome = escaparAtributo(l.nome);
-      const img = escaparAtributo(l.imagem || "img/optimized/logo.png");
+      const img = escaparAtributo(l.imagem || "../img/optimized/logo.png");
       return `
         <a class="parceiro-item" href="detalhes.html?id=${l.id}" title="${nome}">
           <span class="parceiro-foto">
             <img src="${img}" alt="Foto de ${nome}"
-              onerror="this.onerror=null;this.src='img/optimized/logo.png';" />
+              onerror="this.onerror=null;this.src='../img/optimized/logo.png';" />
             <span class="parceiro-selo">★</span>
           </span>
           <span class="parceiro-nome">${nome}</span>
@@ -1922,26 +1922,26 @@ function obterImagemFallback(local) {
     local.tags || {};
 
   if (tags.leisure === "park") {
-    return "img/optimized/parque.png";
+    return "../img/optimized/parque.png";
   }
 
   if (tags.shop === "mall") {
-    return "img/optimized/shopping.png";
+    return "../img/optimized/shopping.png";
   }
 
   if (tags.amenity === "bar") {
-    return "img/optimized/bar.png";
+    return "../img/optimized/bar.png";
   }
 
   if (tags.amenity === "restaurant") {
-    return "img/optimized/restaurante.png";
+    return "../img/optimized/restaurante.png";
   }
 
   if (tags.amenity === "nightclub") {
-    return "img/optimized/festas.png";
+    return "../img/optimized/festas.png";
   }
 
-  return "img/optimized/logo.png";
+  return "../img/optimized/logo.png";
 }
 
 function obterImagemLocal(local) {
@@ -2508,8 +2508,8 @@ function mostrarCardsCatalogo(restaurantes, totalCatalogo = restaurantes.length)
 
   restaurantesFiltrados.forEach(local => {
     const nome = local.nome || 'Restaurante';
-    const imagemLocal = (local.fotos || [])[0] || 'img/optimized/restaurante.png';
-    const imagemFallback = 'img/optimized/restaurante.png';
+    const imagemLocal = (local.fotos || [])[0] || '../img/optimized/restaurante.png';
+    const imagemFallback = '../img/optimized/restaurante.png';
     const faixaPreco = estimarFaixaPreco(local);
     const enderecoCompleto = [local.endereco, local.complemento].filter(Boolean).join(', ');
     const resumoLocal = (((local.cardapio || {}).pratos) || [])[0]?.descricao ||
