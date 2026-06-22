@@ -25,14 +25,34 @@ function protegerRotaAtual() {
     .toLowerCase();
   const paginasPrivadas = [
     "admin.html",
+    "bares.html",
+    "campanhas-premium.html",
+    "checklist-role.html",
+    "comparar.html",
     "configuracoes.html",
     "conta.html",
-    "salvos.html"
+    "date-lab.html",
+    "detalhes.html",
+    "explorar.html",
+    "festas.html",
+    "insights-premium.html",
+    "mapa.html",
+    "match-role.html",
+    "pagamento.html",
+    "parques.html",
+    "racha.html",
+    "radar-vantagens.html",
+    "restaurantes.html",
+    "roteiro.html",
+    "salvos.html",
+    "shoppings.html",
+    "sugestoes.html",
+    "testes.html"
   ];
 
   // Auth.js tambem e carregado por paginas publicas para proteger apenas
-  // acoes especificas. O redirecionamento automatico fica restrito as rotas
-  // que mostram dados da conta.
+  // acoes especificas. A home e os planos ficam publicos; lugares,
+  // ferramentas e area da conta exigem login.
   if (!paginasPrivadas.includes(paginaAtual) || estaLogado()) {
     return true;
   }
