@@ -24,6 +24,7 @@ function mostrarToast(mensagem, tipo = "sucesso", duracao = 2400) {
 /* ----- Chaves e padrões ----- */
 const PADROES = {
   configTema: "auto",
+  configTamanhoFonte: "normal",
   configReduzirAnimacoes: "0",
   configNotifNovidades: "1",
   configNotifLembretes: "1",
@@ -73,8 +74,22 @@ function aplicarTema(tema) {
   const usarEscuro = tema === "escuro" || (tema === "auto" && escuroSistema);
   document.documentElement.setAttribute("data-tema", usarEscuro ? "escuro" : "claro");
 
-  document.querySelectorAll(".seg-btn").forEach((btn) => {
+  document.querySelectorAll(".seg-btn[data-tema]").forEach((btn) => {
     btn.classList.toggle("ativo", btn.dataset.tema === tema);
+  });
+}
+
+function aplicarTamanhoFonte(tamanho) {
+  const valor = ["menor", "normal", "maior"].includes(tamanho) ? tamanho : "normal";
+
+  if (valor === "normal") {
+    document.documentElement.removeAttribute("data-fonte");
+  } else {
+    document.documentElement.setAttribute("data-fonte", valor);
+  }
+
+  document.querySelectorAll(".fonte-btn").forEach((btn) => {
+    btn.classList.toggle("ativo", btn.dataset.fonte === valor);
   });
 }
 
@@ -90,6 +105,7 @@ function aplicarAnimacoes(reduzido) {
 function carregarControles() {
   // Tema
   aplicarTema(lerConfig("configTema"));
+  aplicarTamanhoFonte(lerConfig("configTamanhoFonte"));
 
   // Toggles
   const mapaToggles = {
@@ -133,13 +149,24 @@ function atualizarTotalFavoritos() {
 /* ----- Ligações de eventos ----- */
 function ligarEventos() {
   // Tema (segmented)
-  document.querySelectorAll(".seg-btn").forEach((btn) => {
+  document.querySelectorAll(".seg-btn[data-tema]").forEach((btn) => {
     btn.addEventListener("click", () => {
       const tema = btn.dataset.tema;
       gravarConfig("configTema", tema);
       aplicarTema(tema);
       const nomes = { claro: "Claro", escuro: "Escuro", auto: "Automático" };
       mostrarToast(`Tema: ${nomes[tema]}`);
+    });
+  });
+
+  // Tamanho das letras
+  document.querySelectorAll(".fonte-btn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const fonte = btn.dataset.fonte || "normal";
+      gravarConfig("configTamanhoFonte", fonte);
+      aplicarTamanhoFonte(fonte);
+      const nomes = { menor: "menores", normal: "normais", maior: "maiores" };
+      mostrarToast(`Letras ${nomes[fonte] || "normais"}`);
     });
   });
 

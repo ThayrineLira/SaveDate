@@ -21,6 +21,23 @@ html[data-anim="reduzido"] * {
   scroll-behavior: auto !important;
 }
 
+/* ===== TAMANHO DAS LETRAS (global) ===== */
+html[data-fonte="menor"] {
+  font-size: 93.75%;
+}
+
+html[data-fonte="maior"] {
+  font-size: 112.5%;
+}
+
+html[data-fonte="menor"] body {
+  font-size: 0.94rem;
+}
+
+html[data-fonte="maior"] body {
+  font-size: 1.08rem;
+}
+
 /* ===== 1) VARIÁVEIS ===== */
 html[data-tema="escuro"] {
   /* sistema "português" */
