@@ -1272,6 +1272,7 @@ function handleQuickAction(action) {
   const actionLower = (action || '').toLowerCase();
 
   switch (actionLower) {
+    case 'add-images':
     case 'adicionar imagens':
     case 'adicionar fotos':
       abrirModalFotos();
@@ -1281,6 +1282,7 @@ function handleQuickAction(action) {
       abrirModalCategorias();
       break;
 
+    case 'edit-cardapio':
     case 'editar cardápio':
     case 'editar cardapio':
       abrirModalCardapio('prato');
@@ -1294,6 +1296,7 @@ function handleQuickAction(action) {
       abrirModalCardapio('bebida', 'Água, Cerveja, Refrigerante');
       break;
 
+    case 'remove-comments':
     case 'remover comentários':
     case 'remover comentarios':
       document.getElementById('lista-comentarios')?.scrollIntoView({ behavior: 'smooth' });
@@ -1416,12 +1419,14 @@ function iniciarAcoesRapidas() {
   const links = document.querySelectorAll('.dashboard-action-link');
   links.forEach(link => {
     link.addEventListener('click', function (e) {
+      const action = this.dataset.action;
+      if (!action) return;
+
       e.preventDefault();
       if (this.classList.contains('disabled')) {
         mostrarToast('Assine Premium para desbloquear essa ação.', 'aviso');
         return;
       }
-      const action = (this.textContent || '').trim();
       handleQuickAction(action);
     });
   });
