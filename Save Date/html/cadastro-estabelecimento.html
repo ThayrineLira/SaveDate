@@ -207,6 +207,26 @@
         }, 3000);
       }
 
+      function validarCNPJ(cnpj) {
+        const valor = cnpj.replace(/\D/g, '');
+        if (valor.length !== 14 || /^(\d)\1{13}$/.test(valor)) {
+          return false;
+        }
+
+        const calcularDigito = (tamanho) => {
+          const numeros = valor.substring(0, tamanho);
+          const pesos = tamanho === 12 ? [5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2] : [6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2];
+          const soma = numeros.split('').reduce((total, digito, indice) => total + Number(digito) * pesos[indice], 0);
+          const resto = soma % 11;
+          return resto < 2 ? 0 : 11 - resto;
+        };
+
+        return (
+          calcularDigito(12) === Number(valor[12]) &&
+          calcularDigito(13) === Number(valor[13])
+        );
+      }
+
       // armazenamento temporário para fotos/cardápio/coordenadas
       let fotosArray = [];
       let cardapioObj = { pratos: [], bebidas: [] };
@@ -315,7 +335,7 @@
       // 🔐 CADASTRAR ESTABELECIMENTO
       function cadastrarEstabelecimento() {
         const nome = document.getElementById("nome").value;
-        const cnpj = document.getElementById("cnpj").value;
+        const cnpj = document.getElementById("cnpj").value.trim();
         const endereco = document.getElementById("endereco").value;
         const complemento = document.getElementById("complemento").value;
         const email = document.getElementById("email").value;
@@ -327,6 +347,11 @@
 
         if (!cnpj) {
           mostrarToast("Informe o CNPJ do estabelecimento.", "erro");
+          return false;
+        }
+
+        if (!validarCNPJ(cnpj)) {
+          mostrarToast("CNPJ inválido.", "erro");
           return false;
         }
 

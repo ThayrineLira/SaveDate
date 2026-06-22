@@ -272,6 +272,32 @@
       }, 3200);
     }
 
+    function validarCPF(cpf) {
+      const valor = cpf.replace(/\D/g, '');
+      if (valor.length !== 11 || /^(\d)\1{10}$/.test(valor)) {
+        return false;
+      }
+
+      const calcularDigito = (tamanho) => {
+        const numeros = valor.substring(0, tamanho);
+        let soma = 0;
+        let peso = tamanho + 1;
+
+        for (let i = 0; i < numeros.length; i += 1) {
+          soma += Number(numeros[i]) * peso;
+          peso -= 1;
+        }
+
+        const resto = soma % 11;
+        return resto < 2 ? 0 : 11 - resto;
+      };
+
+      return (
+        calcularDigito(9) === Number(valor[9]) &&
+        calcularDigito(10) === Number(valor[10])
+      );
+    }
+
     /* ==========================================       MOSTRAR / OCULTAR SENHA
     ========================================== */
 
@@ -389,7 +415,7 @@
           document.getElementById("nome").value;
 
         const cpf =
-          document.getElementById("cpf").value;
+          document.getElementById("cpf").value.trim();
 
         const email =
           document.getElementById("email").value;
@@ -406,6 +432,14 @@
         if (!cpf) {
           mostrarMensagemCadastro(
             "Informe seu CPF.",
+            "erro"
+          );
+          return;
+        }
+
+        if (!validarCPF(cpf)) {
+          mostrarMensagemCadastro(
+            "CPF inválido.",
             "erro"
           );
           return;
