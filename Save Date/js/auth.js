@@ -14,6 +14,28 @@ function estaLogado() {
 
 }
 
+/* =========================================
+   PROTEGER ROTAS INTERNAS
+========================================= */
+
+function protegerRotaAtual() {
+  const paginaAtual = window.location.pathname
+    .split("/")
+    .pop()
+    .toLowerCase();
+
+  // A home e publica. As paginas de autenticacao e institucionais nao
+  // carregam este arquivo; as demais que o carregam exigem uma conta.
+  if (paginaAtual === "home.html" || estaLogado()) {
+    return true;
+  }
+
+  window.location.replace("login.html");
+  return false;
+}
+
+protegerRotaAtual();
+
 function mostrarMensagem(texto, tipo = 'erro') {
   if (typeof mostrarToast === 'function') {
     mostrarToast(texto, tipo);
