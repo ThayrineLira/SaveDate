@@ -23,10 +23,17 @@ function protegerRotaAtual() {
     .split("/")
     .pop()
     .toLowerCase();
+  const paginasPrivadas = [
+    "admin.html",
+    "configuracoes.html",
+    "conta.html",
+    "salvos.html"
+  ];
 
-  // A home e publica. As paginas de autenticacao e institucionais nao
-  // carregam este arquivo; as demais que o carregam exigem uma conta.
-  if (paginaAtual === "home.html" || estaLogado()) {
+  // Auth.js tambem e carregado por paginas publicas para proteger apenas
+  // acoes especificas. O redirecionamento automatico fica restrito as rotas
+  // que mostram dados da conta.
+  if (!paginasPrivadas.includes(paginaAtual) || estaLogado()) {
     return true;
   }
 
