@@ -1,7 +1,7 @@
 /* =========================================================
    TEMA GLOBAL — Save Date
    Aplica o tema (claro/escuro/auto) e a preferência de
-   animações salvos em localStorage em TODAS as páginas.
+   animações/tamanho das letras salvos em localStorage em TODAS as páginas.
    Deve ser carregado no <head>, antes do CSS, para evitar
    o "flash" de tela clara ao abrir a página.
 ========================================================= */
@@ -11,6 +11,14 @@
       return localStorage.getItem("configTema") || "auto";
     } catch (e) {
       return "auto";
+    }
+  }
+
+  function tamanhoFonteSalvo() {
+    try {
+      return localStorage.getItem("configTamanhoFonte") || "normal";
+    } catch (e) {
+      return "normal";
     }
   }
 
@@ -39,9 +47,20 @@
     } catch (e) {}
   }
 
+  function aplicarTamanhoFonte(tamanho) {
+    var valor = ["menor", "normal", "maior"].indexOf(tamanho) >= 0 ? tamanho : "normal";
+
+    if (valor === "normal") {
+      document.documentElement.removeAttribute("data-fonte");
+    } else {
+      document.documentElement.setAttribute("data-fonte", valor);
+    }
+  }
+
   // Aplica imediatamente (antes da tela pintar)
   aplicarTema(temaSalvo());
   aplicarAnimacoes();
+  aplicarTamanhoFonte(tamanhoFonteSalvo());
 
   // Acompanha o tema do sistema quando estiver em "Auto"
   if (window.matchMedia) {
@@ -56,8 +75,9 @@
   window.addEventListener("storage", function (e) {
     if (e.key === "configTema") aplicarTema(temaSalvo());
     if (e.key === "configReduzirAnimacoes") aplicarAnimacoes();
+    if (e.key === "configTamanhoFonte") aplicarTamanhoFonte(tamanhoFonteSalvo());
   });
 
   // Expõe para uso opcional em outras telas
-  window.SaveDateTema = { aplicar: aplicarTema };
+  window.SaveDateTema = { aplicar: aplicarTema, aplicarFonte: aplicarTamanhoFonte };
 })();

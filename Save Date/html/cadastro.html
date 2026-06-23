@@ -97,12 +97,41 @@
           type="text"
           id="nome"
           name="nome"
-          placeholder="Como devemos te chamar"
+          placeholder="Nome completo (mínimo 15 letras)"
           autocomplete="name"
-          minlength="2"
+          minlength="15"
+          aria-describedby="erroNome"
           required
         >
       </div>
+
+      <!-- ERRO NOME -->
+      <div
+        id="erroNome"
+        class="erro"
+      ></div>
+
+
+      <!-- CPF -->
+      <div class="campo">
+        <label for="cpf">CPF</label>
+        <input
+          type="text"
+          id="cpf"
+          name="cpf"
+          placeholder="000.000.000-00"
+          inputmode="numeric"
+          maxlength="14"
+          aria-describedby="erroCpf"
+          required
+        >
+      </div>
+
+      <!-- ERRO CPF -->
+      <div
+        id="erroCpf"
+        class="erro"
+      ></div>
 
 
       <!-- EMAIL -->
@@ -244,6 +273,25 @@
     }
 
     /* ==========================================
+       MÁSCARA DE CPF (000.000.000-00)
+    =========================================== */
+
+    const campoCpf = document.getElementById("cpf");
+
+    if (campoCpf) {
+      campoCpf.addEventListener("input", function () {
+        let v = campoCpf.value.replace(/\D/g, "").slice(0, 11);
+
+        v = v.replace(/(\d{3})(\d)/, "$1.$2");
+        v = v.replace(/(\d{3})\.(\d{3})(\d)/, "$1.$2.$3");
+        v = v.replace(/(\d{3})\.(\d{3})\.(\d{3})(\d)/, "$1.$2.$3-$4");
+
+        campoCpf.value = v;
+      });
+    }
+
+
+    /* ==========================================
        BUSCAR CEP
     =========================================== */
 
@@ -339,7 +387,10 @@
         =========================================== */
 
         const nome =
-          document.getElementById("nome").value;
+          document.getElementById("nome").value.trim();
+
+        const cpf =
+          document.getElementById("cpf").value;
 
         const email =
           document.getElementById("email").value;
@@ -349,6 +400,43 @@
 
         const erro =
           document.getElementById("erroSenha");
+
+        const erroNome =
+          document.getElementById("erroNome");
+
+        const erroCpf =
+          document.getElementById("erroCpf");
+
+
+
+        /* ==========================================
+           VALIDA NOME (mín. 15 caracteres, só letras)
+        =========================================== */
+
+        if (!/^[A-Za-zÀ-ÖØ-öø-ÿ\s]+$/.test(nome)) {
+          erroNome.innerText = "O nome deve conter apenas letras, sem números.";
+          return;
+        }
+
+        if (nome.length < 15) {
+          erroNome.innerText = "O nome deve ter no mínimo 15 caracteres.";
+          return;
+        }
+
+        erroNome.innerText = "";
+
+
+
+        /* ==========================================
+           VALIDA CPF
+        =========================================== */
+
+        if (cpf.replace(/\D/g, "").length !== 11) {
+          erroCpf.innerText = "Informe um CPF válido (11 dígitos).";
+          return;
+        }
+
+        erroCpf.innerText = "";
 
 
 
@@ -435,6 +523,7 @@
 
         usuarios.push({
           nome,
+          cpf,
           email: emailNormalizado,
           senha,
           tipo: "usuario"

@@ -35,6 +35,23 @@ html[data-anim="reduzido"] * {
   animation: none !important;
 }
 
+/* ===== TAMANHO DAS LETRAS ===== */
+html[data-fonte="menor"] {
+  font-size: 93.75%;
+}
+
+html[data-fonte="maior"] {
+  font-size: 112.5%;
+}
+
+html[data-fonte="menor"] body {
+  font-size: 0.94rem;
+}
+
+html[data-fonte="maior"] body {
+  font-size: 1.08rem;
+}
+
 body {
   min-height: 100vh;
   font-family: Inter, Arial, sans-serif;
@@ -302,6 +319,23 @@ body {
   background: var(--card);
   color: var(--primaria-escura);
   box-shadow: 0 4px 12px rgba(0, 0, 0, .12);
+}
+
+.fonte-grupo .seg-btn {
+  min-width: 48px;
+  padding-inline: 12px;
+}
+
+.fonte-grupo .seg-btn[data-fonte="menor"] {
+  font-size: .9rem;
+}
+
+.fonte-grupo .seg-btn[data-fonte="normal"] {
+  font-size: 1rem;
+}
+
+.fonte-grupo .seg-btn[data-fonte="maior"] {
+  font-size: 1.12rem;
 }
 
 /* ===== RANGE ===== */

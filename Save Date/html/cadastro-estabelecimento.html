@@ -74,6 +74,7 @@
       </header>
       <form class="login-form" onsubmit="return cadastrarEstabelecimento();">
         <input id="nome" type="text" placeholder="Nome do estabelecimento" required />
+        <input id="cnpj" type="text" placeholder="00.000.000/0000-00" inputmode="numeric" maxlength="18" required />
         <input type="text" id="cep" placeholder="CEP" required onblur="buscarCEP()" />
         <input type="text" id="endereco" placeholder="Endereço" readonly required />
         <input id="complemento" type="text" placeholder="Número / Complemento" required />
@@ -151,6 +152,22 @@
     </div>
 
     <script>
+      // MÁSCARA DE CNPJ (00.000.000/0000-00)
+      const campoCnpj = document.getElementById("cnpj");
+
+      if (campoCnpj) {
+        campoCnpj.addEventListener("input", function () {
+          let v = campoCnpj.value.replace(/\D/g, "").slice(0, 14);
+
+          v = v.replace(/(\d{2})(\d)/, "$1.$2");
+          v = v.replace(/(\d{2})\.(\d{3})(\d)/, "$1.$2.$3");
+          v = v.replace(/(\d{2})\.(\d{3})\.(\d{3})(\d)/, "$1.$2.$3/$4");
+          v = v.replace(/(\d{4})(\d)/, "$1-$2");
+
+          campoCnpj.value = v;
+        });
+      }
+
       // 🔎 BUSCAR CEP
       function buscarCEP() {
         let cep = document.getElementById("cep").value.replace("-", "");
@@ -314,12 +331,21 @@
       // 🔐 CADASTRAR ESTABELECIMENTO
       function cadastrarEstabelecimento() {
         const nome = document.getElementById("nome").value;
+        const cnpj = document.getElementById("cnpj").value;
         const endereco = document.getElementById("endereco").value;
         const complemento = document.getElementById("complemento").value;
         const email = document.getElementById("email").value;
         const telefone = document.getElementById("telefone").value;
         const senha = document.getElementById("senha").value;
         const erro = document.getElementById("erroSenha");
+
+        // Valida CNPJ (14 dígitos)
+        const cnpjDigitos = cnpj.replace(/\D/g, "");
+
+        if (cnpjDigitos.length !== 14) {
+          mostrarToast("Informe um CNPJ válido (14 dígitos).", "erro");
+          return false;
+        }
 
         const regex = /^(?=.*[A-Za-z])(?=.*[@$!%*#?&]).{6,}$/;
 
@@ -371,6 +397,7 @@
 
         estabelecimentos.push({
           nome,
+          cnpj,
           email: emailNormalizado,
           senha,
           tipo: "estabelecimento"
@@ -394,6 +421,11 @@
         localStorage.setItem(
           "estabelecimentoCadastroNome",
           nome
+        );
+
+        localStorage.setItem(
+          "estabelecimentoCadastroCnpj",
+          cnpj
         );
 
         localStorage.setItem(
@@ -455,6 +487,7 @@
           {
             id: emailNormalizado,
             nome,
+            cnpj,
             endereco,
             complemento,
             telefone,

@@ -17,6 +17,10 @@
         if (localStorage.getItem("configReduzirAnimacoes") === "1") {
           document.documentElement.setAttribute("data-anim", "reduzido");
         }
+        var fonte = localStorage.getItem("configTamanhoFonte") || "normal";
+        if (fonte !== "normal") {
+          document.documentElement.setAttribute("data-fonte", fonte);
+        }
       } catch (e) {}
     })();
   </script>
@@ -68,7 +72,20 @@
           <div class="seg-grupo" role="group" aria-label="Tema">
             <button type="button" class="seg-btn" data-tema="claro">☀️ Claro</button>
             <button type="button" class="seg-btn" data-tema="escuro">🌙 Escuro</button>
-            <button type="button" class="seg-btn" data-tema="auto">🖥️ Auto</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="config-item">
+        <div class="config-item-texto">
+          <strong>Tamanho das letras</strong>
+          <span>Aumente ou diminua os textos do app.</span>
+        </div>
+        <div class="config-item-controle">
+          <div class="seg-grupo fonte-grupo" role="group" aria-label="Tamanho das letras">
+            <button type="button" class="seg-btn fonte-btn" data-fonte="menor" aria-label="Diminuir letras">A-</button>
+            <button type="button" class="seg-btn fonte-btn" data-fonte="normal" aria-label="Tamanho normal">A</button>
+            <button type="button" class="seg-btn fonte-btn" data-fonte="maior" aria-label="Aumentar letras">A+</button>
           </div>
         </div>
       </div>
