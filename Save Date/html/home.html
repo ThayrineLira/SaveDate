@@ -703,6 +703,28 @@
           ×
         </button>
       </div>
+
+      <!-- Busca e tema (aparecem só no mobile) -->
+      <div class="menu-mobile-extras">
+        <div class="busca-pilula busca-menu">
+          <input
+            type="text"
+            id="campo-busca-menu"
+            placeholder="Pesquisar categorias"
+          />
+          <button id="btn-buscar-menu" type="button" title="Buscar">🔍</button>
+        </div>
+
+        <div class="seg-grupo" role="group" aria-label="Tema">
+          <button type="button" class="seg-btn" data-tema="claro">
+            ☀️ Claro
+          </button>
+          <button type="button" class="seg-btn" data-tema="escuro">
+            🌙 Escuro
+          </button>
+        </div>
+      </div>
+
       <nav class="menu-lateral-itens">
         <a href="explorar.html" class="dropdown-item">Explorar 🧭</a>
         <a href="cadastro-estabelecimento.html" class="dropdown-item"
@@ -991,36 +1013,41 @@
         });
       });
 
-      // Busca por categoria (lupa do topo)
-      document
-        .getElementById("btn-buscar")
-        ?.addEventListener("click", function () {
-          const termo = document
-            .getElementById("campo-busca")
-            .value.toLowerCase()
-            .trim();
-          if (termo.length < 2) {
-            mostrarToast("Digite pelo menos 2 letras", "info");
-            return;
-          }
-          const mapaCategorias = {
-            bares: "bares.html",
-            restaurantes: "restaurantes.html",
-            parques: "parques.html",
-            shopping: "shoppings.html",
-            shoppings: "shoppings.html",
-            festas: "festas.html",
-            "salão de festas": "festas.html",
-          };
-          const chave = Object.keys(mapaCategorias).find((c) =>
-            c.includes(termo),
-          );
-          if (chave) {
-            window.location.href = mapaCategorias[chave];
-          } else {
-            mostrarToast("Categoria não encontrada: " + termo, "erro");
-          }
+      // Busca por categoria (lupa do topo e do menu lateral)
+      function buscarCategoria(termo) {
+        termo = (termo || "").toLowerCase().trim();
+        if (termo.length < 2) {
+          mostrarToast("Digite pelo menos 2 letras", "info");
+          return;
+        }
+        const mapaCategorias = {
+          bares: "bares.html",
+          restaurantes: "restaurantes.html",
+          parques: "parques.html",
+          shopping: "shoppings.html",
+          shoppings: "shoppings.html",
+          festas: "festas.html",
+          "salão de festas": "festas.html",
+        };
+        const chave = Object.keys(mapaCategorias).find((c) => c.includes(termo));
+        if (chave) {
+          window.location.href = mapaCategorias[chave];
+        } else {
+          mostrarToast("Categoria não encontrada: " + termo, "erro");
+        }
+      }
+
+      function ligarBusca(idCampo, idBotao) {
+        const campo = document.getElementById(idCampo);
+        const botao = document.getElementById(idBotao);
+        botao?.addEventListener("click", () => buscarCategoria(campo?.value));
+        campo?.addEventListener("keydown", (e) => {
+          if (e.key === "Enter") buscarCategoria(campo.value);
         });
+      }
+
+      ligarBusca("campo-busca", "btn-buscar");
+      ligarBusca("campo-busca-menu", "btn-buscar-menu");
       document.querySelectorAll(".premium-tool").forEach((link) => {
         link.addEventListener("click", function (event) {
           const tipoNecessario = this.dataset.premiumTipo;

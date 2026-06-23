@@ -3662,3 +3662,92 @@ body.menu-aberto {
     transition: none;
   }
 }
+
+
+/* =========================================================
+   MOBILE — header vira logo + menu; busca e tema vão pro drawer
+========================================================= */
+
+/* Os extras do menu (busca + tema) só aparecem no celular */
+.menu-mobile-extras {
+  display: none;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--borda);
+}
+
+.menu-mobile-extras .busca-menu {
+  max-width: 100%;
+  height: 48px;
+  margin-bottom: 14px;
+}
+
+.menu-mobile-extras .seg-grupo {
+  display: flex;
+  width: 100%;
+}
+
+.menu-mobile-extras .seg-btn {
+  flex: 1;
+}
+
+@media (max-width: 768px) {
+  /* Cabeçalho enxuto: só logo + hambúrguer */
+  .nav-wrapper {
+    gap: 12px;
+  }
+
+  .nav-wrapper .busca-container,
+  .nav-wrapper .seg-grupo {
+    display: none;
+  }
+
+  .logo-nome {
+    font-size: 1.2rem;
+  }
+
+  .burger {
+    font-size: 1.7rem;
+  }
+
+  /* Busca e tema agora moram dentro do menu lateral */
+  .menu-mobile-extras {
+    display: block;
+  }
+
+  /* Hero menor e botões empilhados */
+  .hero-titulo {
+    font-size: 1.9rem;
+  }
+
+  .hero-subtitulo {
+    font-size: 1rem;
+  }
+
+  .botoes-hero {
+    flex-direction: column;
+  }
+
+  .botoes-hero button {
+    width: 100%;
+  }
+
+  /* Menos respiro nas laterais e sem rolagem horizontal */
+  .container {
+    padding: 0 16px;
+  }
+
+  body {
+    overflow-x: hidden;
+  }
+}
+
+@media (max-width: 600px) {
+  /* Grades de cartões viram coluna única no celular */
+  .beneficios-cliente,
+  .passos-home,
+  .primeira-visao-grid,
+  .area-busca-wrapper,
+  .dashboard-summary-grid {
+    grid-template-columns: 1fr;
+  }
+}
