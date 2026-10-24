@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="Save%20Date/img/logo.png" alt="Logo Save Date" width="90" />
+<img src="img/logo.png" alt="Logo Save Date" width="90" />
 
 # Save Date
 
