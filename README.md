@@ -91,17 +91,18 @@ Planos para usuários (Plus) e para estabelecimentos parceiros.
 
 ## ▶️ Como rodar
 
-Por ser um site estático, basta abrir no navegador:
-
 ```bash
 # clone o repositório
 git clone https://github.com/ThayrineLira/SaveDate.git
 
-# abra a página inicial
-# Save Date/home.html
+# entre na pasta do projeto e inicie um servidor local
+cd SaveDate
+python -m http.server 8000
 ```
 
-> 💡 Para que todos os recursos funcionem corretamente, recomenda-se servir a pasta `Save Date/` por um servidor local (ex.: extensão *Live Server* do VS Code) em vez de abrir o arquivo diretamente.
+Abra `http://localhost:8000` no navegador. Também é possível usar a extensão *Live Server* do VS Code na raiz do repositório.
+
+O site está publicado pelo GitHub Pages em [thayrinelira.github.io/SaveDate](https://thayrinelira.github.io/SaveDate/).
 
 ---
 
@@ -109,15 +110,12 @@ git clone https://github.com/ThayrineLira/SaveDate.git
 
 ```
 SaveDate/
-├── Save Date/
-│   ├── home.html            # página inicial
-│   ├── explorar.html        # busca com filtros
-│   ├── mapa.html            # mapa interativo
-│   ├── detalhes.html        # página do estabelecimento
-│   ├── premium.html         # planos premium
-│   ├── css/                 # estilos
-│   ├── js/                  # scripts (dados, mapa, auth, etc.)
-│   └── img/                 # imagens e fotos
+├── index.html               # página inicial
+├── html/                    # páginas internas do site
+├── css/                     # estilos
+├── js/                      # scripts (dados, mapa, auth, etc.)
+├── img/                     # imagens e fotos
+├── estabelecimentos.json    # dados de estabelecimentos
 ├── screenshots/             # imagens usadas neste README
 └── README.md
 ```
